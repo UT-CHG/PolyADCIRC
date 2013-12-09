@@ -26,7 +26,7 @@ If you would like a copy of the code let me know. If you would like a copy of
 the original :program:`Subdomain ADCIRC v.50` code you should contact John
 Baugh at NCSU.
 
-Make sure you are in the ``subdomain`` branch of the ``landuse`` repo::
+Make sure you are in the ``subdomain`` branch of the ``PolySim`` repo::
 
     $ git checkout --track origin/subdomain
 
@@ -44,7 +44,7 @@ the ``sae_dir`` for the subdomain.
 
 setup_subdomain
 ~~~~~~~~~~~~~~~
-This script can be found in ``landuse/python_proj/Polysim/examples``.
+This script can be found in ``Polysim/examples``.
 Allow running from the command line::
 
     #! /usr/bin/env/python
