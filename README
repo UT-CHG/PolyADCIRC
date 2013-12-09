@@ -1,0 +1,5 @@
+This code has been documented with Sphinx. To build documentation run 
+"make html" in the doc/ folder.
+All documentation is contained in doc/_build/_html 
+Useful scripts are contained in examples/
+Python source code for this package is contained in polysim/
