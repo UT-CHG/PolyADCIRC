@@ -25,7 +25,7 @@ Cutting Edge Version
 To use the cutting edge version of this package you need to add the PolySim git
 repo to your ``PYTHONPATH``. You can do this by adding the line::
 
-    export PYTHONPATH=~/workspace/landuse/python_proj/PolySim:$PYTHONPATH
+    export PYTHONPATH=~/PolySim:$PYTHONPATH
 
 to your ``~/.bash_profile`` file.
 

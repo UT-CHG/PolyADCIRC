@@ -36,11 +36,6 @@ to put the ``landuse.git`` repo in either of these locations use the
 To clone the git repo containing the PolySim directory::
 
     $ git clone ices-workstation:/org/groups/chg/lgraham/landuse.git
-    $ cd landuse
-
-Checkout and switch to the ``lonestar`` branch::
-
-    $ git checkout --track origin/lonestar
 
 Since this code is currently in development it is not in a public repository.
 If you would like a copy of the code let me know.
