@@ -23,13 +23,17 @@ and :program: `GridData` which are NOT provided with this package.
 Cutting Edge Version
 ~~~~~~~~~~~~~~~~~~~~
 To use the cutting edge version of this package you need to add the PolySim git
-repo to your ``PYTHONPATH``. You can do this by adding the line::
+repo to your ``PYTHONPATH``. The PolySim repo is located at::
+
+    /org/groups/chg/lgraham/PolySim.git
+
+You can do this by adding the line::
 
     export PYTHONPATH=~/PolySim:$PYTHONPATH
 
-to your ``~/.bash_profile`` file.
+to your ``~/.bash_profile`` or ``~/.bashrc`` file.
 
-To check that this has worked you can type::
+To check that this has worked you can type (in a Python enviroment)::
 
     >>> import sys
     >>> sys.path

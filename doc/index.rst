@@ -18,6 +18,8 @@ modified for other shells. This code requires `GNU Parallel
 <http://www.gnu.org/software/parallel/>`_ to be installed in order to run
 properly.
 
+.. note:: If you plan on making ANY changes to the repos make a NEW branch!
+
 Contents:
 
 .. toctree::

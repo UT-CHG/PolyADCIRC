@@ -35,7 +35,7 @@ to put the ``landuse.git`` repo in either of these locations use the
 
 To clone the git repo containing the PolySim directory::
 
-    $ git clone ices-workstation:/org/groups/chg/lgraham/landuse.git
+    $ git clone username@ices-workstation:/org/groups/chg/lgraham/PolySim.git
 
 Since this code is currently in development it is not in a public repository.
 If you would like a copy of the code let me know.
@@ -52,8 +52,11 @@ due to memory quota constraints.
 Within the ``work/`` folder of your :program:`ADCIRC` directory you have 2
 options with regard to file structure
 
-    1. Clone the git repo ``ADCIRC_landuse`` here and add/alter data/input
-       files ::
+    0. (RECOMMENDED) Copy ``/h1/lgraham/group_mts_012914/Inlet_test`` to a
+       convienent location.    
+
+    1. (NOT RECOMMENDED) Clone the git repo ``ADCIRC_landuse`` here and
+       add/alter data/input files ::
             
             $ git clone --separate-git-dir=$HOME/ADCIRC_landuse ices-workstation:/org/groups/chg/lgraham/ADCIRC_landuse.git
             $ cd ADCIRC_landuse
@@ -108,6 +111,9 @@ options with regard to file structure
     
 Python Scripts
 --------------
+
+The following submission and Python scripts should be located in the
+directory ``PolySim/examples/``.
 
 Currently my workflow has been something like...
 
