@@ -80,7 +80,7 @@ def bathymetry(domain, path = None, save = True, show = False, mesh = False,
         plt.tripcolor(domain.triangulation, z, shading='gouraud',
             cmap=plt.cm.ocean)
     else:
-        plt.tricontour(domain.triangulation, z, cmap=plt.cm.ocean)
+        plt.tricontourf(domain.triangulation, z, cmap=plt.cm.ocean)
     colorbar()
     plt.title('bathymetry')
     plt.gca().set_aspect('equal')
