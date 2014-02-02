@@ -266,3 +266,24 @@ def rename13(dirs = None):
             files.append(glob.glob(d+'/*.13')[0])
     for f in files:
         os.rename(f, f.split('/')[0]+'/fort.13')
+
+def remove(files):
+    """
+    Remover one or more files or directories
+    
+    :param string files: Path of files or directories to remove
+
+    Created on Wed Jan 15 02:44:47 2014
+
+    @author: pkjain
+
+    """
+    if isinstance(files,str): #is files a string
+        files = [files]
+    if not isinstance(files,list):
+        "Error"
+    for file in files:
+        if os.path.isdir(file):
+            shutil.rmtree(file)
+        elif os.path.isfile(file):
+            os.remove(file)
