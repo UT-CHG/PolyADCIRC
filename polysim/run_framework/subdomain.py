@@ -4,7 +4,7 @@ Subdomain Modeling Python code and associated files. The focus of this module
 is the :class:`subdomain`.
 """
 
-import glob, os, sys, subprocess, re 
+import glob, os, sys, subprocess, re, math 
 import numpy as np
 import polysim.run_framework.domain as dom
 import polysim.pyADCIRC.fort15_management as f15
@@ -232,6 +232,50 @@ class subdomain(dom.domain):
             fid.write(str(w))
         self.flag = 0
         return self.flag
+
+    def read_circle(self):
+        """
+        Read in the parameters used to define the circular subdomain cut out and
+        store them as ``self.x``, ``self.y``, and ``self.r``
+
+        :rtype: tuple
+        :returns: (x, y, r)
+
+        """
+        with open(subdomain.path+"/shape.c14", "r") as fid:
+            t = fid.readline().split()
+            x = float(t[0])
+            y = float(t[1])
+            r = float(a.readline())
+
+        self.x = x
+        self.y = y
+        self.r = r
+        return (x, y, r)
+
+    def read_ellipse(self):
+        """
+        Read in the parameters used to define the circular subdomain cut out and
+        store them as ``self.x``, ``self.y``, and ``self.r``
+
+        :rtype: tuple
+        :returns: (x, y, w)
+
+        """
+
+        with open(self.path+"/shape.e14","r") as fid:
+            point1 = fid.readline().split()
+            point2 = fid.readline().split()
+            x = [float(point1[0]), float(point2[0])]
+            y = [float(point1[1]), float(point2[1])]
+            w = float(fid.readline())
+            self.x = x
+            self.y = y
+            self.w = w
+        return (x, y, w)
+
+    def ellipse_properties(x, y, w):
+        return ellipse_properties(x, y, w)
 
     def setup(self, flag = None, bound_ele = 1, bound_vel = 1, bound_wd = 1):
         """
@@ -538,3 +582,22 @@ class subdomain(dom.domain):
         self.read_py_node()
         #: dict() where key = subdomain element #, value = fulldomain element #
         self.read_py_ele()
+
+def ellipse_properties(x, y, w):
+    p1 = [x[0], y[0]]
+    p2 = [x[1], y[1]]
+    
+    #center point
+    xy = [(p1[0] + p2[0])/2, (p1[1] + p2[1])/2]		
+    #distance between points
+    d = ((p1[0] - p2[0])**2 + (p1[1] - p2[1])**2)**(0.5)	
+    #theta to positive Xaxis
+    angle = math.atan((p1[1] - p2[1])/(p1[0] - p2[0])) 
+    sin = math.sin(-angle)
+    cos = math.cos(-angle)
+    #width will be the axis the points lie on
+    width = 2*((0.5*d)**2 + (0.5*w)**2)**(0.5) 		
+    height = w
+
+    return (xy, width, height, angle*180/math.pi)
+
