@@ -174,7 +174,8 @@ class subdomain(dom.domain):
         the output files from a fulldomain run, ``fort.06*``.
 
         :param int forcing_freq: number of timesteps at which infomration
-            is written to a boudnary conditions file (``fort.019``)
+            is written to a boudnary conditions file (``fort.019``) THIS MUST
+            BE A MULTIPLE OF NSPOOLGS
         :param float dt: One timestep in seconds
         :param int nspoolgs: the number of timesteps at which information is
             written to the new output files ``fort.06*``

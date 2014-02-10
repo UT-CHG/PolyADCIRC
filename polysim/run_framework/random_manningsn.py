@@ -54,7 +54,10 @@ def loadmat(save_file, base_dir, grid_dir, save_dir, basis_dir):
 
     # load the data from at *.mat file
     mdat = sio.loadmat(save_dir+'/'+save_file)
-    mann_pts = mdat['mann_pts']
+    if mdat.has_key('mann_pts'):
+        mann_pts = mdat['mann_pts']
+    else:
+        mann_pts = None
 
     for k, v in mdat.iteritems():
         skey = k.split('_')

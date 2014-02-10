@@ -40,7 +40,10 @@ def loadmat(save_file, base_dir, grid_dir, save_dir, basis_dir):
     
        # load the data from at *.mat file
     mdat = sio.loadmat(save_dir+'/'+save_file)
-    wall_pts = mdat['wall_pts']
+    if mdat.has_key('wall_pts'):
+        wall_pts = mdat['wall_pts']
+    else:
+        wall_pts = None
     points = mdat['points']
     
     return (main_run, domain, mann_pts, wall_pts, points)
