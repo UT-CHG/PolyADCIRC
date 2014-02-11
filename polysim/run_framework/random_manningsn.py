@@ -44,7 +44,7 @@ def loadmat(save_file, base_dir, grid_dir, save_dir, basis_dir):
     # same directory
     domain = dom.domain(grid_dir)
     domain.update()
-    domain.get_Triangulation()
+    #domain.get_Triangulation()
     domain.set_station_bathymetry()
 
     main_run = runSet(grid_dir, save_dir, basis_dir, base_dir = base_dir)
