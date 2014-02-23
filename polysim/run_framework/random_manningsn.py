@@ -364,7 +364,7 @@ class runSet(pickleable):
         prep.write_2(path, num_procs)
         prep.write_5(path, num_procs)
     
-    def write_run_script(self, num_procs, num_jobs, procs_pnode, 
+    def write_run_script(self, num_procs, num_jobs, procs_pnode, TpN,
             screenout = True, num_writers = None):
         """
         Creats a bash script called run_job_batch.sh
@@ -378,6 +378,7 @@ class runSet(pickleable):
             screen, False -- write ``ADCIRC`` output to temp file)
         :param int num_writers: number of MPI processes to dedicate soley to
             the task of writing ascii files
+        :param int TpN: number of tasks (cores to use) per node (wayness)
         :rtype: string
         :returns: name of bash script for running a batch of jobs within our
             processor allotment
@@ -386,8 +387,11 @@ class runSet(pickleable):
         tmp_file = self.script_name.partition('.')[0]+'.tmp'
         with open(self.base_dir+'/'+self.script_name, 'w') as f:
             f.write('#!/bin/bash\n')
+            # change i to 2*i or something like that to no use all of the
+            # processors on a node?
             for i in xrange(num_jobs):
-                line = 'ibrun -n {:d} -o {:d} '.format(num_procs, i*num_procs)
+                line = 'ibrun -n {:d} -o {:d} '.format(num_procs,
+                        num_procs*i*(procs_pnode/TpN))
                 line += './padcirc -I {0} -O {0} '.format(self.rf_dirs[i])
                 if num_writers:
                     line += '-W '+str(num_writers)+' '
@@ -492,7 +496,7 @@ class runSet(pickleable):
     def run_points(self, data, points, save_file, num_procs = 12,
             procs_pnode = 12, ts_names = ["fort.61"], 
             nts_names = ["maxele.63"], screenout = True, cleanup_dirs = True,
-            num_writers = None):
+            num_writers = None, TpN = 12):
         """
         Runs :program:`ADCIRC` for all of the configurations specified by
         ``points`` and returns a dictonary of arrays containing data from
@@ -521,6 +525,7 @@ class runSet(pickleable):
             -- yes, False -- no)
         :param int num_writers: number of MPI processes to dedicate soley to
             the task of writing ascii files. This MUST be < num_procs
+        :param int TpN: number of tasks (cores to use) per node (wayness)
         :rtype: (:class:`np.array`, :class:`np.ndarray`, :class:`np.ndarray`)
         :returns: (``time_obs``, ``ts_data``, ``nts_data``)
 
@@ -579,7 +584,7 @@ class runSet(pickleable):
                 stop = k+self.num_of_parallel_runs
                 step = self.num_of_parallel_runs
             run_script = self.write_run_script(num_procs, step, procs_pnode,
-                    screenout, num_writers)
+                    TpN, screenout, num_writers)
             self.write_prep_script(5, step)
             for i in xrange(0, step):
                 # generate the Manning's n field

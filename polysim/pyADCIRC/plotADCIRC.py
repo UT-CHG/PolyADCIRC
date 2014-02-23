@@ -129,7 +129,7 @@ def station_locations(domain, path = None, bathy = False, save = True,
     save_show(path+'/figs/station_locations', save, show, ext)
 
 def field(domain, z, title, clim = None,  path = None, save = True, show =
-        False, ics = 1, ext = '.png'):
+        False, ics = 1, ext = '.png', cmap=plt.cm.jet):
     """
     Given a domain, plot the nodal value z
    
@@ -152,22 +152,23 @@ def field(domain, z, title, clim = None,  path = None, save = True, show =
         path = os.getcwd()
     plt.figure()
     plt.tripcolor(domain.triangulation, z, shading='gouraud',
-                  cmap=plt.cm.jet)
+                  cmap=cmap)
     plt.gca().set_aspect('equal')
+    plt.autoscale(tight=True)
     if clim:
         plt.clim(clim[0], clim[1])
+    add_2d_axes_labels(ics)    
     colorbar()
     #plt.title(title)
-    add_2d_axes_labels(ics)    
     save_show(path+'/figs/'+title, save, show, ext)
 
 def basis_functions(domain, bv_array, path = None, save = True, show = False,
-        ics = 1, ext = '.png'):
+        ics = 1, ext = '.png', cmap = plt.cm.jet):
     """
     Given a ``bv_array`` containing basis functions, plot them
    
     :param domain: :class:`~polysim.run_framework.domain`
-    :type bv_array: :class:`np.array`
+    :type bv_array: :classnp.array`
     :param bv_array: array of basis vectors based on land classification
     :type path: string or None
     :param path: directory to store plots
@@ -180,11 +181,11 @@ def basis_functions(domain, bv_array, path = None, save = True, show = False,
     """
     for i in xrange(bv_array.shape[1]):
         z = bv_array[..., i]
-        field(domain, z, 'basis_function_'+str(i), None, path, save, show, ics,
-                ext)
+        field(domain, z, 'basis_function_'+str(i), (0.0,1.0) , path, save,
+                show, ics, ext, cmap)
 
 def random_fields(domain, points, bv_array, path = None, save = True, show =
-        False, ics = 1, ext = '.png'):
+        False, ics = 1, ext = '.png', cmap = plt.cm.jet):
     """
     Given a ``bv_array`` a set of random points, plot the ``r_fields`` generated in
     :meth:`~polysim.run_framework.random_manningsn.runSet.run_points`
@@ -211,7 +212,7 @@ def random_fields(domain, points, bv_array, path = None, save = True, show =
     for i in xrange(points.shape[1]):
         z = np.dot(bv_array, points[..., i])
         field(domain, z, 'random_field_'+str(i), clim, path, save, show, ics,
-                ext)
+                ext, cmap)
 
 def mean_field(domain, points, bv_array, path = None, save = True, show =
         False, ics = 1, ext = '.png'): 
@@ -712,7 +713,8 @@ def save_show(full_name, save, show, ext):
     """
     plt.tight_layout()
     if save:
-        plt.savefig(full_name+ext)
+        plt.savefig(full_name+ext, bbox_inches='tight', transparent=True,
+                pad_inches = 0)
     if show:
         plt.show()
     else:
