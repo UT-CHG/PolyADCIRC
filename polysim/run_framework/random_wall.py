@@ -85,7 +85,7 @@ class runSet(rmn.runSet):
     def run_points(self, data, wall_points, mann_points, save_file, 
             num_procs = 12, procs_pnode = 12, ts_names = ["fort.61"], 
             nts_names = ["maxele.63"], screenout = True, s_p_wall = None,
-            num_writers = None):
+            num_writers = None, TpN = 12):
         """
         Runs :program:`ADCIRC` for all of the configurations specified by
         ``wall_points`` and ``mann_points`` and returns a dictonary of arrays
@@ -116,6 +116,7 @@ class runSet(rmn.runSet):
             screen, False -- write ``ADCIRC`` output to temp file
         :param int num_writers: number of MPI processes to dedicate soley to
             the task of writing ascii files. This MUST be < num_procs
+        :param int TpN: number of tasks (cores to use) per node (wayness)
         :rtype: (:class:`np.array`, :class:`np.ndarray`, :class:`np.ndarray`)
         :returns: (``time_obs``, ``ts_data``, ``nts_data``)
 
@@ -200,8 +201,8 @@ class runSet(rmn.runSet):
                 else:
                     stop = k+self.num_of_parallel_runs
                     step = self.num_of_parallel_runs
-                run_script = self.write_run_script(num_procs, step, procs_pnode,
-                        screenout, num_writers)
+                run_script = self.write_run_script(num_procs, step,
+                        procs_pnode, TpN, screenout, num_writers)
                 self.write_prep_script(5, step)
                 for i in xrange(0, step):
                     # generate the Manning's n field
