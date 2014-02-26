@@ -469,7 +469,7 @@ class runSet(pickleable):
         # export timeseries data
         for k, v in self.ts_data.iteritems():
             mdict[k] = v
-        # export time_obes data
+        # export time_obs data
         for k, v in self.time_obs.iteritems():
             mdict[k+'_time'] = v
 
