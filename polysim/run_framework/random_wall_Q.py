@@ -14,6 +14,7 @@ import polysim.pyADCIRC.plotADCIRC as plot
 import polysim.pyADCIRC.output as output
 import scipy.io as sio
 from scipy.interpolate import griddata
+import polysim.run_framework.random_manningsn as rmn
 
 def loadmat(save_file, base_dir, grid_dir, save_dir, basis_dir):
     """
@@ -45,9 +46,10 @@ def loadmat(save_file, base_dir, grid_dir, save_dir, basis_dir):
         wall_pts = mdat['wall_pts']
     else:
         wall_pts = None
+    Q = mdat['Q']
     points = mdat['points']
     
-    return (main_run, domain, mann_pts, wall_pts, points)
+    return (main_run, domain, mann_pts, wall_pts, points, Q)
 
 class runSet(rmw.runSet):
     """
@@ -162,8 +164,7 @@ class runSet(rmw.runSet):
             quit()
 
         # store the wall points with the mann_points as points
-        mdict['points'] = np.vstack(wall_points,
-            mann_points))
+        mdict['points'] = np.vstack((wall_points, mann_points))
 
         # Pre-allocate arrays for non-timeseries data
         nts_data = {}
@@ -185,7 +186,7 @@ class runSet(rmw.runSet):
 
         default = data.read_default(path = self.save_dir)
 
-        for w in xrange(0, num_points, self.num_of_parallel_runs):
+        for k in xrange(0, num_points, self.num_of_parallel_runs):
             if k+self.num_of_parallel_runs >= num_points-1:
                 stop = num_points
                 step = stop-k
@@ -196,7 +197,7 @@ class runSet(rmw.runSet):
                     procs_pnode, TpN, screenout, num_writers)
             self.write_prep_script(5, step)
             # set walls
-            wall_dim = wall_points[..., w]
+            wall_dim = wall_points[..., k]
             data.read_spatial_grid()
             data.add_wall(wall_dim[:4], wall_dim[-1])
             # update wall and prep all
@@ -231,7 +232,7 @@ class runSet(rmw.runSet):
             # get data
             for i, kk in enumerate(range(k, stop)):
                 output.get_data_nts(i, self.rf_dirs[i], data, self.nts_data,
-                        nts_names)
+                        ['maxele63'])
             # fix dry nodes and interpolate to obtain QoI
             self.fix_dry_nodes(data)
             for i, kk in enumerate(range(k, stop)):
