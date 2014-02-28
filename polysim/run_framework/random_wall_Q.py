@@ -169,7 +169,7 @@ class runSet(rmw.runSet):
         # Pre-allocate arrays for non-timeseries data
         nts_data = {}
         self.nts_data = nts_data
-        nts_data['maxele63'] =  np.empty((data.node_num, num_of_parallel_runs))        
+        nts_data['maxele63'] =  np.empty((data.node_num, self.num_of_parallel_runs))        
         
         # Pre-allocate arrays for QoI data
         if stations == None:
