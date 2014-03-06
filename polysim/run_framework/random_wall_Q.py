@@ -232,11 +232,11 @@ class runSet(rmw.runSet):
             # get data
             for i, kk in enumerate(range(k, stop)):
                 output.get_data_nts(i, self.rf_dirs[i], data, self.nts_data,
-                        ['maxele63'])
+                        ["maxele.63"])
             # fix dry nodes and interpolate to obtain QoI
             self.fix_dry_nodes(data)
             for i, kk in enumerate(range(k, stop)):
-                values = self.nts_data['maxele63'][:,i]
+                values = self.nts_data["maxele.63"][:,i]
                 Q[:,kk] = griddata(points, values, xi)
             # Update and save
             self.update_mdict(mdict)
