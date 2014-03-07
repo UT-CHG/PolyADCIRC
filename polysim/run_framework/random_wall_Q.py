@@ -237,7 +237,7 @@ class runSet(rmw.runSet):
             self.fix_dry_nodes_nts(data)
             for i, kk in enumerate(range(k, stop)):
                 values = self.nts_data["maxele63"][:,i]
-                Q[:,kk] = griddata(points, values, xi)
+                Q[kk,:] = griddata(points, values, xi)
             # Update and save
             self.update_mdict(mdict)
             self.save(mdict, save_file)
