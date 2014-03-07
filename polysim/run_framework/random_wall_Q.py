@@ -234,7 +234,7 @@ class runSet(rmw.runSet):
                 output.get_data_nts(i, self.rf_dirs[i], data, self.nts_data,
                         ["maxele.63"])
             # fix dry nodes and interpolate to obtain QoI
-            self.fix_dry_nodes(data)
+            self.fix_dry_nodes_nts(data)
             for i, kk in enumerate(range(k, stop)):
                 values = self.nts_data["maxele.63"][:,i]
                 Q[:,kk] = griddata(points, values, xi)
