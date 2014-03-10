@@ -5,7 +5,7 @@ This module contains functions to pull data from a ``fort.61`` and the
 of processors allocated by the submission script
 """
 import numpy as np
-import glob, os, stat, subprocess, math, shutil
+import glob, os, stat, subprocess, shutil
 import polysim.pyADCIRC.fort13_management as f13
 import polysim.pyADCIRC.fort15_management as f15
 from polysim.pyADCIRC.basic import pickleable
@@ -26,28 +26,28 @@ def loadmat(save_file, base_dir, grid_dir, save_dir, basis_dir):
 
     :param string save_file: local file name
     :param string grid_dir: directory containing ``fort.14``, ``fort.15``, and
-        ``fort.22`` 
+        ``fort.22``
     :param string save_dir: directory where ``RF_directory_*`` are
-        saved, and where fort.13 is located 
+        saved, and where fort.13 is located
     :param string basis_dir: directory where ``landuse_*`` folders are located
     :param string base_dir: directory that contains ADCIRC executables, and
-        machine specific ``in.prep#`` files 
-    :rtype: tuple of :class:`~polysim.run_framework.random_manningsn.runSet` and 
+        machine specific ``in.prep#`` files
+    :rtype: tuple of :class:`~polysim.run_framework.random_manningsn.runSet` and
         :class:`~polysim.run_framework.random_manningsn.domain` objects
     :returns: (main_run, domain)
 
     """
-    
-    # the lines below are only necessary if you need to update what the directories
-    # are when swithcing from euclid to your desktop/laptop
-    # assumes that the landuse directory and ADCIRC_landuse directory are in the
-    # same directory
+
+    # the lines below are only necessary if you need to update what the
+    # directories are when swithcing from euclid to your desktop/laptop
+    # assumes that the landuse directory and ADCIRC_landuse directory are in
+    # the same directory
     domain = dom.domain(grid_dir)
     domain.update()
     #domain.get_Triangulation()
     domain.set_station_bathymetry()
 
-    main_run = runSet(grid_dir, save_dir, basis_dir, base_dir = base_dir)
+    main_run = runSet(grid_dir, save_dir, basis_dir, base_dir=base_dir)
     main_run.time_obs = {}
     main_run.ts_data = {}
     main_run.nts_data = {}
@@ -73,7 +73,7 @@ def loadmat(save_file, base_dir, grid_dir, save_dir, basis_dir):
             else:
                 # check to see if key is ts_data
                 main_run.ts_data[skey[0]] = v
-    
+
     if main_run.ts_data.has_key('fort63'):
         main_run.fix_dry_nodes(domain)
         if main_run.ts_data.has_key('fort61'):
@@ -91,7 +91,7 @@ def fix_dry_data(ts_data, data):
     :param data: :class:`~polysim.run_framework.domain`
     :rtype: dict()
     :returns: ts_data
-    
+
     """
     mdat = np.ma.masked_not_equal(ts_data['fort61'], -99999.0)
 
@@ -101,11 +101,11 @@ def fix_dry_data(ts_data, data):
     modat = np.ma.masked_equal(ts_data['fort63'], -99999.0)
     ts_data['fort61'] = modat.filled(0.0)
     return ts_data
-    
+
 def fix_dry_nodes(ts_data, data):
     """
     Fix dry elevation data flags
-    
+
     :param ts_data: time series data
     :param data: :class:`~polysim.run_framework.domain`
     :rtype: dict()
@@ -124,7 +124,7 @@ def fix_dry_nodes(ts_data, data):
 def fix_dry_nodes_nts(nts_data, data):
     """
     Fix dry elevation data flags
-    
+
     :param nts_data: non time series data
     :param data: :class:`~polysim.run_framework.domain`
     :rtype: dict()
@@ -149,7 +149,7 @@ def convert_to_hours(time_obs):
     :returns: time_obs
 
     """
-    for k, v in time_obs.iteritems():
+    for k in time_obs.iterkeys():
         time_obs[k] /= (60.0 * 60.0)
     return time_obs
 
@@ -162,14 +162,14 @@ def convert_to_days(time_obs):
     :returns: time_obs
 
     """
-    for k, v in time_obs.iteritems():
+    for k in time_obs.iterkeys():
         time_obs[k] /= (60.0 * 60.0 * 24.0)
     return time_obs
 
 def convert_to_percent(nts_data, data):
     """
     Converts ``nts_data['tinun63']`` from seconds to percent of RNDAY
-    
+
     :param nts_data: non-time-series data
     :param data: :class:`~polysim.run_framework.domain`
     :rtype: dict()
@@ -181,7 +181,7 @@ def convert_to_percent(nts_data, data):
 def concatenate(run_data1, run_data2):
     """
     Combine data from ``run_data1`` and ``run_data2``
-    :class:`~polysim.run_framework.random_manningsn.runSet` with another 
+    :class:`~polysim.run_framework.random_manningsn.runSet` with another
     :class:`~polysim.run_framework.random_manningsn.runSet` (``other_run``)
     and points from both runs
 
@@ -199,7 +199,7 @@ def concatenate(run_data1, run_data2):
         np.array)
     :returns: (run_data, points)
     :rtype: tuple
-    
+
     """
     run1 = run_data1[0]
     points1 = run_data1[1]
@@ -209,15 +209,15 @@ def concatenate(run_data1, run_data2):
 
     # concatenate nontimeseries data
     for k, v in run1.nts_data.iteritems():
-        run1.nts_data[k] = np.concatenate((v, run2.nts_data[k]), axis = v.ndim-1)
+        run1.nts_data[k] = np.concatenate((v, run2.nts_data[k]), axis=v.ndim-1)
     # concatenate timeseries data
     for k, v in run1.ts_data.iteritems():
-        run1.ts_data[k] = np.concatenate((v, run2.ts_data[k]), axis = v.ndim-1)
+        run1.ts_data[k] = np.concatenate((v, run2.ts_data[k]), axis=v.ndim-1)
     # concatenate time_obes data
     for k, v in run1.time_obs.iteritems():
-        run1.time_obs[k] = np.concatenate((v, run2.time_obs[k]), axis = v.ndim-1)
+        run1.time_obs[k] = np.concatenate((v, run2.time_obs[k]), axis=v.ndim-1)
     # concatenate points
-    points = np.concatenate((points1, points2), axis = points1.ndim-1)
+    points = np.concatenate((points1, points2), axis=points1.ndim-1)
 
     run_data = (run1, points)
     return run_data
@@ -231,8 +231,8 @@ class runSet(pickleable):
         directory containing ``fort.14``, ``fort.15``, and ``fort.22``
     save_dir
         directory where ``RF_directory_*`` are saved, and where fort.13 is
-        located 
-    basis_dir 
+        located
+    basis_dir
         directory where ``landuse_*`` folders are located
     base_dir
         directory that contains ADCIRC executables, and machine
@@ -242,27 +242,28 @@ class runSet(pickleable):
     script_name
     nts_data
         non timeseries data
-    ts_data 
+    ts_data
         timeseries data
     time_obs
         observation times for timeseries data
 
     """
-    def __init__(self, grid_dir, save_dir, basis_dir, 
-            num_of_parallel_runs = 10, base_dir = None, script_name = None): 
+    def __init__(self, grid_dir, save_dir, basis_dir,
+            num_of_parallel_runs=10, base_dir=None, script_name=None):
         """
         Initialization
         """
-        #: string, directory containing ``fort.14``, ``fort.15``, and ``fort.22*``
+        #: string, directory containing ``fort.14``, ``fort.15``, and
+        #  ``fort.22*`` 
         self.grid_dir = grid_dir
         self.save_dir = save_dir
         """
         string, directory where ``RF_directory_*`` are saved, and
-        where ``fort.13`` is located 
+        where ``fort.13`` is located
         """
         if os.path.exists(save_dir) == False:
             os.mkdir(save_dir)
-            fort13_file =  save_dir.rpartition('/')[0]+'/fort.13'
+            fort13_file = save_dir.rpartition('/')[0]+'/fort.13'
             copy(fort13_file, save_dir)
         #: string, directory where ``landuse_*`` folders are located
         self.basis_dir = basis_dir
@@ -292,18 +293,18 @@ class runSet(pickleable):
             self.script_name = "run_job_batch.sh"
         super(runSet, self).__init__()
 
-    def initialize_random_field_directories(self, num_procs = 12):
-        """ 
+    def initialize_random_field_directories(self, num_procs=12):
+        """
         Make directories for parallel funs of random fields
 
         :rtype: list()
-        :returns: list of paths to ``RF_directory_*`` 
+        :returns: list of paths to ``RF_directory_*``
 
         """
         # Check to see if some of the directories already exist
         rf_dirs = glob.glob(self.save_dir+'/RF_directory_*')
         num_dir = len(rf_dirs)
-        # set up all rf_dirs 
+        # set up all rf_dirs
         if num_dir >= self.num_of_parallel_runs:
             for path in rf_dirs:
                 self.setup_rfdir(path, num_procs)
@@ -317,18 +318,18 @@ class runSet(pickleable):
         self.write_prep_script(1, self.num_of_parallel_runs)
         self.write_prep_script(2, self.num_of_parallel_runs)
         self.write_prep_script(5, self.num_of_parallel_runs)
-        subprocess.call(['./prep_1.sh'], cwd = self.save_dir)
-        subprocess.call(['./prep_2.sh'], cwd = self.save_dir)
+        subprocess.call(['./prep_1.sh'], cwd=self.save_dir)
+        subprocess.call(['./prep_2.sh'], cwd=self.save_dir)
         return rf_dirs
 
     def remove_random_field_directories(self):
-        """ 
+        """
         Remove directories for parallel funs of random fields
 
         """
         # Check to see if some of the directories already exist
         rf_dirs = glob.glob(self.save_dir+'/RF_directory_*')
-        # remove all rf_dirs 
+        # remove all rf_dirs
         for rf_dir in rf_dirs:
             shutil.rmtree(rf_dir)
 
@@ -336,10 +337,10 @@ class runSet(pickleable):
         """
         Creates the directory path and copies required files from
         ``self.base_dir`` into path:type path: string
-        
+
         :param path: folder_name
         :param num_procs: number of processors per :program:`ADCIRC` run
-        
+
         """
         mkdir(path)
         copy(self.save_dir+'/fort.13', path)
@@ -347,7 +348,7 @@ class runSet(pickleable):
         inputs1 = glob.glob(self.grid_dir+'/fort.1*')
         inputs2 = glob.glob(self.grid_dir+'/fort.2*')
         inputs0 = glob.glob(self.grid_dir+'/fort.01*')
-        inputs = inputs0 + inputs1 + inputs2 
+        inputs = inputs0 + inputs1 + inputs2
         if self.grid_dir+'/fort.13' in inputs:
             inputs.remove(self.grid_dir+'/fort.13')
         if not(self.grid_dir+'/fort.019' in inputs):
@@ -363,9 +364,9 @@ class runSet(pickleable):
         prep.write_1(path, num_procs)
         prep.write_2(path, num_procs)
         prep.write_5(path, num_procs)
-    
+
     def write_run_script(self, num_procs, num_jobs, procs_pnode, TpN,
-            screenout = True, num_writers = None):
+            screenout=True, num_writers=None):
         """
         Creats a bash script called run_job_batch.sh
 
@@ -405,10 +406,10 @@ class runSet(pickleable):
                 curr_stat.st_mode | stat.S_IXUSR)
         return self.script_name
 
-    def write_prep_script(self, n, num_jobs, screenout = False):
+    def write_prep_script(self, n, num_jobs, screenout=False):
         """
         Creats a bash script to run :program:`adcprep` with ``in.prepn``
-        
+
         :param int n: n for ``in.prepn`` input to ADCPREP
         :param int num_jobs: number of jobs to run
         :param boolean screenout: flag (True --  write ``ADCPREP`` output to
@@ -433,7 +434,7 @@ class runSet(pickleable):
 
     def update_dir_file(self, num_dirs):
         """
-        
+
         Create a list of RF_dirs for the prep_script to use.
 
         :param int num_dirs: number of RF_dirs to put in ``dir_list``
@@ -453,9 +454,9 @@ class runSet(pickleable):
         :param string save_file: file name
 
         """
-        sio.savemat(self.save_dir+'/'+save_file, mdict, do_compression = True)
+        sio.savemat(self.save_dir+'/'+save_file, mdict, do_compression=True)
 
-    def update_mdict(self, mdict): 
+    def update_mdict(self, mdict):
         """
         Set up references for ``mdict``
 
@@ -476,7 +477,7 @@ class runSet(pickleable):
     def concatenate(self, other_run, points1, points2):
         """
         Combine data from this
-        :class:`~polysim.run_framework.random_manningsn.runSet` with another 
+        :class:`~polysim.run_framework.random_manningsn.runSet` with another
         :class:`~polysim.run_framework.random_manningsn.runSet` (``other_run``)
         and points from both runs
 
@@ -488,32 +489,31 @@ class runSet(pickleable):
         :type points1: np.array
         :returns: (self, points)
         :rtype: tuple
-        
+
         """
 
         return concatenate((self, points1), (other_run, points2))
 
-    def run_points(self, data, points, save_file, num_procs = 12,
-            procs_pnode = 12, ts_names = ["fort.61"], 
-            nts_names = ["maxele.63"], screenout = True, cleanup_dirs = True,
-            num_writers = None, TpN = 12):
+    def run_points(self, data, points, save_file, num_procs=12, procs_pnode=12,
+            ts_names=["fort.61"], nts_names=["maxele.63"], screenout=True,
+            cleanup_dirs=True, num_writers=None, TpN=12):
         """
         Runs :program:`ADCIRC` for all of the configurations specified by
         ``points`` and returns a dictonary of arrays containing data from
         output files
 
          Reads in a default Manning's *n* value from self.save_dir and stores
-         it in data.manningsn_default                                                                   
+         it in data.manningsn_default
         :param data: :class:`~polysim.run_framework.domain`
         :type points: :class:`np.array` of size (``num_of_basis_vec``,
             ``num_of_random_fields``)
         :param points: containts the weights to be used for each run
         :type save_file: string
-        :param save_file: name of file to save ``station_data`` to 
+        :param save_file: name of file to save ``station_data`` to
         :type num_procs: int or 12
         :param num_procs: number of processors per :program:`ADCIRC`
             simulation
-        :param int procs_pnode: number of processors per node, 12 on lonestar, 
+        :param int procs_pnode: number of processors per node, 12 on lonestar,
             and 16 on stampede
         :param list() ts_names: names of ADCIRC timeseries
             output files to be recorded from each run
@@ -541,7 +541,7 @@ class runSet(pickleable):
 
         # Save matricies to *.mat file for use by MATLAB or Python
         mdict = dict()
-        mdict['mann_pts'] = points 
+        mdict['mann_pts'] = points
         self.save(mdict, save_file)
 
         #bv_array = tmm.get_basis_vec_array(self.basis_dir)
@@ -553,15 +553,15 @@ class runSet(pickleable):
         nts_data = {}
         self.nts_data = nts_data
         for fid in nts_names:
-            key = fid.replace('.','')
-            nts_data[key] =  np.zeros((data.node_num, num_points))        
+            key = fid.replace('.', '')
+            nts_data[key] = np.zeros((data.node_num, num_points))
         # Pre-allocate arrays for timeseries data
         ts_data = {}
         time_obs = {}
         self.ts_data = ts_data
         self.time_obs = time_obs
         for fid in ts_names:
-            key = fid.replace('.','')
+            key = fid.replace('.', '')
             meas_locs, total_obs, irtype = data.recording[key]
             if irtype == 1:
                 ts_data[key] = np.zeros((meas_locs, total_obs, num_points))
@@ -574,7 +574,7 @@ class runSet(pickleable):
         self.update_mdict(mdict)
         self.save(mdict, save_file)
 
-        default = data.read_default(path = self.save_dir)
+        default = data.read_default(path=self.save_dir)
 
         for k in xrange(0, num_points, self.num_of_parallel_runs):
             if k+self.num_of_parallel_runs >= num_points-1:
@@ -596,13 +596,13 @@ class runSet(pickleable):
             #PARALLEL: update file containing the list of rf_dirs
             self.update_dir_file(self.num_of_parallel_runs)
             devnull = open(os.devnull, 'w')
-            p = subprocess.Popen(['./prep_5.sh'], stdout = devnull, cwd =
-                    self.save_dir) 
+            p = subprocess.Popen(['./prep_5.sh'], stdout=devnull, cwd=
+                    self.save_dir)
             p.communicate()
             devnull.close()
             devnull = open(os.devnull, 'w')
-            p = subprocess.Popen(['./'+run_script], stdout = devnull, cwd =
-                    self.base_dir) 
+            p = subprocess.Popen(['./'+run_script], stdout=devnull, cwd=
+                    self.base_dir)
             p.communicate()
             devnull.close()
             # get data
@@ -623,14 +623,14 @@ class runSet(pickleable):
             self.remove_random_field_directories()
 
         return time_obs, ts_data, nts_data
-    
-    def make_plots(self, points, domain, save = True, show = False, 
-                   bathymetry = False):
+
+    def make_plots(self, points, domain, save=True, show=False,
+            bathymetry=False):
         """
         Plots ``mesh``, ``station_locations``, ``basis_functions``,
         ``random_fields``, ``mean_field``, ``station_data``, and
-        save in save_dir/figs 
-        
+        save in save_dir/figs
+
         .. todo:: this uses bv_array everywhere. I might want to change this
                   later when I go to the nested mesh approach
 
@@ -639,24 +639,23 @@ class runSet(pickleable):
         domain.get_Triangulation(self.save_dir, save, show)
         domain.plot_bathymetry(self.save_dir, save, show)
         domain.plot_station_locations(self.save_dir, bathymetry, save, show)
-       
+
         bv_array = tmm.get_basis_vec_array(self.basis_dir)
-        
+
         self.plot_basis_functions(domain, bv_array, save, show)
         self.plot_random_fields(domain, points, bv_array, save, show)
 
         self.plot_mean_field(domain, points, bv_array, save, show)
         self.plot_station_data(save, show)
 
-    def plot_basis_functions(self, domain, bv_array, save = True, show =
-            False):
+    def plot_basis_functions(self, domain, bv_array, save=True, show=False):
         """
         See :meth:``~polsim.pyADCIRC.plotADCIRC.basis_functions`
 
         """
         plot.basis_functions(domain, bv_array, self.save_dir, save, show)
-        
-    def plot_random_fields(self, domain, points, bv_array, save = True, show =
+
+    def plot_random_fields(self, domain, points, bv_array, save=True, show=
             False):
         """
         See :meth:`~polsim.rnu_framework.plotADCIRC.random_fields`
@@ -664,7 +663,7 @@ class runSet(pickleable):
         """
         plot.random_fields(domain, points, bv_array, self.save_dir, save, show)
 
-    def plot_mean_field(self, domain, points, bv_array, save = True, show =
+    def plot_mean_field(self, domain, points, bv_array, save=True, show=
         False):
         """
         See :meth:`~polsim.rnu_framework.plotADCIRC.mean_field`
@@ -672,38 +671,38 @@ class runSet(pickleable):
         """
         plot.mean_field(domain, points, bv_array, self.save_dir, save, show)
 
-    def plot_station_data(self, save = True, show = False):
+    def plot_station_data(self, save=True, show=False):
         """
         See :meth:`~polsim.rnu_framework.plotADCIRC.station_data`
 
         """
         plot.station_data(self.ts_data, self.time_obs, None, self.save_dir,
                 save, show)
- 
+
     def fix_dry_data(self, data):
         """
         Fix dry elevation station data flags
 
         :param data: :class:`~polysim.run_framework.domain`
-        
+
         """
-        self.ts_data = fix_dry_data(self.ts_data, data) 
-        
+        self.ts_data = fix_dry_data(self.ts_data, data)
+
     def fix_dry_nodes(self, data):
         """
         Fix dry elevation data flags
 
         :param data: :class:`~polysim.run_framework.domain`
-        
+
         """
-        self.ts_data = fix_dry_nodes(self.ts_data, data) 
-     
+        self.ts_data = fix_dry_nodes(self.ts_data, data)
+
     def fix_dry_nodes_nts(self, data):
         """
         Fix dry elevation data flags
 
         :param data: :class:`~polysim.run_framework.domain`
-        
+
         """
         self.nts_data = fix_dry_nodes_nts(self.nts_data, data)
 
@@ -719,17 +718,17 @@ class runSet(pickleable):
         Converts ``self.time_obs`` from seconds to days
 
         """
-        self.time_obs = convert_to_days(self.time_obs) 
+        self.time_obs = convert_to_days(self.time_obs)
 
     def convert_to_percent(self, data):
         """
         Converts ``self.nts_data['tinun63']`` from seconds to percent of RNDAY
-        
+
         :param data: :class:`~polysim.run_framework.domain`
 
         """
         convert_to_percent(self.nts_data, data)
-    
+
 
 
 

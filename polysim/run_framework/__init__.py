@@ -11,4 +11,4 @@ This subpackage contains
 """
 
 __all__ = ['random_manningsn', 'domain', 'subdomain',
-    'fulldomain', 'random_wall']
+    'fulldomain', 'random_wall', 'random_wall_Q']

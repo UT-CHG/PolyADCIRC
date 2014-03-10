@@ -72,8 +72,8 @@ class subdomain(dom.domain):
     mesh/grid. References to :class:`polysim.run_framework.subdomain` objects
     are also contained in an instantiation of this class.
     """
-    def __init__(self, path, fulldomain = None, node_num = 0, element_num = 0,
-            node = None, element = None):
+    def __init__(self, path, fulldomain=None, node_num=0, element_num=0,
+            node=None, element=None):
         """
         Initialization
         """
@@ -106,7 +106,7 @@ class subdomain(dom.domain):
         self.fulldomain = fulldomain
         self.fulldomain.subdomains.append(self)
 
-    def gensub(self, bound_ele = 1, bound_vel = 1, bound_wd = 1):
+    def gensub(self, bound_ele=1, bound_vel=1, bound_wd=1):
         """
         Generate the subdomain input files (``fort.13``, ``fort.14``,
         ``fort.015``, ``py.141``, ``py.140``) and shape file. Creates
@@ -140,7 +140,7 @@ class subdomain(dom.domain):
             command += 'fort.13 ' 
         
         command += '< gensub.in'
-        subprocess.call(command, shell = True, cwd = self.path)
+        subprocess.call(command, shell=True, cwd=self.path)
 
         self.update_sub2full_map()
         self.create_fort15()
@@ -152,7 +152,7 @@ class subdomain(dom.domain):
             os.symlink(fid, self.path+'/'+fid.rpartition('/')[-1])
         return command
 
-    def genfull(self, noutgs = 1, nspoolgs = 1):
+    def genfull(self, noutgs=1, nspoolgs=1):
         """ 
         Generate the full domain control file, ``fort.015``, and save it to
         ``self.fulldomain.path``.
@@ -167,7 +167,7 @@ class subdomain(dom.domain):
         """
         return self.fulldomain.genfull(noutgs, nspoolgs, [self])
 
-    def genbcs(self, forcing_freq = 1, dt = None, nspoolgs = 1, h0 = None):
+    def genbcs(self, forcing_freq=1, dt=None, nspoolgs=1, h0=None):
         """
         Generate the ``fort.019`` which is the boundary conditions file needed
         for a subdomain run of :program:`ADCIRC`. This requires the presence of
@@ -193,7 +193,7 @@ class subdomain(dom.domain):
             command += self.fulldomain.path+'/ '+self.path+'/ '
             command += str(forcing_freq)+' '+str(dt)+' '+str(nspoolgs)
             command += ' '+str(h0)
-            subprocess.call(command, shell = True, cwd = self.path)
+            subprocess.call(command, shell=True, cwd=self.path)
             return command
         else:
             print "Output files from the fulldomain run do not exist"
@@ -247,7 +247,7 @@ class subdomain(dom.domain):
             t = fid.readline().split()
             x = float(t[0])
             y = float(t[1])
-            r = float(a.readline())
+            r = float(fid.readline())
 
         self.x = x
         self.y = y
@@ -275,7 +275,7 @@ class subdomain(dom.domain):
             self.w = w
         return (x, y, w)
 
-    def ellipse_properties(x, y, w):
+    def ellipse_properties(self, x, y, w):
         return ellipse_properties(x, y, w)
 
     def setup(self, flag = None, bound_ele = 1, bound_vel = 1, bound_wd = 1):
@@ -338,10 +338,10 @@ class subdomain(dom.domain):
 
         """
         fort019 = glob.glob(self.path+'/fort.019')
-        return (len(fort019)>0)
+        return (len(fort019) > 0)
 
-    def compare_runSet(self, ts_data, nts_data, ts_names = None, 
-            nts_names = None, save_file = None): 
+    def compare_runSet(self, ts_data, nts_data, ts_names=None, 
+            nts_names=None, save_file=None): 
         """
         Reads in :class:`polysim.random_manningsn.runSet` output from this
         subdomain and from it's fulldomain and compares them.
@@ -371,14 +371,14 @@ class subdomain(dom.domain):
             nts_keys = nts_data[0].keys()
         else:
             for fid in nts_names:
-                nts_keys.append(fid.replace('.',''))
+                nts_keys.append(fid.replace('.', ''))
 
         ts_keys = []
         if ts_names == None:
             ts_keys = ts_data[0].keys()
         else:
             for fid in ts_names:
-                ts_keys.append(fid.replace('.',''))
+                ts_keys.append(fid.replace('.', ''))
 
         # Save matricies to *.mat file for use by MATLAB or Python
         mdict = dict()
@@ -426,19 +426,19 @@ class subdomain(dom.domain):
         for k, v in nts_error.iteritems():
             mdict[k] = v
             print k
-            b = np.ma.fix_invalid(v, fill_value = 0)
+            b = np.ma.fix_invalid(v, fill_value=0)
             print np.max(abs(b)), np.argmax(abs(b))
         # export timeseries data
         for k, v in ts_error.iteritems():
             mdict[k] = v
             print k
-            b = np.ma.fix_invalid(v, fill_value = 0)
+            b = np.ma.fix_invalid(v, fill_value=0)
             print np.max(abs(b)), np.argmax(abs(b))
 
-        sio.savemat(save_file, mdict, do_compression = True)
+        sio.savemat(save_file, mdict, do_compression=True)
         return (ts_error, nts_error)
     
-    def compare_to_fulldomain(self, ts_names, nts_names, save_file = None):
+    def compare_to_fulldomain(self, ts_names, nts_names, save_file=None):
         """
         Reads in output files from this subdomain and from it's fulldomain and
         compares them.
@@ -476,7 +476,7 @@ class subdomain(dom.domain):
 
         # Get nts_error
         for fid in nts_names:
-            key = fid.replace('.','')
+            key = fid.replace('.', '')
             full_data = output.get_nts_sr(self.fulldomain.path, self.fulldomain,
                     fid)[fulldom_nodes]
             sub_data = output.get_nts_sr(self.path, self, fid)
@@ -485,7 +485,7 @@ class subdomain(dom.domain):
             nts_data[key] = np.array([full_data.T, sub_data.T]).T
         # Get ts_data
         for fid in ts_names:
-            key = fid.replace('.','')
+            key = fid.replace('.', '')
             sub_data = output.get_ts_sr(self.path, fid)[0]
             total_obs = sub_data.shape[1]
             if self.recording[key][2] == 1:
@@ -515,20 +515,20 @@ class subdomain(dom.domain):
         for k, v in nts_error.iteritems():
             mdict[k] = v
             print k
-            b = np.ma.fix_invalid(v, fill_value = 0)
+            b = np.ma.fix_invalid(v, fill_value=0)
             print np.max(abs(b)), np.argmax(abs(b))
         # export timeseries data
         for k, v in ts_error.iteritems():
             mdict[k] = v
             print k
-            b = np.ma.fix_invalid(v, fill_value = 0)
+            b = np.ma.fix_invalid(v, fill_value=0)
             print np.max(abs(b)), np.argmax(abs(b))
 
         # export time_obes data
         for k, v in time_obs.iteritems():
             mdict[k+'_time'] = v
 
-        sio.savemat(save_file, mdict, do_compression = True)
+        sio.savemat(save_file, mdict, do_compression=True)
         return (ts_error, nts_error, time_obs, ts_data, nts_data)
 
     def create_fort15(self):
@@ -555,7 +555,7 @@ class subdomain(dom.domain):
         with open(self.path+'/py.140', 'r') as fid:
             fid.readline() # skip header
             for line in fid:
-                k, v  = np.fromstring(line, dtype = int, sep=' ')
+                k, v  = np.fromstring(line, dtype=int, sep=' ')
                 self.sub2full_node[k] = v
 
     def read_py_ele(self):
@@ -572,7 +572,7 @@ class subdomain(dom.domain):
         with open(self.path+'/py.141', 'r') as fid:
             fid.readline() # skip header
             for line in fid:
-                k, v  = np.fromstring(line, dtype = int, sep=' ')
+                k, v  = np.fromstring(line, dtype=int, sep=' ')
                 self.sub2full_element[k] = v
 
     def update_sub2full_map(self):
