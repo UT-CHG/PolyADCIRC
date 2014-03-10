@@ -46,6 +46,27 @@ class adaptiveSamples(pickleable):
         
         :rtype: tuple
         :returns: (``parameter_samples``, ``data_samples``) where
-            ``parameter_samples`` is np.ndarray of shape 
+            ``parameter_samples`` is np.ndarray of shape (ndim, num_samples)
+            and ``data_samples`` is np.ndarray of shape (num_samples, mdim)
 
+        """
+        # Initiative first batch of N samples (maybe taken from latin
+        # hypercube/space-filling curve to fully explore parameter space - not
+        # necessarily random). Call these Samples_old.
+        
+        # Initialize Nx1 vector Step_size = something reasonable (based on size
+        # of domain and transition kernel type)
+        for batch in xrange(1, self.num_batches):
+        { 
+                   For each of N Samples_old, create N new parameter samples
+                   using transition kernel and Step_size. Call these samples
+                   Samples_new.
+                      Solve the model for the Samples_new.
+                         For k=1:N
+                            {
+                                      Make some decision about changing
+                                      Step_size(k).
+                                         }
+                               Samples_old = Samples_new.
+                               }
 
