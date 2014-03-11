@@ -241,6 +241,7 @@ class runSet(rmw.runSet):
             # Update and save
             self.update_mdict(mdict)
             self.save(mdict, save_file)
+            print str(k)+"th runs have been completed."
 
         # save data
         self.update_mdict(mdict)
