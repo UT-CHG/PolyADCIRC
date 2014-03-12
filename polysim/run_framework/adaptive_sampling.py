@@ -50,8 +50,11 @@ class adaptiveSamples(pickleable):
         :type param_min: np.array (ndim,)
         :param param_max: maximum value for each parameter dimension
         :type param_max: np.array (ndim,)
-        :param transition_kernel: transition kernel information
-        :param function heuristic: functional that acts on the data
+        :param transition_kernel: method for creating new parameter steps using
+            given a step size based on the paramter domain size
+        :type transition_kernel: :class:~`transition_kernel`
+        :param function heuristic: functional that acts on the data used to
+            determine the ``step_size``
         :param string savefile: filename to save samples and data
         :rtype: tuple
         :returns: (``parameter_samples``, ``data_samples``) where
@@ -81,8 +84,8 @@ class adaptiveSamples(pickleable):
         for batch in xrange(1, self.num_batches):
             # For each of N samples_old, create N new parameter samples using
             # transition kernel and step_ratio. Call these samples samples_new.
-            step = np.repeat([step_ratio*param_width], self.samples_per_batch, axis=0)
-            samples_new = np.ones(len(param_min), self.samples_per_batch)
+            step = transition_kernel.step(step_ratio, param_width)
+            samples_new = samples_old + step 
             samples = np.concatenate((samples, samples_new), axis=1)
 
             # Solve the model for the samples_new.
@@ -92,13 +95,14 @@ class adaptiveSamples(pickleable):
             # multiple ways to do this.
             # Determine proposed step size:
             # Assume that the heuristic acts as a functional on the data so
-            # that heuristic(data).shape = (num_ndamples,)
+            # that heuristic(data).shape = (num_samples,)
             # Evaluate heuristic for new data.
             heur_new = heuristic(data_new)
             heur_diff = (heur_new-heur_old)/heuristic.MAX
             # Compare to heuristic for old data.
             # Is the heuristic NOT close?
-            heur_close = np.logical_not(np.isclose(heur_diff, 0))
+            heur_close = np.logical_not(np.isclose(heur_diff, 0,
+                atol=heuristic.TOL))
             # Is the heuristic greater/lesser?
             heur_greater = np.logical_and(heur_diff > 0, heur_close)
             heur_lesser = np.logical_and(heur_diff < 0, heur_close)
@@ -127,17 +131,58 @@ class adaptiveSamples(pickleable):
 
 
 def class transition_kernel(pickleable):
+    """
+    Basic class that is used to create a step to move from samples_old to
+    samples_new based. This class generates steps for a random walk using a
+    very basic algorithm. Future classes will inherit from this one with
+    different implementations of the
+    :meth:~`polysim.run_framework.apdative_sampling.step` method.
 
-    def __init__(self):
-        pass
+    This basic transition kernel is designed without a preferential direction.
 
-    def set_step_ratio(ratio):
-        self.init_ratui = ratio
+    init_ratio
+        Initial step size ratio compared to the parameter domain.
+    min_ratio
+        Minimum step size compared to the inital step size.
+    max_ratio
+        Maximum step size compared to the maximum step size.
+    """
 
-    def set_min_step_ratio(ratio):
+    def __init__(self, init_ratio, min_ratio, max_ratio):
+        """
+        Initialization
+        """
+        self.init_ratio = ratio
         self.min_ratio = ratio
-
-    def set_max_step_ratio(ratio):
         self.max_ratio = ratio
+    
+    def step(self, step_ratio, param_width):
+        """
+        Generate ``num_samples`` new steps using ``step_ratio`` and
+        ``param_width`` to calculate the ``step size``. Each step will have a
+        random direction. For simplicity we constain all steps to be within a
+        ball of L_1 norm defined by ``step_ratio*param_width``.
+
+        :param step_ratio: define maximum step_size = ``step_ratio*param_width``
+        :type step_ratio: :class:`np.array` of shape (num_samples,)
+        :param param_width: width of the parameter domain
+        :type param_width: np.array (ndim,)
+        :rtype: :class:`np.array` of shape (ndim, num_samples)
+        :returns: step
+
+        """
+        # calculate maximum step size
+        step_size = np.outer(param_width, step_ratio)
+        # randomize the direction (and size)
+        step = step_size*(2.0*np.random.random(step_size.shape) - 1)
+        return step
+
+
+def class heuristic(pickleable):
+
+    def __init__(self, maximum, tolerance):
+        self.MAX = maximum
+        self.TOL = tolerance
+
 
 
