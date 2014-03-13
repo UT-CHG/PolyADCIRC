@@ -30,19 +30,15 @@ class adaptiveSamples(pickleable):
     model
         runs the model at a given set of parameter samples and returns data
     """
-    def __init__(self, num_batches, samples_per_batch, model, metric=None):
+    def __init__(self, num_batches, samples_per_batch, model):
         """
         Initialization
         """
         self.num_batches = num_batches
         self.samples_per_batch = samples_per_batch
-        if metric == None:
-            self.metric = adaptiveSamples.default_metric
-        else:
-            self.metric = metric
         self.model = model
 
-    def adaptive_algorithm(self, inital_sample_type, param_min, param_max,
+    def generalized_chains(self, inital_sample_type, param_min, param_max,
             t_kernel, heuristic, savefile, criterion='center'):
         """
         Basic adaptive sampling algorithm.
@@ -129,6 +125,9 @@ class adaptiveSamples(pickleable):
 
             # samples_old = samples_new
             samples_old = samples_new
+
+    def adaptive_chains(self):
+        pass
 
 
 class transition_kernel(pickleable):

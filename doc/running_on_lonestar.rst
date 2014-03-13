@@ -1,5 +1,5 @@
 ===================
-Running on Lonestar
+Running on TACC
 ===================
 
 To run a set of simulations on `Lonestar <http://http://www.tacc.utexas.edu/user-services/user-guides/lonestar-user-guide>`_ you need to load the following modules::
@@ -250,7 +250,13 @@ Run samples::
 Job Submission Script
 ---------------------
 
-An example submission script is included in ``examples/submission_script.sub``.
+An example submission script is included in
+``examples/submission_script.sub``. To run on Stampede you will need to rewrite
+the ``qsub`` script as a ``sbatch`` submission script and modify the the
+requested nodes as Stampede has a different number of cores per node than
+Lonestar. These types of python scripts create a lot of hostfiles in your
+``$HOME\.sge`` (``$HOME\.slurm``) so you should schedule a cron tab that
+periodially wipes old files.
 You should copy any scripts you wish to modify and run into a separate folder
 in your ``$WORK`` directory. In these examples I am working from
 ``$WORK/landuse_bin``.  You will need to modify the lines that designate the
