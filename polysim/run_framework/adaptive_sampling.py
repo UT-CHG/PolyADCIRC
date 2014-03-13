@@ -14,6 +14,7 @@ approach.
 import numpy as np
 import scipy.io as sio
 from polysim.pyADCIRC.basic import pickleable
+from pyDOE import lhs
 
 class adaptiveSamples(pickleable):
     """
@@ -41,11 +42,13 @@ class adaptiveSamples(pickleable):
             self.metric = metric
         self.model = model
 
-    def adaptive_algorithm(self, param_min, param_max, transition_kernel,
-            heuristic, savefile):
+    def adaptive_algorithm(self, intial_sample_type, param_min, param_max,
+            transition_kernel, heuristic, savefile, criterion='center'):
         """
         Basic adaptive sampling algorithm.
-        
+       
+        :param string inital_sample_type: type of initial sample random (or r),
+            latin hypercube(lhs), or space-filling curve(TBD)
         :param param_min: minimum value for each parameter dimension
         :type param_min: np.array (ndim,)
         :param param_max: maximum value for each parameter dimension
@@ -56,22 +59,14 @@ class adaptiveSamples(pickleable):
         :param function heuristic: functional that acts on the data used to
             determine the proposed change to the ``step_size``
         :param string savefile: filename to save samples and data
+        :param string criterion: latin hypercube criterion see 
+            `PyDOE <http://pythonhosted.org/pyDOE/randomized.html#latin-hypercube>`_
         :rtype: tuple
         :returns: (``parameter_samples``, ``data_samples``) where
             ``parameter_samples`` is np.ndarray of shape (ndim, num_samples)
             and ``data_samples`` is np.ndarray of shape (num_samples, mdim)
 
         """
-        # Initiative first batch of N samples (maybe taken from latin
-        # hypercube/space-filling curve to fully explore parameter space - not
-        # necessarily random). Call these Samples_old.
-        samples_old = np.ones(len(param_min), self.samples_per_batch)
-        samples = samples_old
-
-        # Why don't we solve the problem at initial samples?
-        data_old = self.model(initial_samples)
-        (heur_old, proposal) = heuristic.delta_step(data_old, None)
-         
         # Initialize Nx1 vector Step_size = something reasonable (based on size
         # of domain and transition kernel type)
         # Calculate domain size
@@ -81,6 +76,26 @@ class adaptiveSamples(pickleable):
         min_ratio = transition_kernel.min_ratio
         step_ratio = transition_kernel.init_ratio
 
+        # Initiative first batch of N samples (maybe taken from latin
+        # hypercube/space-filling curve to fully explore parameter space - not
+        # necessarily random). Call these Samples_old.
+        param_left = np.repeat([param_min], self.samples_per_batch)
+        param_right = np.repeat([param_max], self.samples_per_batch)
+         
+        if inital_sample_type == "lhs":
+            samples_old = lhs(param_min.shape[0], self.samples_per_batch,
+                    criterion)
+            samples_old = (param_left-param_right)*samples_old.transpose()
+        elif inital_sample_type == "random" or "r":
+            samples_old = (param_left-param_right)*np.random.random(param_left.shape) 
+        samples_old = samples_old - param_right
+        samples = samples_old
+
+        # Why don't we solve the problem at initial samples?
+        data_old = self.model(initial_samples)
+        data = data_old
+        (heur_old, proposal) = heuristic.delta_step(data_old, None)
+         
         for batch in xrange(1, self.num_batches):
             # For each of N samples_old, create N new parameter samples using
             # transition kernel and step_ratio. Call these samples samples_new.
