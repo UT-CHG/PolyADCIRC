@@ -26,11 +26,11 @@ class adaptiveSamples(pickleable):
     samples_per_batch
         number of samples per batch (either a single int or a list of int)
     metric
-        metric on the data space, a function d(x,y) where d: M x M --> \Real
+        metric on the data space, a function d(x,y) where d: M x M --> Real
     model
         runs the model at a given set of parameter samples and returns data
     """
-    def __init__(self, num_batches, samples_per_batch, metric = None):
+    def __init__(self, num_batches, samples_per_batch, model, metric=None):
         """
         Initialization
         """
@@ -42,8 +42,8 @@ class adaptiveSamples(pickleable):
             self.metric = metric
         self.model = model
 
-    def adaptive_algorithm(self, intial_sample_type, param_min, param_max,
-            transition_kernel, heuristic, savefile, criterion='center'):
+    def adaptive_algorithm(self, inital_sample_type, param_min, param_max,
+            t_kernel, heuristic, savefile, criterion='center'):
         """
         Basic adaptive sampling algorithm.
        
@@ -53,14 +53,14 @@ class adaptiveSamples(pickleable):
         :type param_min: np.array (ndim,)
         :param param_max: maximum value for each parameter dimension
         :type param_max: np.array (ndim,)
-        :param transition_kernel: method for creating new parameter steps using
+        :param t_kernel: method for creating new parameter steps using
             given a step size based on the paramter domain size
-        :type transition_kernel: :class:~`transition_kernel`
+        :type t_kernel: :class:~`t_kernel`
         :param function heuristic: functional that acts on the data used to
             determine the proposed change to the ``step_size``
         :param string savefile: filename to save samples and data
         :param string criterion: latin hypercube criterion see 
-            `PyDOE <http://pythonhosted.org/pyDOE/randomized.html#latin-hypercube>`_
+            `PyDOE <http://pythonhosted.org/pyDOE/randomized.html>`_
         :rtype: tuple
         :returns: (``parameter_samples``, ``data_samples``) where
             ``parameter_samples`` is np.ndarray of shape (ndim, num_samples)
@@ -72,22 +72,23 @@ class adaptiveSamples(pickleable):
         # Calculate domain size
         param_width = param_max - param_min
         # Calculate step_size
-        max_ratio = transition_kernel.max_ratio
-        min_ratio = transition_kernel.min_ratio
-        step_ratio = transition_kernel.init_ratio
+        max_ratio = t_kernel.max_ratio
+        min_ratio = t_kernel.min_ratio
+        step_ratio = t_kernel.init_ratio
 
         # Initiative first batch of N samples (maybe taken from latin
         # hypercube/space-filling curve to fully explore parameter space - not
         # necessarily random). Call these Samples_old.
         param_left = np.repeat([param_min], self.samples_per_batch)
         param_right = np.repeat([param_max], self.samples_per_batch)
+        samples_old = (param_left-param_right)
          
         if inital_sample_type == "lhs":
             samples_old = lhs(param_min.shape[0], self.samples_per_batch,
                     criterion)
-            samples_old = (param_left-param_right)*samples_old.transpose()
+            samples_old = samples_old*samples_old.transpose()
         elif inital_sample_type == "random" or "r":
-            samples_old = (param_left-param_right)*np.random.random(param_left.shape) 
+            samples_old = samples_old*np.random.random(param_left.shape) 
         samples_old = samples_old - param_right
         samples = samples_old
 
@@ -95,11 +96,13 @@ class adaptiveSamples(pickleable):
         data_old = self.model(initial_samples)
         data = data_old
         (heur_old, proposal) = heuristic.delta_step(data_old, None)
+
+        mdat = dict()
          
         for batch in xrange(1, self.num_batches):
             # For each of N samples_old, create N new parameter samples using
             # transition kernel and step_ratio. Call these samples samples_new.
-            step = transition_kernel.step(step_ratio, param_width)
+            step = t_kernel.step(step_ratio, param_width)
             samples_new = samples_old + step 
             samples = np.concatenate((samples, samples_new), axis=1)
 
@@ -128,7 +131,7 @@ class adaptiveSamples(pickleable):
             samples_old = samples_new
 
 
-def class transition_kernel(pickleable):
+class transition_kernel(pickleable):
     """
     Basic class that is used to create a step to move from samples_old to
     samples_new based. This class generates steps for a random walk using a
@@ -150,9 +153,9 @@ def class transition_kernel(pickleable):
         """
         Initialization
         """
-        self.init_ratio = ratio
-        self.min_ratio = ratio
-        self.max_ratio = ratio
+        self.init_ratio = init_ratio
+        self.min_ratio = min_ratio
+        self.max_ratio = max_ratio
     
     def step(self, step_ratio, param_width):
         """
@@ -176,15 +179,15 @@ def class transition_kernel(pickleable):
         return step
 
 
-def class single_dist_heuristic(pickleable):
+class single_dist_heuristic(pickleable):
     """
     We assume we know the distribution rho_D on the QoI and that the goal is to
     determine inverse regions of high probability accurately (in terms of
     getting the measure correct). This class provides a method for determining
-    the proposed change in step size as follows. We check if the QoI at each of the
-    samples_new(k) are closer or farther away from a region of high probability
-    in D than the QoI at samples_old(k).  For example, if they are closer, then
-    we can reduce the step_size(k) by 1/2.
+    the proposed change in step size as follows. We check if the QoI at each of
+    the samples_new(k) are closer or farther away from a region of high
+    probability in D than the QoI at samples_old(k).  For example, if they are
+    closer, then we can reduce the step_size(k) by 1/2.
 
     maximum
         maximum value of rho_D on D
@@ -197,7 +200,7 @@ def class single_dist_heuristic(pickleable):
 
     """
 
-    def __init__(self, maximum, rho_D, tolerance =1E-08, increase=2.0, 
+    def __init__(self, maximum, rho_D, tolerance=1E-08, increase=2.0, 
             decrease=0.5):
         """
         Initialization
@@ -208,7 +211,7 @@ def class single_dist_heuristic(pickleable):
         self.increase = increase
         self.decrease = decrease
 
-    def delta_step(self, data_new, heur_old = None):
+    def delta_step(self, data_new, heur_old=None):
         """
         This method determines the proposed change in step size. 
         
@@ -240,7 +243,7 @@ def class single_dist_heuristic(pickleable):
             proposal[heur_lesser] = self.decrease
             return (heur_new, proposal)
 
-def class multi_dist_heuristic(pickleable):
+class multi_dist_heuristic(pickleable):
     """
     The goal is to make a sampling that is robust to different types of
     distributions on QoI, i.e., we do not know a priori where the regions of
@@ -269,7 +272,7 @@ def class multi_dist_heuristic(pickleable):
 
     """
 
-    def __init__(self, tolerance =1E-08, increase=2.0, 
+    def __init__(self, tolerance=1E-08, increase=2.0, 
             decrease=0.5):
         """
         Initialization
@@ -290,7 +293,7 @@ def class multi_dist_heuristic(pickleable):
         self.mean = None
         self.batch_num = 0
 
-    def delta_step(self, data_new, heur_old = None):
+    def delta_step(self, data_new, heur_old=None):
         """
         This method determines the proposed change in step size. 
         
