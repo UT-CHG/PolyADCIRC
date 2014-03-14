@@ -75,21 +75,22 @@ class adaptiveSamples(pickleable):
         # Initiative first batch of N samples (maybe taken from latin
         # hypercube/space-filling curve to fully explore parameter space - not
         # necessarily random). Call these Samples_old.
-        param_left = np.repeat([param_min], self.samples_per_batch)
-        param_right = np.repeat([param_max], self.samples_per_batch)
+        param_left = np.repeat([param_min], self.samples_per_batch,
+                0).transpose()
+        param_right = np.repeat([param_max], self.samples_per_batch,
+                0).transpose()
         samples_old = (param_left-param_right)
          
         if inital_sample_type == "lhs":
-            samples_old = lhs(param_min.shape[0], self.samples_per_batch,
-                    criterion)
-            samples_old = samples_old*samples_old.transpose()
+            samples_old = samples_old*lhs(param_min.shape[0], self.samples_per_batch,
+                    criterion).transpose()
         elif inital_sample_type == "random" or "r":
             samples_old = samples_old*np.random.random(param_left.shape) 
         samples_old = samples_old - param_right
         samples = samples_old
 
         # Why don't we solve the problem at initial samples?
-        data_old = self.model(initial_samples)
+        data_old = self.model(samples_old)
         data = data_old
         (heur_old, proposal) = heuristic.delta_step(data_old, None)
 
@@ -125,6 +126,7 @@ class adaptiveSamples(pickleable):
 
             # samples_old = samples_new
             samples_old = samples_new
+        return (samples, data)
 
     def adaptive_chains(self):
         pass
