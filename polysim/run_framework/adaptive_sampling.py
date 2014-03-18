@@ -67,6 +67,7 @@ class adaptiveSamples(pickleable):
         # of domain and transition kernel type)
         # Calculate domain size
         param_width = param_max - param_min
+        param_center = (param_max+param_min)/2.0
         # Calculate step_size
         max_ratio = t_kernel.max_ratio
         min_ratio = t_kernel.min_ratio
@@ -79,14 +80,14 @@ class adaptiveSamples(pickleable):
                 0).transpose()
         param_right = np.repeat([param_max], self.samples_per_batch,
                 0).transpose()
-        samples_old = (param_left-param_right)
+        samples_old = (param_right-param_left)
          
         if inital_sample_type == "lhs":
             samples_old = samples_old*lhs(param_min.shape[0], self.samples_per_batch,
                     criterion).transpose()
         elif inital_sample_type == "random" or "r":
             samples_old = samples_old*np.random.random(param_left.shape) 
-        samples_old = samples_old - param_right
+        samples_old = samples_old + param_left
         samples = samples_old
 
         # Why don't we solve the problem at initial samples?
@@ -99,9 +100,15 @@ class adaptiveSamples(pickleable):
         for batch in xrange(1, self.num_batches):
             # For each of N samples_old, create N new parameter samples using
             # transition kernel and step_ratio. Call these samples samples_new.
-            step = t_kernel.step(step_ratio, param_width)
+            step = t_kernel.step(step_ratio, param_width,
+                    self.samples_per_batch)
+            # check to see if step will take you out of parameter space
+            # if heading out of bounds choose step with same length with
+            # direction heading towards the center of the domain
+            # calulcate vector to center
+            # to_center = samples_old - param_center
+            # samples_new = to_center * step_size
             samples_new = samples_old + step 
-            samples = np.concatenate((samples, samples_new), axis=1)
 
             # Solve the model for the samples_new.
             data_new = self.model(samples_new)
@@ -158,7 +165,7 @@ class transition_kernel(pickleable):
         self.min_ratio = min_ratio
         self.max_ratio = max_ratio
     
-    def step(self, step_ratio, param_width):
+    def step(self, step_ratio, param_width, samples_per_batch):
         """
         Generate ``num_samples`` new steps using ``step_ratio`` and
         ``param_width`` to calculate the ``step size``. Each step will have a
@@ -174,13 +181,14 @@ class transition_kernel(pickleable):
 
         """
         # calculate maximum step size
-        step_size = np.outer(param_width, step_ratio)
+        step_size = step_ratio*np.repeat([param_width], samples_per_batch,
+                0).transpose()
         # randomize the direction (and size)
         step = step_size*(2.0*np.random.random(step_size.shape) - 1)
         return step
 
 
-class single_dist_heuristic(pickleable):
+class rhoD_heuristic(pickleable):
     """
     We assume we know the distribution rho_D on the QoI and that the goal is to
     determine inverse regions of high probability accurately (in terms of
@@ -190,8 +198,12 @@ class single_dist_heuristic(pickleable):
     probability in D than the QoI at samples_old(k).  For example, if they are
     closer, then we can reduce the step_size(k) by 1/2.
 
+    Note: This only works well with smooth rho_D.
+
     maximum
         maximum value of rho_D on D
+    rho_D
+        probability density on D
     tolerance 
         a tolerance used to determine if two different values are close
     increase
@@ -234,15 +246,210 @@ class single_dist_heuristic(pickleable):
             # Is the heuristic NOT close?
             heur_close = np.logical_not(np.isclose(heur_diff, 0,
                 atol=self.TOL))
+            heur_max = np.isclose(heur_new, self.MAX, atol=self.TOL)
             # Is the heuristic greater/lesser?
             heur_greater = np.logical_and(heur_diff > 0, heur_close)
+            heur_greater = np.logical_or(heur_greater, heur_max)
             heur_lesser = np.logical_and(heur_diff < 0, heur_close)
 
             # Determine step size
             proposal = np.ones(heur_new.shape)
+            proposal[heur_greater] = self.decrease
+            proposal[heur_lesser] = self.increase
+            return (heur_new, proposal.transpose())
+
+
+class maxima_heuristic(pickleable):
+    """
+    We assume we know the maxima of the distribution rho_D on the QoI and that
+    the goal is to determine inverse regions of high probability accurately (in
+    terms of getting the measure correct). This class provides a method for
+    determining the proposed change in step size as follows. We check if the
+    QoI at each of the samples_new(k) are closer or farther away from a region
+    of high probability in D than the QoI at samples_old(k). For example, if
+    they are closer, then we can reduce the step_size(k) by 1/2.
+
+    maxima
+        locations of the maxima of rho_D on D
+        np.array of shape (num_maxima, mdim)
+    rho_max
+        rho_D(maxima), list of maximum values of rho_D
+    tolerance 
+        a tolerance used to determine if two different values are close
+    increase
+        the multiple to increase the step size by
+    decrease
+        the multiple to decrease the step size by
+
+    """
+
+    def __init__(self, maxima, rho_D, tolerance=1E-08, increase=2.0, 
+            decrease=0.5):
+        """
+        Initialization
+        """
+        self.MAXIMA = maxima
+        self.num_maxima = maxima.shape[0]
+        self.rho_max = rho_D(maxima)
+        self.TOL = tolerance
+        self.increase = increase
+        self.decrease = decrease
+
+    def delta_step(self, data_new, heur_old=None):
+        """
+        This method determines the proposed change in step size. 
+        
+        :param data_new: QoI for a given batch of samples 
+        :type data_new: :class:`np.array` of shape (samples_per_batch, mdim)
+        :param heur_old: heuristic evaluated at previous step
+        :rtype: tuple
+        :returns: (heur_new, proposal)
+
+        """
+        # Evaluate heuristic for new data.
+        heur_new = np.zeros((data_new.shape[0]))
+
+        for i in xrange(data_new.shape[0]):
+            # calculate distance from each of the maxima
+            vec_from_maxima = np.repeat([data_new[i,:]], self.num_maxima, 0)
+            vec_from_maxima = vec_from_maxima - self.MAXIMA
+            # weight distances by 1/rho_D(maxima)
+            dist_from_maxima = np.linalg.norm(vec_from_maxima, 2,
+                1)/self.rho_max
+            # set heur_new to be the minimum of weighted distances from maxima
+            heur_new[i] = np.min(dist_from_maxima)
+
+        if heur_old == None:
+            return (heur_new, None)
+        else:
+            heur_diff = (heur_new-heur_old)
+            # Compare to heuristic for old data.
+            # Is the heuristic NOT close?
+            heur_close = np.logical_not(np.isclose(heur_diff, 0,
+                atol=self.TOL))
+            # Is the heuristic greater/lesser?
+            heur_greater = np.logical_and(heur_diff > 0, heur_close)
+            heur_lesser = np.logical_and(heur_diff < 0, heur_close)
+            # Determine step size
+            proposal = np.ones(heur_new.shape)
+            # if further than heur_old then increase
             proposal[heur_greater] = self.increase
+            # if closer than heur_old then decrease
             proposal[heur_lesser] = self.decrease
-            return (heur_new, proposal)
+        return (heur_new, proposal)
+
+
+class maxima_mean_heuristic(pickleable):
+    """
+    We assume we know the maxima of the distribution rho_D on the QoI and that
+    the goal is to determine inverse regions of high probability accurately (in
+    terms of getting the measure correct). This class provides a method for
+    determining the proposed change in step size as follows. We check if the
+    QoI at each of the samples_new(k) are closer or farther away from a region
+    of high probability in D than the QoI at samples_old(k). For example, if
+    they are closer, then we can reduce the step_size(k) by 1/2.
+
+    maxima
+        locations of the maxima of rho_D on D
+        np.array of shape (num_maxima, mdim)
+    rho_max
+        rho_D(maxima), list of maximum values of rho_D
+    tolerance 
+        a tolerance used to determine if two different values are close
+    increase
+        the multiple to increase the step size by
+    decrease
+        the multiple to decrease the step size by
+
+    """
+
+    def __init__(self, maxima, rho_D, tolerance=1E-08, increase=2.0, 
+            decrease=0.5):
+        """
+        Initialization
+        """
+        self.MAXIMA = maxima
+        self.num_maxima = maxima.shape[0]
+        self.rho_max = rho_D(maxima)
+        self.TOL = tolerance
+        self.increase = increase
+        self.decrease = decrease
+        self.radius = None
+        self.mean = None
+        self.batch_num = 0
+
+    def reset(self):
+        """
+        Resets the the batch number and the estimates of the mean and maximum
+        distance from the mean.
+        """
+        self.radius = None
+        self.mean = None
+        self.batch_num = 0
+
+    def delta_step(self, data_new, heur_old=None):
+        """
+        This method determines the proposed change in step size. 
+        
+        :param data_new: QoI for a given batch of samples 
+        :type data_new: :class:`np.array` of shape (samples_per_batch, mdim)
+        :param heur_old: heuristic evaluated at previous step
+        :rtype: tuple
+        :returns: (heur_new, proposal)
+
+        """
+        # Evaluate heuristic for new data.
+        heur_new = np.zeros((data_new.shape[0]))
+        self.batch_num = self.batch_num + 1
+
+        for i in xrange(data_new.shape[0]):
+            # calculate distance from each of the maxima
+            vec_from_maxima = np.repeat([data_new[i,:]], self.num_maxima, 0)
+            vec_from_maxima = vec_from_maxima - self.MAXIMA
+            # weight distances by 1/rho_D(maxima)
+            dist_from_maxima = np.linalg.norm(vec_from_maxima, 2,
+                1)/self.rho_max
+            # set heur_new to be the minimum of weighted distances from maxima
+            heur_new[i] = np.min(dist_from_maxima)
+
+        if heur_old == None:
+            # calculate the mean
+            self.mean = np.mean(data_new, 0)
+            # calculate the distance from the mean
+            vec_from_mean = data_new - np.repeat([self.mean],
+                    data_new.shape[0], 0)
+            # estimate the radius of D
+            self.radius = np.max(np.linalg.norm(vec_from_mean, 2, 1))
+            return (heur_new, None)
+        else:
+            # update the estimate of the mean
+            self.mean = (self.batch_num-1)*self.mean + np.mean(data_new, 0)
+            self.mean = self.mean/self.batch_num
+            # calculate the distance from the mean
+            vec_from_mean = data_new - np.repeat([self.mean],
+                    data_new.shape[0], 0)
+            # esitmate the radius of D
+            self.radius = max(np.max(np.linalg.norm(vec_from_mean, 2, 1)),
+                    self.radius)
+            # calculate the relative change in distance
+            heur_diff = (heur_new-heur_old)
+            # normalize by the radius of D (IF POSSIBLE)
+            heur_diff = heur_diff/self.radius
+            # Compare to heuristic for old data.
+            # Is the heuristic NOT close?
+            heur_close = np.logical_not(np.isclose(heur_diff, 0,
+                atol=self.TOL))
+            # Is the heuristic greater/lesser?
+            heur_greater = np.logical_and(heur_diff > 0, heur_close)
+            heur_lesser = np.logical_and(heur_diff < 0, heur_close)
+            # Determine step size
+            proposal = np.ones(heur_new.shape)
+            # if further than heur_old then increase
+            proposal[heur_greater] = self.increase
+            # if closer than heur_old then decrease
+            proposal[heur_lesser] = self.decrease
+        return (heur_new, proposal)
+
 
 class multi_dist_heuristic(pickleable):
     """
@@ -307,7 +514,6 @@ class multi_dist_heuristic(pickleable):
         """
         # Evaluate heuristic for new data.
         heur_new = data_new
-        norm_l2 = np.norm(data_new, 2, 1)
         self.batch_num = self.batch_num + 1
 
         if heur_old == None:
@@ -316,18 +522,18 @@ class multi_dist_heuristic(pickleable):
             self.mean = np.mean(data_new, 1)
             # calculate the distance from the mean
             vec_from_mean = heur_new - np.repeat([self.mean],
-                    heur_new.shape[0])
+                    heur_new.shape[0], 0)
             # estimate the radius of D
             self.radius = np.max(np.linalg.norm(vec_from_mean, 2, 1)) 
         else:
             # update the estimate of the mean
-            self.mean = (self.batch_num-1)*self.mean + np.mean(data_new, 1)
+            self.mean = (self.batch_num-1)*self.mean + np.mean(data_new, 0)
             self.mean = self.mean/self.batch_num
             # calculate the distance from the mean
             vec_from_mean = heur_new - np.repeat([self.mean],
-                    heur_new.shape[0])
+                    heur_new.shape[0], 0)
             # esitmate the radius of D
-            self.radius = max(np.max(np.linalg.norm(vec_from_mean, 2, 1)),
+            self.radius = max(np.max(np.linalg.norm(vec_from_mean, 2, 0)),
                     self.radius)
             # calculate the relative change in QoI
             heur_diff = (heur_new-heur_old)
