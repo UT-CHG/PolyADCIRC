@@ -135,7 +135,7 @@ class adaptiveSamples(pickleable):
 
             # Save and export concatentated arrays
             if (batch+1)%(self.num_batches/4) == 0:
-                print str(batch)+"th batch of "+str(self.num_batches+1)+" batches"
+                print str(batch+1)+"th batch of "+str(self.num_batches)+" batches"
             samples = np.concatenate((samples, samples_new), axis=1)
             data = np.concatenate((data, data_new))
             mdat['samples'] = samples
