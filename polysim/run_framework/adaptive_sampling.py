@@ -216,7 +216,7 @@ class heuristic(pickleable):
         the multiple to decrease the step size by
     """
 
-    def __init__(self, tolertance=1E-08, increase=1.0, decrease=1.0):
+    def __init__(self, tolerance=1E-08, increase=1.0, decrease=1.0):
         """
         Initialization
         """
@@ -269,7 +269,7 @@ class rhoD_heuristic(heuristic):
         """
         self.MAX = maximum
         self.rho_D = rho_D
-        super(heuristic, self).__init__(tolerance, increase, decrease)
+        super(rhoD_heuristic, self).__init__(tolerance, increase, decrease)
 
     def delta_step(self, data_new, heur_old=None):
         """
