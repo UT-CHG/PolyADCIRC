@@ -83,8 +83,8 @@ class adaptiveSamples(pickleable):
         samples_old = (param_right-param_left)
          
         if inital_sample_type == "lhs":
-            samples_old = samples_old*lhs(param_min.shape[0], self.samples_per_batch,
-                    criterion).transpose()
+            samples_old = samples_old*lhs(param_min.shape[0],
+                    self.samples_per_batch, criterion).transpose()
         elif inital_sample_type == "random" or "r":
             samples_old = samples_old*np.random.random(param_left.shape) 
         samples_old = samples_old + param_left
@@ -200,8 +200,43 @@ class transition_kernel(pickleable):
         step = step_size*random_vec
         return (step, step_size)
 
+class heuristic(pickleable):
+    """
+    Parent class for heuristics to determine change in step size. This class
+    provides a method for determining the proposed change in step size. Since
+    this is simply a skeleton parent class it does not change the step size at
+    all.
+    
+    tolerance
+        a tolerance used to determine if two different values are close
+    increase
+        the multiple to increase the step size by
+    decrease
+        the multiple to decrease the step size by
+    """
 
-class rhoD_heuristic(pickleable):
+    def __init__(self, tolertance=1E-08, increase=1.0, decrease=1.0):
+        """
+        Initialization
+        """
+        self.TOL = tolerance
+        self.increase = increase
+        self.decrease = decrease
+
+    def delta_step(self, data_new, heur_old=None):
+        """
+        This method determines the proposed change in step size. 
+
+        :param data_new: QoI for a given batch of samples 
+        :type data_new: :class:`np.array` of shape (samples_per_batch, mdim)
+        :param heur_old: heuristic evaluated at previous step
+        :rtype: typle
+        :returns: (heur_new, proposal)
+
+        """
+        return (None, np.ones((data_new.shape[0],)))
+
+class rhoD_heuristic(heuristic):
     """
     We assume we know the distribution rho_D on the QoI and that the goal is to
     determine inverse regions of high probability accurately (in terms of
@@ -232,10 +267,8 @@ class rhoD_heuristic(pickleable):
         Initialization
         """
         self.MAX = maximum
-        self.TOL = tolerance
         self.rho_D = rho_D
-        self.increase = increase
-        self.decrease = decrease
+        super(heuristic, self).__init__(tolerance, increase, decrease)
 
     def delta_step(self, data_new, heur_old=None):
         """
