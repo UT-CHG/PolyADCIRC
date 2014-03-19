@@ -134,7 +134,8 @@ class adaptiveSamples(pickleable):
             step_ratio[step_ratio < min_ratio] = min_ratio
 
             # Save and export concatentated arrays
-            print str(batch)+"th batch of "+str(self.num_batches)+" batches"
+            if (batch+1)%(self.num_batches/4) == 0:
+                print str(batch)+"th batch of "+str(self.num_batches+1)+" batches"
             samples = np.concatenate((samples, samples_new), axis=1)
             data = np.concatenate((data, data_new))
             mdat['samples'] = samples
@@ -532,7 +533,7 @@ class multi_dist_heuristic(pickleable):
         if heur_old == None:
             proposal = None
             # calculate the mean
-            self.mean = np.mean(data_new, 1)
+            self.mean = np.mean(data_new, 0)
             # calculate the distance from the mean
             vec_from_mean = heur_new - np.repeat([self.mean],
                     heur_new.shape[0], 0)
@@ -546,7 +547,7 @@ class multi_dist_heuristic(pickleable):
             vec_from_mean = heur_new - np.repeat([self.mean],
                     heur_new.shape[0], 0)
             # esitmate the radius of D
-            self.radius = max(np.max(np.linalg.norm(vec_from_mean, 2, 0)),
+            self.radius = max(np.max(np.linalg.norm(vec_from_mean, 2, 1)),
                     self.radius)
             # calculate the relative change in QoI
             heur_diff = (heur_new-heur_old)
@@ -560,7 +561,7 @@ class multi_dist_heuristic(pickleable):
             heur_greater = np.logical_and(heur_diff > 0, heur_close)
             heur_lesser = np.logical_and(heur_diff < 0, heur_close)
             # Determine step size
-            proposal = np.ones(heur_new.shape)
+            proposal = np.ones(heur_diff.shape)
             proposal[heur_greater] = self.decrease
             proposal[heur_lesser] = self.increase
         return (heur_new, proposal)
