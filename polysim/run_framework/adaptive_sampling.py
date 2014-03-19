@@ -67,7 +67,6 @@ class adaptiveSamples(pickleable):
         # of domain and transition kernel type)
         # Calculate domain size
         param_width = param_max - param_min
-        param_center = (param_max+param_min)/2.0
         # Calculate step_size
         max_ratio = t_kernel.max_ratio
         min_ratio = t_kernel.min_ratio
@@ -80,6 +79,7 @@ class adaptiveSamples(pickleable):
                 0).transpose()
         param_right = np.repeat([param_max], self.samples_per_batch,
                 0).transpose()
+        param_center = (param_right+param_left)/2.0
         samples_old = (param_right-param_left)
          
         if inital_sample_type == "lhs":
@@ -100,15 +100,25 @@ class adaptiveSamples(pickleable):
         for batch in xrange(1, self.num_batches):
             # For each of N samples_old, create N new parameter samples using
             # transition kernel and step_ratio. Call these samples samples_new.
-            step = t_kernel.step(step_ratio, param_width,
+            step, step_size = t_kernel.step(step_ratio, param_width,
                     self.samples_per_batch)
             # check to see if step will take you out of parameter space
             # if heading out of bounds choose step with same length with
             # direction heading towards the center of the domain
             # calulcate vector to center
-            # to_center = samples_old - param_center
-            # samples_new = to_center * step_size
-            samples_new = samples_old + step 
+            vec_to_center = samples_old - param_center
+            # normalize the vec_to_center
+            norm = np.linalg.norm(vec_to_center , 2, 0)
+            #vec_to_center = vec_to_center/np.repeat([norm], 2, 0)
+            # mutliply by step_size
+            vec_to_center = samples_old - step_size*vec_to_center/4.0
+            # calculate propose step
+            samples_new = samples_old + step
+            # Is the new sample greater than the right limit?
+            far_right = samples_new >= param_right
+            far_left = samples_new <= param_left
+            out_of_bounds = np.logical_or(far_right, far_left)
+            samples_new[out_of_bounds] = vec_to_center[out_of_bounds]
 
             # Solve the model for the samples_new.
             data_new = self.model(samples_new)
@@ -137,7 +147,7 @@ class adaptiveSamples(pickleable):
 
     def adaptive_chains(self):
         pass
-
+   
 
 class transition_kernel(pickleable):
     """
@@ -169,8 +179,7 @@ class transition_kernel(pickleable):
         """
         Generate ``num_samples`` new steps using ``step_ratio`` and
         ``param_width`` to calculate the ``step size``. Each step will have a
-        random direction. For simplicity we constain all steps to be within a
-        ball of L_1 norm defined by ``step_ratio*param_width``.
+        random direction.
 
         :param step_ratio: define maximum step_size = ``step_ratio*param_width``
         :type step_ratio: :class:`np.array` of shape (num_samples,)
@@ -183,9 +192,13 @@ class transition_kernel(pickleable):
         # calculate maximum step size
         step_size = step_ratio*np.repeat([param_width], samples_per_batch,
                 0).transpose()
-        # randomize the direction (and size)
-        step = step_size*(2.0*np.random.random(step_size.shape) - 1)
-        return step
+        # randomize the direction
+        random_vec = 2.0*np.random.random(step_size.shape)-1
+        # normalize the random vector
+        norm = np.linalg.norm(random_vec, 2, 0)
+        random_vec = random_vec/np.repeat([norm], 2, 0)
+        step = step_size*random_vec
+        return (step, step_size)
 
 
 class rhoD_heuristic(pickleable):
