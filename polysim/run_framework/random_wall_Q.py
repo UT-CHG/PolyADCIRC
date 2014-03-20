@@ -243,7 +243,7 @@ class runSet(rmw.runSet):
         # save data
         # fix dry nodes and interpolate to obtain QoI
         self.fix_dry_nodes_nts(data)
-        for i in self.num_of_parallel_runs:
+        for i in xrange(self.num_of_parallel_runs):
             values = self.nts_data["maxele63"][:,i]
             Q[i,:] = griddata(points, values, xi)
 
