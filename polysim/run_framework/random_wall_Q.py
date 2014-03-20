@@ -241,7 +241,8 @@ class runSet(rmw.runSet):
             # Update and save
             self.update_mdict(mdict)
             self.save(mdict, save_file)
-            print str(k)+"th runs have been completed."
+            if (k+1)%(self.num_of_parallel_runs/4) == 0:
+                print str(k)+"th runs have been completed."
 
         # save data
         self.update_mdict(mdict)
