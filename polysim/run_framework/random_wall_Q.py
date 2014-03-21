@@ -169,7 +169,8 @@ class runSet(rmw.runSet):
         # Pre-allocate arrays for non-timeseries data
         nts_data = {}
         self.nts_data = nts_data
-        nts_data['maxele63'] =  np.empty((data.node_num, num_points))        
+        nts_data['maxele63'] =  np.empty((data.node_num,
+            self.num_of_parallel_runs))        
         
         # Pre-allocate arrays for QoI data
         if stations == None:
@@ -231,8 +232,13 @@ class runSet(rmw.runSet):
             devnull.close()
             # get data
             for i, kk in enumerate(range(k, stop)):
-                output.get_data_nts(kk, self.rf_dirs[i], data, self.nts_data,
-                        ["maxele.63"])
+                output.get_data_nts(i, self.rf_dirs[i], data, self.nts_data,
+                    ["maxele.63"])
+            # fix dry nodes and interpolate to obtain QoI
+            self.fix_dry_nodes_nts(data)
+            for i, kk in enumerate(range(k, stop)):
+                values = self.nts_data["maxele63"][:,i]
+                Q[kk,:] = griddata(points, values, xi)
             # Update and save
             self.update_mdict(mdict)
             self.save(mdict, save_file)
@@ -241,14 +247,6 @@ class runSet(rmw.runSet):
                 print msg+" runs have been completed."
 
         # save data
-        # fix dry nodes and interpolate to obtain QoI
-        raw_max63 = self.nts_data["maxele63"]
-        mdict["raw_max63"] = raw_max63
-        self.fix_dry_nodes_nts(data)
-        for i in xrange(num_points):
-            values = self.nts_data["maxele63"][:,i]
-            Q[i,:] = griddata(points, values, xi)
-
         self.update_mdict(mdict)
         self.save(mdict, save_file)
 
