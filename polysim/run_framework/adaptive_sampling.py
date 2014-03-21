@@ -83,11 +83,11 @@ class adaptiveSamples(pickleable):
         samples_old = (param_right-param_left)
          
         if inital_sample_type == "lhs":
-            samples_old = samples_old*lhs(param_min.shape[0],
+            samples_old *= lhs(param_min.shape[0],
                     self.samples_per_batch, criterion).transpose()
         elif inital_sample_type == "random" or "r":
-            samples_old = samples_old*np.random.random(param_left.shape) 
-        samples_old = samples_old + param_left
+            samples_old *= np.random.random(param_left.shape) 
+        samples_old += param_left
         samples = samples_old
 
         # Why don't we solve the problem at initial samples?
@@ -359,7 +359,7 @@ class maxima_heuristic(pickleable):
         for i in xrange(data_new.shape[0]):
             # calculate distance from each of the maxima
             vec_from_maxima = np.repeat([data_new[i,:]], self.num_maxima, 0)
-            vec_from_maxima = vec_from_maxima - self.MAXIMA
+            vec_from_maxima -= self.MAXIMA
             # weight distances by 1/rho_D(maxima)
             dist_from_maxima = np.linalg.norm(vec_from_maxima, 2,
                 1)/self.rho_max
@@ -452,7 +452,7 @@ class maxima_mean_heuristic(pickleable):
         for i in xrange(data_new.shape[0]):
             # calculate distance from each of the maxima
             vec_from_maxima = np.repeat([data_new[i,:]], self.num_maxima, 0)
-            vec_from_maxima = vec_from_maxima - self.MAXIMA
+            vec_from_maxima -= self.MAXIMA
             # weight distances by 1/rho_D(maxima)
             dist_from_maxima = np.linalg.norm(vec_from_maxima, 2,
                 1)/self.rho_max
@@ -471,7 +471,7 @@ class maxima_mean_heuristic(pickleable):
         else:
             # update the estimate of the mean
             self.mean = (self.batch_num-1)*self.mean + np.mean(data_new, 0)
-            self.mean = self.mean/self.batch_num
+            self.mean /= self.batch_num
             # calculate the distance from the mean
             vec_from_mean = data_new - np.repeat([self.mean],
                     data_new.shape[0], 0)
@@ -481,7 +481,7 @@ class maxima_mean_heuristic(pickleable):
             # calculate the relative change in distance
             heur_diff = (heur_new-heur_old)
             # normalize by the radius of D (IF POSSIBLE)
-            heur_diff = heur_diff/self.radius
+            heur_diff /= self.radius
             # Compare to heuristic for old data.
             # Is the heuristic NOT close?
             heur_close = np.logical_not(np.isclose(heur_diff, 0,
@@ -575,7 +575,7 @@ class multi_dist_heuristic(pickleable):
         else:
             # update the estimate of the mean
             self.mean = (self.batch_num-1)*self.mean + np.mean(data_new, 0)
-            self.mean = self.mean/self.batch_num
+            self.mean /= self.batch_num
             # calculate the distance from the mean
             vec_from_mean = heur_new - np.repeat([self.mean],
                     heur_new.shape[0], 0)

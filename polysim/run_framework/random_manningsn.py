@@ -93,13 +93,12 @@ def fix_dry_data(ts_data, data):
     :returns: ts_data
 
     """
-    mdat = np.ma.masked_not_equal(ts_data['fort61'], -99999.0)
+    mdat = np.ma.masked_equal(ts_data['fort61'], -99999.0)
 
     for k, v in enumerate(data.stations['fort61']):
         mdat[k-1, :, :] += v.bathymetry
 
-    modat = np.ma.masked_equal(ts_data['fort63'], -99999.0)
-    ts_data['fort61'] = modat.filled(0.0)
+    ts_data['fort61'] = mdat.filled(0.0)
     return ts_data
 
 def fix_dry_nodes(ts_data, data):
@@ -112,13 +111,12 @@ def fix_dry_nodes(ts_data, data):
     :returns: ts_data
 
     """
-    mdat = np.ma.masked_not_equal(ts_data['fort63'], -99999.0)
+    mdat = np.ma.masked_equal(ts_data['fort63'], -99999.0)
 
     for k, v in data.node.iteritems():
         mdat[k-1, :, :] += v.bathymetry
 
-    modat = np.ma.masked_equal(ts_data['fort63'], -99999.0)
-    ts_data['fort63'] = modat.filled(0.0)
+    ts_data['fort63'] = mdat.filled(0.0)
     return ts_data
 
 def fix_dry_nodes_nts(nts_data, data):
@@ -131,13 +129,12 @@ def fix_dry_nodes_nts(nts_data, data):
     :returns: nts_data
 
     """
-    mdat = np.ma.masked_not_equal(nts_data['maxele63'], -99999.0)
+    mdat = np.ma.masked_equal(nts_data['maxele63'], -99999.0)
 
     for k, v in data.node.iteritems():
         mdat[k-1, :] += v.bathymetry
 
-    modat = np.ma.masked_equal(nts_data['maxele63'], -99999.0)
-    nts_data['maxele63'] = modat.filled(0.0)
+    nts_data['maxele63'] = mdat.filled(0.0)
     return nts_data
 
 def convert_to_hours(time_obs):
