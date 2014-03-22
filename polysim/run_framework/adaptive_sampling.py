@@ -134,7 +134,9 @@ class adaptiveSamples(pickleable):
             step_ratio[step_ratio < min_ratio] = min_ratio
 
             # Save and export concatentated arrays
-            if (batch+1)%(self.num_batches/4) == 0:
+            if self.num_batches < 4:
+                pass
+            elif (batch+1)%(self.num_batches/4) == 0:
                 print str(batch+1)+"th batch of "+str(self.num_batches)+" batches"
             samples = np.concatenate((samples, samples_new), axis=1)
             data = np.concatenate((data, data_new))

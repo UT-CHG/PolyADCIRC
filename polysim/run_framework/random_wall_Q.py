@@ -242,8 +242,10 @@ class runSet(rmw.runSet):
             # Update and save
             self.update_mdict(mdict)
             self.save(mdict, save_file)
-            if (k+1)%(num_points/self.num_of_parallel_runs) == 0:
-                msg = str(k)+" of "+str(num_points)
+            if num_points < self.num_of_parallel_runs:
+                pass
+            elif (k+1)%(num_points/self.num_of_parallel_runs) == 0:
+                msg = str(k+1)+" of "+str(num_points)
                 print msg+" runs have been completed."
 
         # save data
