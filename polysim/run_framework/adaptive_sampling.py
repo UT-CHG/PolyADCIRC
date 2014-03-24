@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # Lindley Graham 3/10/2014
 """
 This modules contains functions for adaptive random sampling. We assume we are
@@ -15,6 +16,42 @@ import numpy as np
 import scipy.io as sio
 from polysim.pyADCIRC.basic import pickleable
 from pyDOE import lhs
+import matplotlib.pyplot as plt
+
+def in_box(data, rho_D, maximum, sample_nos=None):
+    """
+    Estimates the number of samples in high probability regions of D.
+
+    :param data: Data associated with ``samples``
+    :type data: :class:`np.ndarray`
+    :param rho_D: probability density on D
+    :type rho_D: callable function that takes a :class:`np.array` and returns a
+        :class:`np.ndarray`
+    :param list sample_nos: sample numbers to plot
+
+    """
+    if sample_nos==None:
+        sample_nos = range(data.shape[0])
+    rD = rho_D(data[sample_nos,:])
+    print "Samples in box "+str(int(sum(rD)/maximum))
+
+def in_box_many(results_list, rho_D, maximum, sample_nos_list=None):
+    """
+    Estimates the number of samples in high probability regions of D for a list of results.
+
+    :param list results_list: list of (results, data) tuples
+    :param rho_D: probability density on D
+    :type rho_D: callable function that takes a :class:`np.array` and returns a
+        :class:`np.ndarray`
+    :param list sample_nos_list: list of sample numbers to plot (list of lists)
+
+    """
+    if sample_nos_list:
+        for result, sample_nos in zip(results_list, sample_nos_list):
+            in_box(result[1], rho_D, maximum, sample_nos)
+    else:
+        for result in results_list:
+            in_box(result[1], rho_D, maximum)
 
 class adaptiveSamples(pickleable):
     """
@@ -37,6 +74,70 @@ class adaptiveSamples(pickleable):
         self.num_batches = num_batches
         self.samples_per_batch = samples_per_batch
         self.model = model
+        self.sample_batch_no = np.repeat(range(samples_per_batch), num_batches,
+                0)
+
+    def show_param_2D(self, samples, data, sample_nos=None, rho_D = None,
+            color_by_rho=True, p_true=None):
+        """
+        Plot samples in parameter space and colors them either by rho_D or by
+        sample batch number.
+
+        :param samples: Samples to plot
+        :type samples: :class:`np.ndarray`
+        :param data: Data associated with ``samples``
+        :type data: :class:`np.ndarray`
+        :param list sample_nos: sample numbers to plot
+        :param rho_D: probability density on D
+        :type rho_D: callable function that takes a :class:`np.array` and returns a
+            :class:`np.ndarray`
+        :param binary color_by_rho: flag to color by rho_D(sample) value
+        :param p_true: true parameter value
+        :type p_true: :class:`np.ndarray`
+
+        """
+        if sample_nos==None:
+            sample_nos = range(samples.shape[1])
+        if color_by_rho and rho_D:
+            rD = rho_D(data[sample_nos,:])
+        else:
+            rD = self.sample_batch_no[sample_nos]
+        plt.scatter(samples[0,sample_nos],samples[1,sample_nos],c=rD,
+                cmap=plt.cm.Oranges_r)
+        plt.colorbar()
+        if p_true:
+            plt.scatter(p_true[0], p_true[1], c='b')
+        plt.show()
+
+    def show_data_2D(self, data, sample_nos=None, rho_D=None, color_by_rho=True,
+            Q_true=None):
+        """
+        Plot samples in data space and colors them either by rho_D or by
+        sample batch number.
+
+        :param data: Data associated with ``samples``
+        :type data: :class:`np.ndarray`
+        :param list sample_nos: sample numbers to plot
+        :param rho_D: probability density on D
+        :type rho_D: callable function that takes a :class:`np.array` and returns a
+            :class:`np.ndarray`
+        :param binary color_by_rho: flag to color by rho_D(sample) value
+        :param Q_true: true parameter value
+        :type Q_true: :class:`np.ndarray`
+
+        """   
+        if sample_nos==None:
+            sample_nos = range(data.shape[0])
+        if color_by_rho and rho_D:
+            rD = rho_D(data[sample_nos,:])
+        else:
+            rD = self.sample_batch_no[sample_nos]
+        plt.scatter(data[sample_nos,0], data[sample_nos,1],c=rD,
+                cmap=plt.cm.Oranges_r)
+        plt.colorbar()
+        if Q_true:
+            plt.scatter(Q_true[0], Q_true[1], c='b')
+        plt.show()
 
     def generalized_chains(self, inital_sample_type, param_min, param_max,
             t_kernel, heuristic, savefile, criterion='center'):
