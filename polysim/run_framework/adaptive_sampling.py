@@ -86,7 +86,7 @@ class adaptiveSamples(pickleable):
             samples_old = samples_old * lhs(param_min.shape[0],
                     self.samples_per_batch, criterion).transpose()
         elif inital_sample_type == "random" or "r":
-            samples_old *= np.random.random(param_left.shape) 
+            samples_old = samples_old * np.random.random(param_left.shape) 
         samples_old = samples_old + param_left
         samples = samples_old
 
