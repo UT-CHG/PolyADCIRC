@@ -96,7 +96,7 @@ def fix_dry_data(ts_data, data):
     mdat = np.ma.masked_equal(ts_data['fort61'], -99999.0)
 
     for k, v in enumerate(data.stations['fort61']):
-        mdat[k-1, :, :] += v.bathymetry
+        mdat[k-1, :, :] = mdat[k-1, :, :] + v.bathymetry
 
     ts_data['fort61'] = mdat.filled(0.0)
     return ts_data
@@ -114,7 +114,7 @@ def fix_dry_nodes(ts_data, data):
     mdat = np.ma.masked_equal(ts_data['fort63'], -99999.0)
 
     for k, v in data.node.iteritems():
-        mdat[k-1, :, :] += v.bathymetry
+        mdat[k-1, :, :] = mdat[k-1, :, :] + v.bathymetry
 
     ts_data['fort63'] = mdat.filled(0.0)
     return ts_data
@@ -132,7 +132,7 @@ def fix_dry_nodes_nts(nts_data, data):
     mdat = np.ma.masked_equal(nts_data['maxele63'], -99999.0)
 
     for k, v in data.node.iteritems():
-        mdat[k-1, :] += v.bathymetry
+        mdat[k-1, :] = mdat [k-1, :] + v.bathymetry
 
     nts_data['maxele63'] = mdat.filled(0.0)
     return nts_data
@@ -147,7 +147,7 @@ def convert_to_hours(time_obs):
 
     """
     for k in time_obs.iterkeys():
-        time_obs[k] /= (60.0 * 60.0)
+        time_obs[k] = time_obs[k] / (60.0 * 60.0)
     return time_obs
 
 def convert_to_days(time_obs):
@@ -160,7 +160,7 @@ def convert_to_days(time_obs):
 
     """
     for k in time_obs.iterkeys():
-        time_obs[k] /= (60.0 * 60.0 * 24.0)
+        time_obs[k] = time_obs[k] / (60.0 * 60.0 * 24.0)
     return time_obs
 
 def convert_to_percent(nts_data, data):
@@ -173,7 +173,7 @@ def convert_to_percent(nts_data, data):
     :returns: nts_data
 
     """
-    nts_data['tinun63'] /= (60.0 * 60.0 * 24.0 * data.time.rnday)
+    nts_data['tinun63'] = nts_data['tinun63'] / (60.0 * 60.0 * 24.0 * data.time.rnday)
 
 def concatenate(run_data1, run_data2):
     """
