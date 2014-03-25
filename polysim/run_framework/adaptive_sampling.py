@@ -105,7 +105,7 @@ class adaptiveSamples(pickleable):
         plt.scatter(samples[0,sample_nos],samples[1,sample_nos],c=rD,
                 cmap=plt.cm.Oranges_r)
         plt.colorbar()
-        if p_true:
+        if p_true != None:
             plt.scatter(p_true[0], p_true[1], c='b')
         plt.show()
 
@@ -135,7 +135,7 @@ class adaptiveSamples(pickleable):
         plt.scatter(data[sample_nos,0], data[sample_nos,1],c=rD,
                 cmap=plt.cm.Oranges_r)
         plt.colorbar()
-        if Q_true:
+        if Q_true != None:
             plt.scatter(Q_true[0], Q_true[1], c='b')
         plt.show()
 
