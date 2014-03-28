@@ -53,6 +53,34 @@ def in_box_many(results_list, rho_D, maximum, sample_nos_list=None):
         for result in results_list:
             in_box(result[1], rho_D, maximum)
 
+def loadmat(save_file, model = None):
+    """
+    Loads data from ``save_file`` into a
+    :class:`~polysim.run_framework.adaptive_samplers.adaptiveSamples` object.
+
+    :param string save_file: file name
+    :param model: runs the model at a given set of parameter samples and returns data
+    :rtype: tuple
+    :returns: (sampler, samples, data)
+
+    """
+    # load the data from a *.mat file
+    mdat = sio.loadmat(save_file)
+    # load the samples
+    if mdat.has_key('samples'):
+        samples = mdat['samples']
+    else:
+        samples = None
+    # load the data
+    if mdat.has_key('data'):
+        data = mdat['data']
+    else:
+        data = None
+    # recreate the sampler
+    sampler = adaptiveSamples(mdat['num_batches'], mdat['samplers_per_batch'], model)
+    
+    return (sampler, samples, data)
+
 class adaptiveSamples(pickleable):
     """
     This class provides methods for adaptive sampling of parameter space to
@@ -77,8 +105,30 @@ class adaptiveSamples(pickleable):
         self.sample_batch_no = np.repeat(range(samples_per_batch), num_batches,
                 0)
 
+    def save(self, mdict, save_file):
+        """
+        Save matrices to a ``*.mat`` file for use by ``MATLAB BET`` code and
+        :meth:`~polysim.run_framework.adaptive_sampling.loadmat`
+
+        :param dict() mdict: dictonary of sampling data and sampler parameters
+        :param string save_file: file name
+
+        """
+        sio.savemat(save_file, mdict, do_compression=True)
+
+    def update_mdict(self, mdict):
+        """
+        Set up references for ``mdict``
+
+        :param dict() mdict: dictonary of sampler parameters
+
+        """
+        mdict['num_batches'] = self.num_batches
+        mdict['samples_per_batch'] = self.samples_per_batch
+        mdict['sample_batch_no'] = self.sample_batch_no
+        
     def show_param_2D(self, samples, data, sample_nos=None, rho_D = None,
-            color_by_rho=True, p_true=None):
+            color_by_rho=True, p_true=None, save=True, show=True):
         """
         Plot samples in parameter space and colors them either by rho_D or by
         sample batch number.
@@ -107,10 +157,19 @@ class adaptiveSamples(pickleable):
         plt.colorbar()
         if p_true != None:
             plt.scatter(p_true[0], p_true[1], c='b')
-        plt.show()
+        if save:
+            plt.autoscale(tight=True)
+            plt.xlabel(r'$\lambda_1$')
+            plt.ylabel(r'$\lambda_2$')
+            plt.savefig('param_samples_cs.eps',
+                    bbox_inches='tight', transparent=True, pad_inches=0)
+        if show:
+            plt.show()
+        else:
+            plt.close()
 
     def show_data_2D(self, data, sample_nos=None, rho_D=None, color_by_rho=True,
-            Q_true=None):
+            Q_true=None, save=True, show=True):
         """
         Plot samples in data space and colors them either by rho_D or by
         sample batch number.
@@ -137,7 +196,16 @@ class adaptiveSamples(pickleable):
         plt.colorbar()
         if Q_true != None:
             plt.scatter(Q_true[0], Q_true[1], c='b')
-        plt.show()
+        if save:
+            plt.autoscale(tight=True)
+            plt.xlabel(r'$q_1$')
+            plt.ylabel(r'$q_6$')
+            plt.savefig('data_samples_cs.eps',
+                    bbox_inches='tight', transparent=True, pad_inches=0)
+        if show:
+            plt.show()
+        else:
+            plt.close()
 
     def generalized_chains(self, inital_sample_type, param_min, param_max,
             t_kernel, heuristic, savefile, criterion='center'):
@@ -197,6 +265,7 @@ class adaptiveSamples(pickleable):
         (heur_old, proposal) = heuristic.delta_step(data_old, None)
 
         mdat = dict()
+        self.update_mdict(mdat)
          
         for batch in xrange(1, self.num_batches):
             # For each of N samples_old, create N new parameter samples using
@@ -243,7 +312,7 @@ class adaptiveSamples(pickleable):
             data = np.concatenate((data, data_new))
             mdat['samples'] = samples
             mdat['data'] = data
-            sio.savemat(savefile, mdat, do_compression=True)
+            self.save(mdat, savefile)
 
             # samples_old = samples_new
             samples_old = samples_new
@@ -300,7 +369,7 @@ class transition_kernel(pickleable):
         random_vec = 2.0*np.random.random(step_size.shape)-1
         # normalize the random vector
         norm = np.linalg.norm(random_vec, 2, 0)
-        random_vec = random_vec/np.repeat([norm], 2, 0)
+        random_vec = random_vec/norm
         step = step_size*random_vec
         return (step, step_size)
 
