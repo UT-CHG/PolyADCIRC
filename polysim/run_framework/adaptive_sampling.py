@@ -318,9 +318,134 @@ class adaptiveSamples(pickleable):
             samples_old = samples_new
         return (samples, data)
 
-    def adaptive_chains(self):
-        pass
-   
+    def reseed_chains(self, inital_sample_type, param_min, param_max,
+            t_kernel, heuristic, savefile, criterion='center', reseed=1):
+        """
+        Basic adaptive sampling algorithm.
+       
+        :param string inital_sample_type: type of initial sample random (or r),
+            latin hypercube(lhs), or space-filling curve(TBD)
+        :param param_min: minimum value for each parameter dimension
+        :type param_min: np.array (ndim,)
+        :param param_max: maximum value for each parameter dimension
+        :type param_max: np.array (ndim,)
+        :param t_kernel: method for creating new parameter steps using
+            given a step size based on the paramter domain size
+        :type t_kernel: :class:~`t_kernel`
+        :param function heuristic: functional that acts on the data used to
+            determine the proposed change to the ``step_size``
+        :param string savefile: filename to save samples and data
+        :param string criterion: latin hypercube criterion see 
+            `PyDOE <http://pythonhosted.org/pyDOE/randomized.html>`_
+        :param int reseed: number of times to reseed the chains
+        :rtype: tuple
+        :returns: (``parameter_samples``, ``data_samples``) where
+            ``parameter_samples`` is np.ndarray of shape (ndim, num_samples)
+            and ``data_samples`` is np.ndarray of shape (num_samples, mdim)
+
+        """
+        # Initialize Nx1 vector Step_size = something reasonable (based on size
+        # of domain and transition kernel type)
+        # Calculate domain size
+        param_width = param_max - param_min
+        # Calculate step_size
+        max_ratio = t_kernel.max_ratio
+        min_ratio = t_kernel.min_ratio
+        step_ratio = t_kernel.init_ratio
+
+        # Initiative first batch of N samples (maybe taken from latin
+        # hypercube/space-filling curve to fully explore parameter space - not
+        # necessarily random). Call these Samples_old.
+        param_left = np.repeat([param_min], self.samples_per_batch,
+                0).transpose()
+        param_right = np.repeat([param_max], self.samples_per_batch,
+                0).transpose()
+        param_center = (param_right+param_left)/2.0
+        samples_old = (param_right-param_left)
+         
+        if inital_sample_type == "lhs":
+            samples_old = samples_old * lhs(param_min.shape[0],
+                    self.samples_per_batch, criterion).transpose()
+        elif inital_sample_type == "random" or "r":
+            samples_old = samples_old * np.random.random(param_left.shape) 
+        samples_old = samples_old + param_left
+        samples = samples_old
+
+        # Why don't we solve the problem at initial samples?
+        data_old = self.model(samples_old)
+        data = data_old
+        (heur_old, proposal) = heuristic.delta_step(data_old, None)
+
+        mdat = dict()
+        self.update_mdict(mdat)
+         
+        for batch in xrange(1, self.num_batches):
+            # For each of N samples_old, create N new parameter samples using
+            # transition kernel and step_ratio. Call these samples samples_new.
+            step, step_size = t_kernel.step(step_ratio, param_width,
+                    self.samples_per_batch)
+            # check to see if step will take you out of parameter space
+            # if heading out of bounds choose step with same length with
+            # direction heading towards the center of the domain
+            # calulcate vector to center
+            vec_to_center = samples_old - param_center
+            # normalize the vec_to_center
+            norm = np.linalg.norm(vec_to_center , 2, 0)
+            #vec_to_center = vec_to_center/np.repeat([norm], 2, 0)
+            # mutliply by step_size
+            vec_to_center = samples_old - step_size*vec_to_center/4.0
+            # calculate propose step
+            samples_new = samples_old + step
+            # Is the new sample greater than the right limit?
+            far_right = samples_new >= param_right
+            far_left = samples_new <= param_left
+            out_of_bounds = np.logical_or(far_right, far_left)
+            samples_new[out_of_bounds] = vec_to_center[out_of_bounds]
+
+            # Solve the model for the samples_new.
+            data_new = self.model(samples_new)
+            
+            # Make some decision about changing step_size(k).  There are
+            # multiple ways to do this.
+            # Determine step size
+            (heur_old, proposal) = heuristic.delta_step(data_new, heur_old)
+            step_ratio = proposal*step_ratio
+            # Is the ratio greater than max?
+            step_ratio[step_ratio > max_ratio] = max_ratio
+            # Is the ratio less than min?
+            step_ratio[step_ratio < min_ratio] = min_ratio
+
+            # Save and export concatentated arrays
+            if self.num_batches < 4:
+                pass
+            elif (batch+1)%(self.num_batches/4) == 0:
+                print str(batch+1)+"th batch of "+str(self.num_batches)+" batches"
+            samples = np.concatenate((samples, samples_new), axis=1)
+            data = np.concatenate((data, data_new))
+            mdat['samples'] = samples
+            mdat['data'] = data
+            self.save(mdat, savefile)
+
+            # samples_old = samples_new
+            if self.num_batches < reseed:
+                samples_old = samples_new
+            elif (batch+1)%(self.num_batches/reseed) == 0:
+                # reseed the chains!
+                # this could be made faster  by just storing the heuristic as
+                # we go instead of recalculating it which is more accurate
+                (heur_reseed, prop_r) = heuristic.delta_step(data, None)
+                # we might want to add in something to make sure we have a
+                # space filling coverage after the reseeding
+                sort_ind = np.argsort(heur_reseed)
+                if prop_r[sort_ind[0]] == heuristic.decrease:
+                    sort_ind = sort_ind[0:self.samples_per_batch]
+                else:
+                    sort_ind = sort_ind[-1:1:-1-self.samples_per_batch]
+                samples_old = samples[:,sort_ind]
+            else:
+                samples_old = samples_new
+        return (samples, data)
+
 
 class transition_kernel(pickleable):
     """
