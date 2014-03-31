@@ -148,7 +148,7 @@ class adaptiveSamples(pickleable):
         """
         if sample_nos==None:
             sample_nos = range(samples.shape[1])
-        if color_by_rho and rho_D:
+        if color_by_rho and rho_D!=None:
             rD = rho_D(data[sample_nos,:])
         else:
             rD = self.sample_batch_no[sample_nos]
@@ -187,7 +187,7 @@ class adaptiveSamples(pickleable):
         """   
         if sample_nos==None:
             sample_nos = range(data.shape[0])
-        if color_by_rho and rho_D:
+        if color_by_rho and rho_D!=None:
             rD = rho_D(data[sample_nos,:])
         else:
             rD = self.sample_batch_no[sample_nos]
