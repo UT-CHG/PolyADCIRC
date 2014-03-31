@@ -378,7 +378,7 @@ class adaptiveSamples(pickleable):
 
         mdat = dict()
         self.update_mdict(mdat)
-         
+
         for batch in xrange(1, self.num_batches):
             # For each of N samples_old, create N new parameter samples using
             # transition kernel and step_ratio. Call these samples samples_new.
@@ -431,13 +431,14 @@ class adaptiveSamples(pickleable):
                 samples_old = samples_new
             elif (batch+1)%(self.num_batches/reseed) == 0:
                 # reseed the chains!
+                print "Reseeding at batch "+str(batch+1)+"/"+str(self.num_batches)
                 # this could be made faster  by just storing the heuristic as
                 # we go instead of recalculating it which is more accurate
                 (heur_reseed, prop_r) = heuristic.delta_step(data, None)
                 # we might want to add in something to make sure we have a
                 # space filling coverage after the reseeding
                 sort_ind = np.argsort(heur_reseed)
-                if prop_r[sort_ind[0]] == heuristic.decrease:
+                if not(heuristic.sort_ascending):
                     sort_ind = sort_ind[0:self.samples_per_batch]
                 else:
                     sort_ind = sort_ind[-1:1:-1-self.samples_per_batch]
@@ -566,6 +567,7 @@ class rhoD_heuristic(heuristic):
         """
         self.MAX = maximum
         self.rho_D = rho_D
+        self.sort_ascending = False
         super(rhoD_heuristic, self).__init__(tolerance, increase, decrease)
 
     def delta_step(self, data_new, heur_old=None):
@@ -638,6 +640,7 @@ class maxima_heuristic(pickleable):
         self.TOL = tolerance
         self.increase = increase
         self.decrease = decrease
+        self.sort_ascending = True
 
     def delta_step(self, data_new, heur_old=None):
         """
@@ -721,6 +724,7 @@ class maxima_mean_heuristic(pickleable):
         self.radius = None
         self.mean = None
         self.batch_num = 0
+        self.sort_ascending = True
 
     def reset(self):
         """
