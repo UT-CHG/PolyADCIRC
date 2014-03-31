@@ -127,8 +127,8 @@ class adaptiveSamples(pickleable):
         mdict['samples_per_batch'] = self.samples_per_batch
         mdict['sample_batch_no'] = self.sample_batch_no
         
-    def show_param_2D(self, samples, data, sample_nos=None, rho_D = None,
-            color_by_rho=True, p_true=None, save=True, show=True):
+    def show_param_2D(self, samples, data, rho_D = None, p_true=None,
+            sample_nos=None, save=True, show=True):
         """
         Plot samples in parameter space and colors them either by rho_D or by
         sample batch number.
@@ -141,14 +141,13 @@ class adaptiveSamples(pickleable):
         :param rho_D: probability density on D
         :type rho_D: callable function that takes a :class:`np.array` and returns a
             :class:`np.ndarray`
-        :param binary color_by_rho: flag to color by rho_D(sample) value
         :param p_true: true parameter value
         :type p_true: :class:`np.ndarray`
 
         """
         if sample_nos==None:
             sample_nos = range(samples.shape[1])
-        if color_by_rho and rho_D!=None:
+        if rho_D!=None:
             rD = rho_D(data[sample_nos,:])
         else:
             rD = self.sample_batch_no[sample_nos]
@@ -168,8 +167,8 @@ class adaptiveSamples(pickleable):
         else:
             plt.close()
 
-    def show_data_2D(self, data, sample_nos=None, rho_D=None, color_by_rho=True,
-            Q_true=None, save=True, show=True):
+    def show_data_2D(self, data, rho_D=None, Q_true=None, sample_nos=None,
+            save=True, show=True):
         """
         Plot samples in data space and colors them either by rho_D or by
         sample batch number.
@@ -180,14 +179,13 @@ class adaptiveSamples(pickleable):
         :param rho_D: probability density on D
         :type rho_D: callable function that takes a :class:`np.array` and returns a
             :class:`np.ndarray`
-        :param binary color_by_rho: flag to color by rho_D(sample) value
         :param Q_true: true parameter value
         :type Q_true: :class:`np.ndarray`
 
         """   
         if sample_nos==None:
             sample_nos = range(data.shape[0])
-        if color_by_rho and rho_D!=None:
+        if rho_D!=None:
             rD = rho_D(data[sample_nos,:])
         else:
             rD = self.sample_batch_no[sample_nos]
@@ -427,7 +425,7 @@ class adaptiveSamples(pickleable):
             self.save(mdat, savefile)
 
             # samples_old = samples_new
-            if self.num_batches < reseed:
+            if self.num_batches < reseed or batch+1 == self.num_batches:
                 samples_old = samples_new
             elif (batch+1)%(self.num_batches/reseed) == 0:
                 # reseed the chains!
@@ -438,11 +436,14 @@ class adaptiveSamples(pickleable):
                 # we might want to add in something to make sure we have a
                 # space filling coverage after the reseeding
                 sort_ind = np.argsort(heur_reseed)
-                if not(heuristic.sort_ascending):
+                if heuristic.sort_ascending:
                     sort_ind = sort_ind[0:self.samples_per_batch]
                 else:
-                    sort_ind = sort_ind[-1:1:-1-self.samples_per_batch]
+                    max_ind = range(len(sort_ind)-1,
+                            len(sort_ind)-self.samples_per_batch-1, -1)
+                    sort_ind = sort_ind[max_ind]
                 samples_old = samples[:,sort_ind]
+                heur_old = heur_reseed[sort_ind]
             else:
                 samples_old = samples_new
         return (samples, data)
@@ -782,7 +783,7 @@ class maxima_mean_heuristic(pickleable):
             # calculate the relative change in distance
             heur_diff = (heur_new-heur_old)
             # normalize by the radius of D (IF POSSIBLE)
-            heur_diff = heur_diff / self.radius
+            heur_diff = heur_diff #/ self.radius
             # Compare to heuristic for old data.
             # Is the heuristic NOT close?
             heur_close = np.logical_not(np.isclose(heur_diff, 0,
@@ -886,7 +887,7 @@ class multi_dist_heuristic(pickleable):
             # calculate the relative change in QoI
             heur_diff = (heur_new-heur_old)
             # normalize by the radius of D
-            heur_diff = np.linalg.norm(vec_from_mean, 2, 1)/self.radius
+            heur_diff = np.linalg.norm(vec_from_mean, 2, 1)#/self.radius
             # Compare to heuristic for old data.
             # Is the heuristic NOT close?
             heur_close = np.logical_not(np.isclose(heur_diff, 0,
