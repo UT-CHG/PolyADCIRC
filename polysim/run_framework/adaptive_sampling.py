@@ -77,7 +77,8 @@ def loadmat(save_file, model = None):
     else:
         data = None
     # recreate the sampler
-    sampler = adaptiveSamples(mdat['num_batches'], mdat['samplers_per_batch'], model)
+    print "I HAZ BUG AND WILL FAIL"
+    sampler = adaptiveSamples(mdat['num_batches'], mdat['samples_per_batch'], model)
     
     return (sampler, samples, data)
 
