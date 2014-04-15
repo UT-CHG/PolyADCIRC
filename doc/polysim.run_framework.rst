@@ -9,6 +9,14 @@ run_framework Package
     :undoc-members:
     :show-inheritance:
 
+:mod:`adaptive_sampling` Module
+-------------------------------
+
+.. automodule:: polysim.run_framework.adaptive_sampling
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 :mod:`domain` Module
 --------------------
 
@@ -37,6 +45,14 @@ run_framework Package
 -------------------------
 
 .. automodule:: polysim.run_framework.random_wall
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+:mod:`random_wall_Q` Module
+---------------------------
+
+.. automodule:: polysim.run_framework.random_wall_Q
     :members:
     :undoc-members:
     :show-inheritance:

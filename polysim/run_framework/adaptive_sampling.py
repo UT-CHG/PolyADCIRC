@@ -399,6 +399,18 @@ class adaptiveSamples(pickleable):
             far_right = samples_new >= param_right
             far_left = samples_new <= param_left
             out_of_bounds = np.logical_or(far_right, far_left)
+            # check to see if leaves the domain
+            # if leaves the domain
+            # truncate the box so that it stays in the domain
+            # step = (right-left)*(1+.5*random_vec) + left
+            # if to the left
+            # calcuate right based on step_size
+            # right = samples_old + param_width*step_size
+            # step = (right-param_left)*np.random.random() + param_left
+            # if to right
+            # calculate left based on step_size
+            # left = samples_old - param_width*step_size
+            # step = (leff-param_right)*np.random.random() + left
             samples_new[out_of_bounds] = vec_to_center[out_of_bounds]
 
             # Solve the model for the samples_new.
@@ -495,9 +507,6 @@ class transition_kernel(pickleable):
                 0).transpose()
         # randomize the direction
         random_vec = 2.0*np.random.random(step_size.shape)-1
-        # normalize the random vector
-        norm = np.linalg.norm(random_vec, 2, 0)
-        random_vec = random_vec/norm
         step = step_size*random_vec
         return (step, step_size)
 
