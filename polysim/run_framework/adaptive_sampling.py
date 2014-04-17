@@ -247,7 +247,6 @@ class adaptiveSamples(pickleable):
                 0).transpose()
         param_right = np.repeat([param_max], self.samples_per_batch,
                 0).transpose()
-        param_center = (param_right+param_left)/2.0
         samples_old = (param_right-param_left)
          
         if inital_sample_type == "lhs":
@@ -269,26 +268,9 @@ class adaptiveSamples(pickleable):
         for batch in xrange(1, self.num_batches):
             # For each of N samples_old, create N new parameter samples using
             # transition kernel and step_ratio. Call these samples samples_new.
-            step, step_size = t_kernel.step(step_ratio, param_width,
-                    self.samples_per_batch)
-            # check to see if step will take you out of parameter space
-            # if heading out of bounds choose step with same length with
-            # direction heading towards the center of the domain
-            # calulcate vector to center
-            vec_to_center = samples_old - param_center
-            # normalize the vec_to_center
-            norm = np.linalg.norm(vec_to_center , 2, 0)
-            #vec_to_center = vec_to_center/np.repeat([norm], 2, 0)
-            # mutliply by step_size
-            vec_to_center = samples_old - step_size*vec_to_center/4.0
-            # calculate propose step
-            samples_new = samples_old + step
-            # Is the new sample greater than the right limit?
-            far_right = samples_new >= param_right
-            far_left = samples_new <= param_left
-            out_of_bounds = np.logical_or(far_right, far_left)
-            samples_new[out_of_bounds] = vec_to_center[out_of_bounds]
-
+            samples_new = t_kernel.step(step_ratio, param_width,
+                    param_left, param_right, samples_old)
+            
             # Solve the model for the samples_new.
             data_new = self.model(samples_new)
             
@@ -343,6 +325,7 @@ class adaptiveSamples(pickleable):
             and ``data_samples`` is np.ndarray of shape (num_samples, mdim)
 
         """
+        pass
         # Initialize Nx1 vector Step_size = something reasonable (based on size
         # of domain and transition kernel type)
         # Calculate domain size
@@ -359,7 +342,6 @@ class adaptiveSamples(pickleable):
                 0).transpose()
         param_right = np.repeat([param_max], self.samples_per_batch,
                 0).transpose()
-        param_center = (param_right+param_left)/2.0
         samples_old = (param_right-param_left)
          
         if inital_sample_type == "lhs":
@@ -381,38 +363,9 @@ class adaptiveSamples(pickleable):
         for batch in xrange(1, self.num_batches):
             # For each of N samples_old, create N new parameter samples using
             # transition kernel and step_ratio. Call these samples samples_new.
-            step, step_size = t_kernel.step(step_ratio, param_width,
-                    self.samples_per_batch)
-            # check to see if step will take you out of parameter space
-            # if heading out of bounds choose step with same length with
-            # direction heading towards the center of the domain
-            # calulcate vector to center
-            vec_to_center = samples_old - param_center
-            # normalize the vec_to_center
-            norm = np.linalg.norm(vec_to_center , 2, 0)
-            #vec_to_center = vec_to_center/np.repeat([norm], 2, 0)
-            # mutliply by step_size
-            vec_to_center = samples_old - step_size*vec_to_center/4.0
-            # calculate propose step
-            samples_new = samples_old + step
-            # Is the new sample greater than the right limit?
-            far_right = samples_new >= param_right
-            far_left = samples_new <= param_left
-            out_of_bounds = np.logical_or(far_right, far_left)
-            # check to see if leaves the domain
-            # if leaves the domain
-            # truncate the box so that it stays in the domain
-            # step = (right-left)*(1+.5*random_vec) + left
-            # if to the left
-            # calcuate right based on step_size
-            # right = samples_old + param_width*step_size
-            # step = (right-param_left)*np.random.random() + param_left
-            # if to right
-            # calculate left based on step_size
-            # left = samples_old - param_width*step_size
-            # step = (leff-param_right)*np.random.random() + left
-            samples_new[out_of_bounds] = vec_to_center[out_of_bounds]
-
+            samples_new = t_kernel.step(step_ratio, param_width,
+                    samples_old)
+            
             # Solve the model for the samples_new.
             data_new = self.model(samples_new)
             
@@ -488,7 +441,8 @@ class transition_kernel(pickleable):
         self.min_ratio = min_ratio
         self.max_ratio = max_ratio
     
-    def step(self, step_ratio, param_width, samples_per_batch):
+    def step(self, step_ratio, param_width, param_left, param_right,
+            samples_old): 
         """
         Generate ``num_samples`` new steps using ``step_ratio`` and
         ``param_width`` to calculate the ``step size``. Each step will have a
@@ -498,17 +452,33 @@ class transition_kernel(pickleable):
         :type step_ratio: :class:`np.array` of shape (num_samples,)
         :param param_width: width of the parameter domain
         :type param_width: np.array (ndim,)
+        :param samples_old: Parameter samples from the previous step.
+        :type samples_old: :class:`~numpy.ndarray` of shape (ndim, num_samples)
         :rtype: :class:`np.array` of shape (ndim, num_samples)
-        :returns: step
+        :returns: samples_new
 
         """
+        samples_per_batch = samples_old.shape[-1]
         # calculate maximum step size
         step_size = step_ratio*np.repeat([param_width], samples_per_batch,
                 0).transpose()
-        # randomize the direction
-        random_vec = 2.0*np.random.random(step_size.shape)-1
-        step = step_size*random_vec
-        return (step, step_size)
+        # check to see if step will take you out of parameter space
+        # calculate maximum proposed step
+        samples_right = samples_old + 0.5*step_size
+        samples_left = samples_old - 0.5*step_size
+        # Is the new sample greater than the right limit?
+        far_right = samples_right >= param_right
+        far_left = samples_left <= param_left
+        # If the samples could leave the domain then truncate the box defining
+        # the step_size
+        samples_right[far_right] = param_right[far_right]
+        samples_left[far_left] = param_left[far_left]
+        samples_width = samples_right-samples_left
+        samples_center = (samples_right+samples_left)/2.0
+        samples_new = samples_width * np.random.random(samples_old.shape)
+        samples_new = samples_new + samples_left
+        
+        return samples_new
 
 class heuristic(pickleable):
     """
