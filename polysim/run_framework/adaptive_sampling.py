@@ -248,6 +248,7 @@ class adaptiveSamples(pickleable):
         param_right = np.repeat([param_max], self.samples_per_batch,
                 0).transpose()
         samples_old = (param_right-param_left)
+        all_step_ratios = step_ratio*np.ones(self.samples_per_batch)
          
         if inital_sample_type == "lhs":
             samples_old = samples_old * lhs(param_min.shape[0],
@@ -291,13 +292,15 @@ class adaptiveSamples(pickleable):
                 print str(batch+1)+"th batch of "+str(self.num_batches)+" batches"
             samples = np.concatenate((samples, samples_new), axis=1)
             data = np.concatenate((data, data_new))
+            all_step_ratios = np.concatenate((all_step_ratios, step_ratio))
+            mdat['step_ratios'] = all_step_ratios
             mdat['samples'] = samples
             mdat['data'] = data
             self.save(mdat, savefile)
 
             # samples_old = samples_new
             samples_old = samples_new
-        return (samples, data)
+        return (samples, data, all_step_ratios)
 
     def reseed_chains(self, inital_sample_type, param_min, param_max,
             t_kernel, heuristic, savefile, criterion='center', reseed=1):
@@ -329,90 +332,50 @@ class adaptiveSamples(pickleable):
         # Initialize Nx1 vector Step_size = something reasonable (based on size
         # of domain and transition kernel type)
         # Calculate domain size
-        param_width = param_max - param_min
         # Calculate step_size
-        max_ratio = t_kernel.max_ratio
-        min_ratio = t_kernel.min_ratio
-        step_ratio = t_kernel.init_ratio
 
         # Initiative first batch of N samples (maybe taken from latin
         # hypercube/space-filling curve to fully explore parameter space - not
         # necessarily random). Call these Samples_old.
-        param_left = np.repeat([param_min], self.samples_per_batch,
-                0).transpose()
-        param_right = np.repeat([param_max], self.samples_per_batch,
-                0).transpose()
-        samples_old = (param_right-param_left)
-         
-        if inital_sample_type == "lhs":
-            samples_old = samples_old * lhs(param_min.shape[0],
-                    self.samples_per_batch, criterion).transpose()
-        elif inital_sample_type == "random" or "r":
-            samples_old = samples_old * np.random.random(param_left.shape) 
-        samples_old = samples_old + param_left
-        samples = samples_old
 
-        # Why don't we solve the problem at initial samples?
-        data_old = self.model(samples_old)
-        data = data_old
-        (heur_old, proposal) = heuristic.delta_step(data_old, None)
 
-        mdat = dict()
-        self.update_mdict(mdat)
+        # Solve the problem at initial samples
 
-        for batch in xrange(1, self.num_batches):
-            # For each of N samples_old, create N new parameter samples using
-            # transition kernel and step_ratio. Call these samples samples_new.
-            samples_new = t_kernel.step(step_ratio, param_width,
-                    samples_old)
-            
-            # Solve the model for the samples_new.
-            data_new = self.model(samples_new)
-            
-            # Make some decision about changing step_size(k).  There are
-            # multiple ways to do this.
-            # Determine step size
-            (heur_old, proposal) = heuristic.delta_step(data_new, heur_old)
-            step_ratio = proposal*step_ratio
-            # Is the ratio greater than max?
-            step_ratio[step_ratio > max_ratio] = max_ratio
-            # Is the ratio less than min?
-            step_ratio[step_ratio < min_ratio] = min_ratio
+        # For each of N samples_old, create N new parameter samples using
+        # transition kernel and step_ratio. Call these samples samples_new.
 
-            # Save and export concatentated arrays
-            if self.num_batches < 4:
-                pass
-            elif (batch+1)%(self.num_batches/4) == 0:
-                print str(batch+1)+"th batch of "+str(self.num_batches)+" batches"
-            samples = np.concatenate((samples, samples_new), axis=1)
-            data = np.concatenate((data, data_new))
-            mdat['samples'] = samples
-            mdat['data'] = data
-            self.save(mdat, savefile)
+        # Solve the model for the samples_new.
 
-            # samples_old = samples_new
-            if self.num_batches < reseed or batch+1 == self.num_batches:
-                samples_old = samples_new
-            elif (batch+1)%(self.num_batches/reseed) == 0:
-                # reseed the chains!
-                print "Reseeding at batch "+str(batch+1)+"/"+str(self.num_batches)
-                # this could be made faster  by just storing the heuristic as
-                # we go instead of recalculating it which is more accurate
-                (heur_reseed, prop_r) = heuristic.delta_step(data, None)
-                # we might want to add in something to make sure we have a
-                # space filling coverage after the reseeding
-                sort_ind = np.argsort(heur_reseed)
-                if heuristic.sort_ascending:
-                    sort_ind = sort_ind[0:self.samples_per_batch]
-                else:
-                    max_ind = range(len(sort_ind)-1,
-                            len(sort_ind)-self.samples_per_batch-1, -1)
-                    sort_ind = sort_ind[max_ind]
-                samples_old = samples[:,sort_ind]
-                heur_old = heur_reseed[sort_ind]
-            else:
-                samples_old = samples_new
-        return (samples, data)
+        # Make some decision about changing step_size(k).  There are
+        # multiple ways to do this.
+        # Determine step size
+        # Is the ratio greater than max?
+        # Is the ratio less than min?
+
+        # Save and export concatentated arrays
+
+        # Make a decision about reseeding the chains
+        #if self.num_batches < reseed or batch+1 == self.num_batches:
+        #samples_old = samples_new
+        #elif (batch+1)%(self.num_batches/reseed) == 0:
+        ## reseed the chains!
+        #print "Reseeding at batch "+str(batch+1)+"/"+str(self.num_batches)
+        ## this could be made faster  by just storing the heuristic as
+        ## we go instead of recalculating it which is more accurate
+        #(heur_reseed, prop_r) = heuristic.delta_step(data, None)
+        ## we might want to add in something to make sure we have a
+        ## space filling coverage after the reseeding
+        #sort_ind = np.argsort(heur_reseed)
+        #if heuristic.sort_ascending:
+        #sort_ind = sort_ind[0:self.samples_per_batch]
+        #else:
+        #max_ind = range(len(sort_ind)-1,
+        #len(sort_ind)-self.samples_per_batch-1, -1)
+        #sort_ind = sort_ind[max_ind]
+        #samples_old = samples[:,sort_ind]
+        #heur_old = heur_reseed[sort_ind]
+        #else:
+        #samples_old = samples_new
 
 
 class transition_kernel(pickleable):
