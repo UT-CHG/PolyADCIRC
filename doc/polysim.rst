@@ -1,13 +1,5 @@
-polysim Package
+polysim package
 ===============
-
-:mod:`polysim` Package
-----------------------
-
-.. automodule:: polysim.__init__
-    :members:
-    :undoc-members:
-    :show-inheritance:
 
 Subpackages
 -----------
@@ -18,3 +10,10 @@ Subpackages
     polysim.pyGriddata
     polysim.run_framework
 
+Module contents
+---------------
+
+.. automodule:: polysim
+    :members:
+    :undoc-members:
+    :show-inheritance:

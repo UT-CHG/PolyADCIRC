@@ -1,99 +1,102 @@
-pyADCIRC Package
-================
+polysim.pyADCIRC package
+========================
 
-:mod:`pyADCIRC` Package
------------------------
+Submodules
+----------
 
-.. automodule:: polysim.pyADCIRC
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-:mod:`basic` Module
--------------------
+polysim.pyADCIRC.basic module
+-----------------------------
 
 .. automodule:: polysim.pyADCIRC.basic
     :members:
     :undoc-members:
     :show-inheritance:
 
-:mod:`convert_fort14_to_fort13` Module
---------------------------------------
+polysim.pyADCIRC.convert_fort14_to_fort13 module
+------------------------------------------------
 
 .. automodule:: polysim.pyADCIRC.convert_fort14_to_fort13
     :members:
     :undoc-members:
     :show-inheritance:
 
-:mod:`flag_fort14` Module
--------------------------
+polysim.pyADCIRC.flag_fort14 module
+-----------------------------------
 
 .. automodule:: polysim.pyADCIRC.flag_fort14
     :members:
     :undoc-members:
     :show-inheritance:
 
-:mod:`fort13_management` Module
--------------------------------
+polysim.pyADCIRC.fort13_management module
+-----------------------------------------
 
 .. automodule:: polysim.pyADCIRC.fort13_management
     :members:
     :undoc-members:
     :show-inheritance:
 
-:mod:`fort14_management` Module
--------------------------------
+polysim.pyADCIRC.fort14_management module
+-----------------------------------------
 
 .. automodule:: polysim.pyADCIRC.fort14_management
     :members:
     :undoc-members:
     :show-inheritance:
 
-:mod:`fort15_management` Module
--------------------------------
+polysim.pyADCIRC.fort15_management module
+-----------------------------------------
 
 .. automodule:: polysim.pyADCIRC.fort15_management
     :members:
     :undoc-members:
     :show-inheritance:
 
-:mod:`fort1920_management` Module
----------------------------------
+polysim.pyADCIRC.fort1920_management module
+-------------------------------------------
 
 .. automodule:: polysim.pyADCIRC.fort1920_management
     :members:
     :undoc-members:
     :show-inheritance:
 
-:mod:`output` Module
---------------------
+polysim.pyADCIRC.output module
+------------------------------
 
 .. automodule:: polysim.pyADCIRC.output
     :members:
     :undoc-members:
     :show-inheritance:
 
-:mod:`plotADCIRC` Module
-------------------------
+polysim.pyADCIRC.plotADCIRC module
+----------------------------------
 
 .. automodule:: polysim.pyADCIRC.plotADCIRC
     :members:
     :undoc-members:
     :show-inheritance:
 
-:mod:`prep_management` Module
------------------------------
+polysim.pyADCIRC.prep_management module
+---------------------------------------
 
 .. automodule:: polysim.pyADCIRC.prep_management
     :members:
     :undoc-members:
     :show-inheritance:
 
-:mod:`volume` Module
---------------------
+polysim.pyADCIRC.volume module
+------------------------------
 
 .. automodule:: polysim.pyADCIRC.volume
     :members:
     :undoc-members:
     :show-inheritance:
 
+
+Module contents
+---------------
+
+.. automodule:: polysim.pyADCIRC
+    :members:
+    :undoc-members:
+    :show-inheritance:

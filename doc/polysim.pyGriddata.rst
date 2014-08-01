@@ -1,59 +1,62 @@
-pyGriddata Package
-==================
+polysim.pyGriddata package
+==========================
 
-:mod:`pyGriddata` Package
--------------------------
+Submodules
+----------
 
-.. automodule:: polysim.pyGriddata
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-:mod:`file_management` Module
------------------------------
+polysim.pyGriddata.file_management module
+-----------------------------------------
 
 .. automodule:: polysim.pyGriddata.file_management
     :members:
     :undoc-members:
     :show-inheritance:
 
-:mod:`gridObject` Module
-------------------------
+polysim.pyGriddata.gridObject module
+------------------------------------
 
 .. automodule:: polysim.pyGriddata.gridObject
     :members:
     :undoc-members:
     :show-inheritance:
 
-:mod:`manufacture_gap` Module
------------------------------
+polysim.pyGriddata.manufacture_gap module
+-----------------------------------------
 
 .. automodule:: polysim.pyGriddata.manufacture_gap
     :members:
     :undoc-members:
     :show-inheritance:
 
-:mod:`prep_mesh` Module
------------------------
+polysim.pyGriddata.prep_mesh module
+-----------------------------------
 
 .. automodule:: polysim.pyGriddata.prep_mesh
     :members:
     :undoc-members:
     :show-inheritance:
 
-:mod:`table_management` Module
-------------------------------
+polysim.pyGriddata.table_management module
+------------------------------------------
 
 .. automodule:: polysim.pyGriddata.table_management
     :members:
     :undoc-members:
     :show-inheritance:
 
-:mod:`table_to_mesh_map` Module
--------------------------------
+polysim.pyGriddata.table_to_mesh_map module
+-------------------------------------------
 
 .. automodule:: polysim.pyGriddata.table_to_mesh_map
     :members:
     :undoc-members:
     :show-inheritance:
 
+
+Module contents
+---------------
+
+.. automodule:: polysim.pyGriddata
+    :members:
+    :undoc-members:
+    :show-inheritance:
