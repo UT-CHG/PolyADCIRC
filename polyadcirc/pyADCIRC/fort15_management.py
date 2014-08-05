@@ -5,7 +5,7 @@ fort15_management handles the reading/writing of ``fort.15`` formatted files
 
 import numpy as np
 import os, re, math
-import polysim.pyADCIRC.basic as basic
+import polyadcirc.pyADCIRC.basic as basic
 
 filetype = {'fort61':(True, 1), 'fort62':(True, 2), 'fort63':(False, 1),
                'tinun63':(False, 1), 'maxele63':(False, 1), 
@@ -17,7 +17,7 @@ filetype = {'fort61':(True, 1), 'fort62':(True, 2), 'fort63':(False, 1),
 def read_recording_data(data, path = None):
     """
     Reads in ``fort.15`` and stores the following in data as a
-    :class:`~polysim.pyADCIRC.basic.time` object
+    :class:`~polyadcirc.pyADCIRC.basic.time` object
     (``DT``, ``STATIM``, ``RNDAY``, ``DRAMP``)
 
     Calulcates and stores:
@@ -25,12 +25,12 @@ def read_recording_data(data, path = None):
         * recording[key] = (meas_locs, total_obs, irtype)
         * stations[key] = list() of locations
 
-    :type data: :class:`~polysim.run_framework.domain`
-    :param data: object to store reference to :class:`~polysim.pyADCIRC.basic.time`
+    :type data: :class:`~polyadcirc.run_framework.domain`
+    :param data: object to store reference to :class:`~polyadcirc.pyADCIRC.basic.time`
     :type path: string or None
     :param path: directory containing ``fort.15`` file 
     :return: reference to ``data.recording`` and ``data.stations``
-    :rtype: :class:`~polysim.pyADCIRC.basic.time`
+    :rtype: :class:`~polyadcirc.pyADCIRC.basic.time`
 
     """
     if path == None:
@@ -98,7 +98,7 @@ def _read_record(fid, key, line, data):
     :param line: array of parameters read from ``fort.15`` file
     :type line: :class:``np.array``
     :param data: object to store mesh specific data
-    :type data: :class:``~polysim.run_framework.domain``
+    :type data: :class:``~polyadcirc.run_framework.domain``
     :rtype: string
     :returns: station type description
 
@@ -141,7 +141,7 @@ def _read_record7(fid, key1, key2, line, data):
     :param line: array of parameters read from ``fort.15`` file
     :type line: :class:``np.array``
     :param data: object to store mesh specific data
-    :type data: :class:``~polysim.run_framework.domain``
+    :type data: :class:``~polyadcirc.run_framework.domain``
     :rtype: string
     :returns: station type description
 
@@ -256,7 +256,7 @@ def trim_locations(flag, subdomain_path, locs):
 
     :param int flag: type of subdomain 0 - ellipse, 1 - circle
     :param string subdomain_path: subdomain dir containing ``fort.15`` file
-    :param list() locs: list of :class:`~polysim.pyADCIRC.basic.location` objects
+    :param list() locs: list of :class:`~polyadcirc.pyADCIRC.basic.location` objects
     :rtype: list()
     :returns: list of locations inside the subdomain
 
@@ -271,7 +271,7 @@ def trim_locations_circle(subdomain_path, locs):
     Remove locations outside of the circular subdomain from locs
 
     :param string subdomain_path: subdomain dir containing ``fort.15`` file
-    :param list() locs: list of :class:`~polysim.pyADCIRC.basic.location` objects
+    :param list() locs: list of :class:`~polyadcirc.pyADCIRC.basic.location` objects
     :rtype: list()
     :returns: list of locations inside the subdomain
 
@@ -291,7 +291,7 @@ def trim_locations_ellipse(subdomain_path, locs):
     Remove locations outside of the elliptical subdomain from locs
 
     :param string subdomain_path: subdomain dir containing ``fort.15`` file
-    :param list() locs: list of :class:`~polysim.pyADCIRC.basic.location` objects
+    :param list() locs: list of :class:`~polyadcirc.pyADCIRC.basic.location` objects
     :rtype: list()
     :returns: list of locations inside the subdomain
 
@@ -342,7 +342,7 @@ def _write_record(fid, key, description, data):
     :param line: array of parameters read from ``fort.15`` file
     :type line: :class:``np.array``
     :param data: object to store mesh specific data
-    :type data: :class:``~polysim.run_framework.domain`` or similar object
+    :type data: :class:``~polyadcirc.run_framework.domain`` or similar object
 
     """
     fid.write(' {:<35} {}{}'.format(len(data.stations[key]), '!',

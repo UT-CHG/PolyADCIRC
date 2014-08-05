@@ -1,6 +1,6 @@
 # Lindley Graham 3/27/2013 
 """
-This module :mod:`~polysim.pyADCIRC.fort13_management` handles the reading/writing
+This module :mod:`~polyadcirc.pyADCIRC.fort13_management` handles the reading/writing
 of ``fort.13`` formatted files
 """
 
@@ -41,8 +41,8 @@ def read_nodal_attr(data, path = None, file_name = 'fort.13'):
     Load in nodal attributes from a ``*.13`` file (only does Manning's n for now)
     and return a dictonary (like a MATLAB struct) with these attributes).
 
-    :type data: :class:`polysim.run_framework.domain`
-    :param data: the :class:`polysim.run_framework.domain` to which the nodal attribute information will be added
+    :type data: :class:`polyadcirc.run_framework.domain`
+    :param data: the :class:`polyadcirc.run_framework.domain` to which the nodal attribute information will be added
     :type path: string or None
     :param path: the directory containing the ``fort.13`` to be read in
     :type file_name: string
@@ -94,13 +94,13 @@ def read_default(data, path = None, file_name = 'fort.13'):
     """
     Read in default manningsn from a ``*.13`` file and update data accordingly
 
-    :type data: :class:`polysim.run_framework.domain`
+    :type data: :class:`polyadcirc.run_framework.domain`
     :param data: object in which to store default value
     :type path: string or None
     :param path: directory containing ``file_name``
     :param string file_name: file name
-    :rtype: :class:`polysim.run_framework.domain`
-    :return: a reference to the :class:`polysim.run_framework.domain` object containing the default
+    :rtype: :class:`polyadcirc.run_framework.domain`
+    :return: a reference to the :class:`polyadcirc.run_framework.domain` object containing the default
         value
 
     """

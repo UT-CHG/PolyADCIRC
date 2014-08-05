@@ -5,15 +5,15 @@ fort14_management handles the reading/writing of fort.14 formatted files
 
 import numpy as np
 import glob, os
-import polysim.pyADCIRC.flag_fort14 as flag_fort14
-import polysim.pyADCIRC.basic as basic
+import polyadcirc.pyADCIRC.flag_fort14 as flag_fort14
+import polyadcirc.pyADCIRC.basic as basic
 
 def clean(grid_object, folder_name = None):
     """
     Removes all except for the most recent ``*.14`` files in ``folder_name`` or 
     the current working direcory
 
-    :param grid_object: :class:`~polysim.pyGriddata.gridObject.gridInfo`
+    :param grid_object: :class:`~polyadcirc.pyGriddata.gridObject.gridInfo`
     :param string folder_name: folder to clean
     :rtype: list()
     :return: list of fort.14 files in ``folder_name``
@@ -39,7 +39,7 @@ def flag(grid_file_name = "fort.14", avg_scheme = 2):
     :param string grid_file_name: name of ``fort.14`` formatted file
     :param int avg_scheme: averaging scheme flag
 
-    See :meth:`~polysim.pyADCIRC.flag_fort14.flag_fort14`
+    See :meth:`~polyadcirc.pyADCIRC.flag_fort14.flag_fort14`
     """
     flag_fort14.flag_fort14(grid_file_name, avg_scheme)
 
@@ -50,7 +50,7 @@ def flag_go(grid, avg_scheme = 2):
     :param grid: :class:`gridInfo`
     :param int avg_scheme: averaging scheme flag
 
-    See :meth:`~polysim.pyADCIRC.flag_fort14.flag_fort14`
+    See :meth:`~polyadcirc.pyADCIRC.flag_fort14.flag_fort14`
 
     """
     flag_fort14.flag_fort14_go(grid, avg_scheme)
@@ -71,7 +71,7 @@ def read_spatial_grid(data, path = None, make_domain_map = False):
     """ 
     Reads in a ``fort.14`` file in ``path`` and updates data
 
-    :type data: :class:`polysim.run_framework.domain`
+    :type data: :class:`polyadcirc.run_framework.domain`
     :param data: python object to save the ``fort.14`` data to
     :type path: string or None
     :param path: path to the``fort.14`` fortmatted file
@@ -119,7 +119,7 @@ def update(data, bathymetry = None, path = None, file_name = 'fort.14'):
     Write out bathymetry in data to ``fort.14`` formated file, by updating
     path/file_name accordingly
 
-    :type data: :class:`polysim.run_framework.domain`
+    :type data: :class:`polyadcirc.run_framework.domain`
     :param data: python object to save the ``fort.14`` data to
     :type bathymetry: array or None
     :param bathymetry: if None then use the bathymetry in ``data``

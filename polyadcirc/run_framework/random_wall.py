@@ -6,19 +6,19 @@ of processors allocated by the submission script
 """
 import numpy as np
 import glob, os, subprocess, shutil 
-import polysim.pyADCIRC.fort13_management as f13
-import polysim.pyADCIRC.fort14_management as f14
-import polysim.run_framework.random_manningsn as rmn
-import polysim.pyGriddata.table_to_mesh_map as tmm
-import polysim.pyADCIRC.plotADCIRC as plot
-import polysim.pyADCIRC.output as output
+import polyadcirc.pyADCIRC.fort13_management as f13
+import polyadcirc.pyADCIRC.fort14_management as f14
+import polyadcirc.run_framework.random_manningsn as rmn
+import polyadcirc.pyGriddata.table_to_mesh_map as tmm
+import polyadcirc.pyADCIRC.plotADCIRC as plot
+import polyadcirc.pyADCIRC.output as output
 import scipy.io as sio
 
 def loadmat(save_file, base_dir, grid_dir, save_dir, basis_dir):
     """
     Loads data from ``save_file`` into a
-    :class:`~polysim.run_framework.random_manningsn.runSet` object. Reconstructs
-    :class:`~polysim.run_framework.random_manningsn.domain`. Fixes dry data if
+    :class:`~polyadcirc.run_framework.random_manningsn.runSet` object. Reconstructs
+    :class:`~polyadcirc.run_framework.random_manningsn.domain`. Fixes dry data if
     it was recorded.
 
     :param string save_file: local file name
@@ -29,8 +29,8 @@ def loadmat(save_file, base_dir, grid_dir, save_dir, basis_dir):
     :param string basis_dir: directory where ``landuse_*`` folders are located
     :param string base_dir: directory that contains ADCIRC executables, and
         machine specific ``in.prep#`` files 
-    :rtype: tuple of :class:`~polysim.run_framework.random_wall.runSet`,
-        :class:`~polysim.run_framework.random_manningsn.domain` objects, and
+    :rtype: tuple of :class:`~polyadcirc.run_framework.random_wall.runSet`,
+        :class:`~polyadcirc.run_framework.random_manningsn.domain` objects, and
         two :class:`numpy.array`s
     :returns: (main_run, domain, mann_pts, wall_pts)
 
@@ -97,7 +97,7 @@ class runSet(rmn.runSet):
 
          Reads in a default Manning's *n* value from self.save_dir and stores
          it in data.manningsn_default                                                                   
-        :param data: :class:`~polysim.run_framework.domain`
+        :param data: :class:`~polyadcirc.run_framework.domain`
         :type wall_points: :class:`np.array` of size (5, ``num_of_walls``)
         :param wall_points: containts the box_limits, and wall_height for each
             wall [ximin, xmax, ymin, ymax, wall_height]
@@ -255,7 +255,7 @@ class runSet(rmn.runSet):
 
          Reads in a default Manning's *n* value from self.save_dir and stores
          it in data.manningsn_default                                                                   
-        :param data: :class:`~polysim.run_framework.domain`
+        :param data: :class:`~polyadcirc.run_framework.domain`
         :type wall_points: :class:`np.array` of size (5, ``num_of_walls``)
         :param wall_points: containts the box_limits, and wall_height for each
             wall [ximin, xmax, ymin, ymax, wall_height]
@@ -419,7 +419,7 @@ class runSet(rmn.runSet):
         Plots the walls with dimenstions described in ``wall_points`` and saves
         the plots in ``self.save_dir``
         
-        :param domain: :class:`~polysim.run_framework.domain`
+        :param domain: :class:`~polyadcirc.run_framework.domain`
         :param wall_points: containts the box_limits, and wall_height for each
             wall [ximin, xmax, ymin, ymax, wall_height]
         :type wall_points: :class:`np.array` of size (5, ``num_of_walls``)
@@ -436,7 +436,7 @@ def plot_walls(run_set, domain, wall_points, save = True,
     Plots the walls with dimenstions described in ``wall_points`` and saves
     the plots in ``self.save_dir``
     
-    :param domain: :class:`~polysim.run_framework.domain`
+    :param domain: :class:`~polyadcirc.run_framework.domain`
     :param wall_points: containts the box_limits, and wall_height for each
         wall [ximin, xmax, ymin, ymax, wall_height]
     :type wall_points: :class:`np.array` of size (5, ``num_of_walls``)

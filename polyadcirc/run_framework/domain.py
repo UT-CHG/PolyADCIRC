@@ -1,22 +1,22 @@
 """
 See :class:`domain`
 """
-from polysim.pyADCIRC.basic import pickleable 
-import polysim.pyADCIRC.prep_management as prep
+from polyadcirc.pyADCIRC.basic import pickleable 
+import polyadcirc.pyADCIRC.prep_management as prep
 import subprocess, os
-import polysim.pyADCIRC.fort15_management as f15
-import polysim.pyADCIRC.fort14_management as f14
-import polysim.pyADCIRC.fort13_management as f13
-import polysim.pyADCIRC.plotADCIRC as plot
+import polyadcirc.pyADCIRC.fort15_management as f15
+import polyadcirc.pyADCIRC.fort14_management as f14
+import polyadcirc.pyADCIRC.fort13_management as f13
+import polyadcirc.pyADCIRC.plotADCIRC as plot
 import numpy as np
 from scipy.interpolate import griddata
 
 class domain(pickleable):
     """
-    :class:`~polysim.run_framework.domain` 
+    :class:`~polyadcirc.run_framework.domain` 
     Objects of this class contain all the data needed by
-    :class:`~polysim.run_framework.random_manningsn`
-    and :class:`~polysim.pyADCIRC.plotADCIRC` for particular mesh(s) or grid(s)
+    :class:`~polyadcirc.run_framework.random_manningsn`
+    and :class:`~polyadcirc.pyADCIRC.plotADCIRC` for particular mesh(s) or grid(s)
 
     path
         full path to the directory containing the ``fort.##`` files for this
@@ -34,7 +34,7 @@ class domain(pickleable):
     manningsn_num
         number of non-default nodes
     time
-        instance of :class:`~polysim.pyADCIRC.basic.time` class
+        instance of :class:`~polyadcirc.pyADCIRC.basic.time` class
     make_domain_map
         (boolean) whether or not a domain map has been created
 
@@ -67,7 +67,7 @@ class domain(pickleable):
         """
         Reads in spatial grid from ``fort.14`` file in self.path
 
-        See :meth:`polysim.pyADCIRC.fort14_management.read_spatial_grid`       
+        See :meth:`polyadcirc.pyADCIRC.fort14_management.read_spatial_grid`       
         """
         f14.read_spatial_grid(self, self.path)
 
@@ -75,7 +75,7 @@ class domain(pickleable):
         """
         Reads in recording information from ``fort.15`` in self.path
 
-        See :meth:`polysim.pyADCIRC.fort15_management.read_recording_data`
+        See :meth:`polyadcirc.pyADCIRC.fort15_management.read_recording_data`
         """
         f15.read_recording_data(self, self.path)
 
@@ -89,8 +89,8 @@ class domain(pickleable):
         :type path: string or None
         :param path: directory containing ``fort.##`` files
 
-        See :meth:`~polysim.pyADCIRC.fort15_management.read_spatial_grid` 
-        See :meth:`~polysim.pyADCIRC.fort15_management.read_recording_data` 
+        See :meth:`~polyadcirc.pyADCIRC.fort15_management.read_spatial_grid` 
+        See :meth:`~polyadcirc.pyADCIRC.fort15_management.read_recording_data` 
 
         """
         if path:
@@ -179,7 +179,7 @@ class domain(pickleable):
         :type path: string or None
         :param path: directory containing ``fort.13`` formatted file
         :param string file_name: ``fort.13`` formatted file name
-        :returns: See :meth:`~polysim.pyADCIRC.fort13_management.read_nodal_attr`
+        :returns: See :meth:`~polyadcirc.pyADCIRC.fort13_management.read_nodal_attr`
 
         """
         if path == None:
@@ -193,7 +193,7 @@ class domain(pickleable):
         :type path: string or None
         :param path: directory containing ``fort.13`` formatted file
         :param string file_name: ``fort.13`` formatted file name
-        :returns: See :meth:`~polysim.pyADCIRCfort13_management.read_default`
+        :returns: See :meth:`~polyadcirc.pyADCIRCfort13_management.read_default`
 
         """
         if path == None:
@@ -206,7 +206,7 @@ class domain(pickleable):
         :param string path: directory containing ``figs/`` folder
         :param boolean save: flag
         :param boolean show: flag
-        :returns: See :meth:`~polysim.pyADCIRC.plotADCIRC.get_Triangulation`
+        :returns: See :meth:`~polyadcirc.pyADCIRC.plotADCIRC.get_Triangulation`
 
         """
         return plot.get_Triangulation(self, path, save, show)
@@ -217,7 +217,7 @@ class domain(pickleable):
         :param string path: directory containing ``figs/`` folder
         :param boolean save: flag
         :param boolean show: flag
-        :returns: See :meth:`~polysim.pyADCIRC.plotADCIRC.bathymetry`
+        :returns: See :meth:`~polyadcirc.pyADCIRC.plotADCIRC.bathymetry`
 
         """
         return plot.bathymetry(self, path, save, show)
@@ -230,7 +230,7 @@ class domain(pickleable):
         :param bathymetry: flag whether or not to plot bathymetry in the background
         :param boolean save: flag
         :param boolean show: flag
-        :returns: See :meth:`~polysim.pyADCIRC.plotADCIRC.station_locations`
+        :returns: See :meth:`~polyadcirc.pyADCIRC.plotADCIRC.station_locations`
 
         """
         return plot.station_locations(self, path, bathymetry, save, show)

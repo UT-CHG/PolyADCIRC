@@ -13,7 +13,7 @@ def get_data_nts(kk, path, data, nts_data, file_names=["tinun.63"]):
 
     :param int kk: run number
     :param string path: ``RF_directory_*`` path
-    :param data: :class:`~polysim.run_framework.domain`
+    :param data: :class:`~polyadcirc.run_framework.domain`
     :param dict() nts_data: reference to dict() to store data to
     :param list() file_names: list of :program:`ADCIRC` output files to
         retrieve data from
@@ -34,7 +34,7 @@ def get_nts_sr(path, data, file_name):
     to ``nts_data``
 
     :param string path: ``RF_directory_*`` path
-    :param data: :class:`~polysim.run_framework.domain`
+    :param data: :class:`~polyadcirc.run_framework.domain`
     :param string file_name: :program:`ADCIRC` output file to retrieve data
         from
 

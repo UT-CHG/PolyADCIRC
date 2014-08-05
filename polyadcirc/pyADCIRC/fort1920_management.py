@@ -36,7 +36,7 @@ def sin_wave(t_start, t_finish, amplitude, nnodes, time, periods = .5,
     :param float amplitude: amplitude of the sine shaped wave
     :param int nnodes: number of nodes for this BC
     :param time: container for information from the ``fort.15``
-    :type time: :class:`~polysim.pyADCIRC.basic.time`
+    :type time: :class:`~polyadcirc.pyADCIRC.basic.time`
     :param float periods: number of periods to include in the wave
     :param float shift: number of periods to shift the wave  
     :param int timinc: time increment (secs) between consecutive sets of data
@@ -73,7 +73,7 @@ def step_wave(t_start, t_finish, amplitude, nnodes, time, timinc = None):
     :param float amplitude: amplitude of the step shaped wave
     :param int nnodes: number of nodes for this BC
     :param time: container for information from the ``fort.15``
-    :type time: :class:`~polysim.pyADCIRC.basic.time`
+    :type time: :class:`~polyadcirc.pyADCIRC.basic.time`
     :param int timinc: time increment (secs) between consecutive sets of data
 
     """

@@ -12,7 +12,7 @@ def total_volume(domain, elevation):
     Calculates the total volume of water contained in an ADCIRC simulation with
     sea surface height given by elevation.
 
-    :param domain: :class:`~polysim.run_framework.domain`
+    :param domain: :class:`~polyadcirc.run_framework.domain`
     :param elevation: eta, sea surface height (NOT WATER COLUMN HEIGHT)
     :rtype: tuple
     :returns: total volume, element-wise volume
@@ -29,7 +29,7 @@ def sub_volume(domain, elevation, elements):
     Calculates the total volume of water contained in an ADCIRC simulation with
     sea surface height given by elevation.
 
-    :param domain: :class:`~polysim.run_framework.domain`
+    :param domain: :class:`~polyadcirc.run_framework.domain`
     :param elevation: eta, sea surface height (NOT WATER COLUMN HEIGHT)
     :param elements: list of element numbers to calcuate volumes for
     :rtype: tuple
@@ -47,7 +47,7 @@ def element_volume(domain, element, elevation):
     Calculates the volume of water contained an element with a given sea
     surface elevation at each of the nodes.
 
-    :param domain: :class:`~polysim.run_framework.domain`
+    :param domain: :class:`~polyadcirc.run_framework.domain`
     :param element: list of nodes defining an element 
     :type element: array_like  
     :param elevation: eta, sea surface height (NOT WATER COLUMN HEIGHT)
@@ -71,7 +71,7 @@ def triangle(domain, element, z, norm_dir = 1.0):
     the surface defined by z and the element verticies, and A is the area of
     the surface defined by z and the element vertices.
 
-    :param domain: :class:`~polysim.run_framework.domain`
+    :param domain: :class:`~polyadcirc.run_framework.domain`
     :param element: list of nodes defining an element 
     :type element: array_like  
     :param z: z-coordinate relative to the geiod, z = eta OR z = -h 
@@ -100,7 +100,7 @@ def side(domain, element, side_num, elevation):
     the surface defined by z and the element verticies, and A is the area of
     the surface defined by z and the element vertices.
 
-    :param domain: :class:`~polysim.run_framework.domain`
+    :param domain: :class:`~polyadcirc.run_framework.domain`
     :param element: list of nodes defining an element 
     :type element: array_like  
     :param elevation: eta, sea surface height (NOT WATER COLUMN HEIGHT)

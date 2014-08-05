@@ -1,11 +1,11 @@
 """
 This module contains the class definition for
-:class:`~polysim.mesh_mapping.gridInfo`.
+:class:`~polyadcirc.mesh_mapping.gridInfo`.
 """
 
 import os, stat
-from polysim.pyADCIRC.basic import pickleable
-import polysim.pyADCIRC.convert_fort14_to_fort13 as c13
+from polyadcirc.pyADCIRC.basic import pickleable
+import polyadcirc.pyADCIRC.convert_fort14_to_fort13 as c13
 
 class gridInfo(pickleable):
     """
@@ -17,7 +17,7 @@ class gridInfo(pickleable):
         Initalizes a gridInfo object with the information
         necessary for a ``*.14`` file with name ``file_name``, where
         ``gap_data_list`` is a list of
-        :class:``~polysim.mesh_mapping.table_management.gapInfo` objects 
+        :class:``~polyadcirc.mesh_mapping.table_management.gapInfo` objects 
         """
         self.file_name = file_name #: Name of grid file, ``*.14``
         self.gap_data_files = gap_data_list 
@@ -129,7 +129,7 @@ class gridInfo(pickleable):
         :returns: a dict of all the unqiue ``*.table`` files required by
             ``grid_all_*.sh`` where unique_tables.keys() = ``table_file_name``,
             and unique_tables.values() = 
-            :class:`~polysim.mesh_mapping.table_management.tableInfo` object
+            :class:`~polyadcirc.mesh_mapping.table_management.tableInfo` object
         """
         return self.__unique_tables
         
@@ -173,14 +173,14 @@ class gridInfo(pickleable):
     def convert(self, folder_name = None, keep_flags = 0):
         """ 
         
-        :meth:`~polysim.pyADCIRC.convert_fort14_to_fort13.convert` where ``source`` is
+        :meth:`~polyadcirc.pyADCIRC.convert_fort14_to_fort13.convert` where ``source`` is
         the final ``*.14`` file produced by the bash script associated with
         ``self`` in ``folder_name``
 
         :param string folder_name: name of the folder containing the ``*.14``
             to be converted
         
-        See :meth:`~polysim.pyADCIRC.convert_fort14_to_fort13.convert`
+        See :meth:`~polyadcirc.pyADCIRC.convert_fort14_to_fort13.convert`
         """
         if folder_name == None:
             folder_name = os.getcwd()

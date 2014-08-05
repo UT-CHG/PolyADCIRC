@@ -59,10 +59,10 @@ def flag_fort14_go(grid, avg_scheme = 2):
     Given a gridInfo object create a flagged version of the
     ``grid.file_name[8:]`` and save to ``grid.file_name``
 
-    :param grid: :class:`polysim.pyGriddata.gridInfo.gridObject`
+    :param grid: :class:`polyadcirc.pyGriddata.gridInfo.gridObject`
     :param int avg_scheme: flag to choose which averaging scheme to use
 
-    See :meth:`~polysim.pyADCIRC.flag_fort14.flag_fort14`
+    See :meth:`~polyadcirc.pyADCIRC.flag_fort14.flag_fort14`
     """
     flag_fort14(grid.file_name[8:], avg_scheme)
 

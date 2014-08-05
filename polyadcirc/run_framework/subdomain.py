@@ -6,17 +6,17 @@ is the :class:`subdomain`.
 
 import glob, os, sys, subprocess, re, math 
 import numpy as np
-import polysim.run_framework.domain as dom
-import polysim.pyADCIRC.fort15_management as f15
-import polysim.pyADCIRC.output as output
-import polysim.run_framework.random_manningsn as rmn
+import polyadcirc.run_framework.domain as dom
+import polyadcirc.pyADCIRC.fort15_management as f15
+import polyadcirc.pyADCIRC.output as output
+import polyadcirc.run_framework.random_manningsn as rmn
 import scipy.io as sio
 
 def loadmat(save_file, base_dir, grid_dir, save_dir, basis_dir):
     """
     Loads data from ``save_file`` into a
-    :class:`~polysim.run_framwork.random_manningsn.runSet` object. Reconstructs
-    :class:`~polysim.run_framwork.random_manningsn.subdomain`. 
+    :class:`~polyadcirc.run_framwork.random_manningsn.runSet` object. Reconstructs
+    :class:`~polyadcirc.run_framwork.random_manningsn.subdomain`. 
 
     :param string save_file: local file name
     :param string grid_dir: directory containing ``fort.14``, ``fort.15``, and
@@ -26,8 +26,8 @@ def loadmat(save_file, base_dir, grid_dir, save_dir, basis_dir):
     :param string basis_dir: directory where ``landuse_*`` folders are located
     :param string base_dir: directory that contains ADCIRC executables, and
         machine specific ``in.prep#`` files 
-    :rtype: tuple of :class:`~polysim.run_framwork.random_manningsn.runSet` and 
-        :class:`~polysim.run_framwork.random_manningsn.domain` objects
+    :rtype: tuple of :class:`~polyadcirc.run_framwork.random_manningsn.runSet` and 
+        :class:`~polyadcirc.run_framwork.random_manningsn.domain` objects
     :returns: (main_run, domain)
 
     """
@@ -69,7 +69,7 @@ class subdomain(dom.domain):
     """
     Objects of this class contain all the data needed by :mod:`py.genbcs`,
     :mod:`py.genfull`, and :mod:`py.gensub` for a particular subdomain
-    mesh/grid. References to :class:`polysim.run_framework.subdomain` objects
+    mesh/grid. References to :class:`polyadcirc.run_framework.subdomain` objects
     are also contained in an instantiation of this class.
     """
     def __init__(self, path, fulldomain=None, node_num=0, element_num=0,
@@ -87,7 +87,7 @@ class subdomain(dom.domain):
                 self.script_dir = potential_file_list[0]
                 break
 
-        #: :class:`~polysim.run_framework.fulldomain`
+        #: :class:`~polyadcirc.run_framework.fulldomain`
         self.fulldomain = fulldomain
         #self.fulldomain.subdomains.append(self)
 
@@ -99,7 +99,7 @@ class subdomain(dom.domain):
         Sets the fulldomain of this subdomain to fulldomain and adds this
         subdomain to that fulldomain.
 
-        :type fulldomain: :class:`~polysim.run_framework.fulldomain`
+        :type fulldomain: :class:`~polyadcirc.run_framework.fulldomain`
         :param fulldomain: the fulldomain for this subdomain
 
         """
@@ -111,7 +111,7 @@ class subdomain(dom.domain):
         Generate the subdomain input files (``fort.13``, ``fort.14``,
         ``fort.015``, ``py.141``, ``py.140``) and shape file. Creates
         ``fort.15`` based on the ``fort.15`` in
-        :class:`polysim.run_framework.fulldomain` to ``self.path``, and creates
+        :class:`polyadcirc.run_framework.fulldomain` to ``self.path``, and creates
         symbolic links to meterological forcing files (``fort.22*``).
         
         :param int bound_ele: a flag determining whether surface elevations of
@@ -283,7 +283,7 @@ class subdomain(dom.domain):
         Generate the subdomain input files (``fort.13``, ``fort.14``,
         ``fort.015``, ``py.141``, ``py.140``) and shape file. Creates
         ``fort.15`` based on the ``fort.15`` in
-        :class:`polysim.run_framework.fulldomain` to ``self.path``, and creates
+        :class:`polyadcirc.run_framework.fulldomain` to ``self.path``, and creates
         symbolic links to meterological forcing files (``fort.22*``).
         
         :param int flag: flag determining whether or not the subdomain is an
@@ -343,7 +343,7 @@ class subdomain(dom.domain):
     def compare_runSet(self, ts_data, nts_data, ts_names=None, 
             nts_names=None, save_file=None): 
         """
-        Reads in :class:`polysim.random_manningsn.runSet` output from this
+        Reads in :class:`polyadcirc.random_manningsn.runSet` output from this
         subdomain and from it's fulldomain and compares them.
 
         NOTE THIS DOES NOT CURRENTLY WORK FOR STATION DATA! ONLY USE FOR GLOBAL
@@ -536,7 +536,7 @@ class subdomain(dom.domain):
         Copy the ``fort.15`` from ``fulldomain.path`` to ``self.path`` and
         modify for a subdomain run.
 
-        .. seealso:: :meth:`polysim.pyADCIRC.fort15_management.subdomain`
+        .. seealso:: :meth:`polyadcirc.pyADCIRC.fort15_management.subdomain`
         """
 
         f15.subdomain(self.fulldomain.path, self.path)

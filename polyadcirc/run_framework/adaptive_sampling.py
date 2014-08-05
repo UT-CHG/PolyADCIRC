@@ -14,7 +14,7 @@ approach.
 
 import numpy as np
 import scipy.io as sio
-from polysim.pyADCIRC.basic import pickleable
+from polyadcirc.pyADCIRC.basic import pickleable
 from pyDOE import lhs
 import matplotlib.pyplot as plt
 
@@ -56,7 +56,7 @@ def in_box_many(results_list, rho_D, maximum, sample_nos_list=None):
 def loadmat(save_file, model = None):
     """
     Loads data from ``save_file`` into a
-    :class:`~polysim.run_framework.adaptive_samplers.adaptiveSamples` object.
+    :class:`~polyadcirc.run_framework.adaptive_samplers.adaptiveSamples` object.
 
     :param string save_file: file name
     :param model: runs the model at a given set of parameter samples and returns data
@@ -109,7 +109,7 @@ class adaptiveSamples(pickleable):
     def save(self, mdict, save_file):
         """
         Save matrices to a ``*.mat`` file for use by ``MATLAB BET`` code and
-        :meth:`~polysim.run_framework.adaptive_sampling.loadmat`
+        :meth:`~polyadcirc.run_framework.adaptive_sampling.loadmat`
 
         :param dict() mdict: dictonary of sampling data and sampler parameters
         :param string save_file: file name
@@ -384,7 +384,7 @@ class transition_kernel(pickleable):
     samples_new based. This class generates steps for a random walk using a
     very basic algorithm. Future classes will inherit from this one with
     different implementations of the
-    :meth:~`polysim.run_framework.apdative_sampling.step` method.
+    :meth:~`polyadcirc.run_framework.apdative_sampling.step` method.
 
     This basic transition kernel is designed without a preferential direction.
 

@@ -6,7 +6,7 @@ if __name__ == "__main__":
     pass
 
 import glob, os, re
-from polysim.pyADCIRC.basic import pickleable
+from polyadcirc.pyADCIRC.basic import pickleable
 
 def create_table_single_value(class_num, landuse_table, manningsn_value,
         folder_name = None):

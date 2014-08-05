@@ -6,7 +6,7 @@ has been run in each of the folders.
 
 import glob, os
 import shutil as sh
-import polysim.pyADCIRC.fort14_management as f14
+import polyadcirc.pyADCIRC.fort14_management as f14
 
 def setup_landuse_folders(grid_object, create_all=True):
     """ 
@@ -17,7 +17,7 @@ def setup_landuse_folders(grid_object, create_all=True):
     If create_all is True then sets up num_landuse folders.
     Else sets up num_landuse-1 folders.
 
-    :type grid_object: :class:`~polysim.mesh_mapping.gridObject.gridInfo`
+    :type grid_object: :class:`~polyadcirc.mesh_mapping.gridObject.gridInfo`
     :param grid_object: grid for which landclasses are being mapped
     :param boolean create_all: flag to not skip first folder
     :rtype: list()
@@ -45,7 +45,7 @@ def setup_landuse_folders_double(grid_object, create_all=True):
     If create_all is True then sets up num_landuse*2 folders.
     Else sets up (num_landuse-1)*2 folders.
     
-    :type grid_object: :class:`~polysim.mesh_mapping.gridObject.gridInfo`
+    :type grid_object: :class:`~polyadcirc.mesh_mapping.gridObject.gridInfo`
     :param grid_object: grid for which landclasses are being mapped
     :param boolean create_all: flag to not skip first folder
     :rtype: list()
@@ -77,7 +77,7 @@ def setup_landuse_folder(class_num, grid_object, manningsn_value=1,
     Set up a single landuse with name landuse_class_num
     
     :param int class_num: land classification number for this folder
-    :type grid_object: :class:`~polysim.mesh_mapping.gridObject.gridInfo`
+    :type grid_object: :class:`~polyadcirc.mesh_mapping.gridObject.gridInfo`
     :param grid_object: grid for which landclasses are being mapped
     :param int manningsn_value: Manning's *n* value for this land
         classification
@@ -107,7 +107,7 @@ def setup_folder(grid_object, folder_name = 'temp'):
     """ 
     Set up a single folder with name folder_name 
 
-    :type grid_object: :class:`~polysim.mesh_mapping.gridObject.gridInfo`
+    :type grid_object: :class:`~polyadcirc.mesh_mapping.gridObject.gridInfo`
     :param grid_object: grid for which landclasses are being mapped
     :param string folder_name: folder name
     :rtype: string
@@ -135,7 +135,7 @@ def setup_landuse_folder_double(class_num, grid_object):
     landuse_class_num_01
 
     :param int class_num: land classification number for this folder
-    :type grid_object: :class:`~polysim.mesh_mapping.gridObject.gridInfo`
+    :type grid_object: :class:`~polyadcirc.mesh_mapping.gridObject.gridInfo`
     :param grid_object: grid for which landclasses are being mapped
     :rtype: list() of strings
     :returns: files name of bash scripts for this land class
@@ -153,7 +153,7 @@ def cleanup_landuse_folder(grid_object, folder_name=None):
     Removes all files in folder_name(or current directory) except *.table
     and the most recent ``*.14``
     
-    :type grid_object: :class:`~polysim.mesh_mapping.gridObject.gridInfo`
+    :type grid_object: :class:`~polyadcirc.mesh_mapping.gridObject.gridInfo`
     :param grid_object: grid for which landclasses are being cleaned
     :param string folder_name: path to folder to clean up
 
@@ -183,7 +183,7 @@ def cleanup_landuse_folders(grid_object):
     Removes all files except ``*.table`` and the most recent ``*.14`` in all
     landuse folders in the current directory
 
-    :type grid_object: :class:`~polysim.mesh_mapping.gridObject.gridInfo`
+    :type grid_object: :class:`~polyadcirc.mesh_mapping.gridObject.gridInfo`
     :param grid_object: grid for which landclasses are being cleaned
 
     """
@@ -200,7 +200,7 @@ def clean(grid_object, folder_name = None):
 
     This currently doesn't work correctly for removing directories...
 
-    :type grid_object: :class:`~polysim.mesh_mapping.gridObject.gridInfo`
+    :type grid_object: :class:`~polyadcirc.mesh_mapping.gridObject.gridInfo`
     :param grid_object: grid for which landclasses are being cleaned 
     :param string folder_name: path to folder to clean up
 
@@ -218,11 +218,11 @@ def convert(grid_object, keep_flags = 0):
     """ Converts the final ``fort5...5.14`` file to a ``fort.13`` file for
     ``grid_object``
 
-    :type grid_object: :class:`~polysim.mesh_mapping.gridObject.gridInfo`
+    :type grid_object: :class:`~polyadcirc.mesh_mapping.gridObject.gridInfo`
     :param grid_object: grid for which ``*.14`` files are being converted
     :param int keep_flags: flag for types of conversion
 
-    See :meth:`~polysim.mesh_mapping.gridInfo.convert`
+    See :meth:`~polyadcirc.mesh_mapping.gridInfo.convert`
 
     """
     print 'Converting fort.14 files...'

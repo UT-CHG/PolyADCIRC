@@ -4,7 +4,7 @@ This module given a ``*.table`` (and ``*.table`` and ``*.13 files`` from
 values for that ``*.table``, or dict, or array of these values.
 """
 
-import polysim.pyADCIRC.fort13_management as f13
+import polyadcirc.pyADCIRC.fort13_management as f13
 import numpy as np
 import glob
 

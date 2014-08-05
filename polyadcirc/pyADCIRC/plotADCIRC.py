@@ -5,8 +5,8 @@ A set of functions for plotting data from :class:`runSet`
 # import necessary modules
 import numpy as np
 import os
-import polysim.pyGriddata.file_management as fm
-import polysim.pyADCIRC.fort15_management as f15
+import polyadcirc.pyGriddata.file_management as fm
+import polyadcirc.pyADCIRC.fort15_management as f15
 # import plotting modules
 import matplotlib.pyplot as plt
 import matplotlib.tri as tri
@@ -19,7 +19,7 @@ _stationmarkers = {'fort61':'bo', 'fort62':'go', 'fort71':'ro', 'fort72':'co',
 def get_Triangulation(domain, path = None, save = True, show = False, ics = 1,
         ext = '.png'):
     """
-    :param domain: :class:`~polysim.run_framework.domain`
+    :param domain: :class:`~polyadcirc.run_framework.domain`
     :type path: string or None
     :param path: directory to store plots
     :type save: boolean
@@ -55,7 +55,7 @@ def bathymetry(domain, path = None, save = True, show = False, mesh = False,
     """
     Given a domain, plot the bathymetry
 
-    :param domain: :class:`~polysim.run_framework.domain`
+    :param domain: :class:`~polyadcirc.run_framework.domain`
     :type path: string or None
     :param path: directory to store plots
     :type save: boolean
@@ -92,7 +92,7 @@ def station_locations(domain, path = None, bathy = False, save = True,
     """
     Given a domain, plot the observation stations 
    
-    :param domain: :class:`~polysim.run_framework.domain`
+    :param domain: :class:`~polyadcirc.run_framework.domain`
     :type path: string or None
     :param path: directory to store plots
     :type bathy: boolean
@@ -133,7 +133,7 @@ def field(domain, z, title, clim = None,  path = None, save = True, show =
     """
     Given a domain, plot the nodal value z
    
-    :param domain: :class:`~polysim.run_framework.domain`
+    :param domain: :class:`~polyadcirc.run_framework.domain`
     :param z: :class:`np.array`
     :param string title: plot title
     :param clim: :class:`np.clim`
@@ -167,7 +167,7 @@ def basis_functions(domain, bv_array, path = None, save = True, show = False,
     """
     Given a ``bv_array`` containing basis functions, plot them
    
-    :param domain: :class:`~polysim.run_framework.domain`
+    :param domain: :class:`~polyadcirc.run_framework.domain`
     :type bv_array: :classnp.array`
     :param bv_array: array of basis vectors based on land classification
     :type path: string or None
@@ -188,9 +188,9 @@ def random_fields(domain, points, bv_array, path = None, save = True, show =
         False, ics = 1, ext = '.png', cmap = plt.cm.jet):
     """
     Given a ``bv_array`` a set of random points, plot the ``r_fields`` generated in
-    :meth:`~polysim.run_framework.random_manningsn.runSet.run_points`
+    :meth:`~polyadcirc.run_framework.random_manningsn.runSet.run_points`
    
-    :param domain: :class:`~polysim.run_framework.domain`
+    :param domain: :class:`~polyadcirc.run_framework.domain`
     :type points: :class:`np.array`
     :param points: weights for points at which the random domain was sampled
     :type bv_array: :class:`np.array`
@@ -220,7 +220,7 @@ def mean_field(domain, points, bv_array, path = None, save = True, show =
     Given a bv_array a set of random points, plot the r_fields generated in
     random_manningsn.runSet.run_points
    
-    :param domain: :class:`~polysim.run_framework.domain`
+    :param domain: :class:`~polyadcirc.run_framework.domain`
     :type points: :class:`np.array`
     :param points: weights for points at which the random domain was sampled
     :type bv_array: :class:`np.array`
@@ -251,10 +251,10 @@ def station_data(ts_data, time_obs, keys = None, stations = None, path = None,
 
     :type ts_data: :class:`dict`
     :param ts_data: ``ts_data`` from
-        :class:`~polysim.run_framework.random_manningsn.runSet`
+        :class:`~polyadcirc.run_framework.random_manningsn.runSet`
     :type time_obs: :class:`dict`
     :param time_obs: ``time_obs`` from
-        :class:`~polysim.run_framework.random_manningsn.runSet`
+        :class:`~polyadcirc.run_framework.random_manningsn.runSet`
     :param list() keys: list of types of ADCIRC output data to plot 
     :param dict stations: dictonary of lists of stations to plot
     :type path: string or None
@@ -345,7 +345,7 @@ def nts_line_data(nts_data, keys = None, path = None, save = True, show = False,
 
     :type nts_data: :class:`dict`
     :param nts_data: ``nts_data`` from
-        :class:`~polysim.run_framework.random_manningsn.runSet`
+        :class:`~polyadcirc.run_framework.random_manningsn.runSet`
     :param list() keys: list of types of ADCIRC output data to plot 
     :type path: string or None
     :param path: directory to store plots
@@ -401,8 +401,8 @@ def nts_pcolor(nts_data, domain, keys = None, points = None, path = None,
 
     :type nts_data: :class:``dict``
     :param nts_data: ``nts_data`` from
-        :class:``~polysim.run_framework.random_manningsn.runSet``
-    :param domain: :class:`~polysim.run_framework.domain`
+        :class:``~polyadcirc.run_framework.random_manningsn.runSet``
+    :param domain: :class:`~polyadcirc.run_framework.domain`
     :param list() keys: list of types of ADCIRC output data to plot 
     :param list() points: list of runs to plot
     :type path: string or None
@@ -489,11 +489,11 @@ def ts_pcolor(ts_data, time_obs, domain, keys = None, points = None,
 
     :type ts_data: :class:`dict`
     :param ts_data: ``ts_data`` from
-        :class:`~polysim.run_framework.random_manningsn.runSet`
+        :class:`~polyadcirc.run_framework.random_manningsn.runSet`
     :type time_obs: :class:``dict``
     :param time_obs: ``time_obs`` from
-        :class:`~polysim.run_framework.random_manningsn.runSet`
-    :param domain: :class:`~polysim.run_framework.domain`
+        :class:`~polyadcirc.run_framework.random_manningsn.runSet`
+    :param domain: :class:`~polyadcirc.run_framework.domain`
     :param list() keys: list of types of ADCIRC output data to plot 
     :param list() points: list of runs or points to plot
     :type path: string or None
@@ -588,11 +588,11 @@ def ts_quiver(ts_data, time_obs, domain, keys = None, points = None,
 
     :type ts_data: :class:`dict`
     :param ts_data: ``ts_data`` from
-        :class:`~polysim.run_framework.random_manningsn.runSet`
+        :class:`~polyadcirc.run_framework.random_manningsn.runSet`
     :type time_obs: :class:`dict`
     :param time_obs: ``time_obs`` from
-        :class:`~polysim.run_framework.random_manningsn.runSet`
-    :param domain: :class:`~polysim.run_framework.domain`
+        :class:`~polyadcirc.run_framework.random_manningsn.runSet`
+    :param domain: :class:`~polyadcirc.run_framework.domain`
     :param list() keys: list of types of ADCIRC output data to plot 
     :param list() points: list of runs or points to plot
     :type path: string or None
@@ -753,8 +753,8 @@ def nts_contour(nts_data, domain, keys = None, points = None, path = None,
 
     :type nts_data: :class:`dict`
     :param nts_data: ``nts_data`` from
-        :class:`~polysim.run_framework.random_manningsn.runSet`
-    :param domain: :class:`~polysim.run_framework.domain`
+        :class:`~polyadcirc.run_framework.random_manningsn.runSet`
+    :param domain: :class:`~polyadcirc.run_framework.domain`
     :param list() keys: list of types of ADCIRC output data to plot 
     :param list() points: list of runs to plot
     :type path: string or None

@@ -6,22 +6,22 @@ of processors allocated by the submission script
 """
 import numpy as np
 import glob, os, stat, subprocess, shutil
-import polysim.pyADCIRC.fort13_management as f13
-import polysim.pyADCIRC.fort15_management as f15
-from polysim.pyADCIRC.basic import pickleable
-import polysim.pyGriddata.table_to_mesh_map as tmm
-from polysim.pyGriddata.file_management import copy, mkdir
-import polysim.pyADCIRC.plotADCIRC as plot
-import polysim.pyADCIRC.prep_management as prep
-import polysim.pyADCIRC.output as output
-import polysim.run_framework.domain as dom
+import polyadcirc.pyADCIRC.fort13_management as f13
+import polyadcirc.pyADCIRC.fort15_management as f15
+from polyadcirc.pyADCIRC.basic import pickleable
+import polyadcirc.pyGriddata.table_to_mesh_map as tmm
+from polyadcirc.pyGriddata.file_management import copy, mkdir
+import polyadcirc.pyADCIRC.plotADCIRC as plot
+import polyadcirc.pyADCIRC.prep_management as prep
+import polyadcirc.pyADCIRC.output as output
+import polyadcirc.run_framework.domain as dom
 import scipy.io as sio
 
 def loadmat(save_file, base_dir, grid_dir, save_dir, basis_dir):
     """
     Loads data from ``save_file`` into a
-    :class:`~polysim.run_framework.random_manningsn.runSet` object. Reconstructs
-    :class:`~polysim.run_framework.random_manningsn.domain`. Fixes dry data if
+    :class:`~polyadcirc.run_framework.random_manningsn.runSet` object. Reconstructs
+    :class:`~polyadcirc.run_framework.random_manningsn.domain`. Fixes dry data if
     it was recorded.
 
     :param string save_file: local file name
@@ -32,8 +32,8 @@ def loadmat(save_file, base_dir, grid_dir, save_dir, basis_dir):
     :param string basis_dir: directory where ``landuse_*`` folders are located
     :param string base_dir: directory that contains ADCIRC executables, and
         machine specific ``in.prep#`` files
-    :rtype: tuple of :class:`~polysim.run_framework.random_manningsn.runSet` and
-        :class:`~polysim.run_framework.random_manningsn.domain` objects
+    :rtype: tuple of :class:`~polyadcirc.run_framework.random_manningsn.runSet` and
+        :class:`~polyadcirc.run_framework.random_manningsn.domain` objects
     :returns: (main_run, domain)
 
     """
@@ -88,7 +88,7 @@ def fix_dry_data(ts_data, data):
     Fix dry elevation station data flags
 
     :param ts_data: time series data
-    :param data: :class:`~polysim.run_framework.domain`
+    :param data: :class:`~polyadcirc.run_framework.domain`
     :rtype: dict()
     :returns: ts_data
 
@@ -106,7 +106,7 @@ def fix_dry_nodes(ts_data, data):
     Fix dry elevation data flags
 
     :param ts_data: time series data
-    :param data: :class:`~polysim.run_framework.domain`
+    :param data: :class:`~polyadcirc.run_framework.domain`
     :rtype: dict()
     :returns: ts_data
 
@@ -124,7 +124,7 @@ def fix_dry_nodes_nts(nts_data, data):
     Fix dry elevation data flags
 
     :param nts_data: non time series data
-    :param data: :class:`~polysim.run_framework.domain`
+    :param data: :class:`~polyadcirc.run_framework.domain`
     :rtype: dict()
     :returns: nts_data
 
@@ -168,7 +168,7 @@ def convert_to_percent(nts_data, data):
     Converts ``nts_data['tinun63']`` from seconds to percent of RNDAY
 
     :param nts_data: non-time-series data
-    :param data: :class:`~polysim.run_framework.domain`
+    :param data: :class:`~polyadcirc.run_framework.domain`
     :rtype: dict()
     :returns: nts_data
 
@@ -178,8 +178,8 @@ def convert_to_percent(nts_data, data):
 def concatenate(run_data1, run_data2):
     """
     Combine data from ``run_data1`` and ``run_data2``
-    :class:`~polysim.run_framework.random_manningsn.runSet` with another
-    :class:`~polysim.run_framework.random_manningsn.runSet` (``other_run``)
+    :class:`~polyadcirc.run_framework.random_manningsn.runSet` with another
+    :class:`~polyadcirc.run_framework.random_manningsn.runSet` (``other_run``)
     and points from both runs
 
     To combine several ``run_data``s use::
@@ -189,10 +189,10 @@ def concatenate(run_data1, run_data2):
         reduce(concatenate, run_data_list)
 
     :param run_data1: (runSet for run1, sample points for run1)
-    :type tuple: (:class:`~polysim.run_framework.random_manningsn.runSet`,
+    :type tuple: (:class:`~polyadcirc.run_framework.random_manningsn.runSet`,
         np.array)
     :param run_data2: (runSet for run2, sample points for run2)
-    :type tuple: (:class:`~polysim.run_framework.random_manningsn.runSet`,
+    :type tuple: (:class:`~polyadcirc.run_framework.random_manningsn.runSet`,
         np.array)
     :returns: (run_data, points)
     :rtype: tuple
@@ -445,7 +445,7 @@ class runSet(pickleable):
     def save(self, mdict, save_file):
         """
         Save matrices to a ``*.mat`` file for use by ``MATLAB BET`` code and
-        :meth:`~polysim.run_framework.random_manningsn.loadmat`
+        :meth:`~polyadcirc.run_framework.random_manningsn.loadmat`
 
         :param dict() mdict: dictonary of run data
         :param string save_file: file name
@@ -474,12 +474,12 @@ class runSet(pickleable):
     def concatenate(self, other_run, points1, points2):
         """
         Combine data from this
-        :class:`~polysim.run_framework.random_manningsn.runSet` with another
-        :class:`~polysim.run_framework.random_manningsn.runSet` (``other_run``)
+        :class:`~polyadcirc.run_framework.random_manningsn.runSet` with another
+        :class:`~polyadcirc.run_framework.random_manningsn.runSet` (``other_run``)
         and points from both runs
 
         :param: other_run
-        :type other_run: :class:`~polysim.run_framework.random_manningsn.runSet`
+        :type other_run: :class:`~polyadcirc.run_framework.random_manningsn.runSet`
         :param points1: sample points for ``self``
         :type points1: np.array
         :param points1: sample points for ``other_run``
@@ -501,7 +501,7 @@ class runSet(pickleable):
 
          Reads in a default Manning's *n* value from self.save_dir and stores
          it in data.manningsn_default
-        :param data: :class:`~polysim.run_framework.domain`
+        :param data: :class:`~polyadcirc.run_framework.domain`
         :type points: :class:`np.array` of size (``num_of_basis_vec``,
             ``num_of_random_fields``)
         :param points: containts the weights to be used for each run
@@ -680,7 +680,7 @@ class runSet(pickleable):
         """
         Fix dry elevation station data flags
 
-        :param data: :class:`~polysim.run_framework.domain`
+        :param data: :class:`~polyadcirc.run_framework.domain`
 
         """
         self.ts_data = fix_dry_data(self.ts_data, data)
@@ -689,7 +689,7 @@ class runSet(pickleable):
         """
         Fix dry elevation data flags
 
-        :param data: :class:`~polysim.run_framework.domain`
+        :param data: :class:`~polyadcirc.run_framework.domain`
 
         """
         self.ts_data = fix_dry_nodes(self.ts_data, data)
@@ -698,7 +698,7 @@ class runSet(pickleable):
         """
         Fix dry elevation data flags
 
-        :param data: :class:`~polysim.run_framework.domain`
+        :param data: :class:`~polyadcirc.run_framework.domain`
 
         """
         self.nts_data = fix_dry_nodes_nts(self.nts_data, data)
@@ -721,7 +721,7 @@ class runSet(pickleable):
         """
         Converts ``self.nts_data['tinun63']`` from seconds to percent of RNDAY
 
-        :param data: :class:`~polysim.run_framework.domain`
+        :param data: :class:`~polyadcirc.run_framework.domain`
 
         """
         convert_to_percent(self.nts_data, data)

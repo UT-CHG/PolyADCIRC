@@ -7,20 +7,20 @@ factors where n = # nodes, and m = # land classification values.
         need to add the ability to run it from different directories.
 """
 
-import polysim.pyGriddata.file_management as fm
-import polysim.pyGriddata.table_management as tm
+import polyadcirc.pyGriddata.file_management as fm
+import polyadcirc.pyGriddata.table_management as tm
 import glob, subprocess, os
-import polysim.pyADCIRC.fort14_management as f14
-import polysim.run_framework.domain as dom
-import polysim.pyADCIRC.fort13_management as f13
-import polysim.pyADCIRC.plotADCIRC as plt
-import polysim.pyGriddata.table_to_mesh_map as tmm
+import polyadcirc.pyADCIRC.fort14_management as f14
+import polyadcirc.run_framework.domain as dom
+import polyadcirc.pyADCIRC.fort13_management as f13
+import polyadcirc.pyADCIRC.plotADCIRC as plt
+import polyadcirc.pyGriddata.table_to_mesh_map as tmm
 import numpy as np
 
 def prep_all(grid, flag = 1, path = None):
     """
     Assumes that all the necessary input files are in ``path``. Given a
-    :class:`~polysim.pyGriddata.gridInfo` object this function generates a
+    :class:`~polyadcirc.pyGriddata.gridInfo` object this function generates a
     ``landuse_##`` folder for every land classification number containing a
     ``fort.13`` file specific to that land classification number.
 
@@ -59,7 +59,7 @@ def prep_all(grid, flag = 1, path = None):
 
 def prep_test(grid, path = None):
     """
-    Assumes :meth:`~polysim.pyGriddata.prep_mesh.prep_all` has been run
+    Assumes :meth:`~polyadcirc.pyGriddata.prep_mesh.prep_all` has been run
     first. Prepares a fort.13 file for testing purposes.
 
     :param grid: :class:`~polyim.pyGriddata.gridInfo`

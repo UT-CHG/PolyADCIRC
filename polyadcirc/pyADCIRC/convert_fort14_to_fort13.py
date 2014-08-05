@@ -5,7 +5,7 @@ A set of methods for converting a fort.14 formatted file to a fort.13 formatted 
 
 import re, os, glob
 import numpy as np
-from polysim.pyADCIRC.fort13_management import write_manningsn, read_manningsn
+from polyadcirc.pyADCIRC.fort13_management import write_manningsn, read_manningsn
 
 class Error(Exception):
     """Base class for exceptions in this module."""
@@ -179,7 +179,7 @@ def convert(source, keep_flags = 0, target = 'fort.13'):
     os.remove(temp_name)
 
 def convert_go(grid, folder_name = None, keep_flags = 0):
-    """ See :meth:`~polysim.pyADCIRC.convert_fort14_to_fort13.convert` where
+    """ See :meth:`~polyadcirc.pyADCIRC.convert_fort14_to_fort13.convert` where
     source is the final ``*.14`` file produced by the bash script associated
     with grid in folder_name
 

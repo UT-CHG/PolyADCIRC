@@ -1,11 +1,11 @@
 """
 This module contains a set of simple classes for use by
 
-* :py:mod:`polysim.pyADCIRC.fort14_management`
-* :py:mod:`polysim.pyADCIRC.fort15_management`
-* :py:class:`polysim.run_framework.domain`
-* :py:mod:`polysim.run_framework.random_manningsn`
-* :py:mod:`polysim.pyGriddata.gridObject`
+* :py:mod:`polyadcirc.pyADCIRC.fort14_management`
+* :py:mod:`polyadcirc.pyADCIRC.fort15_management`
+* :py:class:`polyadcirc.run_framework.domain`
+* :py:mod:`polyadcirc.run_framework.random_manningsn`
+* :py:mod:`polyadcirc.pyGriddata.gridObject`
 """
 class pickleable(object):
     """

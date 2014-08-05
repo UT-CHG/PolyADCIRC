@@ -5,14 +5,14 @@ Subdomain Modeling Python code and associated files. The focus of this module
 is the :class:`fulldomain`.
 """
 
-import polysim.run_framework.domain as dom
+import polyadcirc.run_framework.domain as dom
 import subprocess, glob, sys
 
 class fulldomain(dom.domain):
     """
     Objects of this class contain all the data needed by :mod:`py.genbcs`,
     :mod:`py.genfull`, and :mod:`py.gensub` for a particular full domain
-    mesh/grid. References to :class:`polysim.run_framework.subdomain` objects
+    mesh/grid. References to :class:`polyadcirc.run_framework.subdomain` objects
     are also contained in an instantiation of this class.
     """
     def __init__(self, path, subdomains = None, node_num = 0, element_num = 0,
@@ -29,7 +29,7 @@ class fulldomain(dom.domain):
                 self.script_dir = potential_file_list[0]
                 break
 
-        #: list() of :class:`~polysim.run_framework.subdomain`
+        #: list() of :class:`~polyadcirc.run_framework.subdomain`
         if subdomains == None:
             self.subdomains = list()
         else:
@@ -39,7 +39,7 @@ class fulldomain(dom.domain):
         """
         Adds subdomain to self.subdomains.
 
-        :type subdomain: :class:`~polysim.run_framework.subdomain`
+        :type subdomain: :class:`~polyadcirc.run_framework.subdomain`
         :param subdomain: subdomain within this domain
 
         """

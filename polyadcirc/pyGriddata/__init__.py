@@ -9,14 +9,14 @@ C.H.Lab., University of Notre Dame.
 
 This package contains the modules
 
-    * :mod:`~polysim.pyGriddata.file_management`
-    * :mod:`~polysim.pyGriddata.table_management`
-    * :mod:`~polysim.pyGriddata.table_to_mesh_map`
-    * :mod:`~polysim.pyGriddata.gridObject`
-    * :mod:`~polysim.pyGriddata.manufacture_gap`
-    * :mod:`~polysim.pyGriddata.prep_mesh`
+    * :mod:`~polyadcirc.pyGriddata.file_management`
+    * :mod:`~polyadcirc.pyGriddata.table_management`
+    * :mod:`~polyadcirc.pyGriddata.table_to_mesh_map`
+    * :mod:`~polyadcirc.pyGriddata.gridObject`
+    * :mod:`~polyadcirc.pyGriddata.manufacture_gap`
+    * :mod:`~polyadcirc.pyGriddata.prep_mesh`
 
-:mod:`~polysim.pyGriddata.prep` prepares ``*.table and
+:mod:`~polyadcirc.pyGriddata.prep` prepares ``*.table and
 *.13`` files needed for ``T:**_manning.table-->fort.13`` and creates the n x m
 matrix of multiplier factors where n = # nodes, and m = # land classification
 values, assuming there are no surprises with the spatial averaging.
@@ -27,9 +27,9 @@ additional needed files:
     * ``.asc`` files
     * ``*.14 files``
     * `fort.13`` file to use as a template for
-      :meth:`~polysim.pyGriddata.prep.convert`
+      :meth:`~polyadcirc.pyGriddata.prep.convert`
 
-:mod:`~polysim.pyGriddata.table_to_mesh_map` given a ``**_manning.table``
+:mod:`~polyadcirc.pyGriddata.table_to_mesh_map` given a ``**_manning.table``
 (and data file(s) from above) produces a ``fort.13`` ready for use by
 :program:`ADCIRC` 
 
