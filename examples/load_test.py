@@ -1,8 +1,8 @@
 #! /usr/bin/env/python
 
 # import necessary modules
-import polysim.run_framework.plotADCIRC as pa
-import polysim.run_framework.random_manningsn as rmn
+import polyadcirc.run_framework.plotADCIRC as pa
+import polyadcirc.run_framework.random_manningsn as rmn
 
 # setup and load from shelf
 # set up saving

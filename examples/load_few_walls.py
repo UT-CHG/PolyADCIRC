@@ -1,7 +1,7 @@
 #! /usr/bin/env python
 # import necessary modules
-import polysim.run_framework.random_wall as rmw
-import polysim.pyADCIRC.plotADCIRC as pa
+import polyadcirc.run_framework.random_wall as rmw
+import polyadcirc.pyADCIRC.plotADCIRC as pa
 
 base_dir = '/h1/lgraham/workspace'
 grid_dir = base_dir + '/ADCIRC_landuse/Inlet/inputs/poly_walls'

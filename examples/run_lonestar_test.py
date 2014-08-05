@@ -1,7 +1,7 @@
 #! /usr/bin/env python
 # import necessary modules
-import polysim.run_framework.domain as dom
-import polysim.run_framework.random_manningsn as rmn
+import polyadcirc.run_framework.domain as dom
+import polyadcirc.run_framework.random_manningsn as rmn
 import numpy as np
 import os, glob
 

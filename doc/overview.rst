@@ -8,11 +8,11 @@ Installation
 ------------
 
 If you have a `.tar.bz2<link>`_ file or `.zip<link>`_ file you can install
-PolySim using::
+PolyADCIRC using::
 
     python setup.py --install
 
-from the package root directory. PolySim packages are currently NOT avaiable in
+from the package root directory. PolyADCIRC packages are currently NOT avaiable in
 the `Python Package Index <http://pypi.python.org/pypi/Sphinx>`_ this may
 change in the future. This package requires `GNU Parallel
 <http://www.gnu.org/software/parallel/>`_, `matplotlib
@@ -29,7 +29,7 @@ repo to your ``PYTHONPATH``. The PolySim repo is located at::
 
 You can do this by adding the line::
 
-    export PYTHONPATH=~/PolySim:$PYTHONPATH
+    export PYTHONPATH=~/PolyADCIRC:$PYTHONPATH
 
 to your ``~/.bash_profile`` or ``~/.bashrc`` file.
 
@@ -38,14 +38,14 @@ To check that this has worked you can type (in a Python enviroment)::
     >>> import sys
     >>> sys.path
 
-and the PolySim directory should be listed in that path. 
+and the PolyADCIRC directory should be listed in that path. 
 
 Package Layout
 --------------
 
 The package layout is as follows::
 
-    polysim/
+    polyadcirc/
         pyADCIRC/
              __init__.py
             prep_management.py    
@@ -80,17 +80,17 @@ Code Overview
 :mod:`pyADCIRC` Package
 ~~~~~~~~~~~~~~~~~~~~
 
-.. automodule:: polysim.pyADCIRC
+.. automodule:: polyadcirc.pyADCIRC
 
 :mod:`run_framework` Package
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. automodule:: polysim.run_framework
+.. automodule:: polyadcirc.run_framework
 
 :mod:`pyGriddata` Package
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. automodule:: polysim.pyGriddata
+.. automodule:: polyadcirc.pyGriddata
 
 
 .. seealso:: :ref:`modindex` for detailed documentation of modules, classes, etc.
@@ -99,45 +99,45 @@ Internal dependencies
 ---------------------
 Dependencies via :keyword:`import` statements::
 
-    polysim/
+    polyadcirc/
         pyADCIRC/
-            \-prep_management (polysim.run_framework.domain,
-                polysim.run_framework.random_manningsn) 
-            \-plotADCIRC(polysim.run_framework.domain,
-                polysim.run_framework.random_manningsn, 
-                polysim.run_framework.random_wall) 
-            \-fort13_management (polysim.pyGriddata.prep_mesh,
-                polysim.pyGriddata.table_to_mesh_map, 
-                polysim.run_framework.domain,
-                polysim.run_framework.random_manningsn, 
-                polysim.run_framework.random_wall)
-            \-fort15_management (polysim.pyADCIRC.plotADCIRC,
-                polysim.run_framework.domain,
-                polysim.run_framework.random_manningsn,
-                polysim.run_framework.subdomain)             
-            \-fort14_management (polysim.pyGriddata.prep_mesh,
-                polysim.pyGriddata.file_management, 
-                polysim.run_framework.domain,
-                polysim.run_framework.random_wall)
-            \-basic (polysim.pyADCIRC.fort14_management,
-                polysim.pyADCIRC.fort15_management)
-            \-output (polysim.run_framework.random_wall,
-                polysim.run_framework.random_manningsn,
-                polysim.run_framework.subdomain)          
-            \-convert_fort14_to_fort13 (polysim.pyGriddata.gridObject)
-            \-flag_fort14 (polysim.pyADCIRC.fort14_management)       
+            \-prep_management (polyadcirc.run_framework.domain,
+                polyadcirc.run_framework.random_manningsn) 
+            \-plotADCIRC(polyadcirc.run_framework.domain,
+                polyadcirc.run_framework.random_manningsn, 
+                polyadcirc.run_framework.random_wall) 
+            \-fort13_management (polyadcirc.pyGriddata.prep_mesh,
+                polyadcirc.pyGriddata.table_to_mesh_map, 
+                polyadcirc.run_framework.domain,
+                polyadcirc.run_framework.random_manningsn, 
+                polyadcirc.run_framework.random_wall)
+            \-fort15_management (polyadcirc.pyADCIRC.plotADCIRC,
+                polyadcirc.run_framework.domain,
+                polyadcirc.run_framework.random_manningsn,
+                polyadcirc.run_framework.subdomain)             
+            \-fort14_management (polyadcirc.pyGriddata.prep_mesh,
+                polyadcirc.pyGriddata.file_management, 
+                polyadcirc.run_framework.domain,
+                polyadcirc.run_framework.random_wall)
+            \-basic (polyadcirc.pyADCIRC.fort14_management,
+                polyadcirc.pyADCIRC.fort15_management)
+            \-output (polyadcirc.run_framework.random_wall,
+                polyadcirc.run_framework.random_manningsn,
+                polyadcirc.run_framework.subdomain)          
+            \-convert_fort14_to_fort13 (polyadcirc.pyGriddata.gridObject)
+            \-flag_fort14 (polyadcirc.pyADCIRC.fort14_management)       
         run_framework/
-            \-random_manningsn (polysim.run_framework.random_wall,
-                polysim.run_framework.subdomain)  
-            \-domain (polysim.run_framework.fulldomain,
-                polysim.run_framework.random_manningsn,
-                polysim.run_framework.subdomain)
+            \-random_manningsn (polyadcirc.run_framework.random_wall,
+                polyadcirc.run_framework.subdomain)  
+            \-domain (polyadcirc.run_framework.fulldomain,
+                polyadcirc.run_framework.random_manningsn,
+                polyadcirc.run_framework.subdomain)
         pyGriddata/
-            \-file_management (polysim.pyADCIRC.plotADCIRC,
-                polysim.pyGriddata.prep_mesh)
-            \-table_to_mesh_map (polysim.pyGriddata.prep_mesh,
-                polysim.run_framework.random_manningsn,
-                polysim.run_framework.subdomain)
+            \-file_management (polyadcirc.pyADCIRC.plotADCIRC,
+                polyadcirc.pyGriddata.prep_mesh)
+            \-table_to_mesh_map (polyadcirc.pyGriddata.prep_mesh,
+                polyadcirc.run_framework.random_manningsn,
+                polyadcirc.run_framework.subdomain)
 
 External dependencies
 ---------------------
@@ -149,17 +149,17 @@ This pacakge requires `matplotlib <http://http://matplotlib.org>`_, `scipy <scip
   
   matplotlib 
       \-collections 
-      | \-LineCollection (polysim.pyADCIRC.plotADCIRC)
-      \-pyplot (polysim.pyADCIRC.plotADCIRC)
-      \-tri (polysim.pyADCIRC.plotADCIRC)
+      | \-LineCollection (polyadcirc.pyADCIRC.plotADCIRC)
+      \-pyplot (polyadcirc.pyADCIRC.plotADCIRC)
+      \-tri (polyadcirc.pyADCIRC.plotADCIRC)
     mpl_toolkits 
       \-axes_grid1 
-        \-make_axes_locatable (polysim.pyADCIRC.plotADCIRC)
-    numpy (polysim.pyADCIRC.volume,polysim.run_framework.random_manningsn,polysim.pyADCIRC.fort15_management,polysim.run_framework.domain,polysim.pyGriddata.manufacture_gap,polysim.run_framework.random_wall,polysim.pyGriddata.prep_mesh,polysim.run_framework.subdomain,polysim.pyGriddata.table_to_mesh_map,polysim.pyADCIRC.plotADCIRC,polysim.pyADCIRC.fort14_management,polysim.pyADCIRC.fort13_management,polysim.pyADCIRC.fort1920_management,polysim.pyADCIRC.convert_fort14_to_fort13,polysim.pyADCIRC.output)
+        \-make_axes_locatable (polyadcirc.pyADCIRC.plotADCIRC)
+    numpy (polyadcirc.pyADCIRC.volume,polyadcirc.run_framework.random_manningsn,polyadcirc.pyADCIRC.fort15_management,polyadcirc.run_framework.domain,polyadcirc.pyGriddata.manufacture_gap,polyadcirc.run_framework.random_wall,polyadcirc.pyGriddata.prep_mesh,polyadcirc.run_framework.subdomain,polyadcirc.pyGriddata.table_to_mesh_map,polyadcirc.pyADCIRC.plotADCIRC,polyadcirc.pyADCIRC.fort14_management,polyadcirc.pyADCIRC.fort13_management,polyadcirc.pyADCIRC.fort1920_management,polyadcirc.pyADCIRC.convert_fort14_to_fort13,polyadcirc.pyADCIRC.output)
     scipy 
       \-interpolate 
-      | \-griddata (polysim.run_framework.domain)
-      \-io (polysim.run_framework.subdomain,polysim.run_framework.random_wall,polysim.run_framework.random_manningsn)
+      | \-griddata (polyadcirc.run_framework.domain)
+      \-io (polyadcirc.run_framework.subdomain,polyadcirc.run_framework.random_wall,polyadcirc.run_framework.random_manningsn)
 
 
 

@@ -1,9 +1,9 @@
-.. PolySim documentation master file, created by
+.. PolyADCIRC documentation master file, created by
    sphinx-quickstart on Fri Jun  7 17:41:35 2013.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to PolySim's documentation!
+Welcome to PolyADCIRC's documentation!
 ===================================
 
 Python-based framework for running batches of parallel `ADCIRC <adcirc.org>`_
@@ -13,7 +13,7 @@ modified verion of :program:`GridData` (Griddata_v1.32.F90).
 :program:`GridData` is a :program:`FORTRAN` program originally developed by
 Seizo Tanaka (ST3) and C.H.Lab., University of Notre Dame.
 
-This code extends the :program:`PolySim` framework to work with a slightly
+This code extends the :program:`PolyADCIRC` framework to work with a slightly
 modifed version of :program:`Subdomain ADCIRC v.50`. :program:`Subdomain ADCIRC
 v.50` was developed by Alper Altuntas and Jason Simon under the direction of
 John Baugh; Department of Civil, Construction, and Enviromental Engineering

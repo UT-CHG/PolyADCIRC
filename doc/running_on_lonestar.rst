@@ -1,5 +1,5 @@
 ===================
-Running on Lonestar
+Running on TACC
 ===================
 
 To run a set of simulations on `Lonestar <http://http://www.tacc.utexas.edu/user-services/user-guides/lonestar-user-guide>`_ you need to load the following modules::
@@ -25,7 +25,7 @@ The major file systems available on `Lonestar <http://http://www.tacc.utexas.edu
 Installation
 ~~~~~~~~~~~~
 
-You can install PolySim in the ``$HOME`` directory as described in the
+You can install PolyADCIRC in the ``$HOME`` directory as described in the
 :ref:`overview`. If you want to use the cutting edge version from the git repo,
 I would sugguest putting the git repo containing the Polysim directory in
 ``$HOME``. The Lonestar Lustre File System has issues with :program:`Git`
@@ -33,9 +33,9 @@ directories being in the ``$WORK`` or ``$SCRATCH`` directories, so if you need
 to put the ``landuse.git`` repo in either of these locations use the
 ``--separate-gir-dir=$HOME/someplace`` option. 
 
-To clone the git repo containing the PolySim directory::
+To clone the git repo containing the PolyADCIRC directory::
 
-    $ git clone username@ices-workstation:/org/groups/chg/lgraham/PolySim.git
+    $ git clone username@ices-workstation:/org/groups/chg/lgraham/PolyADCIRC.git
 
 Since this code is currently in development it is not in a public repository.
 If you would like a copy of the code let me know.
@@ -91,11 +91,11 @@ options with regard to file structure
                                 basis_dirn
 
        The ``ADCIRC_landuse/`` MUST be in the ``work/`` (``base_dir`` used by
-       :class:`~polysim.run_framwork.random_manningsn.runSet`) directory of
+       :class:`~polyadcirc.run_framwork.random_manningsn.runSet`) directory of
        your :program:`ADCIRC` build. The ``ADCIRC_landuse/`` directory can be
        renamed but it MUST contain any ``grid_dir``, ``save_dir``, or
        ``basis_dir`` used by
-       :class:`~polysim.run_framwork.random_manningsn.runSet`. There must be a
+       :class:`~polyadcirc.run_framwork.random_manningsn.runSet`. There must be a
        ``fort.13`` file specific to ``grid_dir`` stored in the directory
        containing the ``save_dir``. 
 
@@ -104,7 +104,7 @@ options with regard to file structure
     Lonestar User Guide `File Systems
     <http://www.tacc.utexas.edu/user-services/user-guides/lonestar-user-guide#overview:filesystems>`_
     
-    :class:`~polysim.run_framework.random_manningsn.runSet` class documenation
+    :class:`~polyadcirc.run_framework.random_manningsn.runSet` class documenation
 
     Git Documentation `Remote Branches
     <http://git-scm.com/book/en/Git-Branching-Remote-Branches>`_
@@ -113,7 +113,7 @@ Python Scripts
 --------------
 
 The following submission and Python scripts should be located in the
-directory ``PolySim/examples/``.
+directory ``PolyADCIRC/examples/``.
 
 Currently my workflow has been something like...
 
@@ -158,8 +158,8 @@ Allow running from the command line using :command:`./run_lonestar_test.py`::
 
 Import necessary modules::
 
-    import polysim.run_framework.domain as dom
-    import polysim.run_framework.random_manningsn as rmn
+    import polyadcirc.run_framework.domain as dom
+    import polyadcirc.run_framework.random_manningsn as rmn
     import numpy as np
     import os, glob
 
@@ -192,7 +192,7 @@ Set run specific names of ``script`` and ``save_file``::
     save_file = 'py_save_file'
 
 Setting diffrerent ``script`` names allows for simulatenous runs of
-:program:`PolySim` with differing ``grid_dir``, ``save_dir``, and
+:program:`PolyADCIRC` with differing ``grid_dir``, ``save_dir``, and
 ``basis_dir``.
 
 Designate which :program:`ADCIRC` specific output files to collect data from::
@@ -217,7 +217,7 @@ Store directory references and set up random field directories::
             base_dir = adcirc_dir, script_name = script)
     main_run.initialize_random_field_directories(num_procs = nprocs)
 
-Store ``fort.14`` and ``fort.15`` data in :class:`~polysim.run_framework.domain`::
+Store ``fort.14`` and ``fort.15`` data in :class:`~polyadcirc.run_framework.domain`::
     
     domain = dom.domain(grid_dir)
     domain.update()
@@ -250,7 +250,13 @@ Run samples::
 Job Submission Script
 ---------------------
 
-An example submission script is included in ``examples/submission_script.sub``.
+An example submission script is included in
+``examples/submission_script.sub``. To run on Stampede you will need to rewrite
+the ``qsub`` script as a ``sbatch`` submission script and modify the the
+requested nodes as Stampede has a different number of cores per node than
+Lonestar. These types of python scripts create a lot of hostfiles in your
+``$HOME\.sge`` (``$HOME\.slurm``) so you should schedule a cron tab that
+periodially wipes old files.
 You should copy any scripts you wish to modify and run into a separate folder
 in your ``$WORK`` directory. In these examples I am working from
 ``$WORK/landuse_bin``.  You will need to modify the lines that designate the
@@ -293,8 +299,8 @@ recommend installing the latest versions of `numpy <numpy.org>`_, `scipy
 
 Import necessary modules::
 
-    import polysim.pyADCIRC.plotADCIRC as pa
-    import polysim.run_framework.random_manningsn as rmn
+    import polyadcirc.pyADCIRC.plotADCIRC as pa
+    import polyadcirc.run_framework.random_manningsn as rmn
 
 Set up local directory and file references::
 
@@ -311,4 +317,4 @@ Load the run set up and data::
             save_dir, basis_dir)
 
 Now the data is availiable for plotting methods in
-:mod:`~polysim.pyADCIRC.plotADCIRC`.
+:mod:`~polyadcirc.pyADCIRC.plotADCIRC`.

@@ -3,7 +3,7 @@
 =============================================
 
 This code creates the set of landuse basis folders, ``landuse_##``, required by
-:class:`polysim.random_manningsn.runSet`.  All the below code is set up to be
+:class:`polyadcirc.random_manningsn.runSet`.  All the below code is set up to be
 run on a workstation. Modifications would be
 needed to run it on Lonestar.
 
@@ -17,9 +17,9 @@ values. It works ok, but could use some polishing.
 
 Import the necessary modules::
 
-   import polysim.pyGriddata.table_management as tm
-   import polysim.pyGriddata.gridObject as go
-   import polysim.pyGriddata.prep_mesh as prep
+   import polyadcirc.pyGriddata.table_management as tm
+   import polyadcirc.pyGriddata.gridObject as go
+   import polyadcirc.pyGriddata.prep_mesh as prep
 
 Read in the ``CCAP_Manning.table`` file in the current working directory.::
 
@@ -29,7 +29,7 @@ To read in multiple ``*.table`` files use::
 
     tables = tm.read_tables()
 
-Create necessary :class:`~polysim.pyGriddata.table_management.gapInfo`
+Create necessary :class:`~polyadcirc.pyGriddata.table_management.gapInfo`
 objects, one for each ``*.asc`` file, requires ``*.asc`` files in current
 working directory::
 
@@ -38,8 +38,8 @@ working directory::
     gap16_2 = tm.gapInfo('16N_part2.asc', table, 2, 16 )
     gap17 = tm.gapInfo('17N.asc', table, 2, 17)
 
-Create a :class:`~polysim.pyGriddata.gridObject.gridInfo` object and store
-references to the :class:`~polysim.pyGriddata.table_management.gapInfo`
+Create a :class:`~polyadcirc.pyGriddata.gridObject.gridInfo` object and store
+references to the :class:`~polyadcirc.pyGriddata.table_management.gapInfo`
 objects. Currently this assumes that the ``flagged_fort.14`` (or ``fort.14``)
 file is in the current working directory::
 
@@ -64,7 +64,7 @@ mesh::
 
 This code also maps the landuse classifcation data to the mesh for a
 test case for verifcation purposes. The method
-:meth:`~polysim.pyGriddata.prep_mesh.compare` generates a set of images in a
+:meth:`~polyadcirc.pyGriddata.prep_mesh.compare` generates a set of images in a
 ``figs/`` folder for visual verification::
 
     prep.compare(basis_dir = grid_dir)
@@ -90,7 +90,7 @@ Manufacturing GAP data
 ----------------------
 
 This section deals mostly with how to use
-:mod:`~polysim.pyGriddata.manufacture_gap`. The relevant example scripts
+:mod:`~polyadcirc.pyGriddata.manufacture_gap`. The relevant example scripts
 for this section located in ``examples/`` are
     
     * :mod:`manu_prep_comp.py`, requires ``rand_Manning.table`` file
@@ -101,11 +101,11 @@ What follows is an explaination of the script ``bands.py``, the script
 
 Import the necessary modules::
 
-    import polysim.run_framework.domain as dom
-    import polysim.pyGriddata.manufacture_gap as manu
-    import polysim.pyGriddata.table_management as tm
-    import polysim.pyGriddata.gridObject as go
-    import polysim.pyGriddata.prep_mesh as prep
+    import polyadcirc.run_framework.domain as dom
+    import polyadcirc.pyGriddata.manufacture_gap as manu
+    import polyadcirc.pyGriddata.table_management as tm
+    import polyadcirc.pyGriddata.gridObject as go
+    import polyadcirc.pyGriddata.prep_mesh as prep
 
 First determine the limits of the domain you wish to create your mesh for::
 
@@ -160,7 +160,7 @@ resolution of 30 m and write that out to a file ``band_sections.asc``::
     manu.write_gapfile(rand_rect, xl, yl, 'band_sections.asc')
 
 For other methods to create random GAP data see
-:mod:`polysim.pyGriddata.manufacture_gap`.
+:mod:`polyadcirc.pyGriddata.manufacture_gap`.
 
 Finally, create and verify the landuse basis ``fort.13`` files::
 

@@ -1,9 +1,9 @@
 #! /usr/bin/env/python
 # import necessary modulees
-import polysim.run_framework.subdomain as subdom
-import polysim.run_framework.fulldomain as fulldom
+import polyadcirc.run_framework.subdomain as subdom
+import polyadcirc.run_framework.fulldomain as fulldom
 import glob
-import polysim.run_framework.plotADCIRC as pa
+import polyadcirc.run_framework.plotADCIRC as pa
 
 adcirc_dir = '/h1/lgraham/workspace'
 fulldomain = fulldom.fulldomain(adcirc_dir+'/ADCIRC_landuse/Inlet/inputs/tides')

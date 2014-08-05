@@ -1,7 +1,7 @@
 #! /usr/bin/env python
 # import necessary modules
-import polysim.run_framework.domain as dom
-import polysim.run_framework.random_wall as rmw
+import polyadcirc.run_framework.domain as dom
+import polyadcirc.run_framework.random_wall as rmw
 import numpy as np
 
 adcirc_dir = '/work/01837/lcgraham/v50_subdomain/work'
