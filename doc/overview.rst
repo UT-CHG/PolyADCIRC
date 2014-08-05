@@ -7,18 +7,22 @@ Overview
 Installation
 ------------
 
-If you have a `.tar.bz2<link>`_ file or `.zip<link>`_ file you can install
+The code currently resides at `GitHub<https://github.com/lcgraham/PolyADCIRC>`_
+in a private repository which will be made public at a later date.
+
+If you have a 
+`.zip<https://github.com/lcgraham/PolyADCIRC/archive/master.zip>`_ file you can install
 PolyADCIRC using::
 
     python setup.py --install
 
-from the package root directory. PolyADCIRC packages are currently NOT avaiable in
+from the package root directory. The PolyADCIRC package is currently NOT avaiable in
 the `Python Package Index <http://pypi.python.org/pypi/Sphinx>`_ this may
 change in the future. This package requires `GNU Parallel
 <http://www.gnu.org/software/parallel/>`_, `matplotlib
 <http://http://matplotlib.org>`_, `scipy <scipy.org>`_, mpl_toolkit, and `numpy
 <http://http://www.numpy.org>`_. This package interacts with :program:`ADCIRC`
-and :program: `GridData` which are NOT provided with this package.
+and :program:`GridData` which are NOT provided with this package.
 
 Cutting Edge Version
 ~~~~~~~~~~~~~~~~~~~~

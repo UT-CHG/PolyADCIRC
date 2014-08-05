@@ -13,7 +13,7 @@ modified verion of :program:`GridData` (Griddata_v1.32.F90).
 :program:`GridData` is a :program:`FORTRAN` program originally developed by
 Seizo Tanaka (ST3) and C.H.Lab., University of Notre Dame.
 
-This code extends the :program:`PolyADCIRC` framework to work with a slightly
+This code also extends the :program:`PolyADCIRC` framework to interface with a slightly
 modifed version of :program:`Subdomain ADCIRC v.50`. :program:`Subdomain ADCIRC
 v.50` was developed by Alper Altuntas and Jason Simon under the direction of
 John Baugh; Department of Civil, Construction, and Enviromental Engineering

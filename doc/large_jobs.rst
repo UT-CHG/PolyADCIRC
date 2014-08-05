@@ -20,7 +20,8 @@ may then be submitted to the queue and either run independently or
 sequentially. When doing so make sure that the run scripts specify a different
 ``save_dir``, ``save_file``, and ``script_name`` for each job. After your jobs
 complete the data may be concatenated into a single file. This file will have
-the same structure as if a single job was run.
+the same structure as if a single job was run. You might also want to create a
+``crontab`` to periodically clear our your ``.sge`` directory.
 
 concatenation_2
 ~~~~~~~~~~~~~~~

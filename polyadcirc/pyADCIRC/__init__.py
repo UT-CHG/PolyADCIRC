@@ -10,9 +10,12 @@ This subackage contains
     :mod:`~polyadcirc.pyADCIRC.fort1920_management`, a set of methods for
     manipulation and reading of :program:`ADCIRC` ``fort.##`` files for use by
     the 
-    :mod:`~polyadcirc.run_framework` and :mod:`~polyadcirc.mesh_mapping` modules;
+    :mod:`~polyadcirc.run_framework` and :mod:`~polyadcirc.pyGriddata` modules;
 *   the module :mod:`~polyadcirc.pyADCIRC.prep_management` is used to generate
     input files to :program:`ADCPREP`.
+* :mod:`~polyadcirc.pyADCIRC.plotADCIRC` a set of functions for plotting
+  simulation outputs
+
 """
 __all__ = ["fort15_management", "fort14_management", "fort13_management",
            "convert_fort14_to_fort13", "flag_fort14", "basic",

@@ -2,7 +2,7 @@
 Running on TACC
 ===================
 
-To run a set of simulations on `Lonestar <http://http://www.tacc.utexas.edu/user-services/user-guides/lonestar-user-guide>`_ you need to load the following modules::
+To run a set of simulations on `Stampede <http://www.tacc.utexas.edu/user-services/user-guides/stampede-user-guide>`_ you need to load the following modules::
 
     $ module load git
     $ module load python
@@ -14,12 +14,12 @@ To make thse your default modules either add these commands to your ``~/.bashrc`
 
 .. seealso::
 
-    Lonestar User Guide `Modules <http://http://www.tacc.utexas.edu/user-services/user-guides/lonestar-user-guide#computing:modules>`_
+    Stampede User Guide `Modules <http://http://www.tacc.utexas.edu/user-services/user-guides/stampede-user-guide#computing:modules>`_
 
 File System Setup
 -----------------
 
-The major file systems available on `Lonestar <http://http://www.tacc.utexas.edu/user-services/user-guides/lonestar-user-guide>`_ are ``$HOME``, ``$WORK``,
+The major file systems available on `Stampede <http://www.tacc.utexas.edu/user-services/user-guides/stampede-user-guide>`_ are ``$HOME``, ``$WORK``,
 ``$SCRATCH``, ``/tmp``, and ``$ARCHIVE``. 
 
 Installation
@@ -28,14 +28,17 @@ Installation
 You can install PolyADCIRC in the ``$HOME`` directory as described in the
 :ref:`overview`. If you want to use the cutting edge version from the git repo,
 I would sugguest putting the git repo containing the Polysim directory in
-``$HOME``. The Lonestar Lustre File System has issues with :program:`Git`
-directories being in the ``$WORK`` or ``$SCRATCH`` directories, so if you need
-to put the ``landuse.git`` repo in either of these locations use the
-``--separate-gir-dir=$HOME/someplace`` option. 
+``$HOME``.  Files are not backed up in the``$WORK`` or ``$SCRATCH``
+directories, so if you need to put the ``landuse.git`` repo in either of these
+locations use the ``--separate-gir-dir=$HOME/someplace`` option. 
 
 To clone the git repo containing the PolyADCIRC directory::
 
     $ git clone username@ices-workstation:/org/groups/chg/lgraham/PolyADCIRC.git
+
+or::
+
+    $ git clone git@github.com:lcgraham/PolyADCIRC.git
 
 Since this code is currently in development it is not in a public repository.
 If you would like a copy of the code let me know.
@@ -43,11 +46,9 @@ If you would like a copy of the code let me know.
 Input/Output Directory Structure
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-This code currently assumes use of v50 of :program:`ADCIRC`. I am currently
-working to integrate a version of :program:`ADCIRC` into this framework that
-can run on subdomains.  The top directory containing the ``work``, ``src``,
-etc. folders for :program:`ADCIRC` should be kept in the ``$WORK`` directory
-due to memory quota constraints.
+This code currently assumes use of v50 of :program:`ADCIRC`. The top directory
+containing the ``work``, ``src``, etc. folders for :program:`ADCIRC` should be
+kept in the ``$WORK`` directory due to memory quota constraints.
 
 Within the ``work/`` folder of your :program:`ADCIRC` directory you have 2
 options with regard to file structure
@@ -60,7 +61,7 @@ options with regard to file structure
             
             $ git clone --separate-git-dir=$HOME/ADCIRC_landuse ices-workstation:/org/groups/chg/lgraham/ADCIRC_landuse.git
             $ cd ADCIRC_landuse
-            $ git checkout --track origin/lonestar
+            $ git checkout --track origin/stampede
 
     2. Create your own directory and add any missing data/input files. The
        recommended directory structure is as follows ::
@@ -101,8 +102,8 @@ options with regard to file structure
 
 .. seealso::
 
-    Lonestar User Guide `File Systems
-    <http://www.tacc.utexas.edu/user-services/user-guides/lonestar-user-guide#overview:filesystems>`_
+    Stampede User Guide `File Systems
+    <http://www.tacc.utexas.edu/user-services/user-guides/stampede-user-guide#overview:filesystems>`_
     
     :class:`~polyadcirc.run_framework.random_manningsn.runSet` class documenation
 
@@ -117,7 +118,7 @@ directory ``PolyADCIRC/examples/``.
 
 Currently my workflow has been something like...
 
-On Lonestar::
+On Stampede::
 
     $ cd $WORK/landuse_bin
     $ qsub submission_script.sub
@@ -142,9 +143,9 @@ Now the data collected from the :program:`PADCIRC` runs are accessible in
 Python for plotting and analysis. The ``py_save_file.mat`` file is also
 readable by MATLAB and Octave.
     
-.. _run-lonestar-test:
+.. _run-stampede-test:
 
-run_lonestar_test
+run_stampede_test
 ~~~~~~~~~~~~~~~~~
 
 This is the script I've been using for my current setup. This is the script
@@ -152,7 +153,7 @@ that should be modified for future runs. There are other scripts in the
 ``examples/`` directory which may be helpful, although minor changes may be
 required.
 
-Allow running from the command line using :command:`./run_lonestar_test.py`::
+Allow running from the command line using :command:`./run_stampede_test.py`::
 
     #! /usr/bin/env/python
 
@@ -201,7 +202,7 @@ Designate which :program:`ADCIRC` specific output files to collect data from::
     nontimeseries_files = ["tinun.63", "maxvel.63"]
 
 Set ``nprocs`` to be number of processors per :program:`PADCIRC` run. Set
-``ppnode`` to be ``TpN`` (tasks per node) or the number of processors per node. On Lonestar,
+``ppnode`` to be ``TpN`` (tasks per node) or the number of processors per node. On Stampede,
 12 is the number of processors per node. Set ``NoN`` to be number of nodes requested
 by the ``submission_script.sub``. See ``-pe `` line in submission_script
 ``<TpN>way<NoN x 12>``.::
@@ -254,7 +255,7 @@ An example submission script is included in
 ``examples/submission_script.sub``. To run on Stampede you will need to rewrite
 the ``qsub`` script as a ``sbatch`` submission script and modify the the
 requested nodes as Stampede has a different number of cores per node than
-Lonestar. These types of python scripts create a lot of hostfiles in your
+Stampede. These types of python scripts create a lot of hostfiles in your
 ``$HOME\.sge`` (``$HOME\.slurm``) so you should schedule a cron tab that
 periodially wipes old files.
 You should copy any scripts you wish to modify and run into a separate folder
@@ -263,7 +264,7 @@ in your ``$WORK`` directory. In these examples I am working from
 ``adcirc_dir``, ``grid_dir``, ``save_dir``, and ``basis_dir`` to match your
 directory structure.
 
-To run :ref:`run-lonestar-test` you need to modify ``submission_script.sub``
+To run :ref:`run-stampede-test` you need to modify ``submission_script.sub``
 so that the line ``#$ -M youremail@someplace.com`` has your e-mail. Then you
 can submit it to the queue using::
     
@@ -278,8 +279,8 @@ Currently the output is saved to a :program:`python` formatted binary file calle
 
 .. seealso::
 
-    Lonestar User Guide `Running Applications
-    <http://www.tacc.utexas.edu/user-services/user-guides/lonestar-user-guide#running>`_
+    Stampede User Guide `Running Applications
+    <http://www.tacc.utexas.edu/user-services/user-guides/stampede-user-guide#running>`_
 
     `Numpy for MATLAB users <http://wiki.scipy.org/NumPy_for_Matlab_Users>`_
     
