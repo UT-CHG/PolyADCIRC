@@ -4,9 +4,9 @@ T:**_manning.table-->fort.13 and creates the nxm matrix of multiplier
 factors where n = # nodes, and m = # land classification values.
 """
 
-import polysim.mesh_mapping.table_management as tm
-import polysim.mesh_mapping.gridObject as go
-import polysim.mesh_mapping.prep_mesh as prep
+import polyadcirc.mesh_mapping.table_management as tm
+import polyadcirc.mesh_mapping.gridObject as go
+import polyadcirc.mesh_mapping.prep_mesh as prep
 
 # read in an input file that designates the following:
 #   name of grid file

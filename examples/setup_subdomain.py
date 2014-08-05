@@ -1,7 +1,7 @@
 #! /usr/bin/env/python
 # import necessary modules
-import polysim.run_framework.subdomain as subdom
-import polysim.run_framework.fulldomain as fulldom
+import polyadcirc.run_framework.subdomain as subdom
+import polyadcirc.run_framework.fulldomain as fulldom
 import glob
 
 adcirc_dir = '/work/01837/lcgraham/v50_subdomain/work'

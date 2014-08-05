@@ -1,8 +1,8 @@
-import polysim.run_framework.domain as dom
-import polysim.mesh_mapping.manufacture_gap as manu
-import polysim.mesh_mapping.table_management as tm
-import polysim.mesh_mapping.gridObject as go
-import polysim.mesh_mapping.prep_mesh as prep
+import polyadcirc.run_framework.domain as dom
+import polyadcirc.mesh_mapping.manufacture_gap as manu
+import polyadcirc.mesh_mapping.table_management as tm
+import polyadcirc.mesh_mapping.gridObject as go
+import polyadcirc.mesh_mapping.prep_mesh as prep
 
 grid_dir = '.'
 
