@@ -9,10 +9,11 @@ This code extends the :program:`PolyADCIRC` framework to work with :program:`Sub
 ADCIRC v.50`. :program:`Subdomain ADCIRC v.50` was developed by Alper Altuntas
 and Jason Simon under the direction of John Baugh; Department of Civil,
 Construction, and Enviromental Engineering North Carolina State University
-(NCSU), Raleigh, NC 27695. I have merged their original source with
-:program:`ADCIRC v 50.99.09` and updated it so that the command line ``-I`` and
-``-O`` options are availiable. I have also added an ``__init__.py`` file so
-that their :program:`Python` script directory is recongized as a package.
+(NCSU), Raleigh, NC 27695. Since I am using :program:`ADICRC v 50.99.09` I
+merged their original source with :program:`ADCIRC v 50.99.09` and updated it
+so that the command line ``-I`` and ``-O`` options are availiable. I have also
+added an ``__init__.py`` file so that their :program:`Python` script directory
+is recongized as a package.
 
 As the file structure and set up for :program:`Subdomain ADCIRC` closely
 parallels that of :program:`ADCIRC` the repo containing the subdomain code will
@@ -21,10 +22,9 @@ need to be cloned into your ``$WORK`` directory using the
 
     $ git clone --separate-git-dir=$HOME/v50_subdomain ices-workstation:/org/groups/chg/lgraham/v50_subdomain
 
-Since this code is currently in development it is not in a public repository.
-If you would like a copy of the code let me know. If you would like a copy of
-the original :program:`Subdomain ADCIRC v.50` code you should contact John
-Baugh at NCSU.
+If you would like a copy of :program:`Subdomain ADCIRC v.50` code you should
+contact John Baugh at NCSU. They have a great graphical interface for the
+`ADCIRC Subdomain Modeling Tool<https://github.com/atdyer/SMT>`_.
 
 Make sure you are in the ``subdomain`` branch of the ``PolyADCIRC`` repo::
 
