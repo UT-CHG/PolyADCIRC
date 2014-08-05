@@ -6,7 +6,7 @@ This code has been documented with Sphinx. To build documentation run
 All documentation is contained in ``doc/_build/_html`` 
 To build/update the documentation use the following commands::
 
-    sphinx-apidoc -f -o doc polysim
+    sphinx-apidoc -f -o doc polyadcirc
     cd doc
     make html
     make html
@@ -14,4 +14,4 @@ To build/update the documentation use the following commands::
 You will need to run sphinx-apidoc anytime a new module or method in the source code has been added. If only the *.rst files have changed then you can simply run ``make html`` twice in the doc folder.
 
 Useful scripts are contained in ``examples/``
-Python source code for this package is contained in ``polysim/``
+Python source code for this package is contained in ``polyadcirc/``
