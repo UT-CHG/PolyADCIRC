@@ -9,4 +9,6 @@ This subpackage contains
   simulation outputs
 
 """
-__all__ = ['random_manningsn', 'domain']
+
+__all__ = ['random_manningsn', 'domain', 'subdomain',
+    'fulldomain', 'random_wall']

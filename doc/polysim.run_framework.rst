@@ -17,6 +17,14 @@ run_framework Package
     :undoc-members:
     :show-inheritance:
 
+:mod:`fulldomain` Module
+------------------------
+
+.. automodule:: polysim.run_framework.fulldomain
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 :mod:`random_manningsn` Module
 ------------------------------
 
@@ -29,6 +37,14 @@ run_framework Package
 -------------------------
 
 .. automodule:: polysim.run_framework.random_wall
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+:mod:`subdomain` Module
+-----------------------
+
+.. automodule:: polysim.run_framework.subdomain
     :members:
     :undoc-members:
     :show-inheritance:

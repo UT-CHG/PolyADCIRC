@@ -62,7 +62,9 @@ The package layout is as follows::
         run_framework/
             __init__.py
             random_manningsn.py  
+            subdomain.py
             random_wall.py       
+            fulldomain.py
             domain.py            
         pyGriddata/
             __init__.py  
@@ -112,7 +114,7 @@ Dependencies via :keyword:`import` statements::
             \-fort15_management (polysim.pyADCIRC.plotADCIRC,
                 polysim.run_framework.domain,
                 polysim.run_framework.random_manningsn,
-                )             
+                polysim.run_framework.subdomain)             
             \-fort14_management (polysim.pyGriddata.prep_mesh,
                 polysim.pyGriddata.file_management, 
                 polysim.run_framework.domain,
@@ -121,20 +123,21 @@ Dependencies via :keyword:`import` statements::
                 polysim.pyADCIRC.fort15_management)
             \-output (polysim.run_framework.random_wall,
                 polysim.run_framework.random_manningsn,
-                )          
+                polysim.run_framework.subdomain)          
             \-convert_fort14_to_fort13 (polysim.pyGriddata.gridObject)
             \-flag_fort14 (polysim.pyADCIRC.fort14_management)       
         run_framework/
             \-random_manningsn (polysim.run_framework.random_wall,
-                )  
-            \-domain (polysim.run_framework.random_manningsn,
-                )
+                polysim.run_framework.subdomain)  
+            \-domain (polysim.run_framework.fulldomain,
+                polysim.run_framework.random_manningsn,
+                polysim.run_framework.subdomain)
         pyGriddata/
             \-file_management (polysim.pyADCIRC.plotADCIRC,
                 polysim.pyGriddata.prep_mesh)
             \-table_to_mesh_map (polysim.pyGriddata.prep_mesh,
                 polysim.run_framework.random_manningsn,
-                )
+                polysim.run_framework.subdomain)
 
 External dependencies
 ---------------------
@@ -152,11 +155,11 @@ This pacakge requires `matplotlib <http://http://matplotlib.org>`_, `scipy <scip
     mpl_toolkits 
       \-axes_grid1 
         \-make_axes_locatable (polysim.pyADCIRC.plotADCIRC)
-    numpy (polysim.pyADCIRC.volume,polysim.run_framework.random_manningsn,polysim.pyADCIRC.fort15_management,polysim.run_framework.domain,polysim.pyGriddata.manufacture_gap,polysim.run_framework.random_wall,polysim.pyGriddata.prep_mesh,,polysim.pyGriddata.table_to_mesh_map,polysim.pyADCIRC.plotADCIRC,polysim.pyADCIRC.fort14_management,polysim.pyADCIRC.fort13_management,polysim.pyADCIRC.fort1920_management,polysim.pyADCIRC.convert_fort14_to_fort13,polysim.pyADCIRC.output)
+    numpy (polysim.pyADCIRC.volume,polysim.run_framework.random_manningsn,polysim.pyADCIRC.fort15_management,polysim.run_framework.domain,polysim.pyGriddata.manufacture_gap,polysim.run_framework.random_wall,polysim.pyGriddata.prep_mesh,polysim.run_framework.subdomain,polysim.pyGriddata.table_to_mesh_map,polysim.pyADCIRC.plotADCIRC,polysim.pyADCIRC.fort14_management,polysim.pyADCIRC.fort13_management,polysim.pyADCIRC.fort1920_management,polysim.pyADCIRC.convert_fort14_to_fort13,polysim.pyADCIRC.output)
     scipy 
       \-interpolate 
       | \-griddata (polysim.run_framework.domain)
-      \-io (,polysim.run_framework.random_wall,polysim.run_framework.random_manningsn)
+      \-io (polysim.run_framework.subdomain,polysim.run_framework.random_wall,polysim.run_framework.random_manningsn)
 
 
 
