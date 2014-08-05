@@ -1,7 +1,7 @@
-polysim
-=======
+polyadcirc
+==========
 
 .. toctree::
    :maxdepth: 4
 
-   polysim
+   polyadcirc

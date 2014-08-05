@@ -2,13 +2,13 @@
 Large Jobs
 =====================
 
-PolySim runs batches of simulations of size ``num_of_parallel_runs``. PolySim
+PolyADCIRC runs batches of simulations of size ``num_of_parallel_runs``. PolyADCIRC
 relies on `GNU Parallel <http://www.gnu.org/software/parallel/>`_ to handle
-simultaneously running a batch of serial jobs in parallel. PolySim relies on
+simultaneously running a batch of serial jobs in parallel. PolyADCIRC relies on
 :program:`ibrun`, a `TACC
 <http://www.tacc.utexas.edu/user-services/user-guides>`_ specific batch MPI
 launch command to handle simulataneously running a batch of parallel jobs in
-parallel. Based on user inputs PolySim writes the appropriate Bash scripts
+parallel. Based on user inputs PolyADCIRC writes the appropriate Bash scripts
 which are run using the :meth:`subprocess.POpen` command. Once the batch size
 (``num_of_parallel_runs``) gets too large the user may encounter ::
 
@@ -29,8 +29,8 @@ This file demonstrates concatenating data from two separate jobs.
 
 Import necessary modules::
 
-    import polysim.run_framework.domain as dom
-    import polysim.run_framework.random_wall as rmw
+    import polyadcirc.run_framework.domain as dom
+    import polyadcirc.run_framework.random_wall as rmw
 
 Specifiy directories for the jobs that were run::
 
@@ -52,7 +52,7 @@ Load the data from both runs::
         base_dir, grid_dir, save_dir2, basis_dir)
             
 Concatenate the data from both runs and save to a
-:class:`~polysim.run_framework.random_wall.runSet` object::
+:class:`~polyadcirc.run_framework.random_wall.runSet` object::
 
     cated = main_run.concatenate(other_run, points, points2)
 
@@ -80,8 +80,8 @@ This file demonstrates concatenating data from seven different jobs.
 
 Import necessary modules::
 
-    import polysim.run_framework.domain as dom
-    import polysim.run_framework.random_wall as rmw
+    import polyadcirc.run_framework.domain as dom
+    import polyadcirc.run_framework.random_wall as rmw
 
 Specify the directories for the jobs and the base string for the ``save_dir``
 and ``save_file``. The name pattern for the ``save_dir`` and ``save_file`` is
@@ -123,5 +123,5 @@ Notice that in this example ``mann_pts``
 and ``wall_pts`` are NOT saved. These two arrays have been stitched together
 into the ``points`` array using ``numpy.vstack((np.repeat(wall_points,
 s_p_wall,1), mann_pts))`` in
-:meth:`polysim.run_framework.random_wall.runSet.run_points` into a single
+:meth:`polyadcirc.run_framework.random_wall.runSet.run_points` into a single
 array.

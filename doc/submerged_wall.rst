@@ -2,12 +2,12 @@
 Limited Variable Bathymetry
 ===========================
 
-The :class:`~polysim.run_framework.domain.domain` class has two built in methods that
+The :class:`~polyadcirc.run_framework.domain.domain` class has two built in methods that
 give the user a limited ability to alter the bathymetry of the
-:class:`~polysim.run_framework.domain.domain`. The class
-`polysim.run_framework.random_wall.runSet` uses the
-:meth:`polysim.pyADCIRC.fort14_management.update` method and
-:meth:`polysim.run_framework.domain.domain.add_wall` method to run
+:class:`~polyadcirc.run_framework.domain.domain`. The class
+`polyadcirc.run_framework.random_wall.runSet` uses the
+:meth:`polyadcirc.pyADCIRC.fort14_management.update` method and
+:meth:`polyadcirc.run_framework.domain.domain.add_wall` method to run
 :program:`PADCIRC` with variable Manning's *n* fields and variable bathymetry.
     
 few_walls
@@ -24,8 +24,8 @@ Allow running from the command line using :command:`./few_walls.py`::
 
 Import necessary modules::
 
-    import polysim.run_framework.domain as dom
-    import polysim.run_framework.random_wall as rmw
+    import polyadcirc.run_framework.domain as dom
+    import polyadcirc.run_framework.random_wall as rmw
     import numpy as np
 
 Store string references to important directories::
@@ -57,7 +57,7 @@ Set run specific names of ``script`` and ``save_file``::
     save_file = 'py_save_file'
 
 Setting diffrerent ``script`` names allows for simulatenous runs of
-:program:`PolySim` with differing ``grid_dir``, ``save_dir``, and
+:program:`PolyADCIRC` with differing ``grid_dir``, ``save_dir``, and
 ``basis_dir``.
 
 Designate which :program:`ADCIRC` specific output files to collect data from::
@@ -68,7 +68,7 @@ Designate which :program:`ADCIRC` specific output files to collect data from::
 The non-timeseries output ``timemax63`` is not an :program:`ADCIRC` output
 file. The data from the ``fort.63`` file used to determine time of maximum
 elevation in a post-processing step within the
-:meth:`~polysim.run_framework.random_wall.runSet.run_points` method.
+:meth:`~polyadcirc.run_framework.random_wall.runSet.run_points` method.
 
 Set ``nprocs`` to be number of processors per :program:`PADCIRC` run. Set
 ``ppnode`` to be ``TpN`` (tasks per node) or the number of processors per node. On Lonestar,
@@ -87,7 +87,7 @@ Store directory references and set up random field directories::
             base_dir = adcirc_dir, script_name = script)
     main_run.initialize_random_field_directories(num_procs = nprocs)
 
-Store ``fort.14`` and ``fort.15`` data in :class:`~polysim.run_framework.domain`::
+Store ``fort.14`` and ``fort.15`` data in :class:`~polyadcirc.run_framework.domain`::
     
     domain = dom.domain(grid_dir)
     domain.update()
@@ -124,7 +124,7 @@ Manning's *n* samples per wall sample.
 
 .. seealso::
 
-    :meth:`~polysim.run_framework.random_wall.runSet.run_points`.
+    :meth:`~polyadcirc.run_framework.random_wall.runSet.run_points`.
 
 Run samples::
     
@@ -176,8 +176,8 @@ This script is very similar to ``examples/load_test.py``.
 
 Import necessary modules::
     
-    import polysim.run_framework.random_wall as rmw
-    import polysim.pyADCIRC.plotADCIRC as pa
+    import polyadcirc.run_framework.random_wall as rmw
+    import polyadcirc.pyADCIRC.plotADCIRC as pa
 
 Set up local directory and file references::
     
@@ -194,7 +194,7 @@ Load the run set up and data::
         grid_dir, save_dir, basis_dir)
 
 Now the data is availiable for plotting methods in
-:mod:`~polysim.pyADCIRC.plotADCIRC`.
+:mod:`~polyadcirc.pyADCIRC.plotADCIRC`.
 
 Determine the total number of samples modeled::
 

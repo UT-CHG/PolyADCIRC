@@ -5,7 +5,7 @@ Running with Subdomain ADCIRC
 Getting the Subdomain ADCIRC Code
 ---------------------------------
 
-This code extends the :program:`PolySim` framework to work with :program:`Subdomain
+This code extends the :program:`PolyADCIRC` framework to work with :program:`Subdomain
 ADCIRC v.50`. :program:`Subdomain ADCIRC v.50` was developed by Alper Altuntas
 and Jason Simon under the direction of John Baugh; Department of Civil,
 Construction, and Enviromental Engineering North Carolina State University
@@ -26,7 +26,7 @@ If you would like a copy of the code let me know. If you would like a copy of
 the original :program:`Subdomain ADCIRC v.50` code you should contact John
 Baugh at NCSU.
 
-Make sure you are in the ``subdomain`` branch of the ``PolySim`` repo::
+Make sure you are in the ``subdomain`` branch of the ``PolyADCIRC`` repo::
 
     $ git checkout --track origin/subdomain
 
@@ -51,8 +51,8 @@ Allow running from the command line::
 
 Import necessary modules::
 
-    import polysim.run_framework.subdomain as subdom
-    import polysim.run_framework.fulldomain as fulldom
+    import polyadcirc.run_framework.subdomain as subdom
+    import polyadcirc.run_framework.fulldomain as fulldom
     import glob
 
 Specify the path to directory containing the compiled :program:`PADCIRC`
@@ -61,20 +61,20 @@ executables::
     adcirc_dir = '/work/01837/lcgraham/v50_subdomain/work'
 
 Specify the path to directory containing the input files for the
-:class:`~polysim.run_framework.fulldomain.fulldomain`. This folder should also
+:class:`~polyadcirc.run_framework.fulldomain.fulldomain`. This folder should also
 contain a copy of the compiled executable :program:`ADCPREP`::
 
     fulldomain = fulldom.fulldomain(adcirc_dir+'/fulldomain')
 
 Specify the path to the directory that will contain files specific to the
-:class:`~polysim.run_framework.subdomain.subdomain`. This folder should also
+:class:`~polyadcirc.run_framework.subdomain.subdomain`. This folder should also
 contian a copy of the compiled executables :program:`ADCPREP`::
 
     subdomain = subdom.subdomain(adcirc_dir+'/subdomain')
 
 Update object references between the
-:class:`~polysim.run_framework.subdomain.subdomain` and the
-:class:`~polysim.run_framework.fulldomain.fulldomain`. This is somewhat clunky
+:class:`~polyadcirc.run_framework.subdomain.subdomain` and the
+:class:`~polyadcirc.run_framework.fulldomain.fulldomain`. This is somewhat clunky
 with a possiblity of circular references, so I might alter it in the future::
 
     subdomain.set_fulldomain(fulldomain)
@@ -136,7 +136,7 @@ of landuse basis folders, see :doc:`landuse_stuff`. These ``landuse_##``
 folders will need to be moved to the ``basis_dir`` directory specificed in your
 ``run_lonestar_test.py`` script.
 
-Running PolySim with Subdomains
+Running PolyADCIRC with Subdomains
 -------------------------------
 Finally, update the directory paths in a copy of :ref:`run-lonestar-test`. This
 file may be run with no other changes as all the necessary files for
