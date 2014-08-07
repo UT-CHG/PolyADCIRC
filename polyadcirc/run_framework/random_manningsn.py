@@ -76,9 +76,9 @@ def loadmat(save_file, base_dir, grid_dir, save_dir, basis_dir):
 
     if main_run.ts_data.has_key('fort63'):
         main_run.fix_dry_nodes(domain)
-        if main_run.ts_data.has_key('fort61'):
-            main_run.fix_dry_data(domain)
-    if main_run.ts_data.has_key('maxele63'):
+    if main_run.ts_data.has_key('fort61'):
+        main_run.fix_dry_data(domain)
+    if main_run.nts_data.has_key('maxele63'):
         main_run.fix_dry_nodes_nts(domain)
 
     return (main_run, domain, mann_pts)
