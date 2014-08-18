@@ -15,3 +15,10 @@ You will need to run sphinx-apidoc anytime a new module or method in the source 
 
 Useful scripts are contained in ``examples/``
 Python source code for this package is contained in ``polyadcirc/``
+
+This material is based upon work supported by the National Science Foundation
+Graduate Research Fellowship under Grant No. DGE-1110007. Any opinion,
+findings, and conclusions or recommendations expressed in this material are
+those of the authors(s) and do not necessarily reflect the views of the
+National Science Foundation.
+
