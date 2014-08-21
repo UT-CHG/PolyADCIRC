@@ -77,7 +77,7 @@ def combine_basis_vectors(weights, vectors, default_value, node_num):
     """
     :type weights: :class:`numpy.array`
     :param weights: array of size (num_of_basis_vec, 1)
-    :type array: list of dicts OR :class:`numpy.array` of size (node_num, num_of_basis_vec)
+    :type vectors: list of dicts OR :class:`numpy.array` of size (node_num, num_of_basis_vec)
     :param vectors: basis vectors
     :returns: an array of size (node_num, 1) containing the manningsn value at all
         nodes in numerical order
@@ -140,6 +140,55 @@ def dict_to_array(data, default_value, node_num):
             array[i] = data[i+1]
     return array
 
+def get_default_nodes(domain, vectors=None):
+    """
+    Given a set of basis vectors and a domain returns a list of default nodes.
+
+    :param domain: a computational domain for a physical domain
+    :type domain: :class:`~polyadcirc.run_framework.domain`
+    :param vectors: basis vectors
+    :type vectors: dict()
+
+    :rtype: list()
+    :returns: list of default nodes
+
+    """
+    node_nums = range(domain.node_num)
+    if vectors:
+        default_bv_array = combine_basis_vectors(np.zeros((len(vectors),)), vectors,
+            1.0, domain.node_num)
+    else:
+        default_bv_array = np.ones((domain.node_num,))
+    default_node_list = node_nums[np.nonzero(default_bv_array)]
+    return default_node_list
+
+def create_shelf(domain, shelf_bathymetry, vectors=None):
+    """
+    Creates a contitnetal shelf basis vector where the value at default
+    nodes between user defined bathymetric bounds are 1 and the other
+    default nodes are untouched. This basis vector can now be used to create a
+    ``fort.13`` file.
+
+    :param domain: a computational domain for a physical domain
+    :type domain: :class:`~polyadcirc.run_framework.domain`
+    :param shelf_bathymetry: the bathymetric limits of the continental shelf
+        [min, max]
+    :type shelf_bathymetry: :class:`numpy.array`
+    :param vectors: basis vectors
+    :type vectors: dict()
+
+    :rtype: dict()
+    :returns: basis vector that represents the continental shelf
+
+    """
+    bathymetry = domain.array_bathymetry()
+    shelf_dict = dict()
+    default_node_list = get_default_nodes(domain, vectors)
+    for i in default_node_list:
+        if bathymetry[i] >= shelf_bathymetry[0] and bathymetry[i] <= shelf_bathymetry[1]:
+            shelf_dict[i+1] = 1.0
+
+    return shelf_dict
 
 
     
