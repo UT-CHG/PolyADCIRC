@@ -9,7 +9,7 @@ factors where n = # nodes, and m = # land classification values.
 
 import polyadcirc.pyGriddata.file_management as fm
 import polyadcirc.pyGriddata.table_management as tm
-import glob, subprocess, os
+import glob, subprocess, os, sys, re
 import polyadcirc.pyADCIRC.fort14_management as f14
 import polyadcirc.run_framework.domain as dom
 import polyadcirc.pyADCIRC.fort13_management as f13
@@ -34,6 +34,21 @@ def prep_all(grid, flag = 1, path = None):
     if path == None:
         path = os.getcwd()
 
+    # check to see if Griddata is here
+    if len(glob.glob(path+'/Griddata_*.out')) == 0:
+        # check to see if Griddata is compiled and in pyGriddata (or somewhere?)
+        for p in sys.path:
+            if re.search("PolyADCIRC", p):
+                locations = glob.glob(p+'/*Griddata_*.out')
+                locations.add(glob.glob(p+'/pyGriddata/Griddata_*.out')
+                compiled_prog = locations[0] 
+        # put Griddata here
+        if compiled_prog:
+            fm.copy(comiled_prog, path)
+        else:
+        print "Compile a copy of Griddata_v1.32.F90 and put it in the"
+        print "PolyADCIRC folder on your Python Path."
+
     f14.flag_go(grid, flag)
     first_landuse_folder_name = 'landuse_00'
     first_script = fm.setup_landuse_folder(0, grid,
@@ -43,8 +58,6 @@ def prep_all(grid, flag = 1, path = None):
     # set up remaining land-use classifications
     script_list = fm.setup_landuse_folders(grid, False)
 
-    # THERE IS AN ERROR HERE WRT ODD/EVEN HANDLING FIX IT SEE SOLUTION IN
-    # RANDOM_MANNINGSN MODULE
     for s in script_list:
         subprocess.call(['./'+s], cwd = path)
 
