@@ -40,7 +40,7 @@ def prep_all(grid, flag = 1, path = None):
         for p in sys.path:
             if re.search("PolyADCIRC", p):
                 locations = glob.glob(p+'/*Griddata_*.out')
-                locations.append(glob.glob(p+'/pyGriddata/Griddata_*.out'))
+                locations.append(glob.glob(p+'/polyadcirc/pyGriddata/Griddata_*.out'))
                 compiled_prog = locations[0]
                 break
         # put Griddata here

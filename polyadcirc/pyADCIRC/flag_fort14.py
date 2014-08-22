@@ -28,9 +28,10 @@ def flag_fort14(grid_file_name = "fort.14", avg_scheme = 2):
     avg_flag = {1: -999.0, 2: -950.0, 4: -960.0, 8: -970.0, 'h' : -888.0, 'n':
             -777.0}
     print "Flagging values with "+str(avg_flag[avg_scheme])
+    dir, _, grid_file_name = grid_file_name.rpartition('/')
     prefix = "flagged_"
-    with open(grid_file_name,'r') as fid_read:
-        with open(prefix+grid_file_name, 'w') as fid_write:
+    with open(dir+'/'+grid_file_name,'r') as fid_read:
+        with open(dir+'/'+prefix+grid_file_name, 'w') as fid_write:
             # Read and write grid name 
             fid_write.write(fid_read.readline())
             header_line_2 = fid_read.readline()
@@ -57,14 +58,14 @@ def flag_fort14(grid_file_name = "fort.14", avg_scheme = 2):
 def flag_fort14_go(grid, avg_scheme = 2):
     """ 
     Given a gridInfo object create a flagged version of the
-    ``grid.file_name[8:]`` and save to ``grid.file_name``
+    ``grid.file_name`` and save to ``grid.file_name``
 
     :param grid: :class:`polyadcirc.pyGriddata.gridInfo.gridObject`
     :param int avg_scheme: flag to choose which averaging scheme to use
 
     See :meth:`~polyadcirc.pyADCIRC.flag_fort14.flag_fort14`
     """
-    flag_fort14(grid.file_name[8:], avg_scheme)
+    flag_fort14(grid.file_name, avg_scheme)
 
 if __name__ == "__main__":
     flag_fort14()
