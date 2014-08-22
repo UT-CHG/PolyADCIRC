@@ -284,6 +284,6 @@ def remove(files):
         "Error"
     for file in files:
         if os.path.isdir(file):
-            shutil.rmtree(file)
+            sh.rmtree(file)
         elif os.path.isfile(file):
             os.remove(file)

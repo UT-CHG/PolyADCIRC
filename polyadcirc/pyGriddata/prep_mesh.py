@@ -40,15 +40,16 @@ def prep_all(grid, flag = 1, path = None):
         for p in sys.path:
             if re.search("PolyADCIRC", p):
                 locations = glob.glob(p+'/*Griddata_*.out')
-                locations.add(glob.glob(p+'/pyGriddata/Griddata_*.out')
-                compiled_prog = locations[0] 
+                locations.append(glob.glob(p+'/pyGriddata/Griddata_*.out'))
+                compiled_prog = locations[0]
+                break
         # put Griddata here
         if compiled_prog:
-            fm.copy(comiled_prog, path)
+            fm.copy(compiled_prog, path)
         else:
-        print "Compile a copy of Griddata_v1.32.F90 and put it in the"
-        print "PolyADCIRC folder on your Python Path."
-        print "Name it Griddata_parallel.out."
+            print "Compile a copy of Griddata_v1.32.F90 and put it in the"
+            print "PolyADCIRC folder on your Python Path."
+            print "Name it Griddata_parallel.out."
 
     f14.flag_go(grid, flag)
     first_landuse_folder_name = 'landuse_00'
