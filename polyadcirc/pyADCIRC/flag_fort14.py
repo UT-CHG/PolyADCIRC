@@ -65,7 +65,7 @@ def flag_fort14_go(grid, avg_scheme = 2):
 
     See :meth:`~polyadcirc.pyADCIRC.flag_fort14.flag_fort14`
     """
-    flag_fort14(grid.file_name, avg_scheme)
+    flag_fort14(grid.basis_dir+'/'+grid.file_name, avg_scheme)
 
 if __name__ == "__main__":
     flag_fort14()
