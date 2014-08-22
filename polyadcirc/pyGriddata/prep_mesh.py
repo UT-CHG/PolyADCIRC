@@ -48,6 +48,7 @@ def prep_all(grid, flag = 1, path = None):
         else:
         print "Compile a copy of Griddata_v1.32.F90 and put it in the"
         print "PolyADCIRC folder on your Python Path."
+        print "Name it Griddata_parallel.out."
 
     f14.flag_go(grid, flag)
     first_landuse_folder_name = 'landuse_00'
