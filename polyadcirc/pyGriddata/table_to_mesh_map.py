@@ -167,7 +167,7 @@ def create_shelf(domain, shelf_bathymetry, vectors=None):
     Creates a contitnetal shelf basis vector where the value at default
     nodes between user defined bathymetric bounds are 1 and the other
     default nodes are untouched. This basis vector can now be used to create a
-    ``fort.13`` file.
+    ``fort.13`` file. Remember bathymetry is positive in the down direction.
 
     :param domain: a computational domain for a physical domain
     :type domain: :class:`~polyadcirc.run_framework.domain`
