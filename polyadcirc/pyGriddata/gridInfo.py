@@ -20,6 +20,7 @@ class gridInfo(pickleable):
         :class:``~polyadcirc.mesh_mapping.table_management.gapInfo` objects 
         """
         self.file_name = file_name #: Name of grid file, ``*.14``
+        self.d
         self.gap_data_files = gap_data_list 
         """ list() of :class:`~polsim.table_management.gapInfo` objects """
         self.__landclasses = [] 
@@ -185,3 +186,114 @@ class gridInfo(pickleable):
         if folder_name == None:
             folder_name = os.getcwd()
         c13.convert_go(self, folder_name, keep_flags)
+
+    def prep_all(grid, flag = 1, basis_dir = None):
+        """
+        Assumes that all the necessary input files are in ``path``. Given a
+        :class:`~polyadcirc.pyGriddata.gridInfo` object this function generates a
+        ``landuse_##`` folder for every land classification number containing a
+        ``fort.13`` file specific to that land classification number.
+
+        :param grid: :class:`~polyim.pyGriddata.gridInfo`
+        :param string path: THIS MUST BE CWD (``'.'``) or ``None``
+
+        .. todo:: Update so that landuse folders can be prepped n at a time and so
+            that this could be run on a HPC system
+        
+        """
+        if basis_dir == None:
+            basis_dir = os.getcwd()
+
+        # check to see if Griddata is here
+        if len(glob.glob(path+'/Griddata_*.out')) == 0:
+            # check to see if Griddata is compiled and in pyGriddata (or somewhere?)
+            for p in sys.path:
+                if re.search("PolyADCIRC", p):
+                    locations = glob.glob(p+'/*Griddata_*.out')
+                    locations.append(glob.glob(p+'/polyadcirc/pyGriddata/Griddata_*.out'))
+                    compiled_prog = locations[0]
+                    break
+            # put Griddata here
+            if compiled_prog:
+                fm.copy(compiled_prog, path)
+            else:
+                print "Compile a copy of Griddata_v1.32.F90 and put it in the"
+                print "PolyADCIRC folder on your Python Path."
+                print "Name it Griddata_parallel.out."
+
+        f14.flag_go(grid, flag)
+        first_landuse_folder_name = basis_dir+'/landuse_00'
+        first_script = fm.setup_landuse_folder(0, grid,
+            folder_name = first_landuse_folder_name)
+        # run grid_all_data in this folder 
+        subprocess.call(['./'+first_script], cwd = basis_dir)
+        # set up remaining land-use classifications
+        script_list = fm.setup_landuse_folders(grid, False, basis_dir)
+
+        for s in script_list:
+            subprocess.call(['./'+s], cwd = basis_dir)
+
+        # TODO: find out where these will be now that things are moving around
+        binaries = glob.glob('*.asc.binary')
+        for f in binaries:
+            os.remove(f)
+
+        # now clean out unecessary files and convert *.14 to *.13 when appropriate
+        fm.cleanup_landuse_folders(grid, basis_dir)
+        fm.convert(grid, basis_dir)
+        fm.rename13(basis_dir=basis_dir)
+
+    def prep_test(grid, path = None):
+        """
+        Assumes :meth:`~polyadcirc.pyGriddata.prep_mesh.prep_all` has been run
+        first. Prepares a fort.13 file for testing purposes.
+
+        :param grid: :class:`~polyim.pyGriddata.gridInfo`
+        :param string path: THIS MUST BE CWD (``'.'``) or ``None``
+
+        """
+        if path == None:
+            path = os.getcwd()
+
+        subprocess.call(['./'+fm.setup_folder(grid, 'test')], cwd = path)
+        grid.convert('test')
+        #fm.cleanup_landuse_folder('test')
+        fm.rename13(['test'])
+
+    def compare(basis_dir = None, default = 0.012):
+        """
+        Create a set of diagnostic plots in basis_dir/figs
+
+        :param string basis_dir: directory containing the test folder and landuse
+            folders
+        :param float default: default Manning's *n*
+        """
+        if basis_dir == None:
+            basis_dir = os.getcwd()
+        tables = tm.read_tables(basis_dir+'/test')
+        domain = dom.domain(basis_dir)
+        domain.read_spatial_grid()
+        fm.mkdir(basis_dir+'/figs')
+        old_files = glob.glob(basis_dir+'/figs/*.png')
+        for fid in old_files:
+            os.remove(fid)
+        domain.get_Triangulation(path = basis_dir)
+        original = f13.read_nodal_attr_dict(basis_dir+'/test')
+        original = tmm.dict_to_array(original, default, domain.node_num)
+        weights = np.array(tables[0].land_classes.values())
+        lim = (np.min(weights), np.max(weights))
+        bv_dict = tmm.get_basis_vectors(basis_dir)
+        combo = tmm.combine_basis_vectors(weights, bv_dict, default, domain.node_num)
+        bv_array = tmm.get_basis_vec_array(basis_dir, domain.node_num)
+        plt.basis_functions(domain, bv_array, path = basis_dir)
+        plt.field(domain, original, 'original', clim = lim,  path = basis_dir)
+        plt.field(domain, combo, 'reconstruction', clim = lim, path = basis_dir)
+        plt.field(domain, original-combo, 'difference', path = basis_dir)
+        combo_array = tmm.combine_bv_array(weights, bv_array)
+        plt.field(domain, combo_array, 'combo_array',  clim = lim, path = basis_dir)
+        plt.field(domain, original-combo_array, 'diff_ori_array', path = basis_dir)
+        plt.field(domain, combo-combo_array, 'diff_com_array', path = basis_dir)
+        combo_bv = tmm.combine_basis_vectors(np.ones(weights.shape),
+                bv_dict,default, domain.node_num)
+        plt.field(domain, combo_bv, 'combo_bv', path = basis_dir)
+

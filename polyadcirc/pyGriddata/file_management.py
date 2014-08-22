@@ -8,7 +8,7 @@ import glob, os
 import shutil as sh
 import polyadcirc.pyADCIRC.fort14_management as f14
 
-def setup_landuse_folders(grid_object, create_all=True):
+def setup_landuse_folders(grid_object, create_all=True, basis_dir=None):
     """ 
     Set up landuse folders by copying all necessary files to run
     grid_all_data into the folder. One folder is created for each
@@ -30,49 +30,16 @@ def setup_landuse_folders(grid_object, create_all=True):
     script_list = []
     if create_all:
         for i in xrange(len(list_of_landuse_classes)):
-            script_list.append(setup_landuse_folder(i, grid_object))
+            script_list.append(setup_landuse_folder(i, grid_object,
+                basis_dir=basis_dir))
     else:
         for i in xrange(1, len(list_of_landuse_classes)):
-            script_list.append(setup_landuse_folder(i, grid_object))
-    return script_list
-
-def setup_landuse_folders_double(grid_object, create_all=True):
-    """ 
-    Set up landuse folders by copying all necessary files to run
-    grid_all_data into the folder. Two folders are created for each
-    landuse classification. 
-
-    If create_all is True then sets up num_landuse*2 folders.
-    Else sets up (num_landuse-1)*2 folders.
-    
-    :type grid_object: :class:`~polyadcirc.mesh_mapping.gridObject.gridInfo`
-    :param grid_object: grid for which landclasses are being mapped
-    :param boolean create_all: flag to not skip first folder
-    :rtype: list()
-    :returns: list of file names of bash scripts for each land class
-
-    """
-    
-    print 'Setting up a double set of landuse folders...'
-    list_of_landuse_classes = grid_object.get_landclasses()
-    script_list = []
-    if create_all:
-        for i in xrange(len(list_of_landuse_classes)):
-            sh_names = setup_landuse_folder_double(i, grid_object)
-            for x in sh_names:
-                script_list.append(x)
-    else:
-        setup_landuse_folder(0, grid_object, 0.1,
-
-                'landuse_00_2')
-        for i in xrange(1, len(list_of_landuse_classes)):
-            sh_names = setup_landuse_folder_double(i, grid_object)
-            for x in sh_names:
-                script_list.append(x)
+            script_list.append(setup_landuse_folder(i, grid_object,
+                basis_dir=basis_dir))
     return script_list
 
 def setup_landuse_folder(class_num, grid_object, manningsn_value=1,
-        folder_name=None):
+        folder_name=None, basis_dir=None):
     """ 
     Set up a single landuse with name landuse_class_num
     
@@ -86,8 +53,10 @@ def setup_landuse_folder(class_num, grid_object, manningsn_value=1,
     :returns: file name of bash script for this land class
 
     """
+    if basis_dir == None:
+        basis_dir = os.getcwd()
     if folder_name == None:
-        folder_name = 'landuse_'+'{:=02d}'.format(class_num)
+        folder_name = basis_dir+'/landuse_'+'{:=02d}'.format(class_num)
     print 'Setting up folder -- '+folder_name+'...'
     # create a folder for this land-use classification
     mkdir(folder_name)
@@ -128,25 +97,6 @@ def setup_folder(grid_object, folder_name = 'temp'):
     grid_object.setup_tables(folder_name)
     return script_name
 
-def setup_landuse_folder_double(class_num, grid_object):
-    """ 
-    Set up two landuse folders with names:
-    landuse_class_num_00
-    landuse_class_num_01
-
-    :param int class_num: land classification number for this folder
-    :type grid_object: :class:`~polyadcirc.mesh_mapping.gridObject.gridInfo`
-    :param grid_object: grid for which landclasses are being mapped
-    :rtype: list() of strings
-    :returns: files name of bash scripts for this land class
-
-    """
-    script_list = [setup_landuse_folder(class_num, grid_object, 0.1,
-        'landuse_'+str(class_num)+'_00')]
-    script_list.append(setup_landuse_folder(class_num, grid_object, 1,
-        'landuse_'+str(class_num)+'_01'))
-    return script_list
-
 def cleanup_landuse_folder(grid_object, folder_name=None):
     """ 
     
@@ -178,7 +128,7 @@ def cleanup_landuse_folder(grid_object, folder_name=None):
         os.remove(x)   
     grid_object.convert(folder_name)
 
-def cleanup_landuse_folders(grid_object):
+def cleanup_landuse_folders(grid_object, basis_dir=None):
     """ 
     Removes all files except ``*.table`` and the most recent ``*.14`` in all
     landuse folders in the current directory
@@ -188,7 +138,7 @@ def cleanup_landuse_folders(grid_object):
 
     """
     print 'Cleaning all landuse folders...'
-    landuse_folder_names = glob.glob('landuse_*')
+    landuse_folder_names = glob.glob(basis_dir+'/landuse_*')
     for x in landuse_folder_names:
         cleanup_landuse_folder(grid_object, x)
 
@@ -214,7 +164,7 @@ def clean(grid_object, folder_name = None):
         os.removedirs(x)
     f14.clean(grid_object, folder_name)
 
-def convert(grid_object, keep_flags = 0):
+def convert(grid_object, keep_flags = 0, basis_dir=None):
     """ Converts the final ``fort5...5.14`` file to a ``fort.13`` file for
     ``grid_object``
 
@@ -226,7 +176,9 @@ def convert(grid_object, keep_flags = 0):
 
     """
     print 'Converting fort.14 files...'
-    landuse_folder_names = glob.glob('landuse_*')
+    if basis_dir == None:
+        basis_dir = os.getcwd()
+    landuse_folder_names = glob.glob(basis_dir+'/landuse_*')
     for x in landuse_folder_names:
         grid_object.convert(x, keep_flags)
 
@@ -251,7 +203,7 @@ def mkdir(path):
     if os.path.exists(path) == False:
         os.mkdir(path)
 
-def rename13(dirs = None):
+def rename13(dirs = None, basis_dir=None):
     """
     Renames all ``*.13`` files in ``dirs`` to ``fort.13``
 
@@ -259,8 +211,10 @@ def rename13(dirs = None):
 
     """
     files = []
-    if dirs == None:
+    if dirs == None and basis_dir == None:
         files = glob.glob('landuse_*/*.13')
+    elif dirs == None and basis_dir:
+        files = glob.glob(basis_dir+'/landuse_*/*.13')
     else:
         for d in dirs:
             files.append(glob.glob(d+'/*.13')[0])

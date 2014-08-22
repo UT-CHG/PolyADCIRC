@@ -17,7 +17,7 @@ import polyadcirc.pyADCIRC.plotADCIRC as plt
 import polyadcirc.pyGriddata.table_to_mesh_map as tmm
 import numpy as np
 
-def prep_all(grid, flag = 1, path = None):
+def prep_all(grid, flag = 1, basis_dir = None):
     """
     Assumes that all the necessary input files are in ``path``. Given a
     :class:`~polyadcirc.pyGriddata.gridInfo` object this function generates a
@@ -31,8 +31,8 @@ def prep_all(grid, flag = 1, path = None):
         that this could be run on a HPC system
     
     """
-    if path == None:
-        path = os.getcwd()
+    if basis_dir == None:
+        basis_dir = os.getcwd()
 
     # check to see if Griddata is here
     if len(glob.glob(path+'/Griddata_*.out')) == 0:
@@ -52,25 +52,26 @@ def prep_all(grid, flag = 1, path = None):
             print "Name it Griddata_parallel.out."
 
     f14.flag_go(grid, flag)
-    first_landuse_folder_name = 'landuse_00'
+    first_landuse_folder_name = basis_dir+'/landuse_00'
     first_script = fm.setup_landuse_folder(0, grid,
         folder_name = first_landuse_folder_name)
     # run grid_all_data in this folder 
-    subprocess.call(['./'+first_script], cwd = path)
+    subprocess.call(['./'+first_script], cwd = basis_dir)
     # set up remaining land-use classifications
-    script_list = fm.setup_landuse_folders(grid, False)
+    script_list = fm.setup_landuse_folders(grid, False, basis_dir)
 
     for s in script_list:
-        subprocess.call(['./'+s], cwd = path)
+        subprocess.call(['./'+s], cwd = basis_dir)
 
+    # TODO: find out where these will be now that things are moving around
     binaries = glob.glob('*.asc.binary')
     for f in binaries:
         os.remove(f)
 
     # now clean out unecessary files and convert *.14 to *.13 when appropriate
-    fm.cleanup_landuse_folders(grid)
-    fm.convert(grid)
-    fm.rename13()
+    fm.cleanup_landuse_folders(grid, basis_dir)
+    fm.convert(grid, basis_dir)
+    fm.rename13(basis_dir=basis_dir)
 
 def prep_test(grid, path = None):
     """
