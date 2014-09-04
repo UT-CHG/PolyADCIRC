@@ -16,9 +16,10 @@ This package contains the modules
     * :mod:`~polyadcirc.pyGriddata.manufacture_gap`
 
 :mod:`~polyadcirc.pyGriddata.grid_management` prepares ``*.table and
-*.13`` files needed for :mod:`~polyadcirc.pyGriddata.table_to_mesh_map` and creates the n x m
-matrix of multiplier factors where n = # nodes, and m = # land classification
-values, assuming there are no surprises with the spatial averaging.
+*.13`` files needed for :mod:`~polyadcirc.pyGriddata.table_to_mesh_map` and
+creates the n x m matrix of multiplier factors where n = # nodes, and m = #
+land classification values, assuming there are no surprises with the spatial
+averaging.
 
 additional needed files:
     * compiled version of :program:`Gridata_v1.32.F90` named
@@ -39,5 +40,5 @@ additional needed files:
     lonestar and so that there is also a version that runs on a workstation
     
 """
-__all__  = ['file_management', 'table_management', 'table_to_mesh_map',
-          'grid_management', 'manufacture_gap']
+__all__ = ['file_management', 'table_management', 'table_to_mesh_map',
+            'grid_management', 'manufacture_gap']

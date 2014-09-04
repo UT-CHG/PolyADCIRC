@@ -3,9 +3,17 @@ This module contains the class definition for
 :class:`~polyadcirc.mesh_mapping.grid_mamangement`.
 """
 
-import os, stat
+import os, stat, glob, sys, re, subprocess
 from polyadcirc.pyADCIRC.basic import pickleable
 import polyadcirc.pyADCIRC.convert_fort14_to_fort13 as c13
+import polyadcirc.pyADCIRC.fort14_management as f14
+import polyadcirc.pyADCIRC.fort13_management as f13
+import polyadcirc.pyADCIRC.plotADCIRC as plt
+import numpy as np
+import polyadcirc.pyGriddata.table_management as tm
+import polyadcirc.pyGriddata.table_to_mesh_map as tmm
+import polyadcirc.pyGriddata.file_management as fm
+import polyadcirc.run_framework.domain as dom
 
 class gridInfo(pickleable):
     """
@@ -13,7 +21,7 @@ class gridInfo(pickleable):
     ``*.table`` files specific to a particular grid.
     """
     def __init__(self, basis_dir, grid_dir, gap_data_list, flag=1,
-            file_name="fort.14"):
+                 file_name="fort.14"):
         """ 
         Initalizes a gridInfo object and sets up a directory with links to the
         necessary input files to run :program:`Griddata_v1.1.32.F90` from
@@ -54,8 +62,8 @@ class gridInfo(pickleable):
         f14.flag_go(self, flag)
 
         # check to see if Griddata is here
-        if len(glob.glob(path+'/Griddata_*.out')) == 0:
-            # check to see if Griddata is compiled and in pyGriddata (or somewhere?)
+        if len(glob.glob(os.cwd()+'/Griddata_*.out')) == 0:
+            # check to see if Griddata is compiled and on the python path 
             for p in sys.path:
                 if re.search("PolyADCIRC", p):
                     locations = glob.glob(p+'/*Griddata_*.out')
@@ -85,22 +93,22 @@ class gridInfo(pickleable):
         for every land classification number containing a ``fort.13`` file
         specific to that land classification number.
 
-        .. todo:: Update so that landuse folders can be prepped n at a time and so
-            that this could be run on a HPC system
+        .. todo:: Update so that landuse folders can be prepped n at a time and
+                  so that this could be run on a HPC system
         
         """
 
-        first_landuse_folder_name = basis_dir+'/landuse_00'
-        first_script = self.setup_landuse_folder(0, folder_name =
+        first_landuse_folder_name = self.basis_dir+'/landuse_00'
+        first_script = self.setup_landuse_folder(0, folder_name=
                 first_landuse_folder_name)
         # run grid_all_data in this folder 
-        subprocess.call(['./'+first_script], cwd = basis_dir)
+        subprocess.call(['./'+first_script], cwd=self.basis_dir)
         # set up remaining land-use classifications
-        script_list = self.setup_landuse_folders(False, basis_dir)
+        script_list = self.setup_landuse_folders(False)
         # run remaining bash scripts
-        if not(parallel):
+        if not parallel:
             for s in script_list:
-                subprocess.call(['./'+s], cwd = basis_dir)
+                subprocess.call(['./'+s], cwd=self.basis_dir)
         else:
             print "This needs to be implemented so that we can simultaneously \
                     run griddata on all of the remaining landuse folders. I \
@@ -125,8 +133,8 @@ class gridInfo(pickleable):
         if path == None:
             path = os.getcwd()
 
-        subprocess.call(['./'+fm.setup_folder(grid, 'test')], cwd =
-                self.basis_dir)
+        subprocess.call(['./'+self.setup_folder('test')], cwd=
+                        self.basis_dir)
         self.convert(self.basis_dir+'/'+'test')
         # remove unnecessary files
         if removeBinaries:
@@ -139,13 +147,13 @@ class gridInfo(pickleable):
     def __str__(self):
         """ 
         :rtype: string
-        :returns: Return string that matches header and following relevants lines of
-            ``*.in`` file
+        :returns: Return string that matches header and following relevants
+            lines of ``*.in`` file
         """
         string_rep = self.__iter_string(self)
         return string_rep
 
-    def __iter_string(self, i = 0, folder_name = ''):
+    def __iter_string(self, i=0, folder_name=''):
         """ 
         Return string that matches header and following relevant lines of
         ``*.in`` file assuming :program:`Griddata_v1.32.F90` has been run ``i``
@@ -156,8 +164,8 @@ class gridInfo(pickleable):
         :param string folder_name: name of the folder where input files for
             this run of :program:`Griddata_v1.32.F90` are located
         :rtype: string
-        :returns: Return string that matches header and following relevants lines of
-            ``*.in`` file
+        :returns: Return string that matches header and following relevants
+            lines of ``*.in`` file
 
         """
         string_rep = ''
@@ -205,7 +213,7 @@ class gridInfo(pickleable):
         """
         for i, x in enumerate(self.gap_data_files):
             file_name = self.basis_dir+'/'+folder_name+'/griddata_'+str(i)+'.in'
-            with open(file_name,'w') as f:
+            with open(file_name, 'w') as f:
                 f.write(self.__iter_string(i, folder_name))
                 f.write(x.local_str(self.basis_dir, folder_name))
 
@@ -218,9 +226,10 @@ class gridInfo(pickleable):
         :param string folder_name: folder for which to create bash scripts
 
         """
-        file_name += folder_name +'/'
-        script_name = self.basis_dir+'/grid_all_'+folder_name+'_'+self.file_name[:-2]+'sh'
-        with open(script_name,'w') as f:
+        file_name = folder_name +'/'
+        script_name = self.basis_dir+'/grid_all_'+folder_name+'_'
+        script_name += self.file_name[:-2]+'sh'
+        with open(script_name, 'w') as f:
             f.write('#!/bin/bash\n')
             f.write('# This script runs Griddata on several input files\n')
             for i in xrange(len(self.gap_data_files)):
@@ -247,7 +256,7 @@ class gridInfo(pickleable):
         t_name = self.__landclasses[class_num][1]
         t_class_number = self.__landclasses[class_num][0]
         u_table = self.__unique_tables[t_name]
-        u_table.create_table_single_value(t_class_number,  manningsn_value,
+        u_table.create_table_single_value(t_class_number, manningsn_value,
                                           folder_name)
 
     def setup_tables(self, folder_name):
@@ -261,12 +270,12 @@ class gridInfo(pickleable):
         for x in self.__unique_tables.itervalues():
             x.create_table(folder_name)
 
-    def convert(self, folder_name, keep_flags = 0):
+    def convert(self, folder_name, keep_flags=0):
         """ 
         
-        :meth:`~polyadcirc.pyADCIRC.convert_fort14_to_fort13.convert` where ``source`` is
-        the final ``*.14`` file produced by the bash script associated with
-        ``self`` in ``folder_name``
+        :meth:`~polyadcirc.pyADCIRC.convert_fort14_to_fort13.convert` where
+        ``source`` is the final ``*.14`` file produced by the bash script
+        associated with ``self`` in ``folder_name``
 
         :param string folder_name: name of the folder containing the ``*.14``
             to be converted
@@ -275,7 +284,8 @@ class gridInfo(pickleable):
         """
         c13.convert_go(self, folder_name, keep_flags)
 
-    def setup_landuse_folder(class_num, manningsn_value=1, folder_name=None):
+    def setup_landuse_folder(self, class_num, manningsn_value=1,
+                             folder_name=None): 
         """ 
         Set up a single landuse with name landuse_class_num
         
@@ -291,16 +301,17 @@ class gridInfo(pickleable):
             folder_name = 'landuse_'+'{:=02d}'.format(class_num)
         print 'Setting up folder -- '+folder_name+'...'
         # create a folder for this land-use classification
-        mkdir(basis_dir+'/'+folder_name)
+        fm.mkdir(self.basis_dir+'/'+folder_name)
         # cp self.file_name folder_name
-        copy(basis_dir+'/'+self.file_name, basis_dir+'/'+folder_name)
+        fm.copy(self.basis_dir+'/'+self.file_name,
+                self.basis_dir+'/'+folder_name)
         # create *.in files
         self.create_griddata_input_files(folder_name)
         # create *.sh files
         script_name = self.create_bash_script(folder_name)
         # create the *.table file needed for grid_all_data
         self.setup_tables_single_value(class_num, manningsn_value,
-                basis_dir+'/'+folder_name)
+                self.basis_dir+'/'+folder_name)
         return script_name
 
     def setup_landuse_folders(self, create_all=True):
@@ -323,10 +334,10 @@ class gridInfo(pickleable):
         script_list = []
         if create_all:
             for i in xrange(len(list_of_landuse_classes)):
-                script_list.append(setup_landuse_folder(i))
+                script_list.append(self.setup_landuse_folder(i))
         else:
             for i in xrange(1, len(list_of_landuse_classes)):
-                script_list.append(setup_landuse_folder(i))
+                script_list.append(self.setup_landuse_folder(i))
         return script_list
 
     def setup_folder(self, folder_name = 'temp'):
@@ -340,15 +351,15 @@ class gridInfo(pickleable):
         """
         print 'Setting up folder -- '+folder_name+'...'
         # create a folder for this land-use classification
-        mkdir(basis_dir+'/'+folder_name)
+        fm.mkdir(self.basis_dir+'/'+folder_name)
         # cp self.file_name folder_name
-        copy(basis_dir+'/'+self.file_name, basis_dir+'/'+folder_name)
+        fm.copy(self.basis_dir+'/'+self.file_name, self.basis_dir+'/'+folder_name)
         # create *.in files
         self.create_griddata_input_files(folder_name)
         # create *.sh files
         script_name = self.create_bash_script(folder_name)        
         # create the *.table file needed for grid_all_data
-        self.setup_tables(basis_dir+'/'+folder_name)
+        self.setup_tables(self.basis_dir+'/'+folder_name)
         return script_name
 
     def cleanup_landuse_folder(self, folder_name=None):
@@ -388,12 +399,12 @@ class gridInfo(pickleable):
 
         """
         print 'Cleaning all landuse folders...'
-        landuse_folder_names = glob.glob(basis_dir+'/landuse_*')
+        landuse_folder_names = glob.glob(self.basis_dir+'/landuse_*')
         for x in landuse_folder_names:
             self.cleanup_landuse_folder(x)
 
 
-def compare(basis_dir = None, default = 0.012):
+def compare(basis_dir=None, default=0.012):
     """
     Create a set of diagnostic plots in basis_dir/figs
 
@@ -410,7 +421,7 @@ def compare(basis_dir = None, default = 0.012):
     old_files = glob.glob(basis_dir+'/figs/*.png')
     for fid in old_files:
         os.remove(fid)
-    domain.get_Triangulation(path = basis_dir)
+    domain.get_Triangulation(path=basis_dir)
     original = f13.read_nodal_attr_dict(basis_dir+'/test')
     original = tmm.dict_to_array(original, default, domain.node_num)
     weights = np.array(tables[0].land_classes.values())
@@ -418,15 +429,15 @@ def compare(basis_dir = None, default = 0.012):
     bv_dict = tmm.get_basis_vectors(basis_dir)
     combo = tmm.combine_basis_vectors(weights, bv_dict, default, domain.node_num)
     bv_array = tmm.get_basis_vec_array(basis_dir, domain.node_num)
-    plt.basis_functions(domain, bv_array, path = basis_dir)
-    plt.field(domain, original, 'original', clim = lim,  path = basis_dir)
-    plt.field(domain, combo, 'reconstruction', clim = lim, path = basis_dir)
-    plt.field(domain, original-combo, 'difference', path = basis_dir)
+    plt.basis_functions(domain, bv_array, path=basis_dir)
+    plt.field(domain, original, 'original', clim=lim, path=basis_dir)
+    plt.field(domain, combo, 'reconstruction', clim=lim, path=basis_dir)
+    plt.field(domain, original-combo, 'difference', path=basis_dir)
     combo_array = tmm.combine_bv_array(weights, bv_array)
-    plt.field(domain, combo_array, 'combo_array',  clim = lim, path = basis_dir)
-    plt.field(domain, original-combo_array, 'diff_ori_array', path = basis_dir)
-    plt.field(domain, combo-combo_array, 'diff_com_array', path = basis_dir)
+    plt.field(domain, combo_array, 'combo_array', clim=lim, path=basis_dir)
+    plt.field(domain, original-combo_array, 'diff_ori_array', path=basis_dir)
+    plt.field(domain, combo-combo_array, 'diff_com_array', path=basis_dir)
     combo_bv = tmm.combine_basis_vectors(np.ones(weights.shape),
-            bv_dict,default, domain.node_num)
-    plt.field(domain, combo_bv, 'combo_bv', path = basis_dir)
+            bv_dict, default, domain.node_num)
+    plt.field(domain, combo_bv, 'combo_bv', path=basis_dir)
 

@@ -9,7 +9,7 @@ import glob, os, re
 from polyadcirc.pyADCIRC.basic import pickleable
 
 def create_table_single_value(class_num, landuse_table, manningsn_value,
-        folder_name=None):
+                              folder_name=None):
     """ 
     Create a ``*.table`` in ``folder_name`` where the landuse classification
     numbered class_num is assigned a value of ``manningsn_value`` and all other
@@ -43,7 +43,7 @@ def create_table(landuse_table, folder_name=None):
     print 'Creating landuse_table file '+landuse_table.file_name+'...'
     if folder_name == None:
         folder_name = os.getcwd()
-    with open(folder_name+'/'+landuse_table.file_name,'w') as f:
+    with open(folder_name+'/'+landuse_table.file_name, 'w') as f:
         next_str = ' {0:3}    ! '.format(landuse_table.get_num_landclasses())
         next_str += 'Total number of Class\n'
         f.write(next_str)
@@ -65,7 +65,7 @@ def read_table(table_file_name, folder_name=None):
     if folder_name == None:
         folder_name = os.getcwd()
     landuse_classes = {}
-    with open(folder_name+'/'+table_file_name,'r') as f:
+    with open(folder_name+'/'+table_file_name, 'r') as f:
         for line in f:
             m = re.match(r" +(\d+) +(\d+.\d+) +:(.*)", line)
             if m != None:
@@ -191,8 +191,8 @@ class gapInfo(pickleable):
                                   folder_name=None):
         """ 
         Create a ``*.table`` in ``folder_name`` where the landuse classification
-        numbered class_num is assigned a value of ``manningsn_value`` and all other
-        landuse classifications are assigned a manningsn_value of 0
+        numbered class_num is assigned a value of ``manningsn_value`` and all
+        other landuse classifications are assigned a manningsn_value of 0
 
         :param int class_num: land classification number
         :param float manningsn_value: Manningn's *n* value for `class_num`
@@ -200,7 +200,7 @@ class gapInfo(pickleable):
 
         """
         create_table_single_value(class_num, self.table, manningsn_value,
-                folder_name)
+                                  folder_name)
 
     def create_table(self, folder_name=None):
         """ 
@@ -266,11 +266,12 @@ class tableInfo(pickleable):
         return string_rep
 
     def create_table_single_value(self, class_num, manningsn_value,
-            folder_name = None):
+                                  folder_name=None):
         """ 
-        Create a ``*.table`` in ``folder_name`` where the landuse classification
-        numbered class_num is assigned a value of ``manningsn_value`` and all other
-        landuse classifications are assigned a manningsn_value of 0
+        Create a ``*.table`` in ``folder_name`` where the landuse
+        classification numbered class_num is assigned a value of
+        ``manningsn_value`` and all other landuse classifications are assigned
+        a manningsn_value of 0
 
         :param int class_num: land classification number
         :param float manningsn_value: Manningn's *n* value for `class_num`
@@ -278,9 +279,9 @@ class tableInfo(pickleable):
 
         """
         create_table_single_value(class_num, self, manningsn_value,
-                folder_name)
+                                  folder_name)
     
-    def create_table(self, folder_name = None):
+    def create_table(self, folder_name=None):
         """ 
         Create ``table_name.table`` in`` folder_name`` where the landuse
         classification numbered ``landuse_table.keys()`` is assigned a
@@ -291,7 +292,7 @@ class tableInfo(pickleable):
         """         
         create_table(self, folder_name)
 
-    def read_table(self, folder_name = None):
+    def read_table(self, folder_name=None):
         """ 
         Read in ``self.file_name`` in ``folder_name`` 
        

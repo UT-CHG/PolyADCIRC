@@ -6,7 +6,6 @@ has been run in each of the folders.
 
 import glob, os
 import shutil as sh
-import polyadcirc.pyADCIRC.fort14_management as f14
 
 def copy(src, dst):
     """ 
@@ -29,7 +28,7 @@ def mkdir(path):
     if os.path.exists(path) == False:
         os.mkdir(path)
 
-def rename13(dirs = None, basis_dir=None):
+def rename13(dirs=None, basis_dir=None):
     """
     Renames all ``*.13`` files in ``dirs`` to ``fort.13``
 
@@ -58,12 +57,12 @@ def remove(files):
     @author: pkjain
 
     """
-    if isinstance(files,str): #is files a string
+    if isinstance(files, str): #is files a string
         files = [files]
-    if not isinstance(files,list):
+    if not isinstance(files, list):
         "Error"
-    for file in files:
-        if os.path.isdir(file):
-            sh.rmtree(file)
-        elif os.path.isfile(file):
-            os.remove(file)
+    for f in files:
+        if os.path.isdir(f):
+            sh.rmtree(f)
+        elif os.path.isfile(f):
+            os.remove(f)
