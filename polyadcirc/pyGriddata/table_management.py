@@ -9,7 +9,7 @@ import glob, os, re
 from polyadcirc.pyADCIRC.basic import pickleable
 
 def create_table_single_value(class_num, landuse_table, manningsn_value,
-        folder_name = None):
+        folder_name=None):
     """ 
     Create a ``*.table`` in ``folder_name`` where the landuse classification
     numbered class_num is assigned a value of ``manningsn_value`` and all other
@@ -29,7 +29,7 @@ def create_table_single_value(class_num, landuse_table, manningsn_value,
     new_table = tableInfo(landuse_table.file_name, new_values)
     create_table(new_table, folder_name)
 
-def create_table(landuse_table, folder_name = None):
+def create_table(landuse_table, folder_name=None):
     """ 
     Create ``table_name.table`` in ``folder_name`` where the landuse
     classification numbered ``landuse_table.keys()`` is assigned a
@@ -99,7 +99,7 @@ class gapInfo(pickleable):
     creating it's portion of the ``*.in`` file, and methods for creating the
     table(s) needed for this GAP dataset.
     """
-    def __init__(self, file_name, table, horizontal_sys = None, UTM_zone = None):
+    def __init__(self, file_name, table, horizontal_sys=None, UTM_zone=None):
         """ 
         Initalizes a gapInfo object with the information necessary for a
         ``*.asc``,``*.asc.binary`` file with name ``file_name``
@@ -144,7 +144,7 @@ class gapInfo(pickleable):
             string_rep += " required to be in UTM coordinates)? (Y/N)\n\n"
         return string_rep
 
-    def local_str(self, basis_dir, folder_name = None):
+    def local_str(self, basis_dir, folder_name=None):
         """ 
         
         :param string basis_dir: the folder containing the *.asc files and the

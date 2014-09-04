@@ -112,7 +112,30 @@ class gridInfo(pickleable):
                 os.remove(f)
         self.cleanup_landuse_folders()
         fm.rename13(basis_dir=self.basis_dir)
-   
+ 
+    def prep_test(self, removeBinaries=False):
+        """
+        Assumes :meth:`~polyadcirc.pyGriddata.prep_mesh.prep_all` has been run
+        first. Prepares a fort.13 file for testing purposes.
+
+        :param grid: :class:`~polyim.pyGriddata.gridInfo`
+        :param string path: THIS MUST BE CWD (``'.'``) or ``None``
+
+        """
+        if path == None:
+            path = os.getcwd()
+
+        subprocess.call(['./'+fm.setup_folder(grid, 'test')], cwd =
+                self.basis_dir)
+        self.convert(self.basis_dir+'/'+'test')
+        # remove unnecessary files
+        if removeBinaries:
+            binaries = glob.glob(self.basis_dir+'/*.asc.binary')
+            for f in binaries:
+                os.remove(f)
+        self.cleanup_landuse_folder(self.basis_dir+'/test')
+        fm.rename13(['test'], self.basis_dir)  
+
     def __str__(self):
         """ 
         :rtype: string
@@ -155,55 +178,6 @@ class gridInfo(pickleable):
         string_rep += "{0:80}! Name of grid file.\n".format(iter_name)
         return string_rep
 
-    def create_griddata_input_files(self, folder_name = None):
-        """ 
-        Creates a series of ``*.in`` files named in order to be run
-        by :program:`./Griddata_parallel -I griddata_##.in`
-
-        :param string folder_name: folder for which to create input files
-
-        """
-        if folder_name == None:
-            folder_name = os.getcwd()
-            for i, x in enumerate(self.gap_data_files):
-                file_name = folder_name+'/griddata_'+str(i)+'.in'
-                with open(file_name,'w') as f:
-                    f.write(self.__iter_string(i))
-                    f.write(str(x))
-        else:
-            for i, x in enumerate(self.gap_data_files):
-                file_name = self.basis_dir+'/'+folder_name+'/griddata_'+str(i)+'.in'
-                with open(file_name,'w') as f:
-                    f.write(self.__iter_string(i, folder_name))
-                    f.write(x.local_str(self.basis_dir, folder_name))
-
-    def create_bash_script(self, folder_name=None):
-        """
-        Creates bash script called grid_file.sh in ``self.basis_dir`` or
-        ``cwd`` if ``folder_name==None`` to run Griddata in order on all the
-        ``*.in`` file associated with this grid 
-
-        :param string folder_name: folder for which to create bash scripts
-
-        """
-        file_name = ''
-        if folder_name == None:
-            folder_name = os.getcwd()
-            script_name = 'grid_all_'+self.file_name[:-2]+'sh'
-        else:
-            file_name += folder_name +'/'
-            script_name = self.basis_dir+'/grid_all_'+folder_name+'_'+self.file_name[:-2]+'sh'
-        with open(script_name,'w') as f:
-            f.write('#!/bin/bash\n')
-            f.write('# This script runs Griddata on several input files\n')
-            for i in xrange(len(self.gap_data_files)):
-                input_name = file_name + 'griddata_'+str(i)+'.in' 
-                f.write('./Griddata_parallel.out -I '+input_name+'\n')
-            #f.write('\n\n')
-        curr_stat = os.stat(script_name)
-        os.chmod(script_name, curr_stat.st_mode | stat.S_IXUSR)
-        return script_name.rpartition('/')[-1]
-
     def get_dict_of_unique_tables(self):
         """
         :rtype: :class:`dict`
@@ -220,9 +194,45 @@ class gridInfo(pickleable):
         :returns: landclasses[i] = (class_num, table_file_name)
         """
         return self.__landclasses
-            
+        
+    def create_griddata_input_files(self, folder_name):
+        """ 
+        Creates a series of ``*.in`` files named in order to be run
+        by :program:`./Griddata_parallel -I griddata_##.in`
+
+        :param string folder_name: folder for which to create input files
+
+        """
+        for i, x in enumerate(self.gap_data_files):
+            file_name = self.basis_dir+'/'+folder_name+'/griddata_'+str(i)+'.in'
+            with open(file_name,'w') as f:
+                f.write(self.__iter_string(i, folder_name))
+                f.write(x.local_str(self.basis_dir, folder_name))
+
+    def create_bash_script(self, folder_name):
+        """
+        Creates bash script called grid_file.sh in ``self.basis_dir`` or
+        ``cwd`` if ``folder_name==None`` to run Griddata in order on all the
+        ``*.in`` file associated with this grid 
+
+        :param string folder_name: folder for which to create bash scripts
+
+        """
+        file_name += folder_name +'/'
+        script_name = self.basis_dir+'/grid_all_'+folder_name+'_'+self.file_name[:-2]+'sh'
+        with open(script_name,'w') as f:
+            f.write('#!/bin/bash\n')
+            f.write('# This script runs Griddata on several input files\n')
+            for i in xrange(len(self.gap_data_files)):
+                input_name = file_name + 'griddata_'+str(i)+'.in' 
+                f.write('./Griddata_parallel.out -I '+input_name+'\n')
+            #f.write('\n\n')
+        curr_stat = os.stat(script_name)
+        os.chmod(script_name, curr_stat.st_mode | stat.S_IXUSR)
+        return script_name.rpartition('/')[-1]
+    
     def setup_tables_single_value(self, class_num, manningsn_value,
-                                  folder_name = None):
+                                  folder_name):
         """ 
         Creates a ``*.table`` in ``folder_name`` for ``t_name``.
         The land classification with ``t_class_number`` in ``t_name`` is 
@@ -240,7 +250,7 @@ class gridInfo(pickleable):
         u_table.create_table_single_value(t_class_number,  manningsn_value,
                                           folder_name)
 
-    def setup_tables(self, folder_name = None):
+    def setup_tables(self, folder_name):
         """
         Creates a ``*.table`` in ``folder_name`` for each unqiue ``*.table`` 
         file required by ``grid_all_*.sh``
@@ -251,7 +261,7 @@ class gridInfo(pickleable):
         for x in self.__unique_tables.itervalues():
             x.create_table(folder_name)
 
-    def convert(self, folder_name = None, keep_flags = 0):
+    def convert(self, folder_name, keep_flags = 0):
         """ 
         
         :meth:`~polyadcirc.pyADCIRC.convert_fort14_to_fort13.convert` where ``source`` is
@@ -263,76 +273,7 @@ class gridInfo(pickleable):
         
         See :meth:`~polyadcirc.pyADCIRC.convert_fort14_to_fort13.convert`
         """
-        if folder_name == None:
-            folder_name = os.getcwd()
         c13.convert_go(self, folder_name, keep_flags)
-
-    def convert_all(self, keep_flags = 0, basis_dir=None):
-        """ Converts the final ``fort5...5.14`` file to a ``fort.13`` file for
-        ``grid_object``
-
-        :type grid_object: :class:`~polyadcirc.mesh_mapping.gridObject.gridInfo`
-        :param grid_object: grid for which ``*.14`` files are being converted
-        :param int keep_flags: flag for types of conversion
-
-        See :meth:`~polyadcirc.mesh_mapping.gridInfo.convert`
-
-        """
-        print 'Converting fort.14 files...'
-        if basis_dir == None:
-            basis_dir = os.getcwd()
-        landuse_folder_names = glob.glob(basis_dir+'/landuse_*')
-        for x in landuse_folder_names:
-            self.convert(x, keep_flags)
-
-    def prep_test(self, removeBinaries=False):
-        """
-        Assumes :meth:`~polyadcirc.pyGriddata.prep_mesh.prep_all` has been run
-        first. Prepares a fort.13 file for testing purposes.
-
-        :param grid: :class:`~polyim.pyGriddata.gridInfo`
-        :param string path: THIS MUST BE CWD (``'.'``) or ``None``
-
-        """
-        if path == None:
-            path = os.getcwd()
-
-        subprocess.call(['./'+fm.setup_folder(grid, 'test')], cwd =
-                self.basis_dir)
-        self.convert(self.basis_dir+'/'+'test')
-        # remove unnecessary files
-        if removeBinaries:
-            binaries = glob.glob(self.basis_dir+'/*.asc.binary')
-            for f in binaries:
-                os.remove(f)
-        self.cleanup_landuse_folder(self.basis_dir+'/test')
-        fm.rename13(['test'], self.basis_dir)
-
-    def setup_landuse_folders(self, create_all=True):
-        """ 
-        Set up landuse folders by copying all necessary files to run
-        grid_all_data into the landuse folder. One folder is created for each
-        landuse classification. 
-
-        If create_all is True then sets up num_landuse folders.
-        Else sets up num_landuse-1 folders.
-
-        :param boolean create_all: flag to not skip first folder
-        :rtype: list()
-        :returns: list of file names of bash scripts for each land class
-
-        """
-        
-        print 'Setting up a single set of landuse folders...'
-        list_of_landuse_classes = self.get_landclasses()
-        script_list = []
-        if create_all:
-            for i in xrange(len(list_of_landuse_classes)):
-                script_list.append(setup_landuse_folder(i))
-        else:
-            for i in xrange(1, len(list_of_landuse_classes)):
-                script_list.append(setup_landuse_folder(i))
-        return script_list
 
     def setup_landuse_folder(class_num, manningsn_value=1, folder_name=None):
         """ 
@@ -361,6 +302,32 @@ class gridInfo(pickleable):
         self.setup_tables_single_value(class_num, manningsn_value,
                 basis_dir+'/'+folder_name)
         return script_name
+
+    def setup_landuse_folders(self, create_all=True):
+        """ 
+        Set up landuse folders by copying all necessary files to run
+        grid_all_data into the landuse folder. One folder is created for each
+        landuse classification. 
+
+        If create_all is True then sets up num_landuse folders.
+        Else sets up num_landuse-1 folders.
+
+        :param boolean create_all: flag to not skip first folder
+        :rtype: list()
+        :returns: list of file names of bash scripts for each land class
+
+        """
+        
+        print 'Setting up a single set of landuse folders...'
+        list_of_landuse_classes = self.get_landclasses()
+        script_list = []
+        if create_all:
+            for i in xrange(len(list_of_landuse_classes)):
+                script_list.append(setup_landuse_folder(i))
+        else:
+            for i in xrange(1, len(list_of_landuse_classes)):
+                script_list.append(setup_landuse_folder(i))
+        return script_list
 
     def setup_folder(self, folder_name = 'temp'):
         """ 
