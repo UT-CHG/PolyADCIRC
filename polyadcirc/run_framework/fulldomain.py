@@ -15,13 +15,13 @@ class fulldomain(dom.domain):
     mesh/grid. References to :class:`polyadcirc.run_framework.subdomain` objects
     are also contained in an instantiation of this class.
     """
-    def __init__(self, path, subdomains = None, node_num = 0, element_num = 0,
-            node = None, element = None):
+    def __init__(self, path, subdomains=None, node_num=0, element_num=0,
+                 node=None, element=None):
         """
         Initialization
         """
         super(fulldomain, self).__init__(path, node_num, element_num, node,
-                element)
+                                         element)
         # figure out where the script dir for the ncsu subdomain code is
         for sys_path in sys.path:
             potential_file_list = glob.glob(sys_path+'/py')
@@ -54,7 +54,7 @@ class fulldomain(dom.domain):
         for subdomain in self.subdomains:
             subdomain.fulldomain = self
 
-    def genfull(self, noutgs = 1, nspoolgs = 1, subdomains = None):
+    def genfull(self, noutgs=1, nspoolgs=1, subdomains=None):
         """
         Generate the full domain control file, ``fort.015``, and save it to
         ``self.path``.
@@ -75,7 +75,7 @@ class fulldomain(dom.domain):
                 fid.write(str(nspoolgs)+'\n')
             command = "python "+self.script_dir+" -a "+self.path+'/ '
             command += " < genfull.in"
-            subprocess.call(command, shell = True, cwd = self.path)
+            subprocess.call(command, shell=True, cwd=self.path)
         else:
             with open(self.path+'/genfull.in', 'w') as fid:
                 fid.write(str(noutgs)+'\n')
@@ -85,11 +85,10 @@ class fulldomain(dom.domain):
                     fid.write(subdomain.path+'/\n')
             command = "python "+self.script_dir+"/genfull.py -s "+self.path+'/ '
             command += str(len(subdomains)) + " < genfull.in"
-            subprocess.call(command, shell = True, cwd = self.path)
+            subprocess.call(command, shell=True, cwd=self.path)
         return command
 
-    def genbcss(self, forcing_freq = None, dt = None, nspoolgs = None, h0 =
-            None): 
+    def genbcss(self, forcing_freq=None, dt=None, nspoolgs=None, h0=None): 
         """
         Generate the ``fort.019`` files for the subdomains. This requires the
         presence of the output files from a fulldomain run, ``fort.06*``.
@@ -107,7 +106,7 @@ class fulldomain(dom.domain):
         commands = []
         if self.check_fulldomain():
             if forcing_freq == None:
-                forcing_freq =  [1 for i in self.subdomains]
+                forcing_freq = [1 for i in self.subdomains]
             if dt == None:
                 dt = [self.time.dt for i in self.subdomains]
             if nspoolgs == None:
@@ -115,7 +114,7 @@ class fulldomain(dom.domain):
             if h0 == None:
                 h0 = [None for s in self.subdomains]
             for f, d, ns, h, subdomain in zip(forcing_freq, dt, nspoolgs, h0,
-                    self.subdomains):
+                                              self.subdomains):
                 commands.append(subdomain.genbcs(f, d, ns, h))
         else:
             print "Output files from the fulldomain run do not exist"
@@ -146,7 +145,7 @@ class fulldomain(dom.domain):
 
         """
         for sub in self.subdomains:
-            if not(sub.check()):
+            if not sub.check():
                 return False
             else:
                 return True

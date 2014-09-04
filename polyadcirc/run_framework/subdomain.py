@@ -15,8 +15,8 @@ import scipy.io as sio
 def loadmat(save_file, base_dir, grid_dir, save_dir, basis_dir):
     """
     Loads data from ``save_file`` into a
-    :class:`~polyadcirc.run_framwork.random_manningsn.runSet` object. Reconstructs
-    :class:`~polyadcirc.run_framwork.random_manningsn.subdomain`. 
+    :class:`~polyadcirc.run_framwork.random_manningsn.runSet` object.
+    Reconstructs :class:`~polyadcirc.run_framwork.random_manningsn.subdomain`. 
 
     :param string save_file: local file name
     :param string grid_dir: directory containing ``fort.14``, ``fort.15``, and
@@ -26,8 +26,8 @@ def loadmat(save_file, base_dir, grid_dir, save_dir, basis_dir):
     :param string basis_dir: directory where ``landuse_*`` folders are located
     :param string base_dir: directory that contains ADCIRC executables, and
         machine specific ``in.prep#`` files 
-    :rtype: tuple of :class:`~polyadcirc.run_framwork.random_manningsn.runSet` and 
-        :class:`~polyadcirc.run_framwork.random_manningsn.domain` objects
+    :rtype: tuple of :class:`~polyadcirc.run_framwork.random_manningsn.runSet`
+        and :class:`~polyadcirc.run_framwork.random_manningsn.domain` objects
     :returns: (main_run, domain)
 
     """
@@ -41,7 +41,7 @@ def loadmat(save_file, base_dir, grid_dir, save_dir, basis_dir):
     domain.get_Triangulation()
     #domain.set_station_bathymetry()
 
-    main_run = rmn.runSet(grid_dir, save_dir, basis_dir, base_dir = base_dir)
+    main_run = rmn.runSet(grid_dir, save_dir, basis_dir, base_dir=base_dir)
     main_run.ts_error = {}
     main_run.nts_error = {}
     main_run.time_obs = {}
@@ -55,7 +55,7 @@ def loadmat(save_file, base_dir, grid_dir, save_dir, basis_dir):
             # check to see if the key is "*_time"
             main_run.time_obs[skey[0]] = v
         elif f15.filetype.has_key(skey[0]):
-            if not(re.match('fort', skey[0])):
+            if not re.match('fort', skey[0]):
                 # check to see if key is nts_data
                 main_run.nts_error[skey[0]] = v
             else:
@@ -73,12 +73,12 @@ class subdomain(dom.domain):
     are also contained in an instantiation of this class.
     """
     def __init__(self, path, fulldomain=None, node_num=0, element_num=0,
-            node=None, element=None):
+                 node=None, element=None):
         """
         Initialization
         """
         super(subdomain, self).__init__(path, node_num, element_num, node,
-                element)
+                                        element)
 
         # figure out where the script dir for the ncsu subdomain code is
         for sys_path in sys.path:
@@ -111,8 +111,8 @@ class subdomain(dom.domain):
         Generate the subdomain input files (``fort.13``, ``fort.14``,
         ``fort.015``, ``py.141``, ``py.140``) and shape file. Creates
         ``fort.15`` based on the ``fort.15`` in
-        :class:`polyadcirc.run_framework.fulldomain` to ``self.path``, and creates
-        symbolic links to meterological forcing files (``fort.22*``).
+        :class:`polyadcirc.run_framework.fulldomain` to ``self.path``, and
+        creates symbolic links to meterological forcing files (``fort.22*``).
         
         :param int bound_ele: a flag determining whether surface elevations of
             the boundary nodes of a subdomain are enforced using a boundary
@@ -146,7 +146,7 @@ class subdomain(dom.domain):
         self.create_fort15()
         fort22_files = glob.glob(self.fulldomain.path+'/fort.22*')
         for fid in fort22_files:
-            new_fid =  self.path+'/'+fid.rpartition('/')[-1]
+            new_fid = self.path+'/'+fid.rpartition('/')[-1]
             if os.path.exists(new_fid):
                 os.remove(new_fid)
             os.symlink(fid, self.path+'/'+fid.rpartition('/')[-1])
@@ -264,7 +264,7 @@ class subdomain(dom.domain):
 
         """
 
-        with open(self.path+"/shape.e14","r") as fid:
+        with open(self.path+"/shape.e14", "r") as fid:
             point1 = fid.readline().split()
             point2 = fid.readline().split()
             x = [float(point1[0]), float(point2[0])]
@@ -276,15 +276,26 @@ class subdomain(dom.domain):
         return (x, y, w)
 
     def ellipse_properties(self, x, y, w):
+        """
+        Given a the (x,y) locations of the foci of the ellipse and the width return
+        the center of the ellipse, width, height, and angle relative to the x-axis.
+
+        :param double x: x-coordinates of the foci
+        :param double y: y-coordinates of the foci
+        :param double w: width of the ellipse
+        :rtype: tuple of doubles
+        :returns: (center_coordinates, width, height, angle_in_rads)
+
+        """
         return ellipse_properties(x, y, w)
 
-    def setup(self, flag = None, bound_ele = 1, bound_vel = 1, bound_wd = 1):
+    def setup(self, flag=None, bound_ele=1, bound_vel=1, bound_wd=1):
         """
         Generate the subdomain input files (``fort.13``, ``fort.14``,
         ``fort.015``, ``py.141``, ``py.140``) and shape file. Creates
         ``fort.15`` based on the ``fort.15`` in
-        :class:`polyadcirc.run_framework.fulldomain` to ``self.path``, and creates
-        symbolic links to meterological forcing files (``fort.22*``).
+        :class:`polyadcirc.run_framework.fulldomain` to ``self.path``, and
+        creates symbolic links to meterological forcing files (``fort.22*``).
         
         :param int flag: flag determining whether or not the subdomain is an
             ellipse (0) or a circle (1)
@@ -313,7 +324,7 @@ class subdomain(dom.domain):
             self.flag = flag #: flag for :meth:`py.gensub`
         # Get rid of old files
         f_list = ['fort.015', 'fort.13', 'fort.14', 'bv.nodes', 'py.140',
-                'py.141']
+                  'py.141']
         for fid in f_list:
             if os.path.exists(self.path+'/'+fid):
                 os.remove(self.path+'/'+fid)
@@ -338,10 +349,10 @@ class subdomain(dom.domain):
 
         """
         fort019 = glob.glob(self.path+'/fort.019')
-        return (len(fort019) > 0)
+        return len(fort019) > 0
 
     def compare_runSet(self, ts_data, nts_data, ts_names=None, 
-            nts_names=None, save_file=None): 
+                       nts_names=None, save_file=None): 
         """
         Reads in :class:`polyadcirc.random_manningsn.runSet` output from this
         subdomain and from it's fulldomain and compares them.
@@ -478,7 +489,7 @@ class subdomain(dom.domain):
         for fid in nts_names:
             key = fid.replace('.', '')
             full_data = output.get_nts_sr(self.fulldomain.path, self.fulldomain,
-                    fid)[fulldom_nodes]
+                                          fid)[fulldom_nodes]
             sub_data = output.get_nts_sr(self.path, self, fid)
             nts_error[key] = (full_data - sub_data)#/full_data
             # Set nts_data
@@ -490,10 +501,12 @@ class subdomain(dom.domain):
             total_obs = sub_data.shape[1]
             if self.recording[key][2] == 1:
                 full_data = output.get_ts_sr(self.fulldomain.path,
-                        fid)[0][fulldom_nodes, 0:total_obs]
+                                             fid)[0][fulldom_nodes,
+                                                     0:total_obs] 
             else:
                 full_data = output.get_ts_sr(self.fulldomain.path,
-                        fid)[0][fulldom_nodes, 0:total_obs, :]
+                                             fid)[0][fulldom_nodes, 
+                                                     0:total_obs, :]
             time_obs[key] = output.get_ts_sr(self.path, fid, True)[-1]
             ts_data[key] = np.array([full_data.T, sub_data.T]).T
        
@@ -506,9 +519,8 @@ class subdomain(dom.domain):
         
         # Get ts_error
         for fid in ts_names:
-            key = fid.replace('.','')
-            nts_error[key] = (ts_data[key][..., 0] -ts_data[key][...,
-                        1])#/ts_data[key][...,0]
+            key = fid.replace('.', '')
+            nts_error[key] = (ts_data[key][..., 0] -ts_data[key][..., 1])
 
         # Update and save
         # export nontimeseries data
@@ -555,7 +567,7 @@ class subdomain(dom.domain):
         with open(self.path+'/py.140', 'r') as fid:
             fid.readline() # skip header
             for line in fid:
-                k, v  = np.fromstring(line, dtype=int, sep=' ')
+                k, v = np.fromstring(line, dtype=int, sep=' ')
                 self.sub2full_node[k] = v
 
     def read_py_ele(self):
@@ -572,7 +584,7 @@ class subdomain(dom.domain):
         with open(self.path+'/py.141', 'r') as fid:
             fid.readline() # skip header
             for line in fid:
-                k, v  = np.fromstring(line, dtype=int, sep=' ')
+                k, v = np.fromstring(line, dtype=int, sep=' ')
                 self.sub2full_element[k] = v
 
     def update_sub2full_map(self):
@@ -585,6 +597,17 @@ class subdomain(dom.domain):
         self.read_py_ele()
 
 def ellipse_properties(x, y, w):
+    """
+    Given a the (x,y) locations of the foci of the ellipse and the width return
+    the center of the ellipse, width, height, and angle relative to the x-axis.
+
+    :param double x: x-coordinates of the foci
+    :param double y: y-coordinates of the foci
+    :param double w: width of the ellipse
+    :rtype: tuple of doubles
+    :returns: (center_coordinates, width, height, angle_in_rads)
+
+    """
     p1 = [x[0], y[0]]
     p2 = [x[1], y[1]]
     
@@ -594,8 +617,8 @@ def ellipse_properties(x, y, w):
     d = ((p1[0] - p2[0])**2 + (p1[1] - p2[1])**2)**(0.5)	
     #theta to positive Xaxis
     angle = math.atan((p1[1] - p2[1])/(p1[0] - p2[0])) 
-    sin = math.sin(-angle)
-    cos = math.cos(-angle)
+    #sin = math.sin(-angle)
+    #cos = math.cos(-angle)
     #width will be the axis the points lie on
     width = 2*((0.5*d)**2 + (0.5*w)**2)**(0.5) 		
     height = w

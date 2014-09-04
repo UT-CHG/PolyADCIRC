@@ -16,7 +16,8 @@ class domain(pickleable):
     :class:`~polyadcirc.run_framework.domain` 
     Objects of this class contain all the data needed by
     :class:`~polyadcirc.run_framework.random_manningsn`
-    and :class:`~polyadcirc.pyADCIRC.plotADCIRC` for particular mesh(s) or grid(s)
+    and :class:`~polyadcirc.pyADCIRC.plotADCIRC` for particular mesh(s) or
+    grid(s)
 
     path
         full path to the directory containing the ``fort.##`` files for this
@@ -39,8 +40,8 @@ class domain(pickleable):
         (boolean) whether or not a domain map has been created
 
     """
-    def __init__(self, path, node_num = 0, element_num = 0, node = None,
-                 element = None):
+    def __init__(self, path, node_num=0, element_num=0, node=None,
+                 element=None):
         """
         Initializatoin
         """
@@ -59,7 +60,7 @@ class domain(pickleable):
             self.make_domain_map = True
             self.node = dict()
             self.element = dict()
-        #: string, full path to the dir containing the ``fort.##`` files for mesh
+        #: string, full path to the dir containing the ``fort.##`` files
         self.path = path
         super(domain, self).__init__()
 
@@ -79,7 +80,7 @@ class domain(pickleable):
         """
         f15.read_recording_data(self, self.path)
 
-    def update(self, path = None):
+    def update(self, path=None):
         """
         Sets the directory containing files for this domain to self.path
 
@@ -170,7 +171,7 @@ class domain(pickleable):
             temp[k] = node.manningsn
         return temp
 
-    def read_nodal_attr(self, path = None, file_name = 'fort.13'):
+    def read_nodal_attr(self, path=None, file_name='fort.13'):
         """
         Load in nodal attributes from a ``*.13`` file (only does Manning's *n*
         for now) and return a dictonary (like a MATLAB struct) with these
@@ -186,7 +187,7 @@ class domain(pickleable):
             path = self.path
         return f13.read_nodal_attr(self, path, file_name)
 
-    def read_default(self, path = None, file_name = 'fort.13'):
+    def read_default(self, path=None, file_name='fort.13'):
         """
         Read in default nodal value from a ``*.13`` file
 
@@ -200,7 +201,7 @@ class domain(pickleable):
             path = self.path
         return f13.read_default(self, path, file_name)
 
-    def get_Triangulation(self, path = None, save = True, show = False):
+    def get_Triangulation(self, path=None, save=True, show=False):
         """
         :type path: None or string
         :param string path: directory containing ``figs/`` folder
@@ -211,7 +212,7 @@ class domain(pickleable):
         """
         return plot.get_Triangulation(self, path, save, show)
 
-    def plot_bathymetry(self, path = None, save = True, show = False):
+    def plot_bathymetry(self, path=None, save=True, show=False):
         """
         :type path: None or string
         :param string path: directory containing ``figs/`` folder
@@ -222,12 +223,13 @@ class domain(pickleable):
         """
         return plot.bathymetry(self, path, save, show)
 
-    def plot_station_locations(self, path = None, bathymetry = False, 
-            save = True, show = False):
+    def plot_station_locations(self, path=None, bathymetry=False, 
+                               save=True, show=False):
         """
         :param string path: directory containing ``figs/`` folder
         :type bathymetry: boolean
-        :param bathymetry: flag whether or not to plot bathymetry in the background
+        :param bathymetry: flag whether or not to plot bathymetry in the
+            background 
         :param boolean save: flag
         :param boolean show: flag
         :returns: See :meth:`~polyadcirc.pyADCIRC.plotADCIRC.station_locations`
@@ -235,7 +237,7 @@ class domain(pickleable):
         """
         return plot.station_locations(self, path, bathymetry, save, show)
 
-    def adjust(self, x_lims = None, b_lims = None, path = None, plot = False):
+    def adjust(self, x_lims=None, b_lims=None, path=None, plotb=False):
         """
         Adds a bathymetry between x-locations defined by ``x_lims`` with
         bathymetry linearly interpolated between ``b_lims``
@@ -254,11 +256,11 @@ class domain(pickleable):
             x_lims[1] = np.max(np.array([node.x for node in self.node.values()]))
         for n in self.node.values():
             n.bathymetry += adjust_factor(n.x, x_lims, b_lims)
-        if plot:
+        if plotb:
             self.plot_bathymetry(path)
  
-    def add_wall(self, box_limits, wall_height = -2, path = None, plot = False,
-            save = False, show = False):
+    def add_wall(self, box_limits, wall_height=-2, path=None, plotb=False,
+                 save=False, show=False):
         """
 
         :type path: string or None
@@ -273,10 +275,10 @@ class domain(pickleable):
             if box_limits[0] <= n.x <= box_limits[1]: 
                 if  box_limits[2] <= n.y <= box_limits[3]:
                     n.bathymetry = wall_height
-        if plot:
+        if plotb:
             self.plot_bathymetry(path, save, show)
 
-    def set_station_bathymetry(self, key = 'fort61', method = 'linear'):
+    def set_station_bathymetry(self, key='fort61', method='linear'):
         #pylint: disable-msg=E1101
         """
         Sets they bathymetry for all stations by interpolating w.r.t. the nodal
@@ -290,12 +292,12 @@ class domain(pickleable):
         points = np.array([[n.x, n.y] for n in self.node.itervalues()])
         station_locs = np.array([[s.x, s.y] for s in self.stations[key]])
         station_bath = griddata(points, self.array_bathymetry(), 
-                station_locs, method)
+                                station_locs, method)
         for i, s in enumerate(self.stations[key]):
             s.bathymetry = station_bath[i]
     
-    def run(self, num_procs, base_dir, input_dir = None, global_dir = None, 
-            write_option = None, num_writers = None, LorS = None, R = False):
+    def run(self, num_procs, base_dir, input_dir=None, global_dir=None, 
+            write_option=None, num_writers=None, LorS=None, R=False):
         """
         Preprocess and run ADCIRC on this domain
 
@@ -319,14 +321,14 @@ class domain(pickleable):
             input_dir = self.path
         if global_dir == None:
             global_dir = self.path
-        if not(os.path.exists(self.path+'/adcprep')):
+        if not os.path.exists(self.path+'/adcprep'):
             os.symlink(base_dir+'/adcprep', self.path+'/adcprep')
         prep.write_1(self.path, num_procs)
         prep.write_2(self.path, num_procs)
         subprocess.call('./adcprep < in.prep1 > prep_o.txt', shell=True, 
-                cwd = self.path) 
+                        cwd=self.path) 
         subprocess.call('./adcprep < in.prep2 > prep_o.txt', shell=True, 
-                cwd = self.path) 
+                        cwd=self.path) 
         command = ['ibrun', 'padcirc', '-I', input_dir, '-O', global_dir]
         if LorS:
             command.append('-'+LorS)
@@ -335,9 +337,9 @@ class domain(pickleable):
         if write_option:
             command.append('-'+write_option)
             command.append(str(num_writers))
-        subprocess.call(command, cwd = base_dir)
+        subprocess.call(command, cwd=base_dir)
     
-def adjust_factor(x, x_lims, b_lims = None):
+def adjust_factor(x, x_lims, b_lims=None):
     """
     :param float x: current x value
     :param float x_lims: box of x values to adjust
