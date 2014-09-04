@@ -16,7 +16,7 @@ Flags all of the nodes in a grid file accordining to the flagging scheme for
    This scheme pick up the nearest point of GIS database inside of Grid_scale.
 """
 
-def flag_fort14(grid_file_name = "fort.14", avg_scheme = 2):
+def flag_fort14(grid_file_name="fort.14", avg_scheme=2):
     """ 
     Modifiy grid_file_name so that all of the nodes are flagged
     appropriately for Griddata program and save to flagged_grid_file_name.
@@ -26,12 +26,12 @@ def flag_fort14(grid_file_name = "fort.14", avg_scheme = 2):
 
     """
     avg_flag = {1: -999.0, 2: -950.0, 4: -960.0, 8: -970.0, 'h' : -888.0, 'n':
-            -777.0}
+                -777.0}
     print "Flagging values with "+str(avg_flag[avg_scheme])
-    dir, _, grid_file_name = grid_file_name.rpartition('/')
+    grid_dir, _, grid_file_name = grid_file_name.rpartition('/')
     prefix = "flagged_"
-    with open(dir+'/'+grid_file_name,'r') as fid_read:
-        with open(dir+'/'+prefix+grid_file_name, 'w') as fid_write:
+    with open(grid_dir+'/'+grid_file_name, 'r') as fid_read:
+        with open(grid_dir+'/'+prefix+grid_file_name, 'w') as fid_write:
             # Read and write grid name 
             fid_write.write(fid_read.readline())
             header_line_2 = fid_read.readline()
@@ -50,12 +50,12 @@ def flag_fort14(grid_file_name = "fort.14", avg_scheme = 2):
                     a[2] = float(a[2])
                     a[-1] = avg_flag[avg_scheme]
                     temp = ' {0:7d} {1:-9.8E}  '.format(a[0], a[1])
-                    temp += '{:-9.8E}           {:-7.2f}\n'.format( a[2], a[3])
+                    temp += '{:-9.8E}           {:-7.2f}\n'.format(a[2], a[3])
                     fid_write.write(temp)
                 else:
                     fid_write.write(line)
 
-def flag_fort14_go(grid, avg_scheme = 2):
+def flag_fort14_go(grid, avg_scheme=2):
     """ 
     Given a gridInfo object create a flagged version of the
     ``grid.file_name`` and save to ``grid.file_name``

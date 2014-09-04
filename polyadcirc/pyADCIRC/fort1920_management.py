@@ -1,7 +1,12 @@
 import numpy as np
 import os, math
 
-def write_fort19(etiminc, esbin, file_name = None):
+"""
+This module is for the manipulation and creation of ``fort.19`` and
+``fort.20`` files.
+"""
+
+def write_fort19(etiminc, esbin, file_name=None):
     """
     Write out a ``fort.19`` formatted file to ``file_name``
 
@@ -28,7 +33,7 @@ def write_fort19(etiminc, esbin, file_name = None):
             fid.write('{:17.15f}\n'.format(k))
 
 def sin_wave(t_start, t_finish, amplitude, nnodes, time, periods = .5, 
-        shift = 0, timinc = None):
+         shift=0, timinc=None):
     """
     
     :param float t_start: starting time of sine shaped wave in days
@@ -43,9 +48,9 @@ def sin_wave(t_start, t_finish, amplitude, nnodes, time, periods = .5,
 
     """
     if timinc == None:
-        timinc  = time.dt * 450.0
+        timinc = time.dt * 450.0
     times = np.arange(time.statim*60*60*24.0, time.rnday*60*60*24.0+timinc,
-            float(timinc))
+                      float(timinc))
     t_start = 60*60*24.0*t_start
     t_finish = 60*60*24.0*t_finish
     freq = periods/(t_finish - t_start)
@@ -65,7 +70,7 @@ def sin_wave(t_start, t_finish, amplitude, nnodes, time, periods = .5,
 
     return (times, nvalues.transpose(), timinc)
 
-def step_wave(t_start, t_finish, amplitude, nnodes, time, timinc = None):
+def step_wave(t_start, t_finish, amplitude, nnodes, time, timinc=None):
     """
     
     :param float t_start: starting time of sine shaped wave in days
@@ -78,9 +83,9 @@ def step_wave(t_start, t_finish, amplitude, nnodes, time, timinc = None):
 
     """
     if timinc == None:
-        timinc  = time.dt * 450.0
+        timinc = time.dt * 450.0
     times = np.arange(time.statim*60*60*24.0, time.rnday*60*60*24.0+timinc,
-            float(timinc))
+                      float(timinc))
     t_start = 60*60*24.0*t_start
     t_finish = 60*60*24.0*t_finish
   
@@ -98,7 +103,7 @@ def step_wave(t_start, t_finish, amplitude, nnodes, time, timinc = None):
 
     return (times, nvalues.transpose(), timinc)
 
-def write_fort20(ftiminc, qnin, file_name = None):
+def write_fort20(ftiminc, qnin, file_name=None):
     """
     Write out a ``fort.20`` formatted file to ``file_name``
 

@@ -58,14 +58,14 @@ def element_volume(domain, element, elevation):
     volume = 0
     # Check if the element is dry
     local_z = [elevation[i-1] for i in element]
-    if not(np.array_equal(local_z, -99999.0*np.ones(3,))):
+    if not np.array_equal(local_z, -99999.0*np.ones(3,)):
         volume += triangle(domain, element, elevation)/3.0
         volume += triangle(domain, element, -domain.bathymetry, -1.0)/3.0
         for i in xrange(3):
             volume += side(domain, element, i, elevation)/3.0
     return volume
 
-def triangle(domain, element, z, norm_dir = 1.0):
+def triangle(domain, element, z, norm_dir=1.0):
     """
     Calculates dot(x, n*A) where x is the barycenter, n is the normal vector to
     the surface defined by z and the element verticies, and A is the area of
@@ -131,7 +131,7 @@ def side(domain, element, side_num, elevation):
     else: # Wet
         barycenter = np.average(np.vstack((surface_points, bottom_points)), 0)
         normal = np.cross(bottom_points[0]-surface_points[1],
-                bottom_points[1]-surface_points[0])
+                          bottom_points[1]-surface_points[0])
         bna = np.dot(barycenter, normal/2)
 
     return bna

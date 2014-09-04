@@ -1,7 +1,8 @@
 # Lindley Graham 03/25/2013
 """
-A set of methods for converting a fort.14 formatted file to a fort.13 formatted file
-"""
+A set of methods for converting a fort.14 formatted file to a fort.13 formatted
+file 
+    """
 
 import re, os, glob
 import numpy as np
@@ -27,7 +28,7 @@ class InputError(Error):
         self.msg = msg
         super(InputError, self).__init__()
 
-def convert(source, keep_flags = 0, target = 'fort.13'):
+def convert(source, keep_flags=0, target='fort.13'):
     """ Reads in a ``fort5...14`` file and produces a ``fort5...13 file``. By
     default all remaining flagged nodes are removed. If the user desires to
     keep the flagged nodes, keep_flags should be set to 1.
@@ -39,12 +40,12 @@ def convert(source, keep_flags = 0, target = 'fort.13'):
     :param int keep_flags:
         0. ``_noflags`` -- creates a ``fort.13`` formatted file and removes
            remaining flags for Griddata
-        1. ``_flags`` -- creates a ``fort.13`` formatted file with remainings flags
-           for Griddata intact
-        2. _fillins -- creates a ``fort.13`` formatted file and fills in remiaing
-           flags from Griddata with data from source if data is present
-        3. _color -- creates a ``fort.13`` formatted file and color codes the data
-           based on wheter or not is is a default value or not
+        1. ``_flags`` -- creates a ``fort.13`` formatted file with remainings
+            flags for Griddata intact
+        2. _fillins -- creates a ``fort.13`` formatted file and fills in
+            remiaing flags from Griddata with data from source if data is present
+        3. _color -- creates a ``fort.13`` formatted file and color codes the
+            data based on wheter or not is is a default value or not
 
     """
     output_name = source[:-3]
@@ -103,11 +104,11 @@ def convert(source, keep_flags = 0, target = 'fort.13'):
                 if tline_indice != None:
                     # read the original number of non-default values in
                     # the fort.13
-                    attr_num = np.fromstring(fid_read.readline(), dtype = int,
-                                             sep = ' ')
+                    attr_num = np.fromstring(fid_read.readline(), dtype=int,
+                                             sep=' ')
                     attribute_name_present = 2
-                    tmp = np.fromstring(fid_read514.readline(), dtype = int,
-                                        sep = ' ')
+                    tmp = np.fromstring(fid_read514.readline(), dtype=int,
+                                        sep=' ')
                     node_num = tmp[1]
                     read_target_nodes = 0
 
@@ -133,7 +134,7 @@ def convert(source, keep_flags = 0, target = 'fort.13'):
                                 write_manningsn(fid_write, a[0], b[1])
                             else:
                                 missing_val += 1
-                        msg =  'Total number of missing values: '
+                        msg = 'Total number of missing values: '
                         print msg + str(missing_val)
                         # write out number of non-default valued nods
                         node_num = step-1
@@ -178,7 +179,7 @@ def convert(source, keep_flags = 0, target = 'fort.13'):
     # files are now all closed and correctly named
     os.remove(temp_name)
 
-def convert_go(grid, folder_name = None, keep_flags = 0):
+def convert_go(grid, folder_name=None, keep_flags=0):
     """ See :meth:`~polyadcirc.pyADCIRC.convert_fort14_to_fort13.convert` where
     source is the final ``*.14`` file produced by the bash script associated
     with grid in folder_name
@@ -188,12 +189,12 @@ def convert_go(grid, folder_name = None, keep_flags = 0):
     :param int keep_flags:
         0. ``_noflags`` -- creates a ``fort.13`` formatted file and removes
            remaining flags for Griddata
-        1. ``_flags`` -- creates a ``fort.13`` formatted file with remainings flags
-           for Griddata intact
-        2. _fillins -- creates a ``fort.13`` formatted file and fills in remiaing
-           flags from Griddata with data from source if data is present
-        3. _color -- creates a ``fort.13`` formatted file and color codes the data
-           based on wheter or not is is a default value or not
+        1. ``_flags`` -- creates a ``fort.13`` formatted file with remainings
+            flags for Griddata intact
+        2. _fillins -- creates a ``fort.13`` formatted file and fills in
+            remiaing flags from Griddata with data from source if data is present
+        3. _color -- creates a ``fort.13`` formatted file and color codes the
+            data based on wheter or not is is a default value or not
 
     """
     if folder_name == None:

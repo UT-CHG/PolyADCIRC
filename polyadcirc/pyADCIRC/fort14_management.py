@@ -8,7 +8,7 @@ import glob, os
 import polyadcirc.pyADCIRC.flag_fort14 as flag_fort14
 import polyadcirc.pyADCIRC.basic as basic
 
-def clean(grid_object, folder_name = None):
+def clean(grid_object, folder_name=None):
     """
     Removes all except for the most recent ``*.14`` files in ``folder_name`` or 
     the current working direcory
@@ -32,7 +32,7 @@ def clean(grid_object, folder_name = None):
         os.remove(fid)
     return fort_14_files
 
-def flag(grid_file_name = "fort.14", avg_scheme = 2):
+def flag(grid_file_name="fort.14", avg_scheme=2):
     """ 
     Modifiy ``grid_file_name`` so that all of the nodes are flagged
     appropriately for Griddata program and save to ``flagged_grid_file_name``.
@@ -44,7 +44,7 @@ def flag(grid_file_name = "fort.14", avg_scheme = 2):
     """
     flag_fort14.flag_fort14(grid_file_name, avg_scheme)
 
-def flag_go(grid, avg_scheme = 2):
+def flag_go(grid, avg_scheme=2):
     """ Given a gridInfo object create a flagged version of the
     ``grid.file_name[8:]`` and save to ``grid.file_name``
 
@@ -60,7 +60,8 @@ def is_flagged(grid):
     """
     :param grid: :class:`gridInfo`
     :rtype: boolean
-    :returns: true if flagged_grid_file_name exists and false if it doesn't exist
+    :returns: true if flagged_grid_file_name exists and false if it doesn't
+        exist
 
     """
     if glob.glob(grid.file_name):
@@ -68,7 +69,7 @@ def is_flagged(grid):
     else:
         return False
 
-def read_spatial_grid(data, path = None, make_domain_map = False):
+def read_spatial_grid(data, path=None, make_domain_map=False):
     """ 
     Reads in a ``fort.14`` file in ``path`` and updates data
 
@@ -91,20 +92,20 @@ def read_spatial_grid(data, path = None, make_domain_map = False):
         f.readline()
         # Read in total number of nodes (OUT of fort.14 instead of fort.16 as
         # in serial case)
-        a = np.fromstring(f.readline(), dtype = int, sep = ' ')
+        a = np.fromstring(f.readline(), dtype=int, sep=' ')
         data.node_num = a[1]
         data.element_num = a[0]
         data.make_domain_map = make_domain_map
         
         # Now read in the nodal coordinates
         for i in xrange(data.node_num): # pylint: disable=W0612
-            a = np.fromstring(f.readline(), sep = ' ')
+            a = np.fromstring(f.readline(), sep=' ')
             data.node[int(a[0])] = basic.node(a[1], a[2], a[3])
         
         # Node read in the element to node map
         for i in xrange(data.element_num):
-            a = np.fromstring(f.readline(), dtype = int,
-                    sep = ' ')
+            a = np.fromstring(f.readline(), dtype=int,
+                              sep=' ')
             data.element[a[0]] = a[2:]
 
     # This needs only to be done once then, make_domain_map flag will be set to
@@ -112,10 +113,10 @@ def read_spatial_grid(data, path = None, make_domain_map = False):
     if data.make_domain_map:
         data.make_node_to_element_map()            
         data.make_domain_map = False
-        print('Domain map construction complete')
+        print 'Domain map construction complete'
     return data
 
-def update(data, bathymetry = None, path = None, file_name = 'fort.14'):
+def update(data, bathymetry=None, path=None, file_name='fort.14'):
     """
     Write out bathymetry in data to ``fort.14`` formated file, by updating
     path/file_name accordingly
@@ -147,7 +148,7 @@ def update(data, bathymetry = None, path = None, file_name = 'fort.14'):
         for i, v in data.node.iteritems():
             # pylint: disable=C0103
             fw.write('{:<7d} {:9.8E} {:9.8E} {:7.2f}\n'.format(i, v.x, v.y,
-                    bathymetry[i-1]))
+                     bathymetry[i-1]))
             f.readline()
         for line in f:
             fw.write(line)

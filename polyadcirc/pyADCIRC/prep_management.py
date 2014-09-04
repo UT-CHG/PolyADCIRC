@@ -3,7 +3,7 @@
 This module controls the automatic writing of ``in.prep*`` files
 """
 
-import os,stat
+import os, stat
 
 def prep_script_12(path):
     """
@@ -13,7 +13,7 @@ def prep_script_12(path):
     :param string path: folder to save ``prep12.sh`` to
     
     """
-    with open(path+'/prep12.sh','w') as f:
+    with open(path+'/prep12.sh', 'w') as f:
         f.write('#!/bin/bash\n')
         f.write('./adcprep < in.prep1 > prep_o.txt\n')
         f.write('./adcprep < in.prep2 > prep_o.txt\n')
@@ -28,7 +28,7 @@ def prep_script_n(path, n):
     :param string path: folder to save ``prepn.sh`` to
     
     """
-    with open(path+'/prep'+str(n)+'.sh','w') as f:
+    with open(path+'/prep'+str(n)+'.sh', 'w') as f:
         f.write('#!/bin/bash\n')
         f.write('./adcprep < in.prep'+str(n)+' > prep_o.txt\n')
     curr_stat = os.stat(path+'/prep'+str(n)+'.sh')
