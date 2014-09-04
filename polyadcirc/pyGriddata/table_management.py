@@ -144,13 +144,15 @@ class gapInfo(pickleable):
             string_rep += " required to be in UTM coordinates)? (Y/N)\n\n"
         return string_rep
 
-    def local_str(self, folder_name = None):
+    def local_str(self, basis_dir, folder_name = None):
         """ 
         
+        :param string basis_dir: the folder containing the *.asc files and the
+            directory folder_name
         :param string folder_name: name of folder to create ``*.in`` for
         :rtype: string
         :returns: text that matches relevant lines of ``*.in`` file and uses
-            current directory for ``*.asc`` files 
+            basis_dir for ``*.asc`` files 
         
         """
         string_rep = ''
@@ -163,10 +165,10 @@ class gapInfo(pickleable):
         string_rep += "{0:80}!".format(table_name)
         string_rep += " Name of classified value table.\n"
         convert = 'N'
-        if glob.glob(self.file_name+'.binary') == []:
+        if glob.glob(basis_dir+'/'+self.file_name+'.binary') == []:
             convert = 'Y'
-        elif glob.glob(self.file_name+'.binary') == []:
-            convert = 'Y'
+        else:
+            convert = 'N'
         string_rep += "{0:80}!".format(convert)
         string_rep += " Convert to ASCII GAP/NLCD data to "
         string_rep += "binary(required)? (Y/N)\n"

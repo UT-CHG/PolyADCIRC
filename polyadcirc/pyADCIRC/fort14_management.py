@@ -23,7 +23,7 @@ def clean(grid_object, folder_name = None):
         folder_name = ''
         print 'Removing extra *.14 files in current directory...'
     else:
-        folder_name = grid_object.base_dir+'/'+folder_name
+        folder_name = grid_object.basis_dir+'/'+folder_name
         print 'Removing extra *.14 files in '+folder_name+'...'
     fort_14_files = glob.glob(folder_name+'/*'+grid_object.file_name[:-3]+'*.14')
     fort_14_files.sort()

@@ -204,4 +204,4 @@ def convert_go(grid, folder_name = None, keep_flags = 0):
     fort_14_files.reverse()
     source = fort_14_files[0]
 
-    convert(source, keep_flags)
+    convert(source, keep_flags, grid.grid_dir+'/fort.13')
