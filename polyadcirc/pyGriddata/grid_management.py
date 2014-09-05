@@ -21,7 +21,7 @@ class gridInfo(pickleable):
     ``*.table`` files specific to a particular grid.
     """
     def __init__(self, basis_dir, grid_dir, gap_data_list, flag=1,
-                 file_name="fort.14"):
+                 file_name="fort.14", omp_num_threads=None):
         """ 
         Initalizes a gridInfo object and sets up a directory with links to the
         necessary input files to run :program:`Griddata_v1.1.32.F90` from
@@ -44,6 +44,7 @@ class gridInfo(pickleable):
         self.grid_dir = grid_dir  #: the path for the dir of the grid file
         self.gap_data_files = gap_data_list #: a list of gapInfo objects
         self.basis_dir = basis_dir #: the path for the dir to create landuse_ in
+        self.omp_num_threads = omp_num_threads #: num threads per Griddata run
         """ list() of :class:`~polyadcirc.table_management.gapInfo` objects """
         self.__landclasses = [] 
         self.__unique_tables = {} 
@@ -59,16 +60,22 @@ class gridInfo(pickleable):
         # Look for ``fort.14`` formatted file in grid_dir and place a link to
         # it in basis_dir
         fm.symlink(grid_dir+'/'+file_name, basis_dir+'/'+file_name)
-        f14.flag_go(self, flag)
+        flagged_file_name = f14.flag_go(self, flag)
+        self.file_name = os.path.basename(flagged_file_name)
 
         # check to see if Griddata is here
-        if len(glob.glob(os.getcwd()+'/Griddata_*.out')) == 0:
+        if len(glob.glob(self.basis_dir+'/Griddata_*.out')) == 0:
             # check to see if Griddata is compiled and on the python path 
             for p in sys.path:
                 if re.search("PolyADCIRC", p):
-                    locations = glob.glob(p+'/*Griddata_*.out')
-                    locations.append(glob.glob(p+'/polyadcirc/pyGriddata/Griddata_*.out')[0])
-                    compiled_prog = locations[0]
+                    locations1 = glob.glob(p+"/*Griddata_*.out")
+                    locations2 = glob.glob(p+"/polyadcirc/pyGriddata/Griddata_*.out")
+                    if locations1:
+                        compiled_prog = locations1[0]
+                    elif locations2:
+                        compiled_prog = locations2[0]
+                    else:
+                        compiled_prog = None
                     break
             # put link to Griddata here
             if compiled_prog:
@@ -231,6 +238,9 @@ class gridInfo(pickleable):
         script_name += self.file_name[:-2]+'sh'
         with open(script_name, 'w') as f:
             f.write('#!/bin/bash\n')
+            if self.omp_num_threads:
+                f.write("export OMP_NUM_THREADS=")
+                f.write(str(self.omp_num_threads)+"\n")
             f.write('# This script runs Griddata on several input files\n')
             for i in xrange(len(self.gap_data_files)):
                 input_name = file_name + 'griddata_'+str(i)+'.in' 

@@ -25,16 +25,22 @@ def flag_fort14(grid_file_name="fort.14", avg_scheme=2):
     :param string grid_file_name: name of ``fort.14`` formatted file
     :param int avg_scheme: flag to choose which averaging scheme to use
 
+    :rtype: string
+    :returns: flagged file path
+
     """
     avg_flag = {1: -999.0, 2: -950.0, 4: -960.0, 8: -970.0, 'h' : -888.0, 'n':
                 -777.0}
     print "Flagging values with "+str(avg_flag[avg_scheme])
     grid_dir, _, grid_file_name = grid_file_name.rpartition('/')
     prefix = "flagged_"
-    if glob.glob(grid_dir+'/'+prefix+grid_file_name):
-        return
+    flagged_file_path = grid_dir+'/'+prefix+grid_file_name
+    print "LOOKEEE"
+    print flagged_file_path
+    if glob.glob(flagged_file_path):
+        return flagged_file_path
     with open(grid_dir+'/'+grid_file_name, 'r') as fid_read:
-        with open(grid_dir+'/'+prefix+grid_file_name, 'w') as fid_write:
+        with open(flagged_file_path , 'w') as fid_write:
             # Read and write grid name 
             fid_write.write(fid_read.readline())
             header_line_2 = fid_read.readline()
@@ -57,6 +63,7 @@ def flag_fort14(grid_file_name="fort.14", avg_scheme=2):
                     fid_write.write(temp)
                 else:
                     fid_write.write(line)
+    return flagged_file_path
 
 def flag_fort14_go(grid, avg_scheme=2):
     """ 
@@ -67,8 +74,12 @@ def flag_fort14_go(grid, avg_scheme=2):
     :param int avg_scheme: flag to choose which averaging scheme to use
 
     See :meth:`~polyadcirc.pyADCIRC.flag_fort14.flag_fort14`
+
+    :rtype: string
+    :returns: flagged file path
+
     """
-    flag_fort14(grid.basis_dir+'/'+grid.file_name, avg_scheme)
+    return flag_fort14(grid.basis_dir+'/'+grid.file_name, avg_scheme)
 
 if __name__ == "__main__":
     flag_fort14()

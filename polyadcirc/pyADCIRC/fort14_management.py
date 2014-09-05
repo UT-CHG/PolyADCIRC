@@ -52,9 +52,12 @@ def flag_go(grid, avg_scheme=2):
     :param int avg_scheme: averaging scheme flag
 
     See :meth:`~polyadcirc.pyADCIRC.flag_fort14.flag_fort14`
+    
+    :rtype: string
+    :returns: flagged file name
 
     """
-    flag_fort14.flag_fort14_go(grid, avg_scheme)
+    return flag_fort14.flag_fort14_go(grid, avg_scheme)
 
 def is_flagged(grid):
     """
