@@ -66,3 +66,28 @@ def remove(files):
             sh.rmtree(f)
         elif os.path.isfile(f):
             os.remove(f)
+
+def symlink(src, dst, overwrite=1):
+    """
+    Creates a symbolic link pointing to src named dst. Overwrites existing
+    links by default.
+
+    :param string src: source
+    :param string dst: destination
+    :param binary overwrite: 0 - do not overwrite, 1 - overwrite links, 2 - 
+        overwrite files and links, 3 - overwrite directories, files and links
+
+    """
+    if not os.path.lexists(dst):
+        os.symlink(src, dst)
+    elif overwrite > 0 and os.path.islink(dst):
+        remove(dst)
+        print "removing old link"
+    elif overwrite > 1 and os.path.isfile(dst):
+        remove(dst)
+        print "removing old file"
+    elif overwrite > 2 and os.path.isdir(dst):
+        remove(dst)
+        "removing old directory"
+    elif overwrite:
+        os.symlink(src, dst)

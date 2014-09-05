@@ -58,21 +58,23 @@ class gridInfo(pickleable):
 
         # Look for ``fort.14`` formatted file in grid_dir and place a link to
         # it in basis_dir
-        os.symlink(grid_dir+'/'+file_name, basis_dir+'/'+file_name)
+        fm.symlink(grid_dir+'/'+file_name, basis_dir+'/'+file_name)
         f14.flag_go(self, flag)
 
         # check to see if Griddata is here
-        if len(glob.glob(os.cwd()+'/Griddata_*.out')) == 0:
+        if len(glob.glob(os.getcwd()+'/Griddata_*.out')) == 0:
             # check to see if Griddata is compiled and on the python path 
             for p in sys.path:
                 if re.search("PolyADCIRC", p):
                     locations = glob.glob(p+'/*Griddata_*.out')
-                    locations.append(glob.glob(p+'/polyadcirc/pyGriddata/Griddata_*.out'))
+                    locations.append(glob.glob(p+'/polyadcirc/pyGriddata/Griddata_*.out')[0])
                     compiled_prog = locations[0]
                     break
             # put link to Griddata here
             if compiled_prog:
-                os.symlink(compiled_prog, basis_dir+'/'+compiled_prog)
+                fm.symlink(compiled_prog,
+                           os.path.join(basis_dir,
+                                        os.path.basename(compiled_prog)))
             else:
                 print "Compile a copy of Griddata_v1.32.F90 and put it in the"
                 print "PolyADCIRC folder on your Python Path."
@@ -80,8 +82,8 @@ class gridInfo(pickleable):
         
         # Create links to gap files (*.asc) using gap_list of gapInfo objects
         for gap in self.gap_data_files:
-            local_file_name = gap.file_name.rpartition('/')[-1]
-            os.symlink(gap.file_name, basis_dir+'/'+local_file_name)
+            local_file_name = os.path.basename(gap.file_name)
+            fm.symlink(gap.file_name, basis_dir+'/'+local_file_name)
             gap.file_name = local_file_name
 
         super(gridInfo, self).__init__()
@@ -98,9 +100,7 @@ class gridInfo(pickleable):
         
         """
 
-        first_landuse_folder_name = self.basis_dir+'/landuse_00'
-        first_script = self.setup_landuse_folder(0, folder_name=
-                first_landuse_folder_name)
+        first_script = self.setup_landuse_folder(0)
         # run grid_all_data in this folder 
         subprocess.call(['./'+first_script], cwd=self.basis_dir)
         # set up remaining land-use classifications
@@ -238,7 +238,7 @@ class gridInfo(pickleable):
             #f.write('\n\n')
         curr_stat = os.stat(script_name)
         os.chmod(script_name, curr_stat.st_mode | stat.S_IXUSR)
-        return script_name.rpartition('/')[-1]
+        return os.path.basename(script_name)
     
     def setup_tables_single_value(self, class_num, manningsn_value,
                                   folder_name):
