@@ -92,10 +92,10 @@ def read_tables(folder_name=None):
         list_of_tables.append(read_table(x, folder_name))
     return list_of_tables
 
-def create_gap_list_from_folder(folder_name=None):
+def create_gap_list_from_folder(table, folder_name):
     """
-    Create a list() of :class:`~polyadcirc.pyGriddata.table_management.gapInfo` objects
-    from the files in folder.
+    Create a list() of :class:`~polyadcirc.pyGriddata.table_management.gapInfo`
+    objects from the files in folder.
 
     :param string folder_name: folder containing gap formatted files
     :rtype: list()
@@ -103,12 +103,12 @@ def create_gap_list_from_folder(folder_name=None):
         objects
     """
     gap_files = glob.glob(folder_name+'/*.asc')
-    return create_gap_list(files)
+    return create_gap_list(table, gap_files)
    
-def create_gap_list(gap_files=None):
+def create_gap_list(table, gap_files):
     """
-    Create a list() of :class:`~polyadcirc.pyGriddata.table_management.gapInfo` objects
-    from a list of files.
+    Create a list() of :class:`~polyadcirc.pyGriddata.table_management.gapInfo`
+    objects from a list of files.
 
     :param list gap_files: file names of gap formatted files
     :rtype: list()
@@ -124,7 +124,7 @@ def create_gap_list(gap_files=None):
                 if m != None:
                     UTM_zone = line.split()[-1]
                     break
-        gap_list.append(tm.gapInfo(f, table, 1, UTM_zone))
+        gap_list.append(gapInfo(f, table, 1, UTM_zone))
     return gap_list
 
 
