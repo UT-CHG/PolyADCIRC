@@ -92,6 +92,41 @@ def read_tables(folder_name=None):
         list_of_tables.append(read_table(x, folder_name))
     return list_of_tables
 
+def create_gap_list_from_folder(folder_name=None):
+    """
+    Create a list() of :class:`~polyadcirc.pyGriddata.table_management.gapInfo` objects
+    from the files in folder.
+
+    :param string folder_name: folder containing gap formatted files
+    :rtype: list()
+    :returns: list of :class:`~polyadcirc.pyGriddata.table_management.gapInfo`
+        objects
+    """
+    gap_files = glob.glob(folder_name+'/*.asc')
+    return create_gap_list(files)
+   
+def create_gap_list(gap_files=None):
+    """
+    Create a list() of :class:`~polyadcirc.pyGriddata.table_management.gapInfo` objects
+    from a list of files.
+
+    :param list gap_files: file names of gap formatted files
+    :rtype: list()
+    :returns: list of :class:`~polyadcirc.pyGriddata.table_management.gapInfo`
+        objects
+    """
+    gap_list = []
+    for f in gap_files:
+        meta_filename = glob.glob(f.rpartition('/')[0]+'/*.txt')
+        with open(meta_filename[0], 'r') as meta_info:
+            for line in meta_info:
+                m = re.match(r"UTM map zone", line)
+                if m != None:
+                    UTM_zone = line.split()[-1]
+                    break
+        gap_list.append(tm.gapInfo(f, table, 1, UTM_zone))
+    return gap_list
+
 
 class gapInfo(pickleable):
     """
