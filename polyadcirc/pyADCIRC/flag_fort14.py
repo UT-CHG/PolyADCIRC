@@ -35,10 +35,6 @@ def flag_fort14(grid_file_name="fort.14", avg_scheme=2):
     grid_dir, _, grid_file_name = grid_file_name.rpartition('/')
     prefix = "flagged_"
     flagged_file_path = grid_dir+'/'+prefix+grid_file_name
-    print "LOOKEEE"
-    print flagged_file_path
-    if glob.glob(flagged_file_path):
-        return flagged_file_path
     with open(grid_dir+'/'+grid_file_name, 'r') as fid_read:
         with open(flagged_file_path , 'w') as fid_write:
             # Read and write grid name 

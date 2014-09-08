@@ -30,7 +30,8 @@ class gridInfo(pickleable):
         :param string basis_dir: the path to create the landuse_##
             directories in
         :param string grid_dir: the path where the ``fort.14`` formatted file
-            is located
+            is located, there also needs to be a ``fort.13`` formatted file
+            here to use as a template
         :param gap_data_list: a list() of
             :class:`~polyadcirc.pyGriddata.table_management.gapInfo` objects
         :type gap_data_list: list()
@@ -243,9 +244,9 @@ class gridInfo(pickleable):
                 f.write(str(self.omp_num_threads)+"\n")
             f.write('# This script runs Griddata on several input files\n')
             for i in xrange(len(self.gap_data_files)):
-                input_name = file_name + 'griddata_'+str(i)+'.in' 
+                input_name = file_name + 'griddata_'+str(i)+'.in'
                 f.write('./Griddata_parallel.out -I '+input_name+'\n')
-            #f.write('\n\n')
+            f.write('\n\n')
         curr_stat = os.stat(script_name)
         os.chmod(script_name, curr_stat.st_mode | stat.S_IXUSR)
         return os.path.basename(script_name)

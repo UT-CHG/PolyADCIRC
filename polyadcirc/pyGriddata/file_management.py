@@ -44,7 +44,7 @@ def rename13(dirs=None, basis_dir=None):
         for d in dirs:
             files.append(glob.glob(d+'/*.13')[0])
     for f in files:
-        os.rename(f, f.split('/')[0]+'/fort.13')
+        os.rename(f, os.path.dirname(f)+'/fort.13')
 
 def remove(files):
     """
@@ -83,11 +83,12 @@ def symlink(src, dst, overwrite=1):
     elif overwrite > 0 and os.path.islink(dst):
         remove(dst)
         print "removing old link"
+        os.symlink(src, dst)
     elif overwrite > 1 and os.path.isfile(dst):
         remove(dst)
         print "removing old file"
+        os.symlink(src, dst)
     elif overwrite > 2 and os.path.isdir(dst):
         remove(dst)
         "removing old directory"
-    elif overwrite:
         os.symlink(src, dst)
