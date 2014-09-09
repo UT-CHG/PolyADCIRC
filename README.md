@@ -1,6 +1,8 @@
 PolyADCIRC
 ==========
 
+This code was originally developed for research purposes use at your own risk. Hopefully, the documentation is clear. You might find bugs I have overlooked. If you find something amiss please report this problem to be through GitHub or submit a fix. Thanks!
+
 This code has been documented with Sphinx. To build documentation run 
 ``make html`` in the ``doc/`` folder.
 All documentation is contained in ``doc/_build/_html`` 
