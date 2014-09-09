@@ -1,0 +1,7 @@
+  4    ! Total number of Class
+  1    0.032     :saline marsh
+  2    0.05     :brackish marsh
+  3    0.103     :vegetated
+  4    0.012     :open water
+*The class has default value(=-9999) will be skiped in mapping
+

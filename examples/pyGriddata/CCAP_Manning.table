@@ -1,0 +1,25 @@
+ 22    ! Total number of Class
+  2    0.120     :High Intensity Developed
+  3    0.100     :Medium Intensity Developed
+  4    0.070     :Low Intesnity Developed
+  5    0.035     :Developed Open Space
+  6    0.100     :Cultivated Land
+  7    0.055     :Pasture/Hay
+  8    0.035     :Grassland
+  9    0.160     :Deciduous Forest
+ 10    0.180     :Evergreen Forest
+ 11    0.170     :Mixed Forest
+ 12    0.080     :Scrub/Shrub
+ 13    0.150     :Palustrine Forested Wetland
+ 14    0.075     :Palustrine Scrub/Shrub Wetland
+ 15    0.070     :Palustrine Emergent Wetland
+ 16    0.150     :Estuarine Forested Wetland
+ 17    0.070     :Estuarine Scrub/Schrub Wetland
+ 18    0.050     :Estuarine Emergent Wetland
+ 19    0.030     :Unconsolidated Shore
+ 20    0.030     :Bare Land
+ 21    0.025     :Open Water
+ 22    0.035     :Palustrine Aquatic Bed
+ 23    0.030     :Estuarine Aquatic Bed
+*The class has default value(=-9999) will be skiped in mapping
+
