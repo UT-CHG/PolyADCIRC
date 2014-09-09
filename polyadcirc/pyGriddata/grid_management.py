@@ -138,9 +138,6 @@ class gridInfo(pickleable):
         :param string path: THIS MUST BE CWD (``'.'``) or ``None``
 
         """
-        if path == None:
-            path = os.getcwd()
-
         subprocess.call(['./'+self.setup_folder('test')], cwd=
                         self.basis_dir)
         self.convert(self.basis_dir+'/'+'test')

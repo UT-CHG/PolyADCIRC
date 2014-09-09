@@ -42,7 +42,7 @@ def rename13(dirs=None, basis_dir=None):
         files = glob.glob(basis_dir+'/landuse_*/*.13')
     else:
         for d in dirs:
-            files.append(glob.glob(d+'/*.13')[0])
+            files.append(glob.glob(os.path.join(basis_dir, d)+'/*.13')[0])
     for f in files:
         os.rename(f, os.path.dirname(f)+'/fort.13')
 
