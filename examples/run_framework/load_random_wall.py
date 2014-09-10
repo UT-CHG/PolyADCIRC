@@ -17,4 +17,4 @@ main_run, domain, mann_pts, wall_pts, points = rmw.loadmat(save_file, base_dir,
 
 pt_nos = range(points.shape[-1])
 
-pa.nts_pcolor(main_run.nts_data, domain, points = pt_nos, path = save_dir)
+pa.nts_pcolor(main_run.nts_data, domain, points=pt_nos, path=save_dir)

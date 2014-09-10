@@ -1,6 +1,5 @@
 #! /usr/bin/env python
 # import necessary modules
-import polyadcirc.run_framework.domain as dom
 import polyadcirc.run_framework.random_wall as rmw
 
 base_dir = '/h1/lgraham/workspace'
@@ -11,11 +10,11 @@ basis_dir = base_dir +'/ADCIRC_landuse/Inlet/landuse_basis/gap/beach_walls_2land
 # set up saving
 save_file = 'py_save_file'
 
-main_run, domain, mann_pts, wall_pts, points = rmw.loadmat(save_file+'0', base_dir,
-        grid_dir, save_dir+'_0', basis_dir)
+main_run, domain, mann_pts, wall_pts, points = rmw.loadmat(save_file+'0',
+        base_dir, grid_dir, save_dir+'_0', basis_dir)
 
 
-for i in xrange(1,7):
+for i in xrange(1, 7):
     save_file2 = save_file+str(i)
     save_dir2 = save_dir+'_'+str(i)
     other_run, domain, mann_pts2, wall_pts2, points2 = rmw.loadmat(save_file2, 

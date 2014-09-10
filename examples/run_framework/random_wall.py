@@ -26,8 +26,8 @@ NoN = 44
 num_of_parallel_runs = (ppnode*NoN)/nprocs # procs_pnode * NoN / nproc
 
 main_run = rmw.runSet(grid_dir, save_dir, basis_dir, num_of_parallel_runs,
-        base_dir = adcirc_dir, script_name = script)
-main_run.initialize_random_field_directories(num_procs = nprocs)
+        base_dir=adcirc_dir, script_name=script)
+main_run.initialize_random_field_directories(num_procs=nprocs)
 
 domain = dom.domain(grid_dir)
 domain.update()
@@ -57,8 +57,8 @@ mann_pts = np.tile(mann_pts, num_walls)
 # Run experiments
 # MainFile_RandomMann
 main_run.run_points(domain, wall_points, mann_pts, save_file, 
-        num_procs = nprocs, procs_pnode = ppnode, ts_names = timeseries_files,
-        nts_names = nontimeseries_files)
+        num_procs=nprocs, procs_pnode=ppnode, ts_names=timeseries_files,
+        nts_names=nontimeseries_files)
 
 
 

@@ -28,8 +28,8 @@ domain = dom.domain(grid_dir)
 domain.update()
 
 main_run = rmw.runSet(grid_dir, save_dir, basis_dir, num_of_parallel_runs,
-        base_dir = adcirc_dir, script_name = script)
-main_run.initialize_random_field_directories(num_procs = nprocs)
+        base_dir=adcirc_dir, script_name=script)
+main_run.initialize_random_field_directories(num_procs=nprocs)
 
 # Set samples
 lam_domain = np.array([[.07, .15], [.1, .2]])
@@ -51,7 +51,7 @@ xmax = 1580*np.ones(ymin.shape)
 ymax = 1500*np.ones(ymin.shape)
 wall_height = -2.5*np.ones(ymax.shape)
 # box_limits [xmin, xmax, ymin, ymax, wall_height]
-mann_pts = np.tile(mann_pts,ymin.size)
+mann_pts = np.tile(mann_pts, ymin.size)
 wall_points = np.column_stack((xmin, xmax, ymin, ymax, wall_height))
 wall_points = wall_points.transpose()
 
@@ -62,8 +62,8 @@ save_file = 'py_save_file'+str(run_no)
 # Run experiments
 # MainFile_RandomMann
 main_run.run_points(domain, wall_points, mann_pts, save_file, 
-        num_procs = nprocs, procs_pnode = ppnode, ts_names = timeseries_files,
-        nts_names = nontimeseries_files)
+        num_procs=nprocs, procs_pnode=ppnode, ts_names=timeseries_files,
+        nts_names=nontimeseries_files)
 
 
 

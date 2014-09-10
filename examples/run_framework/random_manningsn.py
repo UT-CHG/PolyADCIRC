@@ -3,7 +3,6 @@
 import polyadcirc.run_framework.domain as dom
 import polyadcirc.run_framework.random_manningsn as rmn
 import numpy as np
-import os, glob
 
 adcirc_dir = '/work/01837/lcgraham/v50release_130626/work'
 grid_dir = adcirc_dir + '/ADCIRC_landuse/Inlet/inputs/tides'
@@ -27,8 +26,8 @@ domain = dom.domain(grid_dir)
 domain.update()
 
 main_run = rmn.runSet(grid_dir, save_dir, basis_dir, num_of_parallel_runs,
-        base_dir = adcirc_dir, script_name = script)
-main_run.initialize_random_field_directories(num_procs = nprocs)
+        base_dir=adcirc_dir, script_name=script)
+main_run.initialize_random_field_directories(num_procs=nprocs)
 
 # Set samples
 lam_domain = np.array([[.02, .2], [.02, .2], [.02, .2]])
@@ -37,14 +36,15 @@ lam2 = np.linspace(lam_domain[1, 0], lam_domain[1, 1], 3)
 lam3 = np.linspace(lam_domain[2, 0], lam_domain[2, 1], 3)
 lam4 = 0.02
 lam1, lam2, lam3, lam4 = np.meshgrid(lam1, lam2, lam3, lam4)
-lam_samples = np.column_stack((lam1.ravel(), lam2.ravel(), lam3.ravel(), lam4.ravel()))
+lam_samples = np.column_stack((lam1.ravel(), lam2.ravel(), lam3.ravel(),
+    lam4.ravel()))
 
 mann_pts = lam_samples.transpose()
 
 
 # Run experiments
 # MainFile_RandomMann
-main_run.run_points(domain, mann_pts, save_file, num_procs = nprocs,
-        procs_pnode = ppnode, ts_names = timeseries_files, 
-        nts_names = nontimeseries_files, screenout=True)
+main_run.run_points(domain, mann_pts, save_file, num_procs=nprocs,
+        procs_pnode=ppnode, ts_names=timeseries_files, 
+        nts_names=nontimeseries_files, screenout=True)
 
