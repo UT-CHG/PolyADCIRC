@@ -13,18 +13,10 @@ modified verion of :program:`GridData` (Griddata_v1.32.F90).
 :program:`GridData` is a :program:`FORTRAN` program originally developed by
 Seizo Tanaka (ST3) and C.H.Lab., University of Notre Dame.
 
-This code also extends the :program:`PolyADCIRC` framework to interface with a slightly
-modifed version of :program:`Subdomain ADCIRC v.50`. :program:`Subdomain ADCIRC
-v.50` was developed by Alper Altuntas and Jason Simon under the direction of
-John Baugh; Department of Civil, Construction, and Enviromental Engineering
-North Carolina State University (NCSU), Raleigh, NC 27695.
-
 All code documented here is written for Linux with a bash shell. It can be
 modified for other shells. This code requires `GNU Parallel
 <http://www.gnu.org/software/parallel/>`_ to be installed in order to run
 properly.
-
-.. note:: If you plan on making ANY changes to the repos make a NEW branch!
 
 Contents:
 
@@ -32,7 +24,7 @@ Contents:
    :maxdepth: 2
    
    overview
-   Running on Lonestar <running_on_lonestar>
+   Running on TACC <running_on_tacc>
    submerged_wall
    Large Jobs <large_jobs>
    All about mapping landuse data to the mesh <landuse_stuff>
