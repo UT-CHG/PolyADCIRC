@@ -8,13 +8,13 @@ import os, re, math
 import polyadcirc.pyADCIRC.basic as basic
 
 filetype = {'fort61':(True, 1), 'fort62':(True, 2), 'fort63':(False, 1),
-               'tinun63':(False, 1), 'maxele63':(False, 1), 
-               'maxvel63':(False, 1), 'nodeflag63':(False, 1),
-               'rising63':(False, 1), 'elemaxdry63':(False, 1),
-               'fort64':(False, 2), 'fort71':(True, 1), 'fort72':(True, 2),
-               'fort73':(False, 1), 'fort74':(False, 2)}
+            'tinun63':(False, 1), 'maxele63':(False, 1), 
+            'maxvel63':(False, 1), 'nodeflag63':(False, 1),
+            'rising63':(False, 1), 'elemaxdry63':(False, 1),
+            'fort64':(False, 2), 'fort71':(True, 1), 'fort72':(True, 2),
+            'fort73':(False, 1), 'fort74':(False, 2)}
 
-def read_recording_data(data, path = None):
+def read_recording_data(data, path=None):
     """
     Reads in ``fort.15`` and stores the following in data as a
     :class:`~polyadcirc.pyADCIRC.basic.time` object
@@ -26,7 +26,8 @@ def read_recording_data(data, path = None):
         * stations[key] = list() of locations
 
     :type data: :class:`~polyadcirc.run_framework.domain`
-    :param data: object to store reference to :class:`~polyadcirc.pyADCIRC.basic.time`
+    :param data: object to store reference to
+        :class:`~polyadcirc.pyADCIRC.basic.time` 
     :type path: string or None
     :param path: directory containing ``fort.15`` file 
     :return: reference to ``data.recording`` and ``data.stations``
@@ -59,7 +60,7 @@ def read_recording_data(data, path = None):
                 data.time = basic.time(dt, statim, rnday, dramp) 
             elif line.find('H0') >= 0:
                 line = line.partition('!')[0]
-                line = np.fromstring(line, sep = ' ')
+                line = np.fromstring(line, sep=' ')
                 data.h0 = line[0]
             elif line.find('NOUTE') >= 0:
                 line = line.partition('!')
@@ -103,7 +104,7 @@ def _read_record(fid, key, line, data):
     :returns: station type description
 
     """
-    nout, touts, toutf, nspool = np.fromstring(line[0].strip(), sep = ' ')
+    nout, touts, toutf, nspool = np.fromstring(line[0].strip(), sep=' ')
     touts = max(touts, data.time.statim)
     toutf = min(toutf, data.time.rnday+data.time.statim)
     #print key, nout, touts, toutf, nspool
@@ -122,7 +123,7 @@ def _read_record(fid, key, line, data):
             line = line.partition('!')
             line = re.findall(r"[-*\d\.\d]+", line[0].strip())
             stations.append(basic.location(float(line[0]),
-                float(line[-1])))
+                                           float(line[-1])))
         data.stations[key] = stations
     else:
         meas_locs = data.node_num
@@ -146,7 +147,7 @@ def _read_record7(fid, key1, key2, line, data):
     :returns: station type description
 
     """
-    nout, touts, toutf, nspool = np.fromstring(line[0].strip(), sep = ' ')
+    nout, touts, toutf, nspool = np.fromstring(line[0].strip(), sep=' ')
     touts = max(touts, data.time.statim)
     toutf = min(toutf, data.time.rnday+data.time.statim)
     description = None
@@ -164,7 +165,7 @@ def _read_record7(fid, key1, key2, line, data):
             line = line.partition('!')
             line = re.findall(r"[-*\d\.\d]+", line[0].strip())
             stations.append(basic.location(float(line[0]),
-                float(line[-1])))
+                                           float(line[-1])))
         data.stations[key1] = stations
         data.stations[key2] = stations
     else:
@@ -196,7 +197,7 @@ def subdomain(fulldomain_path, subdomain_path):
     data = fdata()
         
     with open(fulldomain_path+'/fort.15', 
-            'r') as fid_read, open(subdomain_path+'/fort.15', 'w') as fid_write:
+              'r') as fid_read, open(subdomain_path+'/fort.15', 'w') as fid_write:
         line = fid_read.readline()
         while line != '':
             if line.find('DT') >= 0:
@@ -211,7 +212,7 @@ def subdomain(fulldomain_path, subdomain_path):
                 line = line.partition('!')
                 rnday = float(line[0].strip())*0.95
                 fid_write.write(' {:<6.3f} {:>30}{}'.format(rnday, '!',
-                    line[-1])) 
+                                                            line[-1])) 
             elif line.find('DRAMP') >= 0:
                 fid_write.write(line)
                 line = line.partition('!')
@@ -221,11 +222,11 @@ def subdomain(fulldomain_path, subdomain_path):
                 line = line.partition('!')
                 fid_write.write(' {:<35d} {}{}'.format(0, '!', line[-1]))
                 line = line[0]
-                while not(line.find('ANGINN') >= 0):
+                while not line.find('ANGINN') >= 0:
                     line = fid_read.readline()
                 fid_write.write(line)
             elif line.find('NFFR') >= 0:
-                while not(line.find('NOUTE') >= 0):
+                while not line.find('NOUTE') >= 0:
                     line = fid_read.readline()
                 fid_write.write(line)
                 line = line.partition('!')
@@ -244,7 +245,8 @@ def subdomain(fulldomain_path, subdomain_path):
             elif line.find('NOUTM') >= 0:
                 fid_write.write(line)
                 line = line.partition('!')
-                description = _read_record7(fid_read, 'fort71', 'fort72', line, data)
+                description = _read_record7(fid_read, 'fort71', 'fort72', line,
+                                            data) 
                 _write_record(fid_write, 'fort71', description, data)
             else:
                 fid_write.write(line)
@@ -256,7 +258,8 @@ def trim_locations(flag, subdomain_path, locs):
 
     :param int flag: type of subdomain 0 - ellipse, 1 - circle
     :param string subdomain_path: subdomain dir containing ``fort.15`` file
-    :param list() locs: list of :class:`~polyadcirc.pyADCIRC.basic.location` objects
+    :param list() locs: list of :class:`~polyadcirc.pyADCIRC.basic.location`
+        objects
     :rtype: list()
     :returns: list of locations inside the subdomain
 
@@ -271,7 +274,8 @@ def trim_locations_circle(subdomain_path, locs):
     Remove locations outside of the circular subdomain from locs
 
     :param string subdomain_path: subdomain dir containing ``fort.15`` file
-    :param list() locs: list of :class:`~polyadcirc.pyADCIRC.basic.location` objects
+    :param list() locs: list of :class:`~polyadcirc.pyADCIRC.basic.location`
+        objects
     :rtype: list()
     :returns: list of locations inside the subdomain
 
@@ -282,7 +286,7 @@ def trim_locations_circle(subdomain_path, locs):
         yb = float(line[1])
         r = float(fid.readline())
     for loc in locs:
-        if ((xb-loc.x)**2 + (yb-loc.y)**2 >= r**2):
+        if (xb-loc.x)**2 + (yb-loc.y)**2 >= r**2:
             locs.remove(loc)    
     return locs
 
@@ -291,12 +295,13 @@ def trim_locations_ellipse(subdomain_path, locs):
     Remove locations outside of the elliptical subdomain from locs
 
     :param string subdomain_path: subdomain dir containing ``fort.15`` file
-    :param list() locs: list of :class:`~polyadcirc.pyADCIRC.basic.location` objects
+    :param list() locs: list of :class:`~polyadcirc.pyADCIRC.basic.location`
+        objects 
     :rtype: list()
     :returns: list of locations inside the subdomain
 
     """
-    with open(subdomain_path+"/shape.e14","r") as fid:
+    with open(subdomain_path+"/shape.e14", "r") as fid:
         point1 = fid.readline().split()
         p1 = [float(point1[0]), float(point1[1])]
         point2 = fid.readline().split()
@@ -327,7 +332,7 @@ def trim_locations_ellipse(subdomain_path, locs):
         x = cos*X - sin*Y
         y = sin*X + cos*Y
 
-        if(x**2/xaxis**2 + y**2/yaxis**2 >= 1):
+        if x**2/xaxis**2 + y**2/yaxis**2 >= 1:
             locs.remove(loc)
     return locs
 
@@ -346,11 +351,11 @@ def _write_record(fid, key, description, data):
 
     """
     fid.write(' {:<35} {}{}'.format(len(data.stations[key]), '!',
-        description))
+                                    description))
     for loc in data.stations[key]:
         fid.write('{:9.8E} {:9.8E}\n'.format(loc.x, loc.y))
 
-def set_ihot(ihot, path = None):
+def set_ihot(ihot, path=None):
     """
     Set the hot start parameter to ``ihot``
 
@@ -376,7 +381,7 @@ def set_ihot(ihot, path = None):
     # rename files
     os.rename(tmp_name, file_name)
 
-def set_write_hot(nhstar, nhsinc, path = None):
+def set_write_hot(nhstar, nhsinc, path=None):
     """
     Set the hot start file generation paramters to ``nhstar`` and ``nhsinc``
 
@@ -397,7 +402,8 @@ def set_write_hot(nhstar, nhsinc, path = None):
             if line.find('NHSTAR') >= 0:
                 line = line.partition('!')
                 fid_write.write(' {:<1d} {:<35d} {}{}'.format(nhstar,
-                    nhsinc, '!', line[-1]))
+                                                              nhsinc, '!', 
+                                                              line[-1]))
             else:
                 fid_write.write(line)
             line = fid_read.readline()

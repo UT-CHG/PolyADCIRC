@@ -1,7 +1,7 @@
 # Lindley Graham 3/27/2013 
 """
-This module :mod:`~polyadcirc.pyADCIRC.fort13_management` handles the reading/writing
-of ``fort.13`` formatted files
+This module :mod:`~polyadcirc.pyADCIRC.fort13_management` handles the
+reading/writing of ``fort.13`` formatted files
 """
 
 import numpy as np
@@ -29,21 +29,21 @@ def read_manningsn(fid):
 
     
     :type fid: :class:`file`
-    :param fid: the file object to be read from we might want to re write this as the fromstring method returns an array
-    :rtype: :class:`np.ndarray`
+    :param fid: the file object to be read from we might want to re write this
+        as the fromstring method returns an array :rtype: :class:`np.ndarray`
     :return: Returns an array([node, value])
 
     """
-    return np.fromstring(fid.readline(), sep = ' ')
+    return np.fromstring(fid.readline(), sep=' ')
 
-def read_nodal_attr(data, path = None, file_name = 'fort.13'):
+def read_nodal_attr(data, path=None, file_name='fort.13'):
     """
-    Load in nodal attributes from a ``*.13`` file (only does Manning's n for now)
-    and return a dictonary (like a MATLAB struct) with these attributes).
+    Load in nodal attributes from a ``*.13`` file (only does Manning's n for
+    now) and return a dictonary (like a MATLAB struct) with these attributes).
 
     :type data: :class:`polyadcirc.run_framework.domain`
-    :param data: the :class:`polyadcirc.run_framework.domain` to which the nodal attribute information will be added
-    :type path: string or None
+    :param data: the :class:`polyadcirc.run_framework.domain` to which the
+        nodal attribute information will be added :type path: string or None
     :param path: the directory containing the ``fort.13`` to be read in
     :type file_name: string
     :param file_name: the name of the ``fort.13`` formatted file
@@ -90,7 +90,7 @@ def read_nodal_attr(data, path = None, file_name = 'fort.13'):
                     flag = 1
     return manningsn_values
 
-def read_default(data, path = None, file_name = 'fort.13'):
+def read_default(data, path=None, file_name='fort.13'):
     """
     Read in default manningsn from a ``*.13`` file and update data accordingly
 
@@ -100,8 +100,8 @@ def read_default(data, path = None, file_name = 'fort.13'):
     :param path: directory containing ``file_name``
     :param string file_name: file name
     :rtype: :class:`polyadcirc.run_framework.domain`
-    :return: a reference to the :class:`polyadcirc.run_framework.domain` object containing the default
-        value
+    :return: a reference to the :class:`polyadcirc.run_framework.domain` object
+        containing the default value
 
     """
     if path == None:
@@ -124,7 +124,7 @@ def read_default(data, path = None, file_name = 'fort.13'):
                     flag = 1 
     return data.manningsn_default
 
-def read_node_num(path = None, file_name = 'fort.13'):
+def read_node_num(path=None, file_name='fort.13'):
     """
     Read in the number of nodes in the mesh from a ``*.13`` file
 
@@ -144,10 +144,11 @@ def read_node_num(path = None, file_name = 'fort.13'):
         node_num = int(f.readline().strip())
     return node_num 
 
-def read_nodal_attr_dict(path = None, file_name = 'fort.13'):
+def read_nodal_attr_dict(path=None, file_name='fort.13'):
     """
-    Load in nodal attributes from a ``*.13 file`` (only does Manning's n for now)
-    and return a dictonary (like a ``MATLAB`` struct) with these attributes).
+    Load in nodal attributes from a ``*.13 file`` (only does Manning's n for
+    now) and return a dictonary (like a ``MATLAB`` struct) with these
+    attributes).
 
     :type path: string or None
     :param path: the directory containing the fort.13 to be read in
@@ -189,11 +190,10 @@ def read_nodal_attr_dict(path = None, file_name = 'fort.13'):
                 flag = 1
     return manningsn_values
 
-def update_mann(data, path = None, default = None, file_name = 'fort.13'):
+def update_mann(data, path=None, default = None, file_name='fort.13'):
     """
-    Write out fort.13 to path with the attributes contained in Data.
-    Currently written for data being a full :class:`np.array`, not a :class:`dict`
-
+    Write out fort.13 to path with the attributes contained in Data.  
+    
     :type data: :class:`np.array` or :class:`dict`
     :param data: containing the nodal attribute information
     :type path: string or None
@@ -249,7 +249,7 @@ def update_mann(data, path = None, default = None, file_name = 'fort.13'):
                     for k, v in enumerate(data):
                         write_manningsn(fid_write, k+1, v)
                 else:
-                    for k, v in data.stepitems():
+                    for k, v in data.iteritems():
                         write_manningsn(fid_write, k, v)
                 flag = 1
         # write out remainder of fid_read to fid_write

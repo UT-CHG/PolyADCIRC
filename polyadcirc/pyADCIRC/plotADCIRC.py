@@ -1,4 +1,4 @@
-#pylint: disable-msg=E1101, C0324
+#pylint: disable=E1101, C0324
 """
 A set of functions for plotting data from :class:`runSet`
 """
@@ -14,10 +14,10 @@ from matplotlib.collections import LineCollection
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 
 _stationmarkers = {'fort61':'bo', 'fort62':'go', 'fort71':'ro', 'fort72':'co',
-                    'fort81':'yo', 'fort91':'ko'}
+                   'fort81':'yo', 'fort91':'ko'}
 
-def get_Triangulation(domain, path = None, save = True, show = False, ics = 1,
-        ext = '.png'):
+def get_Triangulation(domain, path=None, save=True, show=False, ics=1,
+                      ext='.png'):
     """
     :param domain: :class:`~polyadcirc.run_framework.domain`
     :type path: string or None
@@ -39,7 +39,7 @@ def get_Triangulation(domain, path = None, save = True, show = False, ics = 1,
     plt.figure()
     if path == None:
         path = os.getcwd()
-    if not(os.path.exists(path+'/figs')):
+    if not os.path.exists(path+'/figs'):
         fm.mkdir(path+'/figs')
     if save or show:
         plt.triplot(triangulation, 'g-')
@@ -50,8 +50,8 @@ def get_Triangulation(domain, path = None, save = True, show = False, ics = 1,
     domain.triangulation = triangulation
     return triangulation
 
-def bathymetry(domain, path = None, save = True, show = False, mesh = False,
-        contour = False, ics = 1, ext = '.png'):
+def bathymetry(domain, path=None, save=True, show=False, mesh = False,
+               contour = False, ics=1, ext='.png'):
     """
     Given a domain, plot the bathymetry
 
@@ -76,9 +76,9 @@ def bathymetry(domain, path = None, save = True, show = False, mesh = False,
     plt.figure()
     if mesh:
         plt.triplot(domain.triangulation, 'k-')
-    if not(contour):
+    if not contour:
         plt.tripcolor(domain.triangulation, z, shading='gouraud',
-            cmap=plt.cm.ocean)
+                      cmap=plt.cm.ocean)
     else:
         plt.tricontourf(domain.triangulation, z, cmap=plt.cm.ocean)
     colorbar()
@@ -87,8 +87,8 @@ def bathymetry(domain, path = None, save = True, show = False, mesh = False,
     add_2d_axes_labels(ics)    
     save_show(path+'/figs/bathymetry', save, show, ext)
 
-def station_locations(domain, path = None, bathy = False, save = True, 
-        show = False, ics = 1, ext = '.png'):
+def station_locations(domain, path=None, bathy = False, save=True, 
+                      show=False, ics=1, ext='.png'):
     """
     Given a domain, plot the observation stations 
    
@@ -125,11 +125,11 @@ def station_locations(domain, path = None, bathy = False, save = True,
     plt.title('station locations')
     add_2d_axes_labels(ics)    
     plt.legend(bbox_to_anchor=(0., 1.02, 1., .102), loc=3,
-           ncol=2, mode="expand", borderaxespad=0.)
+               ncol=2, mode="expand", borderaxespad=0.)
     save_show(path+'/figs/station_locations', save, show, ext)
 
-def field(domain, z, title, clim = None,  path = None, save = True, show =
-        False, ics = 1, ext = '.png', cmap=plt.cm.jet):
+def field(domain, z, title, clim = None,  path=None, save=True, show =
+          False, ics=1, ext='.png', cmap=plt.cm.jet):
     """
     Given a domain, plot the nodal value z
    
@@ -162,8 +162,8 @@ def field(domain, z, title, clim = None,  path = None, save = True, show =
     #plt.title(title)
     save_show(path+'/figs/'+title, save, show, ext)
 
-def basis_functions(domain, bv_array, path = None, save = True, show = False,
-        ics = 1, ext = '.png', cmap = plt.cm.jet):
+def basis_functions(domain, bv_array, path=None, save=True, show=False,
+                    ics=1, ext='.png', cmap = plt.cm.jet):
     """
     Given a ``bv_array`` containing basis functions, plot them
    
@@ -182,12 +182,13 @@ def basis_functions(domain, bv_array, path = None, save = True, show = False,
     for i in xrange(bv_array.shape[1]):
         z = bv_array[..., i]
         field(domain, z, 'basis_function_'+str(i), (0.0,1.0) , path, save,
-                show, ics, ext, cmap)
+              show, ics, ext, cmap)
 
-def random_fields(domain, points, bv_array, path = None, save = True, show =
-        False, ics = 1, ext = '.png', cmap = plt.cm.jet):
+def random_fields(domain, points, bv_array, path=None, save=True, show =
+                  False, ics=1, ext='.png', cmap = plt.cm.jet):
     """
-    Given a ``bv_array`` a set of random points, plot the ``r_fields`` generated in
+    Given a ``bv_array`` a set of random points, plot the ``r_fields``
+    generated in
     :meth:`~polyadcirc.run_framework.random_manningsn.runSet.run_points`
    
     :param domain: :class:`~polyadcirc.run_framework.domain`
@@ -212,10 +213,10 @@ def random_fields(domain, points, bv_array, path = None, save = True, show =
     for i in xrange(points.shape[1]):
         z = np.dot(bv_array, points[..., i])
         field(domain, z, 'random_field_'+str(i), clim, path, save, show, ics,
-                ext, cmap)
+              ext, cmap)
 
-def mean_field(domain, points, bv_array, path = None, save = True, show =
-        False, ics = 1, ext = '.png'): 
+def mean_field(domain, points, bv_array, path=None, save=True, show =
+               False, ics=1, ext='.png'): 
     """
     Given a bv_array a set of random points, plot the r_fields generated in
     random_manningsn.runSet.run_points
@@ -242,8 +243,8 @@ def mean_field(domain, points, bv_array, path = None, save = True, show =
     z = np.dot(bv_array, np.mean(points, 1)) 
     field(domain, z, 'mean_field', clim, path, save, show, ics,  ext)
 
-def station_data(ts_data, time_obs, keys = None, stations = None, path = None,
-        save = True, show = False, ext = '.png'): 
+def station_data(ts_data, time_obs, keys=None, stations = None, path=None,
+                 save=True, show=False, ext='.png'): 
     """
     Plot the station data in ``ts_data`` with ``time_obs`` as the x axis. To
     plot only a subset of this data list which ADCIRC Output types to plot in
@@ -310,10 +311,10 @@ def station_data(ts_data, time_obs, keys = None, stations = None, path = None,
                 
                 ax1.set_xlim((np.min(x),np.max(x)))
                 ax1.set_ylim((np.min(ts_data[k][:,:,0,:]),
-                    np.max(ts_data[k][:,:,0,:])))
+                              np.max(ts_data[k][:,:,0,:])))
                 ax2.set_xlim((np.min(x),np.max(x)))
                 ax2.set_ylim((np.min(ts_data[k][:,:,1,:]),
-                    np.max(ts_data[k][:,:,1,:])))
+                              np.max(ts_data[k][:,:,1,:])))
                 segs1 = list()
                 segs2 = list()
                 for j in xrange(ts_data[k].shape[-1]):
@@ -334,8 +335,8 @@ def station_data(ts_data, time_obs, keys = None, stations = None, path = None,
 
             save_show(path+'/figs/'+k+'/station'+str(i), save, show, ext)
 
-def nts_line_data(nts_data, keys = None, path = None, save = True, show = False, 
-         ext = '.png'): 
+def nts_line_data(nts_data, keys=None, path=None, save=True, show=False, 
+                  ext='.png'): 
     """
     Plot the non timeseries data in ``data`` with ``points`` as the x axis. To
     plot only a subset of this data list which ADCIRC Output types to plot in
@@ -390,8 +391,8 @@ def nts_line_data(nts_data, keys = None, path = None, save = True, show = False,
         fig.xlabel('node number')
         save_show(path+'/figs/nts/'+k, save, show, ext)
 
-def nts_pcolor(nts_data, domain, keys = None, points = None, path = None, 
-        save = True, show = False, ics = 1, ext = '.png'): 
+def nts_pcolor(nts_data, domain, keys=None, points=None, path=None, 
+               save=True, show=False, ics=1, ext='.png'): 
     """
     Plot the non timeseries data in ``nts_data`` as a set of 2D color plots. To
     plot only a subset of this data list which ADCIRC Output types to plot in
@@ -439,20 +440,20 @@ def nts_pcolor(nts_data, domain, keys = None, points = None, path = None,
         for j in points:
             plt.figure()
             plt.tripcolor(domain.triangulation, nts_data[k][:,j],
-                    shading='gouraud', cmap=plt.cm.jet)
+                          shading='gouraud', cmap=plt.cm.jet)
             plt.gca().set_aspect('equal')
             plt.clim(clim[0], clim[1])
             colorbar()
             add_2d_axes_labels(ics)    
             plt.title(k+'_'+str(j))
             save_show(path+'/figs/nts/'+k+'_'+str(j)+'_contour', save, show,
-                    ext)
+                      ext)
 
         if len(points) == 2:
             plt.figure(figsize=(6,9))
             plt.subplot(311)
             plt.tripcolor(domain.triangulation, nts_data[k][:,points[0]],
-                    shading='gouraud', cmap=plt.cm.jet)
+                          shading='gouraud', cmap=plt.cm.jet)
             plt.gca().set_aspect('equal')
             plt.clim(clim[0], clim[1])
             cb = colorbar()
@@ -461,7 +462,7 @@ def nts_pcolor(nts_data, domain, keys = None, points = None, path = None,
             
             plt.subplot(312)
             plt.tripcolor(domain.triangulation, nts_data[k][:,points[-1]],
-                    shading='gouraud', cmap=plt.cm.jet)
+                          shading='gouraud', cmap=plt.cm.jet)
             plt.gca().set_aspect('equal')
             plt.clim(clim[0], clim[1])
             cb = colorbar()
@@ -471,15 +472,15 @@ def nts_pcolor(nts_data, domain, keys = None, points = None, path = None,
             plt.subplot(313)
             diff = nts_data[k][:,points[-1]] - nts_data[k][:,points[0]]
             plt.tripcolor(domain.triangulation, diff, shading='gouraud',
-                    cmap=plt.cm.jet)
+                          cmap=plt.cm.jet)
             plt.gca().set_aspect('equal')
             cb = colorbar()
             add_2d_axes_labels(ics)    
             cb.set_label(k+'_'+'diff')
             save_show(path+'/figs/nts/'+k+'_diff_contour', save, show, ext)
 
-def ts_pcolor(ts_data, time_obs, domain, keys = None, points = None, 
-        path = None, save = True, show = False, ics = 1, ext = '.png'): 
+def ts_pcolor(ts_data, time_obs, domain, keys=None, points=None, 
+              path=None, save=True, show=False, ics=1, ext='.png'): 
     """
     Plot the timeseries data in ``ts_data`` as a series of 2D color plots. To
     plot only a subset of this data list which ADCIRC Output types to plot in
@@ -531,13 +532,13 @@ def ts_pcolor(ts_data, time_obs, domain, keys = None, points = None,
                 plt.figure()
                 add_2d_axes_labels(ics)    
                 plt.tripcolor(domain.triangulation, ts_data[k][:,i,j],
-                        shading='gouraud', cmap=plt.cm.jet)
+                              shading='gouraud', cmap=plt.cm.jet)
                 plt.gca().set_aspect('equal')
                 plt.clim(clim[0], clim[1])
                 colorbar()
                 plt.title('time = '+str(t))
                 save_show(path+'/figs/ts/'+k+'/run'+str(j)+'/'+str(i),
-                        save, show, ext)
+                          save, show, ext)
 
         if len(points) == 2:
             fm.mkdir(path+'/figs/ts/'+k+'/diff')
@@ -549,7 +550,7 @@ def ts_pcolor(ts_data, time_obs, domain, keys = None, points = None,
                 plt.figure(figsize=(6,9))
                 ax1 = plt.subplot(311)
                 plt.tripcolor(domain.triangulation, ts_data[k][:,i,points[0]],
-                        shading='gouraud', cmap=plt.cm.jet)
+                              shading='gouraud', cmap=plt.cm.jet)
                 plt.gca().set_aspect('equal')
                 plt.clim(clim[0], clim[1])
                 cb = colorbar()
@@ -558,7 +559,7 @@ def ts_pcolor(ts_data, time_obs, domain, keys = None, points = None,
                 
                 ax2 = plt.subplot(312)
                 plt.tripcolor(domain.triangulation, ts_data[k][:,i,points[-1]],
-                        shading='gouraud', cmap=plt.cm.jet)
+                              shading='gouraud', cmap=plt.cm.jet)
                 plt.gca().set_aspect('equal')
                 plt.clim(clim[0], clim[1])
                 cb = colorbar()
@@ -566,8 +567,8 @@ def ts_pcolor(ts_data, time_obs, domain, keys = None, points = None,
                 cb.set_label(k+'_'+str(points[-1]))
 
                 ax3 = plt.subplot(313)
-                plt.tripcolor(domain.triangulation, diff[:,i] , shading='gouraud',
-                        cmap=plt.cm.jet)
+                plt.tripcolor(domain.triangulation, diff[:,i] ,
+                              shading='gouraud', cmap=plt.cm.jet)
                 plt.gca().set_aspect('equal')
                 plt.clim(cdiff[0], cdiff[1])
                 cb = colorbar()
@@ -577,8 +578,8 @@ def ts_pcolor(ts_data, time_obs, domain, keys = None, points = None,
                 plt.suptitle('time = '+str(t))
                 save_show(path+'/figs/ts/'+k+'/diff/'+str(i), save, show, ext)
  
-def ts_quiver(ts_data, time_obs, domain, keys = None, points = None, 
-        path = None, save = True, show = False, ics = 1, ext = '.png'): 
+def ts_quiver(ts_data, time_obs, domain, keys=None, points=None, 
+              path=None, save=True, show=False, ics=1, ext='.png'): 
     """
     Plot the timeseries data in ``ts_data`` as a series of 2D quiver plots. To
     plot only a subset of this data list which ADCIRC Output types to plot in
@@ -615,7 +616,7 @@ def ts_quiver(ts_data, time_obs, domain, keys = None, points = None,
         keys = ts_data.keys()
     s_keys = list()
     for k in keys:
-        if not(f15.filetype[k][0]) and f15.filetype[k][1] == 2:
+        if not f15.filetype[k][0] and f15.filetype[k][1] == 2:
             s_keys.append(k)
     keys = s_keys
 
@@ -637,13 +638,13 @@ def ts_quiver(ts_data, time_obs, domain, keys = None, points = None,
                 plt.figure()
                 add_2d_axes_labels(ics)    
                 plt.quiver(x, y, ts_data[k][:,i,0,j], ts_data[k][:,i,1,j],
-                        mag[:,i,j])
+                           mag[:,i,j])
                 plt.gca().set_aspect('equal')
                 plt.clim(clim[0], clim[1])
                 colorbar()
                 plt.title('time = '+str(t))
                 save_show(path+'/figs/ts_quiver/'+k+'/run'+str(j)+'/'+str(i),
-                        save, show, ext)
+                          save, show, ext)
 
         if len(points) == 2:
             fm.mkdir(path+'/figs/ts_quiver/'+k+'/diff')
@@ -656,7 +657,7 @@ def ts_quiver(ts_data, time_obs, domain, keys = None, points = None,
                 plt.figure(figsize=(6,9))
                 ax1 = plt.subplot(311)
                 plt.quiver(x, y, ts_data[k][:,i,0,points[0]],
-                        ts_data[k][:,i,1,points[0]], mag[:,i,points[0]])                
+                           ts_data[k][:,i,1,points[0]], mag[:,i,points[0]])                
                 plt.gca().set_aspect('equal')
                 plt.clim(clim[0], clim[1])
                 cb = colorbar()
@@ -665,7 +666,7 @@ def ts_quiver(ts_data, time_obs, domain, keys = None, points = None,
                 
                 ax2 = plt.subplot(312)
                 plt.quiver(x, y, ts_data[k][:,i,0,points[-1]],
-                        ts_data[k][:,i,1,points[-1]], mag[:,i,points[-1]]) 
+                           ts_data[k][:,i,1,points[-1]], mag[:,i,points[-1]]) 
                 plt.gca().set_aspect('equal')
                 plt.clim(clim[0], clim[1])
                 cb = colorbar()
@@ -682,9 +683,9 @@ def ts_quiver(ts_data, time_obs, domain, keys = None, points = None,
                 plt.tight_layout()
                 plt.suptitle('time = '+str(t))
                 save_show(path+'/figs/ts_quiver/'+k+'/diff/'+str(i), save,
-                        show, ext) 
+                          show, ext) 
 
-def add_2d_axes_labels(fig = None , ics = 1):
+def add_2d_axes_labels(fig = None , ics=1):
     """
     Add 2D axes labels for either cartesian or polar coordinates
 
@@ -714,7 +715,7 @@ def save_show(full_name, save, show, ext):
     plt.tight_layout()
     if save:
         plt.savefig(full_name+ext, bbox_inches='tight', transparent=True,
-                pad_inches = 0)
+                    pad_inches=0)
     if show:
         plt.show()
     else:
@@ -742,12 +743,12 @@ def load_fig_gen_cmap():
     """
     pass
 
-def nts_contour(nts_data, domain, keys = None, points = None, path = None, 
-        save = True, show = False, ics = 1, ext = '.png'): 
+def nts_contour(nts_data, domain, keys=None, points=None, path=None, 
+                save=True, show=False, ics=1, ext='.png'): 
     """
-    Plot the non timeseries data in ``nts_data`` as a set of 2D contour plots. To
-    plot only a subset of this data list which ADCIRC Output types to plot in
-    keys, and which runs in ``points``.
+    Plot the non timeseries data in ``nts_data`` as a set of 2D contour plots.
+    To plot only a subset of this data list which ADCIRC Output types to plot
+    in keys, and which runs in ``points``.
 
     .. note:: This only applies to 1D nts data (``irtype`` = 1)
 
@@ -774,7 +775,7 @@ def nts_contour(nts_data, domain, keys = None, points = None, path = None,
         keys = nts_data.keys()
     s_keys = list()
     for k in keys:
-        if not(f15.filetype[k][0]) and f15.filetype[k][1] == 1:
+        if not f15.filetype[k][0] and f15.filetype[k][1] == 1:
             s_keys.append(k)
     keys = s_keys
 
@@ -788,19 +789,19 @@ def nts_contour(nts_data, domain, keys = None, points = None, path = None,
         for j in points:
             plt.figure()
             plt.tricontour(domain.triangulation, nts_data[k][:,j],
-                    shading='gouraud', cmap=plt.cm.jet)
+                           shading='gouraud', cmap=plt.cm.jet)
             plt.gca().set_aspect('equal')
             colorbar()
             add_2d_axes_labels(ics)    
             plt.title(k+'_'+str(j))
             save_show(path+'/figs/nts_contour/'+k+'_'+str(j)+'_contour', save,
-                    show, ext)
+                      show, ext)
 
         if len(points) == 2:
             plt.figure(figsize=(6,9))
             plt.subplot(311)
             plt.tricontour(domain.triangulation, nts_data[k][:,points[0]],
-                    shading='gouraud', cmap=plt.cm.jet)
+                           shading='gouraud', cmap=plt.cm.jet)
             plt.gca().set_aspect('equal')
             cb = colorbar()
             #add_2d_axes_labels(ics)    
@@ -808,7 +809,7 @@ def nts_contour(nts_data, domain, keys = None, points = None, path = None,
             
             plt.subplot(312)
             plt.tricontour(domain.triangulation, nts_data[k][:,points[-1]],
-                    shading='gouraud', cmap=plt.cm.jet)
+                           shading='gouraud', cmap=plt.cm.jet)
             plt.gca().set_aspect('equal')
             cb = colorbar()
             #add_2d_axes_labels(ics)    
@@ -817,11 +818,11 @@ def nts_contour(nts_data, domain, keys = None, points = None, path = None,
             plt.subplot(313)
             diff = nts_data[k][:,points[-1]] - nts_data[k][:,points[0]]
             plt.tricontour(domain.triangulation, diff, shading='gouraud',
-                    cmap=plt.cm.jet)
+                           cmap=plt.cm.jet)
             plt.gca().set_aspect('equal')
             cb = colorbar()
             add_2d_axes_labels(ics)    
             cb.set_label(k+'_'+'diff')
             save_show(path+'/figs/nts_contour/'+k+'_diff_contour', save, show,
-                    ext)
+                      ext)
 

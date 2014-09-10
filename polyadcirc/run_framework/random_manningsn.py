@@ -20,9 +20,9 @@ import scipy.io as sio
 def loadmat(save_file, base_dir, grid_dir, save_dir, basis_dir):
     """
     Loads data from ``save_file`` into a
-    :class:`~polyadcirc.run_framework.random_manningsn.runSet` object. Reconstructs
-    :class:`~polyadcirc.run_framework.random_manningsn.domain`. Fixes dry data if
-    it was recorded.
+    :class:`~polyadcirc.run_framework.random_manningsn.runSet` object.
+    Reconstructs :class:`~polyadcirc.run_framework.random_manningsn.domain`.
+    Fixes dry data if it was recorded.
 
     :param string save_file: local file name
     :param string grid_dir: directory containing ``fort.14``, ``fort.15``, and
@@ -32,8 +32,8 @@ def loadmat(save_file, base_dir, grid_dir, save_dir, basis_dir):
     :param string basis_dir: directory where ``landuse_*`` folders are located
     :param string base_dir: directory that contains ADCIRC executables, and
         machine specific ``in.prep#`` files
-    :rtype: tuple of :class:`~polyadcirc.run_framework.random_manningsn.runSet` and
-        :class:`~polyadcirc.run_framework.random_manningsn.domain` objects
+    :rtype: tuple of :class:`~polyadcirc.run_framework.random_manningsn.runSet`
+        and :class:`~polyadcirc.run_framework.random_manningsn.domain` objects
     :returns: (main_run, domain)
 
     """
@@ -76,9 +76,9 @@ def loadmat(save_file, base_dir, grid_dir, save_dir, basis_dir):
 
     if main_run.ts_data.has_key('fort63'):
         main_run.fix_dry_nodes(domain)
-        if main_run.ts_data.has_key('fort61'):
-            main_run.fix_dry_data(domain)
-    if main_run.ts_data.has_key('maxele63'):
+    if main_run.ts_data.has_key('fort61'):
+        main_run.fix_dry_data(domain)
+    if main_run.nts_data.has_key('maxele63'):
         main_run.fix_dry_nodes_nts(domain)
 
     return (main_run, domain, mann_pts)
@@ -132,7 +132,7 @@ def fix_dry_nodes_nts(nts_data, data):
     mdat = np.ma.masked_equal(nts_data['maxele63'], -99999.0)
 
     for k, v in data.node.iteritems():
-        mdat[k-1, :] = mdat [k-1, :] + v.bathymetry
+        mdat[k-1, :] = mdat[k-1, :] + v.bathymetry
 
     nts_data['maxele63'] = mdat.filled(0.0)
     return nts_data
@@ -245,8 +245,8 @@ class runSet(pickleable):
         observation times for timeseries data
 
     """
-    def __init__(self, grid_dir, save_dir, basis_dir,
-            num_of_parallel_runs=10, base_dir=None, script_name=None):
+    def __init__(self, grid_dir, save_dir, basis_dir, num_of_parallel_runs=10,
+                 base_dir=None, script_name=None):
         """
         Initialization
         """
@@ -312,9 +312,9 @@ class runSet(pickleable):
         self.rf_dirs = rf_dirs
         #PARALLEL: create file containing the list of rf_dirs
         self.update_dir_file(self.num_of_parallel_runs)
-        self.write_prep_script(1, self.num_of_parallel_runs)
-        self.write_prep_script(2, self.num_of_parallel_runs)
-        self.write_prep_script(5, self.num_of_parallel_runs)
+        self.write_prep_script(1)
+        self.write_prep_script(2)
+        self.write_prep_script(5)
         subprocess.call(['./prep_1.sh'], cwd=self.save_dir)
         subprocess.call(['./prep_2.sh'], cwd=self.save_dir)
         return rf_dirs
@@ -348,7 +348,7 @@ class runSet(pickleable):
         inputs = inputs0 + inputs1 + inputs2
         if self.grid_dir+'/fort.13' in inputs:
             inputs.remove(self.grid_dir+'/fort.13')
-        if not(self.grid_dir+'/fort.019' in inputs):
+        if not self.grid_dir+'/fort.019' in inputs:
             if self.grid_dir+'/fort.015' in inputs:
                 inputs.remove(self.grid_dir+'/fort.015')
         for fid in inputs:
@@ -356,14 +356,14 @@ class runSet(pickleable):
                 os.remove(path+'/'+fid.rpartition('/')[-1])
             os.symlink(fid, path+'/'+fid.rpartition('/')[-1])
             #copy(fid, path+'/'+fid.rpartition('/')[-1])
-        if not(os.path.exists(path+'/adcprep')):
+        if not os.path.exists(path+'/adcprep'):
             os.symlink(self.base_dir+'/adcprep', path+'/adcprep')
         prep.write_1(path, num_procs)
         prep.write_2(path, num_procs)
         prep.write_5(path, num_procs)
 
     def write_run_script(self, num_procs, num_jobs, procs_pnode, TpN,
-            screenout=True, num_writers=None):
+                         screenout=True, num_writers=None):
         """
         Creats a bash script called run_job_batch.sh
 
@@ -393,17 +393,17 @@ class runSet(pickleable):
                 line += './padcirc -I {0} -O {0} '.format(self.rf_dirs[i])
                 if num_writers:
                     line += '-W '+str(num_writers)+' '
-                if not(screenout):
+                if not screenout:
                     line += '> '+tmp_file
                 line += ' &\n'
                 f.write(line)
             f.write('wait\n')
         curr_stat = os.stat(self.base_dir+'/'+self.script_name)
         os.chmod(self.base_dir+'/'+self.script_name,
-                curr_stat.st_mode | stat.S_IXUSR)
+                 curr_stat.st_mode | stat.S_IXUSR)
         return self.script_name
 
-    def write_prep_script(self, n, num_jobs, screenout=False):
+    def write_prep_script(self, n, screenout=False):
         """
         Creats a bash script to run :program:`adcprep` with ``in.prepn``
 
@@ -419,14 +419,14 @@ class runSet(pickleable):
         with open(self.save_dir+'/prep_'+str(n)+'.sh', 'w') as f:
             f.write('#!/bin/bash\n')
             line = "parallel '(cd {} && ./adcprep < in.prep"+str(n)
-            if not(screenout):
+            if not screenout:
                 line += " > prep_o.txt"
             line += ")' :::: dir_list\n"
             f.write(line)
             f.write("wait\n")
         curr_stat = os.stat(self.save_dir+'/prep_'+str(n)+'.sh')
         os.chmod(self.save_dir+'/prep_'+str(n)+'.sh',
-                curr_stat.st_mode | stat.S_IXUSR)
+                 curr_stat.st_mode | stat.S_IXUSR)
         return self.save_dir+'/prep_'+str(n)+'.sh'
 
     def update_dir_file(self, num_dirs):
@@ -475,11 +475,12 @@ class runSet(pickleable):
         """
         Combine data from this
         :class:`~polyadcirc.run_framework.random_manningsn.runSet` with another
-        :class:`~polyadcirc.run_framework.random_manningsn.runSet` (``other_run``)
-        and points from both runs
+        :class:`~polyadcirc.run_framework.random_manningsn.runSet`
+        (``other_run``) and points from both runs
 
         :param: other_run
-        :type other_run: :class:`~polyadcirc.run_framework.random_manningsn.runSet`
+        :type other_run:
+            :class:`~polyadcirc.run_framework.random_manningsn.runSet` 
         :param points1: sample points for ``self``
         :type points1: np.array
         :param points1: sample points for ``other_run``
@@ -492,8 +493,9 @@ class runSet(pickleable):
         return concatenate((self, points1), (other_run, points2))
 
     def run_points(self, data, points, save_file, num_procs=12, procs_pnode=12,
-            ts_names=["fort.61"], nts_names=["maxele.63"], screenout=True,
-            cleanup_dirs=True, num_writers=None, TpN=12):
+                   ts_names=["fort.61"], nts_names=["maxele.63"],
+                   screenout=True, cleanup_dirs=True, num_writers=None,
+                   TpN=12):
         """
         Runs :program:`ADCIRC` for all of the configurations specified by
         ``points`` and returns a dictonary of arrays containing data from
@@ -564,7 +566,7 @@ class runSet(pickleable):
                 ts_data[key] = np.zeros((meas_locs, total_obs, num_points))
             else:
                 ts_data[key] = np.zeros((meas_locs, total_obs,
-                    irtype, num_points))
+                                         irtype, num_points))
             time_obs[key] = np.zeros((total_obs,))
 
         # Update and save
@@ -581,12 +583,12 @@ class runSet(pickleable):
                 stop = k+self.num_of_parallel_runs
                 step = self.num_of_parallel_runs
             run_script = self.write_run_script(num_procs, step, procs_pnode,
-                    TpN, screenout, num_writers)
-            self.write_prep_script(5, step)
+                                               TpN, screenout, num_writers)
+            self.write_prep_script(5)
             for i in xrange(0, step):
                 # generate the Manning's n field
                 r_field = tmm.combine_basis_vectors(points[..., i+k], bv_dict,
-                          default, data.node_num)
+                                                    default, data.node_num)
                 # create the fort.13 for r_field
                 f13.update_mann(r_field, self.rf_dirs[i])
             # do a batch run of python
@@ -594,20 +596,20 @@ class runSet(pickleable):
             self.update_dir_file(self.num_of_parallel_runs)
             devnull = open(os.devnull, 'w')
             p = subprocess.Popen(['./prep_5.sh'], stdout=devnull, cwd=
-                    self.save_dir)
+                                 self.save_dir)
             p.communicate()
             devnull.close()
             devnull = open(os.devnull, 'w')
             p = subprocess.Popen(['./'+run_script], stdout=devnull, cwd=
-                    self.base_dir)
+                                 self.base_dir)
             p.communicate()
             devnull.close()
             # get data
             for i, kk in enumerate(range(k, stop)):
                 output.get_data_ts(kk, self.rf_dirs[i], self.ts_data, time_obs,
-                        ts_names)
+                                   ts_names)
                 output.get_data_nts(kk, self.rf_dirs[i], data, self.nts_data,
-                        nts_names)
+                                    nts_names)
             # Update and save
             self.update_mdict(mdict)
             self.save(mdict, save_file)
@@ -622,7 +624,7 @@ class runSet(pickleable):
         return time_obs, ts_data, nts_data
 
     def make_plots(self, points, domain, save=True, show=False,
-            bathymetry=False):
+                   bathymetry=False):
         """
         Plots ``mesh``, ``station_locations``, ``basis_functions``,
         ``random_fields``, ``mean_field``, ``station_data``, and
@@ -653,7 +655,7 @@ class runSet(pickleable):
         plot.basis_functions(domain, bv_array, self.save_dir, save, show)
 
     def plot_random_fields(self, domain, points, bv_array, save=True, show=
-            False):
+                           False):
         """
         See :meth:`~polsim.rnu_framework.plotADCIRC.random_fields`
 
@@ -661,7 +663,7 @@ class runSet(pickleable):
         plot.random_fields(domain, points, bv_array, self.save_dir, save, show)
 
     def plot_mean_field(self, domain, points, bv_array, save=True, show=
-        False):
+                        False):
         """
         See :meth:`~polsim.rnu_framework.plotADCIRC.mean_field`
 
@@ -674,7 +676,7 @@ class runSet(pickleable):
 
         """
         plot.station_data(self.ts_data, self.time_obs, None, self.save_dir,
-                save, show)
+                          save, show)
 
     def fix_dry_data(self, data):
         """

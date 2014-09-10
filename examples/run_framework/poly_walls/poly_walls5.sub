@@ -1,0 +1,14 @@
+#!/bin/bash
+#$ -V
+#$ -pe 12way 384 
+#$ -q normal
+#$ -cwd
+#$ -N poly5
+#$ -j n
+#$ -o $JOB_NAME.o.$JOB_ID
+#$ -e $JOB_NAME.e.$JOB_ID
+#$ -M youremail@place.com 
+#$ -m be
+#$ -l h_rt=03:00:00
+
+python poly_walls5.py

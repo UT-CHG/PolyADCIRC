@@ -10,7 +10,6 @@ import polyadcirc.pyADCIRC.fort13_management as f13
 import polyadcirc.pyADCIRC.fort14_management as f14
 import polyadcirc.run_framework.random_wall as rmw
 import polyadcirc.pyGriddata.table_to_mesh_map as tmm
-import polyadcirc.pyADCIRC.plotADCIRC as plot
 import polyadcirc.pyADCIRC.output as output
 import scipy.io as sio
 from scipy.interpolate import griddata
@@ -19,9 +18,9 @@ import polyadcirc.run_framework.random_manningsn as rmn
 def loadmat(save_file, base_dir, grid_dir, save_dir, basis_dir):
     """
     Loads data from ``save_file`` into a
-    :class:`~polyadcirc.run_framework.random_manningsn.runSet` object. Reconstructs
-    :class:`~polyadcirc.run_framework.random_manningsn.domain`. Fixes dry data if
-    it was recorded.
+    :class:`~polyadcirc.run_framework.random_manningsn.runSet` object.
+    Reconstructs :class:`~polyadcirc.run_framework.random_manningsn.domain`.
+    Fixes dry data if it was recorded.
 
     :param string save_file: local file name
     :param string grid_dir: directory containing ``fort.14``, ``fort.15``, and
@@ -38,7 +37,7 @@ def loadmat(save_file, base_dir, grid_dir, save_dir, basis_dir):
 
     """
     main_run, domain, mann_pts = rmn.loadmat(save_file, base_dir, grid_dir,
-            save_dir, basis_dir)
+                                             save_dir, basis_dir)
     
        # load the data from at *.mat file
     mdat = sio.loadmat(save_dir+'/'+save_file)
@@ -78,12 +77,14 @@ class runSet(rmw.runSet):
 
     """
     def __init__(self, grid_dir, save_dir, basis_dir, 
-            num_of_parallel_runs = 10, base_dir = None, script_name = None): 
+                 num_of_parallel_runs=10, base_dir=None, script_name=
+                 None): 
         """
         Initialization
         """
         super(runSet, self).__init__(grid_dir, save_dir, basis_dir, 
-            num_of_parallel_runs, base_dir, script_name)
+                                     num_of_parallel_runs, base_dir,
+                                     script_name)
 
     def update_mdict(self, mdict):
         """
@@ -92,13 +93,13 @@ class runSet(rmw.runSet):
         :param dict() mdict: dictionary of run data
 
         """
-        for k,v in self.nts_data.iteritems():
+        for k, v in self.nts_data.iteritems():
             mdict[k] = v
         mdict['Q'] = self.Q
             
     def run_nobatch_q(self, data, wall_points, mann_points, save_file, 
-            num_procs = 12, procs_pnode = 12, stations = None, screenout = True, 
-            num_writers = None, TpN = 12):
+                      num_procs=12, procs_pnode=12, stations=None,
+                      screenout=True, num_writers=None, TpN=12):
         """
         Runs :program:`ADCIRC` for all of the configurations specified by
         ``wall_points`` and ``mann_points`` and returns a dictonary of arrays
@@ -159,7 +160,7 @@ class runSet(rmw.runSet):
         # Pre-allocate arrays for various data files
         num_points = mann_points.shape[1]
         num_walls = wall_points.shape[1]
-        if num_points != num_points:
+        if num_walls != num_points:
             print "Error: num_walls != num_points"
             quit()
 
@@ -169,8 +170,8 @@ class runSet(rmw.runSet):
         # Pre-allocate arrays for non-timeseries data
         nts_data = {}
         self.nts_data = nts_data
-        nts_data['maxele63'] =  np.empty((data.node_num,
-            self.num_of_parallel_runs))        
+        nts_data['maxele63'] = np.empty((data.node_num,
+                                         self.num_of_parallel_runs))        
         
         # Pre-allocate arrays for QoI data
         if stations == None:
@@ -185,7 +186,7 @@ class runSet(rmw.runSet):
         self.update_mdict(mdict)
         self.save(mdict, save_file)
 
-        default = data.read_default(path = self.save_dir)
+        default = data.read_default(path=self.save_dir)
 
         for k in xrange(0, num_points, self.num_of_parallel_runs):
             if k+self.num_of_parallel_runs >= num_points-1:
@@ -195,8 +196,9 @@ class runSet(rmw.runSet):
                 stop = k+self.num_of_parallel_runs
                 step = self.num_of_parallel_runs
             run_script = self.write_run_script(num_procs, step,
-                    procs_pnode, TpN, screenout, num_writers)
-            self.write_prep_script(5, step)
+                                               procs_pnode, TpN, screenout,
+                                               num_writers)
+            self.write_prep_script(5)
             # set walls
             wall_dim = wall_points[..., k]
             data.read_spatial_grid()
@@ -205,40 +207,43 @@ class runSet(rmw.runSet):
             for rf_dir in self.rf_dirs:
                 os.remove(rf_dir+'/fort.14')
                 shutil.copy(self.grid_dir+'/fort.14', rf_dir)
-                f14.update(data, path = rf_dir)
+                f14.update(data, path=rf_dir)
             #PARALLEL: update file containing the list of rf_dirs
             self.update_dir_file(self.num_of_parallel_runs)
             devnull = open(os.devnull, 'w')
-            p = subprocess.Popen(['./prep_2.sh'], stdout = devnull, cwd = self.save_dir)
+            p = subprocess.Popen(['./prep_2.sh'], stdout=devnull,
+                                 cwd=self.save_dir) 
             p.communicate()
             devnull.close()
             for i in xrange(0, step):
                 # generate the Manning's n field
-                r_field = tmm.combine_basis_vectors(mann_points[..., i+k], bv_dict,
-                          default, data.node_num)
+                r_field = tmm.combine_basis_vectors(mann_points[..., i+k],
+                                                    bv_dict, default,
+                                                    data.node_num)
                 # create the fort.13 for r_field
                 f13.update_mann(r_field, self.rf_dirs[i])
             # do a batch run of python
             #PARALLEL: update file containing the list of rf_dirs
             self.update_dir_file(self.num_of_parallel_runs)
             devnull = open(os.devnull, 'w')
-            p = subprocess.Popen(['./prep_5.sh'], stdout = devnull, cwd = self.save_dir)
+            p = subprocess.Popen(['./prep_5.sh'], stdout=devnull,
+                                 cwd=self.save_dir) 
             p.communicate()
             devnull.close()
             devnull = open(os.devnull, 'w')
-            p = subprocess.Popen(['./'+run_script], stdout = devnull,
-                    cwd = self.base_dir) 
+            p = subprocess.Popen(['./'+run_script], stdout=devnull,
+                                 cwd=self.base_dir) 
             p.communicate()
             devnull.close()
             # get data
             for i, kk in enumerate(range(k, stop)):
                 output.get_data_nts(i, self.rf_dirs[i], data, self.nts_data,
-                    ["maxele.63"])
+                                    ["maxele.63"])
             # fix dry nodes and interpolate to obtain QoI
             self.fix_dry_nodes_nts(data)
             for i, kk in enumerate(range(k, stop)):
-                values = self.nts_data["maxele63"][:,i]
-                Q[kk,:] = griddata(points, values, xi)
+                values = self.nts_data["maxele63"][:, i]
+                Q[kk, :] = griddata(points, values, xi)
             # Update and save
             self.update_mdict(mdict)
             self.save(mdict, save_file)

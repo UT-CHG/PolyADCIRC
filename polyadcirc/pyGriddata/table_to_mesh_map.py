@@ -23,7 +23,7 @@ class LenError(Error):
         super(LenError, self).__init__()
 
 
-def get_basis_vectors(path = None):
+def get_basis_vectors(path=None):
     """
     Each dict is structured as follows:
     keys -- node number
@@ -41,7 +41,7 @@ def get_basis_vectors(path = None):
     basis_vec = [f13.read_nodal_attr_dict(folder) for folder in landuse_folders]
     return basis_vec    
 
-def get_basis_vec_array(path = None, node_num = None):
+def get_basis_vec_array(path=None, node_num=None):
     """
     NOTE: this impementation currently assumes that there are no default nodes
     this will need to be updated later
@@ -67,8 +67,8 @@ def combine_bv_array(weights, array):
     :param weights: array of size (num_of_basis_vec, 1)
     :type array: :class:`numpy.array` of size (node_num, num_of_basis_vec)
     :param array: array of basis vectors
-    :returns: an array of size (node_num, 1) containing the manningsn value at all
-        nodes in numerical order
+    :returns: an array of size (node_num, 1) containing the manningsn value at
+        all nodes in numerical order
 
     """
     return np.dot(array, weights)
@@ -77,7 +77,8 @@ def combine_basis_vectors(weights, vectors, default_value, node_num):
     """
     :type weights: :class:`numpy.array`
     :param weights: array of size (num_of_basis_vec, 1)
-    :type array: list of dicts OR :class:`numpy.array` of size (node_num, num_of_basis_vec)
+    :type vectors: list of dicts OR :class:`numpy.array` of size (node_num,
+        num_of_basis_vec) 
     :param vectors: basis vectors
     :returns: an array of size (node_num, 1) containing the manningsn value at all
         nodes in numerical order
@@ -90,7 +91,7 @@ def combine_basis_vectors(weights, vectors, default_value, node_num):
         combine_bv_array(weights, vectors)
     else:
         return dict_to_array(add_dict(vectors, weights)[0], default_value,
-                node_num)
+                             node_num)
         
 def add_dict(dict_list, weights):
     """
@@ -98,7 +99,8 @@ def add_dict(dict_list, weights):
     :param dict_list: list of dicts
     :param list() weights: list of weights
     :rtype: dict
-    :returns: a dict[k] = weights[0]*dict_list[0] + ... + weights[-1]*dict_list[-1]
+    :returns: a dict[k] = weights[0]*dict_list[0] + ... +
+        weights[-1]*dict_list[-1]
     
     """
     return reduce(add_dict_pair, zip(dict_list, weights))
@@ -140,6 +142,54 @@ def dict_to_array(data, default_value, node_num):
             array[i] = data[i+1]
     return array
 
+def get_default_nodes(domain, vectors=None):
+    """
+    Given a set of basis vectors and a domain returns a list of default nodes.
+
+    :param domain: a computational domain for a physical domain
+    :type domain: :class:`~polyadcirc.run_framework.domain`
+    :param vectors: basis vectors
+    :type vectors: dict()
+
+    :rtype: list()
+    :returns: list of default nodes
+
+    """
+    if vectors:
+        default_bv_array = combine_basis_vectors(np.zeros((len(vectors),)), vectors,
+                                                 1.0, domain.node_num)
+    else:
+        default_bv_array = np.ones((domain.node_num,))
+    default_node_list = np.nonzero(default_bv_array)[0]
+    return default_node_list
+
+def create_shelf(domain, shelf_bathymetry, vectors=None):
+    """
+    Creates a contitnetal shelf basis vector where the value at default
+    nodes between user defined bathymetric bounds are 1 and the other
+    default nodes are untouched. This basis vector can now be used to create a
+    ``fort.13`` file. Remember bathymetry is positive in the down direction.
+
+    :param domain: a computational domain for a physical domain
+    :type domain: :class:`~polyadcirc.run_framework.domain`
+    :param shelf_bathymetry: the bathymetric limits of the continental shelf
+        [min, max]
+    :type shelf_bathymetry: :class:`numpy.array`
+    :param vectors: basis vectors
+    :type vectors: dict()
+
+    :rtype: dict()
+    :returns: basis vector that represents the continental shelf
+
+    """
+    bathymetry = domain.array_bathymetry()
+    shelf_dict = dict()
+    default_node_list = get_default_nodes(domain, vectors)
+    for i in default_node_list:
+        if bathymetry[i] >= shelf_bathymetry[0] and bathymetry[i] <= shelf_bathymetry[1]:
+            shelf_dict[i+1] = 1.0
+
+    return shelf_dict
 
 
     

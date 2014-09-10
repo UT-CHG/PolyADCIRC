@@ -9,7 +9,7 @@ import glob, os, re
 from polyadcirc.pyADCIRC.basic import pickleable
 
 def create_table_single_value(class_num, landuse_table, manningsn_value,
-        folder_name = None):
+                              folder_name=None):
     """ 
     Create a ``*.table`` in ``folder_name`` where the landuse classification
     numbered class_num is assigned a value of ``manningsn_value`` and all other
@@ -29,7 +29,7 @@ def create_table_single_value(class_num, landuse_table, manningsn_value,
     new_table = tableInfo(landuse_table.file_name, new_values)
     create_table(new_table, folder_name)
 
-def create_table(landuse_table, folder_name = None):
+def create_table(landuse_table, folder_name=None):
     """ 
     Create ``table_name.table`` in ``folder_name`` where the landuse
     classification numbered ``landuse_table.keys()`` is assigned a
@@ -43,7 +43,7 @@ def create_table(landuse_table, folder_name = None):
     print 'Creating landuse_table file '+landuse_table.file_name+'...'
     if folder_name == None:
         folder_name = os.getcwd()
-    with open(folder_name+'/'+landuse_table.file_name,'w') as f:
+    with open(folder_name+'/'+landuse_table.file_name, 'w') as f:
         next_str = ' {0:3}    ! '.format(landuse_table.get_num_landclasses())
         next_str += 'Total number of Class\n'
         f.write(next_str)
@@ -65,7 +65,7 @@ def read_table(table_file_name, folder_name=None):
     if folder_name == None:
         folder_name = os.getcwd()
     landuse_classes = {}
-    with open(folder_name+'/'+table_file_name,'r') as f:
+    with open(folder_name+'/'+table_file_name, 'r') as f:
         for line in f:
             m = re.match(r" +(\d+) +(\d+.\d+) +:(.*)", line)
             if m != None:
@@ -92,6 +92,41 @@ def read_tables(folder_name=None):
         list_of_tables.append(read_table(x, folder_name))
     return list_of_tables
 
+def create_gap_list_from_folder(table, folder_name):
+    """
+    Create a list() of :class:`~polyadcirc.pyGriddata.table_management.gapInfo`
+    objects from the files in folder.
+
+    :param string folder_name: folder containing gap formatted files
+    :rtype: list()
+    :returns: list of :class:`~polyadcirc.pyGriddata.table_management.gapInfo`
+        objects
+    """
+    gap_files = glob.glob(folder_name+'/*.asc')
+    return create_gap_list(table, gap_files)
+   
+def create_gap_list(table, gap_files):
+    """
+    Create a list() of :class:`~polyadcirc.pyGriddata.table_management.gapInfo`
+    objects from a list of files.
+
+    :param list gap_files: file names of gap formatted files
+    :rtype: list()
+    :returns: list of :class:`~polyadcirc.pyGriddata.table_management.gapInfo`
+        objects
+    """
+    gap_list = []
+    for f in gap_files:
+        meta_filename = glob.glob(f.rpartition('/')[0]+'/*.txt')
+        with open(meta_filename[0], 'r') as meta_info:
+            for line in meta_info:
+                m = re.match(r"UTM map zone", line)
+                if m != None:
+                    UTM_zone = line.split()[-1]
+                    break
+        gap_list.append(gapInfo(f, table, 1, UTM_zone))
+    return gap_list
+
 
 class gapInfo(pickleable):
     """
@@ -99,7 +134,7 @@ class gapInfo(pickleable):
     creating it's portion of the ``*.in`` file, and methods for creating the
     table(s) needed for this GAP dataset.
     """
-    def __init__(self, file_name, table, horizontal_sys = None, UTM_zone = None):
+    def __init__(self, file_name, table, horizontal_sys=None, UTM_zone=None):
         """ 
         Initalizes a gapInfo object with the information necessary for a
         ``*.asc``,``*.asc.binary`` file with name ``file_name``
@@ -144,13 +179,15 @@ class gapInfo(pickleable):
             string_rep += " required to be in UTM coordinates)? (Y/N)\n\n"
         return string_rep
 
-    def local_str(self, folder_name = None):
+    def local_str(self, basis_dir, folder_name=None):
         """ 
         
+        :param string basis_dir: the folder containing the *.asc files and the
+            directory folder_name
         :param string folder_name: name of folder to create ``*.in`` for
         :rtype: string
         :returns: text that matches relevant lines of ``*.in`` file and uses
-            current directory for ``*.asc`` files 
+            basis_dir for ``*.asc`` files 
         
         """
         string_rep = ''
@@ -163,10 +200,10 @@ class gapInfo(pickleable):
         string_rep += "{0:80}!".format(table_name)
         string_rep += " Name of classified value table.\n"
         convert = 'N'
-        if glob.glob(self.file_name+'.binary') == []:
+        if glob.glob(basis_dir+'/'+self.file_name+'.binary') == []:
             convert = 'Y'
-        elif glob.glob(self.file_name+'.binary') == []:
-            convert = 'Y'
+        else:
+            convert = 'N'
         string_rep += "{0:80}!".format(convert)
         string_rep += " Convert to ASCII GAP/NLCD data to "
         string_rep += "binary(required)? (Y/N)\n"
@@ -189,8 +226,8 @@ class gapInfo(pickleable):
                                   folder_name=None):
         """ 
         Create a ``*.table`` in ``folder_name`` where the landuse classification
-        numbered class_num is assigned a value of ``manningsn_value`` and all other
-        landuse classifications are assigned a manningsn_value of 0
+        numbered class_num is assigned a value of ``manningsn_value`` and all
+        other landuse classifications are assigned a manningsn_value of 0
 
         :param int class_num: land classification number
         :param float manningsn_value: Manningn's *n* value for `class_num`
@@ -198,7 +235,7 @@ class gapInfo(pickleable):
 
         """
         create_table_single_value(class_num, self.table, manningsn_value,
-                folder_name)
+                                  folder_name)
 
     def create_table(self, folder_name=None):
         """ 
@@ -264,11 +301,12 @@ class tableInfo(pickleable):
         return string_rep
 
     def create_table_single_value(self, class_num, manningsn_value,
-            folder_name = None):
+                                  folder_name=None):
         """ 
-        Create a ``*.table`` in ``folder_name`` where the landuse classification
-        numbered class_num is assigned a value of ``manningsn_value`` and all other
-        landuse classifications are assigned a manningsn_value of 0
+        Create a ``*.table`` in ``folder_name`` where the landuse
+        classification numbered class_num is assigned a value of
+        ``manningsn_value`` and all other landuse classifications are assigned
+        a manningsn_value of 0
 
         :param int class_num: land classification number
         :param float manningsn_value: Manningn's *n* value for `class_num`
@@ -276,9 +314,9 @@ class tableInfo(pickleable):
 
         """
         create_table_single_value(class_num, self, manningsn_value,
-                folder_name)
+                                  folder_name)
     
-    def create_table(self, folder_name = None):
+    def create_table(self, folder_name=None):
         """ 
         Create ``table_name.table`` in`` folder_name`` where the landuse
         classification numbered ``landuse_table.keys()`` is assigned a
@@ -289,7 +327,7 @@ class tableInfo(pickleable):
         """         
         create_table(self, folder_name)
 
-    def read_table(self, folder_name = None):
+    def read_table(self, folder_name=None):
         """ 
         Read in ``self.file_name`` in ``folder_name`` 
        

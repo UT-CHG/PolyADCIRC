@@ -1,0 +1,13 @@
+#!/bin/bash
+#SBATCH -p normal 
+#SBATCH -J large_b2
+#SBATCH -n 320                  # The job acquires enough nodes to execute total_tasks tasks (launching 16 tasks/node). Use the -N option with the -n option when fewer than 16 tasks/node are required (e.g. for hybrid codes).
+#SBATCH -o large_b2.o.%j
+#SBATCH -e large_b2.e.%j
+#SBATCH --mail-user=youremail@place.com
+#SBATCH --mail-type=begin
+#SBATCH --mail-type=end
+#SBATCH -t 08:00:00
+
+python random_wall_Q.py
+

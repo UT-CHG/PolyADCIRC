@@ -17,9 +17,9 @@ import scipy.io as sio
 def loadmat(save_file, base_dir, grid_dir, save_dir, basis_dir):
     """
     Loads data from ``save_file`` into a
-    :class:`~polyadcirc.run_framework.random_manningsn.runSet` object. Reconstructs
-    :class:`~polyadcirc.run_framework.random_manningsn.domain`. Fixes dry data if
-    it was recorded.
+    :class:`~polyadcirc.run_framework.random_manningsn.runSet` object.
+    Reconstructs :class:`~polyadcirc.run_framework.random_manningsn.domain`.
+    Fixes dry data if it was recorded.
 
     :param string save_file: local file name
     :param string grid_dir: directory containing ``fort.14``, ``fort.15``, and
@@ -36,7 +36,7 @@ def loadmat(save_file, base_dir, grid_dir, save_dir, basis_dir):
 
     """
     main_run, domain, mann_pts = rmn.loadmat(save_file, base_dir, grid_dir,
-            save_dir, basis_dir)
+                                             save_dir, basis_dir)
     
        # load the data from at *.mat file
     mdat = sio.loadmat(save_dir+'/'+save_file)
@@ -74,18 +74,19 @@ class runSet(rmn.runSet):
         observation times for timeseries data
 
     """
-    def __init__(self, grid_dir, save_dir, basis_dir, 
-            num_of_parallel_runs = 10, base_dir = None, script_name = None): 
+    def __init__(self, grid_dir, save_dir, basis_dir, num_of_parallel_runs=
+                 10, base_dir=None, script_name=None): 
         """
         Initialization
         """
         super(runSet, self).__init__(grid_dir, save_dir, basis_dir, 
-            num_of_parallel_runs, base_dir, script_name)
+                                     num_of_parallel_runs, base_dir,
+                                     script_name)
         
     def run_points(self, data, wall_points, mann_points, save_file, 
-            num_procs = 12, procs_pnode = 12, ts_names = ["fort.61"], 
-            nts_names = ["maxele.63"], screenout = True, s_p_wall = None,
-            num_writers = None, TpN = 12):
+                   num_procs=12, procs_pnode=12, ts_names=["fort.61"],
+                   nts_names=["maxele.63"], screenout=True, s_p_wall=
+                   None, num_writers=None, TpN=12):
         """
         Runs :program:`ADCIRC` for all of the configurations specified by
         ``wall_points`` and ``mann_points`` and returns a dictonary of arrays
@@ -148,38 +149,38 @@ class runSet(rmn.runSet):
         num_points = mann_points.shape[1]
         num_walls = wall_points.shape[1]
         if s_p_wall == None:
-            s_p_wall = num_points/num_walls*np.ones(num_walls, dtype = int)
+            s_p_wall = num_points/num_walls*np.ones(num_walls, dtype=int)
        
         # store the wall points with the mann_points as points
-        mdict['points'] = np.vstack((np.repeat(wall_points, s_p_wall,1),
-            mann_points))
+        mdict['points'] = np.vstack((np.repeat(wall_points, s_p_wall, 1),
+                                     mann_points))
 
         # Pre-allocate arrays for non-timeseries data
         nts_data = {}
         self.nts_data = nts_data
         for fid in nts_names:
-            key = fid.replace('.','')
-            nts_data[key] =  np.zeros((data.node_num, num_points))        
+            key = fid.replace('.', '')
+            nts_data[key] = np.zeros((data.node_num, num_points))        
         # Pre-allocate arrays for timeseries data
         ts_data = {}
         time_obs = {}
         self.ts_data = ts_data
         self.time_obs = time_obs
         for fid in ts_names:
-            key = fid.replace('.','')
+            key = fid.replace('.', '')
             meas_locs, total_obs, irtype = data.recording[key]
             if irtype == 1:
                 ts_data[key] = np.zeros((meas_locs, total_obs, num_points))
             else:
                 ts_data[key] = np.zeros((meas_locs, total_obs,
-                    irtype, num_points))
+                                         irtype, num_points))
             time_obs[key] = np.zeros((total_obs,))
 
         # Update and save
         self.update_mdict(mdict)
         self.save(mdict, save_file)
 
-        default = data.read_default(path = self.save_dir)
+        default = data.read_default(path=self.save_dir)
 
         for w in xrange(num_walls):
             # set walls
@@ -190,15 +191,16 @@ class runSet(rmn.runSet):
             for rf_dir in self.rf_dirs:
                 os.remove(rf_dir+'/fort.14')
                 shutil.copy(self.grid_dir+'/fort.14', rf_dir)
-                f14.update(data, path = rf_dir)
+                f14.update(data, path=rf_dir)
             #PARALLEL: update file containing the list of rf_dirs
             self.update_dir_file(self.num_of_parallel_runs)
             devnull = open(os.devnull, 'w')
-            p = subprocess.Popen(['./prep_2.sh'], stdout = devnull, cwd = self.save_dir)
+            p = subprocess.Popen(['./prep_2.sh'], stdout=devnull,
+                                 cwd=self.save_dir) 
             p.communicate()
             devnull.close()
-            #for k in xrange(w*s_p_wall, (w+1)*s_p_wall-1, self.num_of_parallel_runs):
-            for k in xrange(sum(s_p_wall[:w]), sum(s_p_wall[:w+1]), self.num_of_parallel_runs):
+            for k in xrange(sum(s_p_wall[:w]), sum(s_p_wall[:w+1]),
+                            self.num_of_parallel_runs): 
                 if k+self.num_of_parallel_runs >= num_points-1:
                     stop = num_points
                     step = stop-k
@@ -206,32 +208,35 @@ class runSet(rmn.runSet):
                     stop = k+self.num_of_parallel_runs
                     step = self.num_of_parallel_runs
                 run_script = self.write_run_script(num_procs, step,
-                        procs_pnode, TpN, screenout, num_writers)
-                self.write_prep_script(5, step)
+                                                   procs_pnode, TpN, screenout,
+                                                   num_writers)
+                self.write_prep_script(5)
                 for i in xrange(0, step):
                     # generate the Manning's n field
-                    r_field = tmm.combine_basis_vectors(mann_points[..., i+k], bv_dict,
-                              default, data.node_num)
+                    r_field = tmm.combine_basis_vectors(mann_points[..., i+k],
+                                                        bv_dict, default,
+                                                        data.node_num)
                     # create the fort.13 for r_field
                     f13.update_mann(r_field, self.rf_dirs[i])
                 # do a batch run of python
                 #PARALLEL: update file containing the list of rf_dirs
                 self.update_dir_file(self.num_of_parallel_runs)
                 devnull = open(os.devnull, 'w')
-                p = subprocess.Popen(['./prep_5.sh'], stdout = devnull, cwd = self.save_dir)
+                p = subprocess.Popen(['./prep_5.sh'], stdout=devnull,
+                                     cwd=self.save_dir) 
                 p.communicate()
                 devnull.close()
                 devnull = open(os.devnull, 'w')
-                p = subprocess.Popen(['./'+run_script], stdout = subprocess.PIPE,
-                        cwd = self.base_dir) 
+                p = subprocess.Popen(['./'+run_script], stdout=subprocess.PIPE,
+                                     cwd=self.base_dir) 
                 p.communicate()
                 devnull.close()
                 # get data
                 for i, kk in enumerate(range(k, stop)):
-                    output.get_data_ts(kk, self.rf_dirs[i], self.ts_data, time_obs,
-                            ts_names)
-                    output.get_data_nts(kk, self.rf_dirs[i], data, self.nts_data,
-                            nts_names)
+                    output.get_data_ts(kk, self.rf_dirs[i], self.ts_data,
+                                       time_obs, ts_names)
+                    output.get_data_nts(kk, self.rf_dirs[i], data,
+                                        self.nts_data, nts_names)
                 # Update and save
                 self.update_mdict(mdict)
                 self.save(mdict, save_file)
@@ -243,9 +248,9 @@ class runSet(rmn.runSet):
         return time_obs, ts_data, nts_data
 
     def run_nobatch(self, data, wall_points, mann_points, save_file, 
-            num_procs = 12, procs_pnode = 12, ts_names = ["fort.61"], 
-            nts_names = ["maxele.63"], screenout = True, 
-            num_writers = None, TpN = 12):
+                    num_procs=12, procs_pnode=12, ts_names=["fort.61"],
+                    nts_names=["maxele.63"], screenout=True,
+                    num_writers=None, TpN=12):
         """
         Runs :program:`ADCIRC` for all of the configurations specified by
         ``wall_points`` and ``mann_points`` and returns a dictonary of arrays
@@ -305,7 +310,7 @@ class runSet(rmn.runSet):
         # Pre-allocate arrays for various data files
         num_points = mann_points.shape[1]
         num_walls = wall_points.shape[1]
-        if num_points != num_points:
+        if num_walls != num_points:
             print "Error: num_walls != num_points"
             quit()
 
@@ -316,28 +321,28 @@ class runSet(rmn.runSet):
         nts_data = {}
         self.nts_data = nts_data
         for fid in nts_names:
-            key = fid.replace('.','')
-            nts_data[key] =  np.zeros((data.node_num, num_points))        
+            key = fid.replace('.', '')
+            nts_data[key] = np.zeros((data.node_num, num_points))        
         # Pre-allocate arrays for timeseries data
         ts_data = {}
         time_obs = {}
         self.ts_data = ts_data
         self.time_obs = time_obs
         for fid in ts_names:
-            key = fid.replace('.','')
+            key = fid.replace('.', '')
             meas_locs, total_obs, irtype = data.recording[key]
             if irtype == 1:
                 ts_data[key] = np.zeros((meas_locs, total_obs, num_points))
             else:
                 ts_data[key] = np.zeros((meas_locs, total_obs,
-                    irtype, num_points))
+                                         irtype, num_points))
             time_obs[key] = np.zeros((total_obs,))
 
         # Update and save
         self.update_mdict(mdict)
         self.save(mdict, save_file)
 
-        default = data.read_default(path = self.save_dir)
+        default = data.read_default(path=self.save_dir)
 
         for k in xrange(0, num_points, self.num_of_parallel_runs):
             if k+self.num_of_parallel_runs >= num_points-1:
@@ -347,8 +352,9 @@ class runSet(rmn.runSet):
                 stop = k+self.num_of_parallel_runs
                 step = self.num_of_parallel_runs
             run_script = self.write_run_script(num_procs, step,
-                    procs_pnode, TpN, screenout, num_writers)
-            self.write_prep_script(5, step)
+                                               procs_pnode, TpN, screenout,
+                                               num_writers)
+            self.write_prep_script(5)
             # set walls
             wall_dim = wall_points[..., k]
             data.read_spatial_grid()
@@ -357,37 +363,39 @@ class runSet(rmn.runSet):
             for rf_dir in self.rf_dirs:
                 os.remove(rf_dir+'/fort.14')
                 shutil.copy(self.grid_dir+'/fort.14', rf_dir)
-                f14.update(data, path = rf_dir)
+                f14.update(data, path=rf_dir)
             #PARALLEL: update file containing the list of rf_dirs
             self.update_dir_file(self.num_of_parallel_runs)
             devnull = open(os.devnull, 'w')
-            p = subprocess.Popen(['./prep_2.sh'], stdout = devnull, cwd = self.save_dir)
+            p = subprocess.Popen(['./prep_2.sh'], stdout=devnull,
+                                 cwd=self.save_dir) 
             p.communicate()
             devnull.close()
             for i in xrange(0, step):
                 # generate the Manning's n field
                 r_field = tmm.combine_basis_vectors(mann_points[..., i+k], bv_dict,
-                          default, data.node_num)
+                                                    default, data.node_num)
                 # create the fort.13 for r_field
                 f13.update_mann(r_field, self.rf_dirs[i])
             # do a batch run of python
             #PARALLEL: update file containing the list of rf_dirs
             self.update_dir_file(self.num_of_parallel_runs)
             devnull = open(os.devnull, 'w')
-            p = subprocess.Popen(['./prep_5.sh'], stdout = devnull, cwd = self.save_dir)
+            p = subprocess.Popen(['./prep_5.sh'], stdout=devnull,
+                                 cwd=self.save_dir) 
             p.communicate()
             devnull.close()
             devnull = open(os.devnull, 'w')
-            p = subprocess.Popen(['./'+run_script], stdout = devnull,
-                    cwd = self.base_dir) 
+            p = subprocess.Popen(['./'+run_script], stdout=devnull,
+                                 cwd=self.base_dir) 
             p.communicate()
             devnull.close()
             # get data
             for i, kk in enumerate(range(k, stop)):
                 output.get_data_ts(kk, self.rf_dirs[i], self.ts_data, time_obs,
-                        ts_names)
+                                   ts_names)
                 output.get_data_nts(kk, self.rf_dirs[i], data, self.nts_data,
-                        nts_names)
+                                    nts_names)
             # Update and save
             self.update_mdict(mdict)
             self.save(mdict, save_file)
@@ -398,8 +406,8 @@ class runSet(rmn.runSet):
 
         return time_obs, ts_data, nts_data
     
-    def make_plots(self, wall_points, mann_points, domain, save = True, show = False, 
-                   bathymetry = False):
+    def make_plots(self, wall_points, mann_points, domain, save=True, show=False, 
+                   bathymetry=False):
         """
         Plots ``mesh``, ``station_locations``, ``basis_functions``,
         ``random_fields``, ``mean_field``, ``station_data``, and
@@ -410,11 +418,11 @@ class runSet(rmn.runSet):
 
         """
         super(runSet, self).make_plots(mann_points, domain, save, show, 
-                   bathymetry)
+                                       bathymetry)
         self.plot_walls(domain, wall_points, save, show)
 
-    def plot_walls(self, domain, wall_points, save = True, 
-        show = False):
+    def plot_walls(self, domain, wall_points, save=True, 
+                   show=False):
         """
         Plots the walls with dimenstions described in ``wall_points`` and saves
         the plots in ``self.save_dir``
@@ -430,8 +438,8 @@ class runSet(rmn.runSet):
         plot_walls(self, domain, wall_points, save, show)
 
         
-def plot_walls(run_set, domain, wall_points, save = True, 
-        show = False):
+def plot_walls(run_set, domain, wall_points, save=True, 
+               show=False):
     """
     Plots the walls with dimenstions described in ``wall_points`` and saves
     the plots in ``self.save_dir``

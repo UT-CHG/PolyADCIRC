@@ -12,14 +12,14 @@ This package contains the modules
     * :mod:`~polyadcirc.pyGriddata.file_management`
     * :mod:`~polyadcirc.pyGriddata.table_management`
     * :mod:`~polyadcirc.pyGriddata.table_to_mesh_map`
-    * :mod:`~polyadcirc.pyGriddata.gridObject`
+    * :mod:`~polyadcirc.pyGriddata.grid_management`
     * :mod:`~polyadcirc.pyGriddata.manufacture_gap`
-    * :mod:`~polyadcirc.pyGriddata.prep_mesh`
 
-:mod:`~polyadcirc.pyGriddata.prep_mesh` prepares ``*.table and
-*.13`` files needed for :mod:`~polyadcirc.pyGriddata.table_to_mesh_map` and creates the n x m
-matrix of multiplier factors where n = # nodes, and m = # land classification
-values, assuming there are no surprises with the spatial averaging.
+:mod:`~polyadcirc.pyGriddata.grid_management` prepares ``*.table and
+*.13`` files needed for :mod:`~polyadcirc.pyGriddata.table_to_mesh_map` and
+creates the n x m matrix of multiplier factors where n = # nodes, and m = #
+land classification values, assuming there are no surprises with the spatial
+averaging.
 
 additional needed files:
     * compiled version of :program:`Gridata_v1.32.F90` named
@@ -33,12 +33,12 @@ additional needed files:
 (and data file(s) from above) produces a ``fort.13`` ready for use by
 :program:`ADCIRC` 
 
-.. node :: This module requires a modified version of
+.. note :: This module requires a modified version of
     :program:`Griddatat_v1.32.F90` that takes ``*.in`` files
 
 .. todo:: update so that this works similarly to how I have things working on
     lonestar and so that there is also a version that runs on a workstation
     
 """
-__all__  = ['file_management', 'table_management', 'table_to_mesh_map',
-          'gridObject', 'manufacture_gap', 'prep_mesh']
+__all__ = ['file_management', 'table_management', 'table_to_mesh_map',
+            'grid_management', 'manufacture_gap']
