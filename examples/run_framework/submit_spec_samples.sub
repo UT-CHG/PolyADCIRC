@@ -4,10 +4,10 @@
 #SBATCH -n 320                  # The job acquires enough nodes to execute total_tasks tasks (launching 16 tasks/node). Use the -N option with the -n option when fewer than 16 tasks/node are required (e.g. for hybrid codes).
 #SBATCH -o forq1q2.o.%j
 #SBATCH -e forq1q2.e.%j
-#SBATCH --mail-user=lichgraham@gmail.com
+#SBATCH --mail-user=yourname@place.com
 #SBATCH --mail-type=begin
 #SBATCH --mail-type=end
 #SBATCH -t 06:00:00
-#SBATCH -A TG-DMS080016N
 
-python run_q1q2_truth7.py
+python run_spec_samples.py
+
