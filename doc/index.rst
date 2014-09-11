@@ -47,7 +47,7 @@ Disclaimer
 ==========
 This code was originally developed for research purposes use at your own risk.
 Hopefully, the documentation is clear. You might find bugs I have overlooked.
-If you find something amiss please report this problem to be through GitHub or
+If you find something amiss please report this problem to me through GitHub or
 submit a fix. Thanks!
 
 This material is based upon work supported by the National Science Foundation
