@@ -4,7 +4,7 @@
    contain the root `toctree` directive.
 
 Welcome to PolyADCIRC's documentation!
-===================================
+==========================================
 
 Python-based framework for running batches of parallel `ADCIRC <adcirc.org>`_
 simulations with varying parameters (Manning's *n* and limited variable
@@ -18,13 +18,17 @@ modified for other shells. This code requires `GNU Parallel
 <http://www.gnu.org/software/parallel/>`_ to be installed in order to run
 properly.
 
+Useful scripts are contained in ``examples/``
+Python source code for this package is contained in ``polyadcirc/``
+
+
 Contents:
 
 .. toctree::
    :maxdepth: 2
    
    overview
-   Running on TACC <running_on_tacc>
+   Running on TACC <running_on_TACC>
    submerged_wall
    Large Jobs <large_jobs>
    All about mapping landuse data to the mesh <landuse_stuff>
@@ -39,4 +43,15 @@ Indices and tables
 * :ref:`modindex`
 * :ref:`search`
 
+Disclaimer
+==========
+This code was originally developed for research purposes use at your own risk.
+Hopefully, the documentation is clear. You might find bugs I have overlooked.
+If you find something amiss please report this problem to be through GitHub or
+submit a fix. Thanks!
 
+This material is based upon work supported by the National Science Foundation
+Graduate Research Fellowship under Grant No. DGE-1110007. Any opinion,
+findings, and conclusions or recommendations expressed in this material are
+those of the authors(s) and do not necessarily reflect the views of the
+National Science Foundation.

@@ -27,8 +27,8 @@ An example of this is in the ``examples/poly_walls/`` folder. The
 ``poly_wallsn.py`` files break a job into 7 parts and ``concatenate_many.py``
 stiches the data from all 7 runs into a single file.
 
-concatenation_2
-~~~~~~~~~~~~~~~
+concatenate_pair
+~~~~~~~~~~~~~~~~~
 
 This file demonstrates concatenating data from two separate jobs.
 
