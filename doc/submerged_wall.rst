@@ -10,15 +10,16 @@ give the user a limited ability to alter the bathymetry of the
 :meth:`polyadcirc.run_framework.domain.domain.add_wall` method to run
 :program:`PADCIRC` with variable Manning's *n* fields and variable bathymetry.
     
-few_walls
+random_wall
 ~~~~~~~~~~~~~~~~~
 
-This script models a submerged mound by setting the bathymetry to a specified
+This example is located at ``examples/run_framework/random_wall.py``.  This
+script models a submerged mound by setting the bathymetry to a specified
 ``wall_height`` at nodes contained in a rectangle defined by ``y_min``,
 ``y_max``, ``x_min``, and ``x_max``. To recude model error the user may desire
 to refine the mesh in areas where the bathymetry will be altered.
 
-Allow running from the command line using :command:`./few_walls.py`::
+Allow running from the command line using :command:`./random_wall.py`::
 
     #! /usr/bin/env/python
 
@@ -33,8 +34,7 @@ Store string references to important directories::
     adcirc_dir = '/work/01837/lcgraham/v50_subdomain/work'
     grid_dir = adcirc_dir + '/ADCIRC_landuse/Inlet/inputs/poly_walls'
     save_dir = adcirc_dir + '/ADCIRC_landuse/Inlet/runs/few_walls'
-    basis_dir = adcirc_dir
-    +'/ADCIRC_landuse/Inlet/landuse_basis/gap/beach_walls_2lands'
+    basis_dir = adcirc_dir + '/ADCIRC_landuse/Inlet/landuse_basis/gap/beach_walls_2lands'
 
 ``grid_dir``
     directory where the ``fort.15``, ``fort.14``, and ``fort.22`` files are
@@ -78,7 +78,7 @@ by the ``submission_script.sub``. See ``-pe `` line in submission_script
 
     nprocs = 2
     ppnode = 12
-    NoN = 2
+    NoN = 44
     num_of_parallel_runs = (ppnode*NoN)/nprocs # procs_pnode * NoN / nproc
 
 Store directory references and set up random field directories::
@@ -117,10 +117,12 @@ Set wall samples::
     wall_points = wall_points.transpose()
     
 Tile ``mann_pts`` so that the number of columns is ``mann_pts.shape[1] *
-num_walls``. This samples Manning's *n* points on the same regular grid for each
-point in ``wall_points``. However, this need not be the case. See
-``examples/walls_rand_man.py`` for an example with varying numbers of random
-Manning's *n* samples per wall sample. 
+num_walls``::
+
+    mann_pts = np.tile(mann_pts, num_walls)
+
+This samples Manning's *n* points on the same regular grid for each
+point in ``wall_points``. However, this need not be the case.     
 
 .. seealso::
 
@@ -136,7 +138,7 @@ Run samples::
 Job Submission Script
 ---------------------
 
-An example submission script is included in ``examples/submission_script.sub``.
+An example submission script is included in ``examples/random_wall.sub``.
 You should copy any scripts you wish to modify and run into a separate folder
 in your ``$WORK`` directory. In these examples I am working from
 ``$WORK/landuse_bin``.  You will need to modify the lines that designate the
@@ -169,10 +171,10 @@ Currently the output is saved to a :program:`python` formatted binary file calle
     `SciPy Input/Output
     <http://docs.scipy.org/doc/scipy/reference/tutorial/io.html>`_
   
-load_few_walls
-~~~~~~~~~~~~~~~
+load_random_wall
+~~~~~~~~~~~~~~~~~
 
-This script is very similar to ``examples/load_test.py``.
+This script is ``examples/run_framework/load_random_wall.py``.
 
 Import necessary modules::
     

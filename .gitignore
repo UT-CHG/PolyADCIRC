@@ -18,3 +18,6 @@ text.txt
 bin/
 lonestar_landuse_bin/
 remote_bin/
+examples/subdomain_specific/
+polyadcirc/run_framework/subdomain.py
+polyadcirc/run_framework/fulldomain.py

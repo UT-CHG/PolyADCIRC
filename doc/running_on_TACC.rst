@@ -26,22 +26,7 @@ Installation
 ~~~~~~~~~~~~
 
 You can install PolyADCIRC in the ``$HOME`` directory as described in the
-:ref:`overview`. If you want to use the cutting edge version from the git repo,
-I would sugguest putting the git repo containing the Polysim directory in
-``$HOME``.  Files are not backed up in the``$WORK`` or ``$SCRATCH``
-directories, so if you need to put the ``landuse.git`` repo in either of these
-locations use the ``--separate-gir-dir=$HOME/someplace`` option. 
-
-To clone the git repo containing the PolyADCIRC directory::
-
-    $ git clone username@ices-workstation:/org/groups/chg/lgraham/PolyADCIRC.git
-
-or::
-
-    $ git clone git@github.com:lcgraham/PolyADCIRC.git
-
-Since this code is currently in development it is not in a public repository.
-If you would like a copy of the code let me know.
+:ref:`overview`.
 
 Input/Output Directory Structure
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -50,21 +35,8 @@ This code currently assumes use of v50 of :program:`ADCIRC`. The top directory
 containing the ``work``, ``src``, etc. folders for :program:`ADCIRC` should be
 kept in the ``$WORK`` directory due to memory quota constraints.
 
-Within the ``work/`` folder of your :program:`ADCIRC` directory you have 2
-options with regard to file structure
-
-    0. (RECOMMENDED) Copy ``/h1/lgraham/group_mts_012914/Inlet_test`` to a
-       convienent location.    
-
-    1. (NOT RECOMMENDED) Clone the git repo ``ADCIRC_landuse`` here and
-       add/alter data/input files ::
-            
-            $ git clone --separate-git-dir=$HOME/ADCIRC_landuse ices-workstation:/org/groups/chg/lgraham/ADCIRC_landuse.git
-            $ cd ADCIRC_landuse
-            $ git checkout --track origin/stampede
-
-    2. Create your own directory and add any missing data/input files. The
-       recommended directory structure is as follows ::
+Within the ``work/`` folder of your :program:`ADCIRC` directory the recommended
+directory structure is as follows ::
 
             adcirc_dir/
                 src/
@@ -72,7 +44,7 @@ options with regard to file structure
                 util/
                 ...
                 work/
-                    ADCIRC_landuse/ (THIS YOU CLONE OR CREATE)
+                    ADCIRC_landuse/ 
                         grid_name1/
                         ...
                         grid_namen/
@@ -91,14 +63,13 @@ options with regard to file structure
                                 ...
                                 basis_dirn
 
-       The ``ADCIRC_landuse/`` MUST be in the ``work/`` (``base_dir`` used by
-       :class:`~polyadcirc.run_framwork.random_manningsn.runSet`) directory of
-       your :program:`ADCIRC` build. The ``ADCIRC_landuse/`` directory can be
-       renamed but it MUST contain any ``grid_dir``, ``save_dir``, or
-       ``basis_dir`` used by
-       :class:`~polyadcirc.run_framwork.random_manningsn.runSet`. There must be a
-       ``fort.13`` file specific to ``grid_dir`` stored in the directory
-       containing the ``save_dir``. 
+The ``ADCIRC_landuse/`` MUST be in the ``work/`` (``base_dir`` used by
+:class:`~polyadcirc.run_framwork.random_manningsn.runSet`) directory of your
+:program:`ADCIRC` build. The ``ADCIRC_landuse/`` directory can be renamed but
+it MUST contain any ``grid_dir``, ``save_dir``, or ``basis_dir`` used by
+:class:`~polyadcirc.run_framwork.random_manningsn.runSet`. There must be a
+``fort.13`` file specific to ``grid_dir`` stored in the directory containing
+the ``save_dir``. 
 
 .. seealso::
 
@@ -143,17 +114,14 @@ Now the data collected from the :program:`PADCIRC` runs are accessible in
 Python for plotting and analysis. The ``py_save_file.mat`` file is also
 readable by MATLAB and Octave.
     
-.. _run-stampede-test:
-
-run_stampede_test
+random_mannings_n
 ~~~~~~~~~~~~~~~~~
 
-This is the script I've been using for my current setup. This is the script
-that should be modified for future runs. There are other scripts in the
-``examples/`` directory which may be helpful, although minor changes may be
-required.
+This script is located in ``examples/run_framework/``. There are other scripts
+in the ``examples/`` directory which may be helpful, although minor changes may
+be required.
 
-Allow running from the command line using :command:`./run_stampede_test.py`::
+Allow running from the command line using :command:`./random_manningsn.py`::
 
     #! /usr/bin/env/python
 
@@ -162,7 +130,6 @@ Import necessary modules::
     import polyadcirc.run_framework.domain as dom
     import polyadcirc.run_framework.random_manningsn as rmn
     import numpy as np
-    import os, glob
 
 Store string references to important directories::
 
@@ -268,13 +235,9 @@ To run :ref:`run-stampede-test` you need to modify ``submission_script.sub``
 so that the line ``#$ -M youremail@someplace.com`` has your e-mail. Then you
 can submit it to the queue using::
     
-    $ qsub submission_script.sub
+    $ qsub submit_ranom_manningsn.sub
 
-To check on your job you can use the commend::
-
-    $ qstat
-
-Currently the output is saved to a :program:`python` formatted binary file called
+Currently the output is saved to a :program:`MATLAB` formatted binary file called
 ``py_save_file.mat`` in ``save_dir``.
 
 .. seealso::
@@ -290,13 +253,8 @@ Currently the output is saved to a :program:`python` formatted binary file calle
     `SciPy Input/Output
     <http://docs.scipy.org/doc/scipy/reference/tutorial/io.html>`_
   
-load_test
-~~~~~~~~~~~~~~~
-
-To run this code on my workstation I generally have the ``sl6`` and ``python``
-(or ``epd``) modules loaded (:command:`module load module_name`). I would also
-recommend installing the latest versions of `numpy <numpy.org>`_, `scipy
-<scipy.org>`_, and `matplotlib <matplotlib.org>`_.
+load_random_manningsn
+~~~~~~~~~~~~~~~~~~~~~
 
 Import necessary modules::
 
@@ -318,4 +276,5 @@ Load the run set up and data::
             save_dir, basis_dir)
 
 Now the data is availiable for plotting methods in
-:mod:`~polyadcirc.pyADCIRC.plotADCIRC`.
+:mod:`~polyadcirc.pyADCIRC.plotADCIRC` or to be manipulated by Numpy or SciPy
+routines.
