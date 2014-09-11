@@ -1,0 +1,248 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Large Jobs &mdash; PolySim 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="PolySim 0.1 documentation" href="index.html" />
+    <link rel="next" title="“All” about land use and land classifications" href="landuse_stuff.html" />
+    <link rel="prev" title="Limited Variable Bathymetry" href="submerged_wall.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="landuse_stuff.html" title="“All” about land use and land classifications"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="submerged_wall.html" title="Limited Variable Bathymetry"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">PolySim 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="large-jobs">
+<h1>Large Jobs<a class="headerlink" href="#large-jobs" title="Permalink to this headline">¶</a></h1>
+<p>PolyADCIRC runs batches of simulations of size <tt class="docutils literal"><span class="pre">num_of_parallel_runs</span></tt>. PolyADCIRC
+relies on <a class="reference external" href="http://www.gnu.org/software/parallel/">GNU Parallel</a> to handle
+simultaneously running a batch of serial jobs in parallel. PolyADCIRC relies on
+<strong class="program">ibrun</strong>, a <a class="reference external" href="http://www.tacc.utexas.edu/user-services/user-guides">TACC</a> specific batch MPI
+launch command to handle simulataneously running a batch of parallel jobs in
+parallel. Based on user inputs PolyADCIRC writes the appropriate Bash scripts
+which are run using the <tt class="xref py py-meth docutils literal"><span class="pre">subprocess.POpen()</span></tt> command. Once the batch size
+(<tt class="docutils literal"><span class="pre">num_of_parallel_runs</span></tt>) gets too large the user may encounter</p>
+<div class="highlight-python"><div class="highlight"><pre>tail: write error: Broken pipe
+</pre></div>
+</div>
+<p>The current work around is to reduce your batch size and break your job up into
+multiple jobs. These jobs may then be submitted to the queue and either run
+independently or sequentially. When doing so make sure that the run scripts
+specify a different <tt class="docutils literal"><span class="pre">save_dir</span></tt>, <tt class="docutils literal"><span class="pre">save_file</span></tt>, and <tt class="docutils literal"><span class="pre">script_name</span></tt> for each
+job. After your jobs complete the data may be concatenated into a single file.
+This file will have the same structure as if a single job was run. You might
+also want to create a <tt class="docutils literal"><span class="pre">crontab</span></tt> to periodically clear our your <tt class="docutils literal"><span class="pre">.sge</span></tt>
+directory.</p>
+<p>An example of this is in the <tt class="docutils literal"><span class="pre">examples/poly_walls/</span></tt> folder. The
+<tt class="docutils literal"><span class="pre">poly_wallsn.py</span></tt> files break a job into 7 parts and <tt class="docutils literal"><span class="pre">concatenate_many.py</span></tt>
+stiches the data from all 7 runs into a single file.</p>
+<div class="section" id="concatenate-pair">
+<h2>concatenate_pair<a class="headerlink" href="#concatenate-pair" title="Permalink to this headline">¶</a></h2>
+<p>This file demonstrates concatenating data from two separate jobs.</p>
+<p>Import necessary modules:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">polyadcirc.run_framework.random_wall</span> <span class="kn">as</span> <span class="nn">rmw</span>
+</pre></div>
+</div>
+<p>Specifiy directories for the jobs that were run:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">base_dir</span> <span class="o">=</span> <span class="s">&#39;/h1/lgraham/workspace&#39;</span>
+<span class="n">grid_dir</span> <span class="o">=</span> <span class="n">base_dir</span> <span class="o">+</span> <span class="s">&#39;/ADCIRC_landuse/Inlet/inputs/poly_walls&#39;</span>
+<span class="n">save_dir1</span> <span class="o">=</span> <span class="n">base_dir</span> <span class="o">+</span> <span class="s">&#39;/ADCIRC_landuse/Inlet/runs/poly_wall1&#39;</span>
+<span class="n">save_dir2</span> <span class="o">=</span> <span class="n">base_dir</span> <span class="o">+</span> <span class="s">&#39;/ADCIRC_landuse/Inlet/runs/poly_wall2&#39;</span>
+<span class="n">basis_dir</span> <span class="o">=</span> <span class="n">base_dir</span> <span class="o">+</span> <span class="s">&#39;/ADCIRC_landuse/Inlet/landuse_basis/gap/beach_walls_2lands&#39;</span>
+</pre></div>
+</div>
+<p>Specify the save file:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">save_file</span> <span class="o">=</span> <span class="s">&#39;py_save_file&#39;</span>
+</pre></div>
+</div>
+<p>Load the data from both runs:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">main_run</span><span class="p">,</span> <span class="n">domain</span><span class="p">,</span> <span class="n">mann_pts1</span><span class="p">,</span> <span class="n">wall_pts1</span><span class="p">,</span> <span class="n">points1</span> <span class="o">=</span> <span class="n">rmw</span><span class="o">.</span><span class="n">loadmat</span><span class="p">(</span><span class="n">save_file</span><span class="p">,</span> <span class="n">base_dir</span><span class="p">,</span>
+    <span class="n">grid_dir</span><span class="p">,</span> <span class="n">save_dir1</span><span class="p">,</span> <span class="n">basis_dir</span><span class="p">)</span>
+<span class="n">other_run</span><span class="p">,</span> <span class="n">domain</span><span class="p">,</span> <span class="n">mann_pts2</span><span class="p">,</span> <span class="n">wall_pts2</span><span class="p">,</span> <span class="n">points2</span> <span class="o">=</span> <span class="n">rmw</span><span class="o">.</span><span class="n">loadmat</span><span class="p">(</span><span class="n">save_file</span><span class="p">,</span>
+    <span class="n">base_dir</span><span class="p">,</span> <span class="n">grid_dir</span><span class="p">,</span> <span class="n">save_dir2</span><span class="p">,</span> <span class="n">basis_dir</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Concatenate the data from both runs and save to a
+<a class="reference internal" href="polyadcirc.run_framework.html#polyadcirc.run_framework.random_wall.runSet" title="polyadcirc.run_framework.random_wall.runSet"><tt class="xref py py-class docutils literal"><span class="pre">runSet</span></tt></a> object:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">cated</span> <span class="o">=</span> <span class="n">main_run</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="n">other_run</span><span class="p">,</span> <span class="n">points1</span><span class="p">,</span> <span class="n">points2</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Store the concatenated version of <tt class="docutils literal"><span class="pre">points</span></tt> in a dictonary object:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">mdat</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+<span class="n">mdat</span><span class="p">[</span><span class="s">&#39;points&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">cated</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Concatenate and store <tt class="docutils literal"><span class="pre">mann_pts</span></tt> and <tt class="docutils literal"><span class="pre">wall_pts</span></tt> in the dictionary:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">mdat</span><span class="p">[</span><span class="s">&#39;mann_pts&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">mann_pts1</span><span class="p">,</span> <span class="n">mann_pts2</span><span class="p">),</span>
+    <span class="n">axis</span> <span class="o">=</span> <span class="n">points1</span><span class="o">.</span><span class="n">ndim</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">mdat</span><span class="p">[</span><span class="s">&#39;wall_pts&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">wall_pts1</span><span class="p">,</span> <span class="n">wall_pts2</span><span class="p">),</span>
+    <span class="n">axis</span> <span class="o">=</span> <span class="n">points1</span><span class="o">.</span><span class="n">ndim</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Save the data to a new save file in <tt class="docutils literal"><span class="pre">save_dir1</span></tt> as <tt class="docutils literal"><span class="pre">cat_file.mat</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">main_run</span><span class="o">.</span><span class="n">update_mdict</span><span class="p">(</span><span class="n">mdat</span><span class="p">)</span>
+<span class="n">main_run</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">mdat</span><span class="p">,</span> <span class="s">&#39;cat_file&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="concatenate-many">
+<h2>concatenate_many<a class="headerlink" href="#concatenate-many" title="Permalink to this headline">¶</a></h2>
+<p>This file demonstrates concatenating data from seven different jobs.</p>
+<p>Import necessary modules:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">polyadcirc.run_framework.random_wall</span> <span class="kn">as</span> <span class="nn">rmw</span>
+</pre></div>
+</div>
+<p>Specify the directories for the jobs and the base string for the <tt class="docutils literal"><span class="pre">save_dir</span></tt>
+and <tt class="docutils literal"><span class="pre">save_file</span></tt>. The name pattern for the <tt class="docutils literal"><span class="pre">save_dir</span></tt> and <tt class="docutils literal"><span class="pre">save_file</span></tt> is
+<tt class="docutils literal"><span class="pre">name+str(n)</span></tt> where <tt class="docutils literal"><span class="pre">n</span></tt> indicates this the the files and directory for the
+nth job:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">base_dir</span> <span class="o">=</span> <span class="s">&#39;/h1/lgraham/workspace&#39;</span>
+<span class="n">grid_dir</span> <span class="o">=</span> <span class="n">base_dir</span> <span class="o">+</span> <span class="s">&#39;/ADCIRC_landuse/Inlet/inputs/poly_walls&#39;</span>
+<span class="n">save_dir</span> <span class="o">=</span> <span class="n">base_dir</span> <span class="o">+</span> <span class="s">&#39;/ADCIRC_landuse/Inlet/runs/poly_wall&#39;</span>
+<span class="n">basis_dir</span> <span class="o">=</span> <span class="n">base_dir</span> <span class="o">+</span> <span class="s">&#39;/ADCIRC_landuse/Inlet/landuse_basis/gap/beach_walls_2lands&#39;</span>
+
+<span class="n">save_file</span> <span class="o">=</span> <span class="s">&#39;py_save_file&#39;</span>
+</pre></div>
+</div>
+<p>Load the data from the first job:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">main_run</span><span class="p">,</span> <span class="n">domain</span><span class="p">,</span> <span class="n">mann_pts</span><span class="p">,</span> <span class="n">wall_pts</span><span class="p">,</span> <span class="n">points</span> <span class="o">=</span> <span class="n">rmw</span><span class="o">.</span><span class="n">loadmat</span><span class="p">(</span><span class="n">save_file</span><span class="o">+</span><span class="s">&#39;0&#39;</span><span class="p">,</span>
+    <span class="n">base_dir</span><span class="p">,</span> <span class="n">grid_dir</span><span class="p">,</span> <span class="n">save_dir</span><span class="o">+</span><span class="s">&#39;_0&#39;</span><span class="p">,</span> <span class="n">basis_dir</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Load and concatenate the data for the remaning runs:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">7</span><span class="p">):</span>
+    <span class="n">save_file2</span> <span class="o">=</span> <span class="n">save_file</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="c"># construct the save_file name</span>
+    <span class="n">save_dir2</span> <span class="o">=</span> <span class="n">save_dir</span><span class="o">+</span><span class="s">&#39;_&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="c"># construct the save_dir name</span>
+    <span class="c"># load the data</span>
+    <span class="n">other_run</span><span class="p">,</span> <span class="n">domain</span><span class="p">,</span> <span class="n">mann_pts2</span><span class="p">,</span> <span class="n">wall_pts2</span><span class="p">,</span> <span class="n">points2</span> <span class="o">=</span> <span class="n">rmw</span><span class="o">.</span><span class="n">loadmat</span><span class="p">(</span><span class="n">save_file2</span><span class="p">,</span>
+        <span class="n">base_dir</span><span class="p">,</span> <span class="n">grid_dir</span><span class="p">,</span> <span class="n">save_dir2</span><span class="p">,</span><span class="n">basis_dir</span><span class="p">)</span>
+    <span class="c"># concatenate the data</span>
+    <span class="n">run</span><span class="p">,</span> <span class="n">points</span> <span class="o">=</span> <span class="n">main_run</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="n">other_run</span><span class="p">,</span> <span class="n">points</span><span class="p">,</span> <span class="n">points2</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Save the data to <tt class="docutils literal"><span class="pre">save_dir+'_0'</span></tt></p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">mdat</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+<span class="n">mdat</span><span class="p">[</span><span class="s">&#39;points&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">points</span>
+
+<span class="n">main_run</span><span class="o">.</span><span class="n">update_mdict</span><span class="p">(</span><span class="n">mdat</span><span class="p">)</span>
+<span class="n">main_run</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">mdat</span><span class="p">,</span> <span class="s">&#39;poly7_file&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Notice that in this example <tt class="docutils literal"><span class="pre">mann_pts</span></tt>
+and <tt class="docutils literal"><span class="pre">wall_pts</span></tt> are NOT saved. These two arrays have been stitched together
+into the <tt class="docutils literal"><span class="pre">points</span></tt> array using <tt class="docutils literal"><span class="pre">numpy.vstack((np.repeat(wall_points,</span>
+<span class="pre">s_p_wall,1),</span> <span class="pre">mann_pts))</span></tt> in
+<a class="reference internal" href="polyadcirc.run_framework.html#polyadcirc.run_framework.random_wall.runSet.run_points" title="polyadcirc.run_framework.random_wall.runSet.run_points"><tt class="xref py py-meth docutils literal"><span class="pre">polyadcirc.run_framework.random_wall.runSet.run_points()</span></tt></a> into a single
+array.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Large Jobs</a><ul>
+<li><a class="reference internal" href="#concatenate-pair">concatenate_pair</a></li>
+<li><a class="reference internal" href="#concatenate-many">concatenate_many</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="submerged_wall.html"
+                        title="previous chapter">Limited Variable Bathymetry</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="landuse_stuff.html"
+                        title="next chapter">&#8220;All&#8221; about land use and land classifications</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/large_jobs.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="landuse_stuff.html" title="“All” about land use and land classifications"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="submerged_wall.html" title="Limited Variable Bathymetry"
+             >previous</a> |</li>
+        <li><a href="index.html">PolySim 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Lindley Graham.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,1566 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>polyadcirc.run_framework package &mdash; PolySim 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="PolySim 0.1 documentation" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="index.html">PolySim 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="polyadcirc-run-framework-package">
+<h1>polyadcirc.run_framework package<a class="headerlink" href="#polyadcirc-run-framework-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-polyadcirc.run_framework.domain">
+<span id="polyadcirc-run-framework-domain-module"></span><h2>polyadcirc.run_framework.domain module<a class="headerlink" href="#module-polyadcirc.run_framework.domain" title="Permalink to this headline">¶</a></h2>
+<p>See <a class="reference internal" href="#polyadcirc.run_framework.domain.domain" title="polyadcirc.run_framework.domain.domain"><tt class="xref py py-class docutils literal"><span class="pre">domain</span></tt></a></p>
+<dl class="function">
+<dt id="polyadcirc.run_framework.domain.adjust_factor">
+<tt class="descclassname">polyadcirc.run_framework.domain.</tt><tt class="descname">adjust_factor</tt><big>(</big><em>x</em>, <em>x_lims</em>, <em>b_lims=None</em><big>)</big><a class="headerlink" href="#polyadcirc.run_framework.domain.adjust_factor" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>x</strong> (<em>float</em>) &#8211; current x value</li>
+<li><strong>x_lims</strong> (<em>float</em>) &#8211; box of x values to adjust</li>
+<li><strong>b_lims</strong> (<em>float</em>) &#8211; bathy adj at x_lims</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">float</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">b = bathy adjustment</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="polyadcirc.run_framework.domain.domain">
+<em class="property">class </em><tt class="descclassname">polyadcirc.run_framework.domain.</tt><tt class="descname">domain</tt><big>(</big><em>path</em>, <em>node_num=0</em>, <em>element_num=0</em>, <em>node=None</em>, <em>element=None</em><big>)</big><a class="headerlink" href="#polyadcirc.run_framework.domain.domain" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="polyadcirc.pyADCIRC.html#polyadcirc.pyADCIRC.basic.pickleable" title="polyadcirc.pyADCIRC.basic.pickleable"><tt class="xref py py-class docutils literal"><span class="pre">polyadcirc.pyADCIRC.basic.pickleable</span></tt></a></p>
+<p><a class="reference internal" href="#module-polyadcirc.run_framework.domain" title="polyadcirc.run_framework.domain"><tt class="xref py py-class docutils literal"><span class="pre">domain</span></tt></a> 
+Objects of this class contain all the data needed by
+<a class="reference internal" href="#module-polyadcirc.run_framework.random_manningsn" title="polyadcirc.run_framework.random_manningsn"><tt class="xref py py-class docutils literal"><span class="pre">random_manningsn</span></tt></a>
+and <a class="reference internal" href="polyadcirc.pyADCIRC.html#module-polyadcirc.pyADCIRC.plotADCIRC" title="polyadcirc.pyADCIRC.plotADCIRC"><tt class="xref py py-class docutils literal"><span class="pre">plotADCIRC</span></tt></a> for particular mesh(s) or
+grid(s)</p>
+<dl class="docutils">
+<dt>path</dt>
+<dd>full path to the directory containing the <tt class="docutils literal"><span class="pre">fort.##</span></tt> files for this
+particular mesh(s) or grid(s)</dd>
+<dt>node_num</dt>
+<dd>number of nodes</dd>
+<dt>element_num</dt>
+<dd>number of elements</dd>
+<dt>node</dt>
+<dd>list of nodes</dd>
+<dt>element</dt>
+<dd>list of elements where each element is a list of nodes</dd>
+<dt>manningsn_default</dt>
+<dd>default Manning&#8217;s <em>n</em> value</dd>
+<dt>manningsn_num</dt>
+<dd>number of non-default nodes</dd>
+<dt>time</dt>
+<dd>instance of <a class="reference internal" href="polyadcirc.pyADCIRC.html#polyadcirc.pyADCIRC.basic.time" title="polyadcirc.pyADCIRC.basic.time"><tt class="xref py py-class docutils literal"><span class="pre">time</span></tt></a> class</dd>
+<dt>make_domain_map</dt>
+<dd>(boolean) whether or not a domain map has been created</dd>
+</dl>
+<dl class="method">
+<dt id="polyadcirc.run_framework.domain.domain.add_wall">
+<tt class="descname">add_wall</tt><big>(</big><em>box_limits</em>, <em>wall_height=-2</em>, <em>path=None</em>, <em>plotb=False</em>, <em>save=False</em>, <em>show=False</em><big>)</big><a class="headerlink" href="#polyadcirc.run_framework.domain.domain.add_wall" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>path</strong> (<em>string or None</em>) &#8211; directory containing the <tt class="docutils literal"><span class="pre">fort.14</span></tt> to be adjusted</li>
+<li><strong>box_limits</strong> &#8211; [xmin, xmax, ymin, ymax]</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>adds a land wall of default 2 m in area defined by box_limits</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="polyadcirc.run_framework.domain.domain.adjust">
+<tt class="descname">adjust</tt><big>(</big><em>x_lims=None</em>, <em>b_lims=None</em>, <em>path=None</em>, <em>plotb=False</em><big>)</big><a class="headerlink" href="#polyadcirc.run_framework.domain.domain.adjust" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a bathymetry between x-locations defined by <tt class="docutils literal"><span class="pre">x_lims</span></tt> with
+bathymetry linearly interpolated between <tt class="docutils literal"><span class="pre">b_lims</span></tt></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>x_lims</strong> (<em>list()</em>) &#8211; [x_min, x_max]</li>
+<li><strong>b_lims</strong> (<em>list()</em>) &#8211; [b_min, b_max]</li>
+<li><strong>path</strong> (<em>string or None</em>) &#8211; directory containing the <tt class="docutils literal"><span class="pre">fort.14</span></tt> to be adjusted</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="polyadcirc.run_framework.domain.domain.array_bathymetry">
+<tt class="descname">array_bathymetry</tt><big>(</big><big>)</big><a class="headerlink" href="#polyadcirc.run_framework.domain.domain.array_bathymetry" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><tt class="xref py py-class docutils literal"><span class="pre">np.array</span></tt> of size(1, node_num)</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">array containing the bathymetry at all nodes in numerical</td>
+</tr>
+</tbody>
+</table>
+<p>order</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="polyadcirc.run_framework.domain.domain.array_manningsn">
+<tt class="descname">array_manningsn</tt><big>(</big><big>)</big><a class="headerlink" href="#polyadcirc.run_framework.domain.domain.array_manningsn" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><tt class="xref py py-class docutils literal"><span class="pre">np.array</span></tt> of size(1, node_num)</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">array of containing the Manning&#8217;s <em>n</em> value at all nodes in
+numerical order</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="polyadcirc.run_framework.domain.domain.array_x">
+<tt class="descname">array_x</tt><big>(</big><big>)</big><a class="headerlink" href="#polyadcirc.run_framework.domain.domain.array_x" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><tt class="xref py py-class docutils literal"><span class="pre">np.array</span></tt> of size(1, node_num)</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">array containing the x locations at all nodes in numerical
+order</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="polyadcirc.run_framework.domain.domain.array_y">
+<tt class="descname">array_y</tt><big>(</big><big>)</big><a class="headerlink" href="#polyadcirc.run_framework.domain.domain.array_y" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><tt class="xref py py-class docutils literal"><span class="pre">np.array</span></tt> of size(1, node_num)</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">array containing the y locations at all nodes in numerical
+order</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="polyadcirc.run_framework.domain.domain.dict_bathymetry">
+<tt class="descname">dict_bathymetry</tt><big>(</big><big>)</big><a class="headerlink" href="#polyadcirc.run_framework.domain.domain.dict_bathymetry" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><tt class="xref py py-class docutils literal"><span class="pre">dict</span></tt></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><tt class="docutils literal"><span class="pre">key</span></tt> &#8211; node number, <tt class="docutils literal"><span class="pre">value</span></tt> &#8211; bathymetry</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="polyadcirc.run_framework.domain.domain.dict_manningsn">
+<tt class="descname">dict_manningsn</tt><big>(</big><big>)</big><a class="headerlink" href="#polyadcirc.run_framework.domain.domain.dict_manningsn" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><tt class="xref py py-class docutils literal"><span class="pre">dict</span></tt></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><tt class="docutils literal"><span class="pre">key</span></tt> &#8211; node number, <tt class="docutils literal"><span class="pre">value</span></tt> &#8211; manningsn</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="polyadcirc.run_framework.domain.domain.element">
+<tt class="descname">element</tt><em class="property"> = None</em><a class="headerlink" href="#polyadcirc.run_framework.domain.domain.element" title="Permalink to this definition">¶</a></dt>
+<dd><p>list(), list of elements where each element is a list of nodes</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="polyadcirc.run_framework.domain.domain.element_num">
+<tt class="descname">element_num</tt><em class="property"> = None</em><a class="headerlink" href="#polyadcirc.run_framework.domain.domain.element_num" title="Permalink to this definition">¶</a></dt>
+<dd><p>int, number of elements</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="polyadcirc.run_framework.domain.domain.get_Triangulation">
+<tt class="descname">get_Triangulation</tt><big>(</big><em>path=None</em>, <em>save=True</em>, <em>show=False</em><big>)</big><a class="headerlink" href="#polyadcirc.run_framework.domain.domain.get_Triangulation" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>path</strong> (<em>string</em>) &#8211; directory containing <tt class="docutils literal"><span class="pre">figs/</span></tt> folder</li>
+<li><strong>save</strong> (<em>boolean</em>) &#8211; flag</li>
+<li><strong>show</strong> (<em>boolean</em>) &#8211; flag</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">See <a class="reference internal" href="polyadcirc.pyADCIRC.html#polyadcirc.pyADCIRC.plotADCIRC.get_Triangulation" title="polyadcirc.pyADCIRC.plotADCIRC.get_Triangulation"><tt class="xref py py-meth docutils literal"><span class="pre">get_Triangulation()</span></tt></a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="polyadcirc.run_framework.domain.domain.make_domain_map">
+<tt class="descname">make_domain_map</tt><em class="property"> = None</em><a class="headerlink" href="#polyadcirc.run_framework.domain.domain.make_domain_map" title="Permalink to this definition">¶</a></dt>
+<dd><p>boolean, whether or not a domain map has been created</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="polyadcirc.run_framework.domain.domain.make_node_to_element_map">
+<tt class="descname">make_node_to_element_map</tt><big>(</big><big>)</big><a class="headerlink" href="#polyadcirc.run_framework.domain.domain.make_node_to_element_map" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create the node to element map</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="polyadcirc.run_framework.domain.domain.node">
+<tt class="descname">node</tt><em class="property"> = None</em><a class="headerlink" href="#polyadcirc.run_framework.domain.domain.node" title="Permalink to this definition">¶</a></dt>
+<dd><p>list(), list of nodes</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="polyadcirc.run_framework.domain.domain.node_num">
+<tt class="descname">node_num</tt><em class="property"> = None</em><a class="headerlink" href="#polyadcirc.run_framework.domain.domain.node_num" title="Permalink to this definition">¶</a></dt>
+<dd><p>int, number of nodes</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="polyadcirc.run_framework.domain.domain.path">
+<tt class="descname">path</tt><em class="property"> = None</em><a class="headerlink" href="#polyadcirc.run_framework.domain.domain.path" title="Permalink to this definition">¶</a></dt>
+<dd><p>string, full path to the dir containing the <tt class="docutils literal"><span class="pre">fort.##</span></tt> files</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="polyadcirc.run_framework.domain.domain.plot_bathymetry">
+<tt class="descname">plot_bathymetry</tt><big>(</big><em>path=None</em>, <em>save=True</em>, <em>show=False</em><big>)</big><a class="headerlink" href="#polyadcirc.run_framework.domain.domain.plot_bathymetry" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>path</strong> (<em>string</em>) &#8211; directory containing <tt class="docutils literal"><span class="pre">figs/</span></tt> folder</li>
+<li><strong>save</strong> (<em>boolean</em>) &#8211; flag</li>
+<li><strong>show</strong> (<em>boolean</em>) &#8211; flag</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">See <a class="reference internal" href="polyadcirc.pyADCIRC.html#polyadcirc.pyADCIRC.plotADCIRC.bathymetry" title="polyadcirc.pyADCIRC.plotADCIRC.bathymetry"><tt class="xref py py-meth docutils literal"><span class="pre">bathymetry()</span></tt></a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="polyadcirc.run_framework.domain.domain.plot_station_locations">
+<tt class="descname">plot_station_locations</tt><big>(</big><em>path=None</em>, <em>bathymetry=False</em>, <em>save=True</em>, <em>show=False</em><big>)</big><a class="headerlink" href="#polyadcirc.run_framework.domain.domain.plot_station_locations" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>path</strong> (<em>string</em>) &#8211; directory containing <tt class="docutils literal"><span class="pre">figs/</span></tt> folder</li>
+<li><strong>bathymetry</strong> (<em>boolean</em>) &#8211; flag whether or not to plot bathymetry in the
+background</li>
+<li><strong>save</strong> (<em>boolean</em>) &#8211; flag</li>
+<li><strong>show</strong> (<em>boolean</em>) &#8211; flag</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">See <a class="reference internal" href="polyadcirc.pyADCIRC.html#polyadcirc.pyADCIRC.plotADCIRC.station_locations" title="polyadcirc.pyADCIRC.plotADCIRC.station_locations"><tt class="xref py py-meth docutils literal"><span class="pre">station_locations()</span></tt></a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="polyadcirc.run_framework.domain.domain.read_default">
+<tt class="descname">read_default</tt><big>(</big><em>path=None</em>, <em>file_name='fort.13'</em><big>)</big><a class="headerlink" href="#polyadcirc.run_framework.domain.domain.read_default" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read in default nodal value from a <tt class="docutils literal"><span class="pre">*.13</span></tt> file</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>path</strong> (<em>string or None</em>) &#8211; directory containing <tt class="docutils literal"><span class="pre">fort.13</span></tt> formatted file</li>
+<li><strong>file_name</strong> (<em>string</em>) &#8211; <tt class="docutils literal"><span class="pre">fort.13</span></tt> formatted file name</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">See <tt class="xref py py-meth docutils literal"><span class="pre">read_default()</span></tt></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="polyadcirc.run_framework.domain.domain.read_nodal_attr">
+<tt class="descname">read_nodal_attr</tt><big>(</big><em>path=None</em>, <em>file_name='fort.13'</em><big>)</big><a class="headerlink" href="#polyadcirc.run_framework.domain.domain.read_nodal_attr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load in nodal attributes from a <tt class="docutils literal"><span class="pre">*.13</span></tt> file (only does Manning&#8217;s <em>n</em>
+for now) and return a dictonary (like a MATLAB struct) with these
+attributes).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>path</strong> (<em>string or None</em>) &#8211; directory containing <tt class="docutils literal"><span class="pre">fort.13</span></tt> formatted file</li>
+<li><strong>file_name</strong> (<em>string</em>) &#8211; <tt class="docutils literal"><span class="pre">fort.13</span></tt> formatted file name</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">See <a class="reference internal" href="polyadcirc.pyADCIRC.html#polyadcirc.pyADCIRC.fort13_management.read_nodal_attr" title="polyadcirc.pyADCIRC.fort13_management.read_nodal_attr"><tt class="xref py py-meth docutils literal"><span class="pre">read_nodal_attr()</span></tt></a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="polyadcirc.run_framework.domain.domain.read_recording_data">
+<tt class="descname">read_recording_data</tt><big>(</big><big>)</big><a class="headerlink" href="#polyadcirc.run_framework.domain.domain.read_recording_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reads in recording information from <tt class="docutils literal"><span class="pre">fort.15</span></tt> in self.path</p>
+<p>See <a class="reference internal" href="polyadcirc.pyADCIRC.html#polyadcirc.pyADCIRC.fort15_management.read_recording_data" title="polyadcirc.pyADCIRC.fort15_management.read_recording_data"><tt class="xref py py-meth docutils literal"><span class="pre">polyadcirc.pyADCIRC.fort15_management.read_recording_data()</span></tt></a></p>
+</dd></dl>
+
+<dl class="method">
+<dt id="polyadcirc.run_framework.domain.domain.read_spatial_grid">
+<tt class="descname">read_spatial_grid</tt><big>(</big><big>)</big><a class="headerlink" href="#polyadcirc.run_framework.domain.domain.read_spatial_grid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reads in spatial grid from <tt class="docutils literal"><span class="pre">fort.14</span></tt> file in self.path</p>
+<p>See <a class="reference internal" href="polyadcirc.pyADCIRC.html#polyadcirc.pyADCIRC.fort14_management.read_spatial_grid" title="polyadcirc.pyADCIRC.fort14_management.read_spatial_grid"><tt class="xref py py-meth docutils literal"><span class="pre">polyadcirc.pyADCIRC.fort14_management.read_spatial_grid()</span></tt></a></p>
+</dd></dl>
+
+<dl class="method">
+<dt id="polyadcirc.run_framework.domain.domain.run">
+<tt class="descname">run</tt><big>(</big><em>num_procs</em>, <em>base_dir</em>, <em>input_dir=None</em>, <em>global_dir=None</em>, <em>write_option=None</em>, <em>num_writers=None</em>, <em>LorS=None</em>, <em>R=False</em><big>)</big><a class="headerlink" href="#polyadcirc.run_framework.domain.domain.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Preprocess and run ADCIRC on this domain</p>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a href="#id1"><span class="problematic" id="id2">`</span></a>Generic ADCIRC Command Line</p>
+</div>
+<p>Options&lt;<a class="reference external" href="http://adcirc.org/home/documentation/generic-adcirc-command-line-options/">http://adcirc.org/home/documentation/generic-adcirc-command-line-options/</a>&gt;`_</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>num_procs</strong> (<em>int</em>) &#8211; number of processors for this ADCIRC run</li>
+<li><strong>base_dir</strong> (<em>string</em>) &#8211; directory containing the padcirc executables</li>
+<li><strong>input_dir</strong> (<em>string</em>) &#8211; directory containing the input files</li>
+<li><strong>global_dir</strong> (<em>string</em>) &#8211; directory to write fulldomain output files to</li>
+<li><strong>write_option</strong> (<em>string</em>) &#8211; (optional) specifiy <tt class="docutils literal"><span class="pre">W</span></tt> or <tt class="docutils literal"><span class="pre">Ws</span></tt> flag</li>
+<li><strong>num_writers</strong> (<em>int</em>) &#8211; number of MPI process to dedicate soley to the
+task of writing ascii files</li>
+<li><strong>LorS</strong> (<em>string</em>) &#8211; (optional) specify <tt class="docutils literal"><span class="pre">L</span></tt> or <tt class="docutils literal"><span class="pre">S</span></tt> flag</li>
+<li><strong>R</strong> (<em>string</em>) &#8211; (optional) specify <tt class="docutils literal"><span class="pre">R</span></tt> flag</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="polyadcirc.run_framework.domain.domain.set_station_bathymetry">
+<tt class="descname">set_station_bathymetry</tt><big>(</big><em>key='fort61'</em>, <em>method='linear'</em><big>)</big><a class="headerlink" href="#polyadcirc.run_framework.domain.domain.set_station_bathymetry" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets they bathymetry for all stations by interpolating w.r.t. the nodal
+locations</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>key</strong> (<em>string</em>) &#8211; key for domain.stations[key]</li>
+<li><strong>method</strong> (<em>string</em>) &#8211; linear interpolation method see
+<tt class="xref py py-meth docutils literal"><span class="pre">scipy.interpolate.griddata()</span></tt></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="polyadcirc.run_framework.domain.domain.update">
+<tt class="descname">update</tt><big>(</big><em>path=None</em><big>)</big><a class="headerlink" href="#polyadcirc.run_framework.domain.domain.update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the directory containing files for this domain to self.path</p>
+<p>Reads in data from <tt class="docutils literal"><span class="pre">fort.14</span></tt> and <tt class="docutils literal"><span class="pre">fort.15</span></tt> files and updates self
+accordingly</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>path</strong> (<em>string or None</em>) &#8211; directory containing <tt class="docutils literal"><span class="pre">fort.##</span></tt> files</td>
+</tr>
+</tbody>
+</table>
+<p>See <tt class="xref py py-meth docutils literal"><span class="pre">read_spatial_grid()</span></tt> 
+See <a class="reference internal" href="polyadcirc.pyADCIRC.html#polyadcirc.pyADCIRC.fort15_management.read_recording_data" title="polyadcirc.pyADCIRC.fort15_management.read_recording_data"><tt class="xref py py-meth docutils literal"><span class="pre">read_recording_data()</span></tt></a></p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-polyadcirc.run_framework.random_manningsn">
+<span id="polyadcirc-run-framework-random-manningsn-module"></span><h2>polyadcirc.run_framework.random_manningsn module<a class="headerlink" href="#module-polyadcirc.run_framework.random_manningsn" title="Permalink to this headline">¶</a></h2>
+<p>This module contains functions to pull data from a <tt class="docutils literal"><span class="pre">fort.61</span></tt> and the
+<a class="reference internal" href="#polyadcirc.run_framework.random_manningsn.runSet" title="polyadcirc.run_framework.random_manningsn.runSet"><tt class="xref py py-class docutils literal"><span class="pre">runSet</span></tt></a> which controls the running of ADCIRC simulations within a set
+of processors allocated by the submission script</p>
+<dl class="function">
+<dt id="polyadcirc.run_framework.random_manningsn.concatenate">
+<tt class="descclassname">polyadcirc.run_framework.random_manningsn.</tt><tt class="descname">concatenate</tt><big>(</big><em>run_data1</em>, <em>run_data2</em><big>)</big><a class="headerlink" href="#polyadcirc.run_framework.random_manningsn.concatenate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Combine data from <tt class="docutils literal"><span class="pre">run_data1</span></tt> and <tt class="docutils literal"><span class="pre">run_data2</span></tt>
+<a class="reference internal" href="#polyadcirc.run_framework.random_manningsn.runSet" title="polyadcirc.run_framework.random_manningsn.runSet"><tt class="xref py py-class docutils literal"><span class="pre">runSet</span></tt></a> with another
+<a class="reference internal" href="#polyadcirc.run_framework.random_manningsn.runSet" title="polyadcirc.run_framework.random_manningsn.runSet"><tt class="xref py py-class docutils literal"><span class="pre">runSet</span></tt></a> (<tt class="docutils literal"><span class="pre">other_run</span></tt>)
+and points from both runs</p>
+<dl class="docutils">
+<dt>To combine several <a href="#id3"><span class="problematic" id="id4">``</span></a>run_data``s use::</dt>
+<dd>run_list = [run1, run2, run3]
+points_list = [points1, points2, points3]
+run_data_list = zip(run_list, points_list)
+reduce(concatenate, run_data_list)</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>run_data1</strong> &#8211; (runSet for run1, sample points for run1)</li>
+<li><strong>run_data2</strong> &#8211; (runSet for run2, sample points for run2)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">(run_data, points)</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">tuple</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="polyadcirc.run_framework.random_manningsn.convert_to_days">
+<tt class="descclassname">polyadcirc.run_framework.random_manningsn.</tt><tt class="descname">convert_to_days</tt><big>(</big><em>time_obs</em><big>)</big><a class="headerlink" href="#polyadcirc.run_framework.random_manningsn.convert_to_days" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts <tt class="docutils literal"><span class="pre">time_obs</span></tt> from seconds to days</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>time_obs</strong> &#8211; observation times in seconds</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">dict()</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">time_obs</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="polyadcirc.run_framework.random_manningsn.convert_to_hours">
+<tt class="descclassname">polyadcirc.run_framework.random_manningsn.</tt><tt class="descname">convert_to_hours</tt><big>(</big><em>time_obs</em><big>)</big><a class="headerlink" href="#polyadcirc.run_framework.random_manningsn.convert_to_hours" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts <tt class="docutils literal"><span class="pre">time_obs</span></tt> from seconds to hours</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>time_obs</strong> &#8211; observation times in seconds</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">dict()</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">time_obs</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="polyadcirc.run_framework.random_manningsn.convert_to_percent">
+<tt class="descclassname">polyadcirc.run_framework.random_manningsn.</tt><tt class="descname">convert_to_percent</tt><big>(</big><em>nts_data</em>, <em>data</em><big>)</big><a class="headerlink" href="#polyadcirc.run_framework.random_manningsn.convert_to_percent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts <tt class="docutils literal"><span class="pre">nts_data['tinun63']</span></tt> from seconds to percent of RNDAY</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>nts_data</strong> &#8211; non-time-series data</li>
+<li><strong>data</strong> &#8211; <a class="reference internal" href="#module-polyadcirc.run_framework.domain" title="polyadcirc.run_framework.domain"><tt class="xref py py-class docutils literal"><span class="pre">domain</span></tt></a></li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">dict()</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">nts_data</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="polyadcirc.run_framework.random_manningsn.fix_dry_data">
+<tt class="descclassname">polyadcirc.run_framework.random_manningsn.</tt><tt class="descname">fix_dry_data</tt><big>(</big><em>ts_data</em>, <em>data</em><big>)</big><a class="headerlink" href="#polyadcirc.run_framework.random_manningsn.fix_dry_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fix dry elevation station data flags</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>ts_data</strong> &#8211; time series data</li>
+<li><strong>data</strong> &#8211; <a class="reference internal" href="#module-polyadcirc.run_framework.domain" title="polyadcirc.run_framework.domain"><tt class="xref py py-class docutils literal"><span class="pre">domain</span></tt></a></li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">dict()</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">ts_data</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="polyadcirc.run_framework.random_manningsn.fix_dry_nodes">
+<tt class="descclassname">polyadcirc.run_framework.random_manningsn.</tt><tt class="descname">fix_dry_nodes</tt><big>(</big><em>ts_data</em>, <em>data</em><big>)</big><a class="headerlink" href="#polyadcirc.run_framework.random_manningsn.fix_dry_nodes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fix dry elevation data flags</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>ts_data</strong> &#8211; time series data</li>
+<li><strong>data</strong> &#8211; <a class="reference internal" href="#module-polyadcirc.run_framework.domain" title="polyadcirc.run_framework.domain"><tt class="xref py py-class docutils literal"><span class="pre">domain</span></tt></a></li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">dict()</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">ts_data</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="polyadcirc.run_framework.random_manningsn.fix_dry_nodes_nts">
+<tt class="descclassname">polyadcirc.run_framework.random_manningsn.</tt><tt class="descname">fix_dry_nodes_nts</tt><big>(</big><em>nts_data</em>, <em>data</em><big>)</big><a class="headerlink" href="#polyadcirc.run_framework.random_manningsn.fix_dry_nodes_nts" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fix dry elevation data flags</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>nts_data</strong> &#8211; non time series data</li>
+<li><strong>data</strong> &#8211; <a class="reference internal" href="#module-polyadcirc.run_framework.domain" title="polyadcirc.run_framework.domain"><tt class="xref py py-class docutils literal"><span class="pre">domain</span></tt></a></li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">dict()</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">nts_data</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="polyadcirc.run_framework.random_manningsn.loadmat">
+<tt class="descclassname">polyadcirc.run_framework.random_manningsn.</tt><tt class="descname">loadmat</tt><big>(</big><em>save_file</em>, <em>base_dir</em>, <em>grid_dir</em>, <em>save_dir</em>, <em>basis_dir</em><big>)</big><a class="headerlink" href="#polyadcirc.run_framework.random_manningsn.loadmat" title="Permalink to this definition">¶</a></dt>
+<dd><p>Loads data from <tt class="docutils literal"><span class="pre">save_file</span></tt> into a
+<a class="reference internal" href="#polyadcirc.run_framework.random_manningsn.runSet" title="polyadcirc.run_framework.random_manningsn.runSet"><tt class="xref py py-class docutils literal"><span class="pre">runSet</span></tt></a> object.
+Reconstructs <tt class="xref py py-class docutils literal"><span class="pre">domain</span></tt>.
+Fixes dry data if it was recorded.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>save_file</strong> (<em>string</em>) &#8211; local file name</li>
+<li><strong>grid_dir</strong> (<em>string</em>) &#8211; directory containing <tt class="docutils literal"><span class="pre">fort.14</span></tt>, <tt class="docutils literal"><span class="pre">fort.15</span></tt>, and
+<tt class="docutils literal"><span class="pre">fort.22</span></tt></li>
+<li><strong>save_dir</strong> (<em>string</em>) &#8211; directory where <tt class="docutils literal"><span class="pre">RF_directory_*</span></tt> are
+saved, and where fort.13 is located</li>
+<li><strong>basis_dir</strong> (<em>string</em>) &#8211; directory where <tt class="docutils literal"><span class="pre">landuse_*</span></tt> folders are located</li>
+<li><strong>base_dir</strong> (<em>string</em>) &#8211; directory that contains ADCIRC executables, and
+machine specific <tt class="docutils literal"><span class="pre">in.prep#</span></tt> files</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">tuple of <a class="reference internal" href="#polyadcirc.run_framework.random_manningsn.runSet" title="polyadcirc.run_framework.random_manningsn.runSet"><tt class="xref py py-class docutils literal"><span class="pre">runSet</span></tt></a>
+and <tt class="xref py py-class docutils literal"><span class="pre">domain</span></tt> objects</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">(main_run, domain)</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="polyadcirc.run_framework.random_manningsn.runSet">
+<em class="property">class </em><tt class="descclassname">polyadcirc.run_framework.random_manningsn.</tt><tt class="descname">runSet</tt><big>(</big><em>grid_dir</em>, <em>save_dir</em>, <em>basis_dir</em>, <em>num_of_parallel_runs=10</em>, <em>base_dir=None</em>, <em>script_name=None</em><big>)</big><a class="headerlink" href="#polyadcirc.run_framework.random_manningsn.runSet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="polyadcirc.pyADCIRC.html#polyadcirc.pyADCIRC.basic.pickleable" title="polyadcirc.pyADCIRC.basic.pickleable"><tt class="xref py py-class docutils literal"><span class="pre">polyadcirc.pyADCIRC.basic.pickleable</span></tt></a></p>
+<p>This class controls the running of <strong class="program">ADCIRC</strong> within the processors
+allocated by the submission script</p>
+<dl class="docutils">
+<dt>grid_dir</dt>
+<dd>directory containing <tt class="docutils literal"><span class="pre">fort.14</span></tt>, <tt class="docutils literal"><span class="pre">fort.15</span></tt>, and <tt class="docutils literal"><span class="pre">fort.22</span></tt></dd>
+<dt>save_dir</dt>
+<dd>directory where <tt class="docutils literal"><span class="pre">RF_directory_*</span></tt> are saved, and where fort.13 is
+located</dd>
+<dt>basis_dir</dt>
+<dd>directory where <tt class="docutils literal"><span class="pre">landuse_*</span></tt> folders are located</dd>
+<dt>base_dir</dt>
+<dd>directory that contains ADCIRC executables, and machine
+specific <tt class="docutils literal"><span class="pre">in.prep#</span></tt> files</dd>
+<dt>num_of_parallel_runs</dt>
+<dd>size of batch of jobs to be submitted to queue</dd>
+</dl>
+<p>script_name
+nts_data</p>
+<blockquote>
+<div>non timeseries data</div></blockquote>
+<dl class="docutils">
+<dt>ts_data</dt>
+<dd>timeseries data</dd>
+<dt>time_obs</dt>
+<dd>observation times for timeseries data</dd>
+</dl>
+<dl class="attribute">
+<dt id="polyadcirc.run_framework.random_manningsn.runSet.base_dir">
+<tt class="descname">base_dir</tt><em class="property"> = None</em><a class="headerlink" href="#polyadcirc.run_framework.random_manningsn.runSet.base_dir" title="Permalink to this definition">¶</a></dt>
+<dd><p>directory that contains ADCIRC executables, and machine
+specific <tt class="docutils literal"><span class="pre">in.prep#</span></tt> files</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="polyadcirc.run_framework.random_manningsn.runSet.basis_dir">
+<tt class="descname">basis_dir</tt><em class="property"> = None</em><a class="headerlink" href="#polyadcirc.run_framework.random_manningsn.runSet.basis_dir" title="Permalink to this definition">¶</a></dt>
+<dd><p>string, directory where <tt class="docutils literal"><span class="pre">landuse_*</span></tt> folders are located</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="polyadcirc.run_framework.random_manningsn.runSet.concatenate">
+<tt class="descname">concatenate</tt><big>(</big><em>other_run</em>, <em>points1</em>, <em>points2</em><big>)</big><a class="headerlink" href="#polyadcirc.run_framework.random_manningsn.runSet.concatenate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Combine data from this
+<a class="reference internal" href="#polyadcirc.run_framework.random_manningsn.runSet" title="polyadcirc.run_framework.random_manningsn.runSet"><tt class="xref py py-class docutils literal"><span class="pre">runSet</span></tt></a> with another
+<a class="reference internal" href="#polyadcirc.run_framework.random_manningsn.runSet" title="polyadcirc.run_framework.random_manningsn.runSet"><tt class="xref py py-class docutils literal"><span class="pre">runSet</span></tt></a>
+(<tt class="docutils literal"><span class="pre">other_run</span></tt>) and points from both runs</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Param:</th><td class="field-body"><p class="first">other_run</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>points1</strong> (<em>np.array</em>) &#8211; sample points for <tt class="docutils literal"><span class="pre">self</span></tt></li>
+<li><strong>points1</strong> &#8211; sample points for <tt class="docutils literal"><span class="pre">other_run</span></tt></li>
+</ul>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">(self, points)</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">tuple</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="polyadcirc.run_framework.random_manningsn.runSet.convert_to_days">
+<tt class="descname">convert_to_days</tt><big>(</big><big>)</big><a class="headerlink" href="#polyadcirc.run_framework.random_manningsn.runSet.convert_to_days" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts <tt class="docutils literal"><span class="pre">self.time_obs</span></tt> from seconds to days</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="polyadcirc.run_framework.random_manningsn.runSet.convert_to_hours">
+<tt class="descname">convert_to_hours</tt><big>(</big><big>)</big><a class="headerlink" href="#polyadcirc.run_framework.random_manningsn.runSet.convert_to_hours" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts <tt class="docutils literal"><span class="pre">self.time_obs</span></tt> from seconds to hours</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="polyadcirc.run_framework.random_manningsn.runSet.convert_to_percent">
+<tt class="descname">convert_to_percent</tt><big>(</big><em>data</em><big>)</big><a class="headerlink" href="#polyadcirc.run_framework.random_manningsn.runSet.convert_to_percent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts <tt class="docutils literal"><span class="pre">self.nts_data['tinun63']</span></tt> from seconds to percent of RNDAY</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>data</strong> &#8211; <a class="reference internal" href="#module-polyadcirc.run_framework.domain" title="polyadcirc.run_framework.domain"><tt class="xref py py-class docutils literal"><span class="pre">domain</span></tt></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="polyadcirc.run_framework.random_manningsn.runSet.fix_dry_data">
+<tt class="descname">fix_dry_data</tt><big>(</big><em>data</em><big>)</big><a class="headerlink" href="#polyadcirc.run_framework.random_manningsn.runSet.fix_dry_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fix dry elevation station data flags</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>data</strong> &#8211; <a class="reference internal" href="#module-polyadcirc.run_framework.domain" title="polyadcirc.run_framework.domain"><tt class="xref py py-class docutils literal"><span class="pre">domain</span></tt></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="polyadcirc.run_framework.random_manningsn.runSet.fix_dry_nodes">
+<tt class="descname">fix_dry_nodes</tt><big>(</big><em>data</em><big>)</big><a class="headerlink" href="#polyadcirc.run_framework.random_manningsn.runSet.fix_dry_nodes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fix dry elevation data flags</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>data</strong> &#8211; <a class="reference internal" href="#module-polyadcirc.run_framework.domain" title="polyadcirc.run_framework.domain"><tt class="xref py py-class docutils literal"><span class="pre">domain</span></tt></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="polyadcirc.run_framework.random_manningsn.runSet.fix_dry_nodes_nts">
+<tt class="descname">fix_dry_nodes_nts</tt><big>(</big><em>data</em><big>)</big><a class="headerlink" href="#polyadcirc.run_framework.random_manningsn.runSet.fix_dry_nodes_nts" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fix dry elevation data flags</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>data</strong> &#8211; <a class="reference internal" href="#module-polyadcirc.run_framework.domain" title="polyadcirc.run_framework.domain"><tt class="xref py py-class docutils literal"><span class="pre">domain</span></tt></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="polyadcirc.run_framework.random_manningsn.runSet.grid_dir">
+<tt class="descname">grid_dir</tt><em class="property"> = None</em><a class="headerlink" href="#polyadcirc.run_framework.random_manningsn.runSet.grid_dir" title="Permalink to this definition">¶</a></dt>
+<dd><p>string, directory containing <tt class="docutils literal"><span class="pre">fort.14</span></tt>, <tt class="docutils literal"><span class="pre">fort.15</span></tt>, and</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="polyadcirc.run_framework.random_manningsn.runSet.initialize_random_field_directories">
+<tt class="descname">initialize_random_field_directories</tt><big>(</big><em>num_procs=12</em><big>)</big><a class="headerlink" href="#polyadcirc.run_framework.random_manningsn.runSet.initialize_random_field_directories" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make directories for parallel funs of random fields</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">list()</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">list of paths to <tt class="docutils literal"><span class="pre">RF_directory_*</span></tt></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="polyadcirc.run_framework.random_manningsn.runSet.make_plots">
+<tt class="descname">make_plots</tt><big>(</big><em>points</em>, <em>domain</em>, <em>save=True</em>, <em>show=False</em>, <em>bathymetry=False</em><big>)</big><a class="headerlink" href="#polyadcirc.run_framework.random_manningsn.runSet.make_plots" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plots <tt class="docutils literal"><span class="pre">mesh</span></tt>, <tt class="docutils literal"><span class="pre">station_locations</span></tt>, <tt class="docutils literal"><span class="pre">basis_functions</span></tt>,
+<tt class="docutils literal"><span class="pre">random_fields</span></tt>, <tt class="docutils literal"><span class="pre">mean_field</span></tt>, <tt class="docutils literal"><span class="pre">station_data</span></tt>, and
+save in save_dir/figs</p>
+<div class="admonition-todo admonition" id="index-0">
+<p class="first admonition-title">Todo</p>
+<p class="last">this uses bv_array everywhere. I might want to change this
+later when I go to the nested mesh approach</p>
+</div>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="polyadcirc.run_framework.random_manningsn.runSet.nts_data">
+<tt class="descname">nts_data</tt><em class="property"> = None</em><a class="headerlink" href="#polyadcirc.run_framework.random_manningsn.runSet.nts_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>dict() of <tt class="xref py py-class docutils literal"><span class="pre">np.ndarray</span></tt>, non-timeseries data</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="polyadcirc.run_framework.random_manningsn.runSet.num_of_parallel_runs">
+<tt class="descname">num_of_parallel_runs</tt><em class="property"> = None</em><a class="headerlink" href="#polyadcirc.run_framework.random_manningsn.runSet.num_of_parallel_runs" title="Permalink to this definition">¶</a></dt>
+<dd><p>int, size of batch of jobs to be submitted to queue</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="polyadcirc.run_framework.random_manningsn.runSet.plot_basis_functions">
+<tt class="descname">plot_basis_functions</tt><big>(</big><em>domain</em>, <em>bv_array</em>, <em>save=True</em>, <em>show=False</em><big>)</big><a class="headerlink" href="#polyadcirc.run_framework.random_manningsn.runSet.plot_basis_functions" title="Permalink to this definition">¶</a></dt>
+<dd><p>See :meth:<a href="#id5"><span class="problematic" id="id6">``</span></a>~polsim.pyADCIRC.plotADCIRC.basis_functions`</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="polyadcirc.run_framework.random_manningsn.runSet.plot_mean_field">
+<tt class="descname">plot_mean_field</tt><big>(</big><em>domain</em>, <em>points</em>, <em>bv_array</em>, <em>save=True</em>, <em>show=False</em><big>)</big><a class="headerlink" href="#polyadcirc.run_framework.random_manningsn.runSet.plot_mean_field" title="Permalink to this definition">¶</a></dt>
+<dd><p>See <tt class="xref py py-meth docutils literal"><span class="pre">mean_field()</span></tt></p>
+</dd></dl>
+
+<dl class="method">
+<dt id="polyadcirc.run_framework.random_manningsn.runSet.plot_random_fields">
+<tt class="descname">plot_random_fields</tt><big>(</big><em>domain</em>, <em>points</em>, <em>bv_array</em>, <em>save=True</em>, <em>show=False</em><big>)</big><a class="headerlink" href="#polyadcirc.run_framework.random_manningsn.runSet.plot_random_fields" title="Permalink to this definition">¶</a></dt>
+<dd><p>See <tt class="xref py py-meth docutils literal"><span class="pre">random_fields()</span></tt></p>
+</dd></dl>
+
+<dl class="method">
+<dt id="polyadcirc.run_framework.random_manningsn.runSet.plot_station_data">
+<tt class="descname">plot_station_data</tt><big>(</big><em>save=True</em>, <em>show=False</em><big>)</big><a class="headerlink" href="#polyadcirc.run_framework.random_manningsn.runSet.plot_station_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>See <tt class="xref py py-meth docutils literal"><span class="pre">station_data()</span></tt></p>
+</dd></dl>
+
+<dl class="method">
+<dt id="polyadcirc.run_framework.random_manningsn.runSet.remove_random_field_directories">
+<tt class="descname">remove_random_field_directories</tt><big>(</big><big>)</big><a class="headerlink" href="#polyadcirc.run_framework.random_manningsn.runSet.remove_random_field_directories" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove directories for parallel funs of random fields</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="polyadcirc.run_framework.random_manningsn.runSet.rf_dirs">
+<tt class="descname">rf_dirs</tt><em class="property"> = None</em><a class="headerlink" href="#polyadcirc.run_framework.random_manningsn.runSet.rf_dirs" title="Permalink to this definition">¶</a></dt>
+<dd><p>list(), list of <tt class="docutils literal"><span class="pre">RF_directory_*/</span></tt> names</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="polyadcirc.run_framework.random_manningsn.runSet.run_points">
+<tt class="descname">run_points</tt><big>(</big><em>data, points, save_file, num_procs=12, procs_pnode=12, ts_names=['fort.61'], nts_names=['maxele.63'], screenout=True, cleanup_dirs=True, num_writers=None, TpN=12</em><big>)</big><a class="headerlink" href="#polyadcirc.run_framework.random_manningsn.runSet.run_points" title="Permalink to this definition">¶</a></dt>
+<dd><p>Runs <strong class="program">ADCIRC</strong> for all of the configurations specified by
+<tt class="docutils literal"><span class="pre">points</span></tt> and returns a dictonary of arrays containing data from
+output files</p>
+<blockquote>
+<div>Reads in a default Manning&#8217;s <em>n</em> value from self.save_dir and stores
+it in data.manningsn_default</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>data</strong> &#8211; <a class="reference internal" href="#module-polyadcirc.run_framework.domain" title="polyadcirc.run_framework.domain"><tt class="xref py py-class docutils literal"><span class="pre">domain</span></tt></a></li>
+<li><strong>points</strong> (<tt class="xref py py-class docutils literal"><span class="pre">np.array</span></tt> of size (<tt class="docutils literal"><span class="pre">num_of_basis_vec</span></tt>,
+<tt class="docutils literal"><span class="pre">num_of_random_fields</span></tt>)) &#8211; containts the weights to be used for each run</li>
+<li><strong>save_file</strong> (<em>string</em>) &#8211; name of file to save <tt class="docutils literal"><span class="pre">station_data</span></tt> to</li>
+<li><strong>num_procs</strong> (<em>int or 12</em>) &#8211; number of processors per <strong class="program">ADCIRC</strong>
+simulation</li>
+<li><strong>procs_pnode</strong> (<em>int</em>) &#8211; number of processors per node, 12 on lonestar,
+and 16 on stampede</li>
+<li><strong>ts_names</strong> (<em>list()</em>) &#8211; names of ADCIRC timeseries
+output files to be recorded from each run</li>
+<li><strong>nts_names</strong> (<em>list()</em>) &#8211; names of ADCIRC non timeseries
+output files to be recorded from each run</li>
+<li><strong>screenout</strong> (<em>boolean</em>) &#8211; flag (True &#8211;  write <tt class="docutils literal"><span class="pre">ADCIRC</span></tt> output to
+screen, False &#8211; write <tt class="docutils literal"><span class="pre">ADCIRC</span></tt> output to temp file</li>
+<li><strong>cleanup_dirs</strong> (<em>boolean</em>) &#8211; flag to delete all RF_dirs after run (True
+&#8211; yes, False &#8211; no)</li>
+<li><strong>num_writers</strong> (<em>int</em>) &#8211; number of MPI processes to dedicate soley to
+the task of writing ascii files. This MUST be &lt; num_procs</li>
+<li><strong>TpN</strong> (<em>int</em>) &#8211; number of tasks (cores to use) per node (wayness)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">(<tt class="xref py py-class docutils literal"><span class="pre">np.array</span></tt>, <tt class="xref py py-class docutils literal"><span class="pre">np.ndarray</span></tt>, <tt class="xref py py-class docutils literal"><span class="pre">np.ndarray</span></tt>)</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">(<tt class="docutils literal"><span class="pre">time_obs</span></tt>, <tt class="docutils literal"><span class="pre">ts_data</span></tt>, <tt class="docutils literal"><span class="pre">nts_data</span></tt>)</p>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Currently supports ADCIRC output files <tt class="docutils literal"><span class="pre">fort.6*</span></tt>,
+<tt class="docutils literal"><span class="pre">*.63</span></tt>, <tt class="docutils literal"><span class="pre">fort.7*</span></tt>, but NOT Hot Start Output
+(<tt class="docutils literal"><span class="pre">fort.67</span></tt>, <tt class="docutils literal"><span class="pre">fort.68</span></tt>)</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="polyadcirc.run_framework.random_manningsn.runSet.save">
+<tt class="descname">save</tt><big>(</big><em>mdict</em>, <em>save_file</em><big>)</big><a class="headerlink" href="#polyadcirc.run_framework.random_manningsn.runSet.save" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save matrices to a <tt class="docutils literal"><span class="pre">*.mat</span></tt> file for use by <tt class="docutils literal"><span class="pre">MATLAB</span> <span class="pre">BET</span></tt> code and
+<a class="reference internal" href="#polyadcirc.run_framework.random_manningsn.loadmat" title="polyadcirc.run_framework.random_manningsn.loadmat"><tt class="xref py py-meth docutils literal"><span class="pre">loadmat()</span></tt></a></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>mdict</strong> (<em>dict()</em>) &#8211; dictonary of run data</li>
+<li><strong>save_file</strong> (<em>string</em>) &#8211; file name</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="polyadcirc.run_framework.random_manningsn.runSet.save_dir">
+<tt class="descname">save_dir</tt><em class="property"> = None</em><a class="headerlink" href="#polyadcirc.run_framework.random_manningsn.runSet.save_dir" title="Permalink to this definition">¶</a></dt>
+<dd><p>string, directory where <tt class="docutils literal"><span class="pre">RF_directory_*</span></tt> are saved, and
+where <tt class="docutils literal"><span class="pre">fort.13</span></tt> is located</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="polyadcirc.run_framework.random_manningsn.runSet.script_name">
+<tt class="descname">script_name</tt><em class="property"> = None</em><a class="headerlink" href="#polyadcirc.run_framework.random_manningsn.runSet.script_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>string, name of the batch bash script</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="polyadcirc.run_framework.random_manningsn.runSet.setup_rfdir">
+<tt class="descname">setup_rfdir</tt><big>(</big><em>path</em>, <em>num_procs</em><big>)</big><a class="headerlink" href="#polyadcirc.run_framework.random_manningsn.runSet.setup_rfdir" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates the directory path and copies required files from
+<tt class="docutils literal"><span class="pre">self.base_dir</span></tt> into path:type path: string</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>path</strong> &#8211; folder_name</li>
+<li><strong>num_procs</strong> &#8211; number of processors per <strong class="program">ADCIRC</strong> run</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="polyadcirc.run_framework.random_manningsn.runSet.time_obs">
+<tt class="descname">time_obs</tt><em class="property"> = None</em><a class="headerlink" href="#polyadcirc.run_framework.random_manningsn.runSet.time_obs" title="Permalink to this definition">¶</a></dt>
+<dd><p>dict() of <tt class="xref py py-class docutils literal"><span class="pre">np.array</span></tt>, time in (s) of observations</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="polyadcirc.run_framework.random_manningsn.runSet.ts_data">
+<tt class="descname">ts_data</tt><em class="property"> = None</em><a class="headerlink" href="#polyadcirc.run_framework.random_manningsn.runSet.ts_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>dict() of <tt class="xref py py-class docutils literal"><span class="pre">np.ndarray</span></tt>, timeseries data</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="polyadcirc.run_framework.random_manningsn.runSet.update_dir_file">
+<tt class="descname">update_dir_file</tt><big>(</big><em>num_dirs</em><big>)</big><a class="headerlink" href="#polyadcirc.run_framework.random_manningsn.runSet.update_dir_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a list of RF_dirs for the prep_script to use.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>num_dirs</strong> (<em>int</em>) &#8211; number of RF_dirs to put in <tt class="docutils literal"><span class="pre">dir_list</span></tt></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="polyadcirc.run_framework.random_manningsn.runSet.update_mdict">
+<tt class="descname">update_mdict</tt><big>(</big><em>mdict</em><big>)</big><a class="headerlink" href="#polyadcirc.run_framework.random_manningsn.runSet.update_mdict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set up references for <tt class="docutils literal"><span class="pre">mdict</span></tt></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>mdict</strong> (<em>dict()</em>) &#8211; dictonary of run data</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="polyadcirc.run_framework.random_manningsn.runSet.write_prep_script">
+<tt class="descname">write_prep_script</tt><big>(</big><em>n</em>, <em>screenout=False</em><big>)</big><a class="headerlink" href="#polyadcirc.run_framework.random_manningsn.runSet.write_prep_script" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creats a bash script to run <strong class="program">adcprep</strong> with <tt class="docutils literal"><span class="pre">in.prepn</span></tt></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>n</strong> (<em>int</em>) &#8211; n for <tt class="docutils literal"><span class="pre">in.prepn</span></tt> input to ADCPREP</li>
+<li><strong>num_jobs</strong> (<em>int</em>) &#8211; number of jobs to run</li>
+<li><strong>screenout</strong> (<em>boolean</em>) &#8211; flag (True &#8211;  write <tt class="docutils literal"><span class="pre">ADCPREP</span></tt> output to
+screen, False &#8211; write <tt class="docutils literal"><span class="pre">ADCPREP</span></tt> output to <tt class="docutils literal"><span class="pre">prep_o.txt</span></tt> file)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">string</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">name of bash script for prepping a batch of jobs within our
+processor allotment</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="polyadcirc.run_framework.random_manningsn.runSet.write_run_script">
+<tt class="descname">write_run_script</tt><big>(</big><em>num_procs</em>, <em>num_jobs</em>, <em>procs_pnode</em>, <em>TpN</em>, <em>screenout=True</em>, <em>num_writers=None</em><big>)</big><a class="headerlink" href="#polyadcirc.run_framework.random_manningsn.runSet.write_run_script" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creats a bash script called run_job_batch.sh</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>num_procs</strong> (<em>int</em>) &#8211; number of processors per job</li>
+<li><strong>num_jobs</strong> (<em>int</em>) &#8211; number of jobs to run</li>
+<li><strong>procs_pnode</strong> (<em>int</em>) &#8211; number of processors per node</li>
+<li><strong>screenout</strong> (<em>boolean</em>) &#8211; flag (True &#8211;  write <tt class="docutils literal"><span class="pre">ADCIRC</span></tt> output to
+screen, False &#8211; write <tt class="docutils literal"><span class="pre">ADCIRC</span></tt> output to temp file)</li>
+<li><strong>num_writers</strong> (<em>int</em>) &#8211; number of MPI processes to dedicate soley to
+the task of writing ascii files</li>
+<li><strong>TpN</strong> (<em>int</em>) &#8211; number of tasks (cores to use) per node (wayness)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">string</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">name of bash script for running a batch of jobs within our
+processor allotment</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-polyadcirc.run_framework.random_wall">
+<span id="polyadcirc-run-framework-random-wall-module"></span><h2>polyadcirc.run_framework.random_wall module<a class="headerlink" href="#module-polyadcirc.run_framework.random_wall" title="Permalink to this headline">¶</a></h2>
+<p>This module contains functions to pull data from ADCIRC output files and the
+<a class="reference internal" href="#polyadcirc.run_framework.random_wall.runSet" title="polyadcirc.run_framework.random_wall.runSet"><tt class="xref py py-class docutils literal"><span class="pre">runSet</span></tt></a> which controls the running of ADCIRC simulations within a set
+of processors allocated by the submission script</p>
+<dl class="function">
+<dt id="polyadcirc.run_framework.random_wall.loadmat">
+<tt class="descclassname">polyadcirc.run_framework.random_wall.</tt><tt class="descname">loadmat</tt><big>(</big><em>save_file</em>, <em>base_dir</em>, <em>grid_dir</em>, <em>save_dir</em>, <em>basis_dir</em><big>)</big><a class="headerlink" href="#polyadcirc.run_framework.random_wall.loadmat" title="Permalink to this definition">¶</a></dt>
+<dd><p>Loads data from <tt class="docutils literal"><span class="pre">save_file</span></tt> into a
+<a class="reference internal" href="#polyadcirc.run_framework.random_manningsn.runSet" title="polyadcirc.run_framework.random_manningsn.runSet"><tt class="xref py py-class docutils literal"><span class="pre">runSet</span></tt></a> object.
+Reconstructs <tt class="xref py py-class docutils literal"><span class="pre">domain</span></tt>.
+Fixes dry data if it was recorded.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>save_file</strong> (<em>string</em>) &#8211; local file name</li>
+<li><strong>grid_dir</strong> (<em>string</em>) &#8211; directory containing <tt class="docutils literal"><span class="pre">fort.14</span></tt>, <tt class="docutils literal"><span class="pre">fort.15</span></tt>, and
+<tt class="docutils literal"><span class="pre">fort.22</span></tt></li>
+<li><strong>save_dir</strong> (<em>string</em>) &#8211; directory where <tt class="docutils literal"><span class="pre">RF_directory_*</span></tt> are
+saved, and where fort.13 is located</li>
+<li><strong>basis_dir</strong> (<em>string</em>) &#8211; directory where <tt class="docutils literal"><span class="pre">landuse_*</span></tt> folders are located</li>
+<li><strong>base_dir</strong> (<em>string</em>) &#8211; directory that contains ADCIRC executables, and
+machine specific <tt class="docutils literal"><span class="pre">in.prep#</span></tt> files</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">tuple of <a class="reference internal" href="#polyadcirc.run_framework.random_wall.runSet" title="polyadcirc.run_framework.random_wall.runSet"><tt class="xref py py-class docutils literal"><span class="pre">runSet</span></tt></a>,
+<tt class="xref py py-class docutils literal"><span class="pre">domain</span></tt> objects, and
+two :class:<a href="#id7"><span class="problematic" id="id8">`</span></a>numpy.array`s</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">(main_run, domain, mann_pts, wall_pts)</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="polyadcirc.run_framework.random_wall.plot_walls">
+<tt class="descclassname">polyadcirc.run_framework.random_wall.</tt><tt class="descname">plot_walls</tt><big>(</big><em>run_set</em>, <em>domain</em>, <em>wall_points</em>, <em>save=True</em>, <em>show=False</em><big>)</big><a class="headerlink" href="#polyadcirc.run_framework.random_wall.plot_walls" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plots the walls with dimenstions described in <tt class="docutils literal"><span class="pre">wall_points</span></tt> and saves
+the plots in <tt class="docutils literal"><span class="pre">self.save_dir</span></tt></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>domain</strong> &#8211; <a class="reference internal" href="#module-polyadcirc.run_framework.domain" title="polyadcirc.run_framework.domain"><tt class="xref py py-class docutils literal"><span class="pre">domain</span></tt></a></li>
+<li><strong>wall_points</strong> (<tt class="xref py py-class docutils literal"><span class="pre">np.array</span></tt> of size (5, <tt class="docutils literal"><span class="pre">num_of_walls</span></tt>)) &#8211; containts the box_limits, and wall_height for each
+wall [ximin, xmax, ymin, ymax, wall_height]</li>
+<li><strong>save</strong> (<em>boolean</em>) &#8211; flag for whether or not to save plots</li>
+<li><strong>show</strong> (<em>boolean</em>) &#8211; flag for whether or not to show plots</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="polyadcirc.run_framework.random_wall.runSet">
+<em class="property">class </em><tt class="descclassname">polyadcirc.run_framework.random_wall.</tt><tt class="descname">runSet</tt><big>(</big><em>grid_dir</em>, <em>save_dir</em>, <em>basis_dir</em>, <em>num_of_parallel_runs=10</em>, <em>base_dir=None</em>, <em>script_name=None</em><big>)</big><a class="headerlink" href="#polyadcirc.run_framework.random_wall.runSet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#polyadcirc.run_framework.random_manningsn.runSet" title="polyadcirc.run_framework.random_manningsn.runSet"><tt class="xref py py-class docutils literal"><span class="pre">polyadcirc.run_framework.random_manningsn.runSet</span></tt></a></p>
+<p>This class controls the running of <strong class="program">ADCIRC</strong> within the processors
+allocated by the submission script</p>
+<dl class="docutils">
+<dt>grid_dir</dt>
+<dd>directory containing <tt class="docutils literal"><span class="pre">fort.14</span></tt>, <tt class="docutils literal"><span class="pre">fort.15</span></tt>, and <tt class="docutils literal"><span class="pre">fort.22</span></tt></dd>
+<dt>save_dir</dt>
+<dd>directory where <tt class="docutils literal"><span class="pre">RF_directory_*</span></tt> are saved, and where fort.13 is
+located</dd>
+<dt>basis_dir </dt>
+<dd>directory where <tt class="docutils literal"><span class="pre">landuse_*</span></tt> folders are located</dd>
+<dt>base_dir</dt>
+<dd>directory that contains ADCIRC executables, and machine
+specific <tt class="docutils literal"><span class="pre">in.prep#</span></tt> files</dd>
+<dt>num_of_parallel_runs</dt>
+<dd>size of batch of jobs to be submitted to queue</dd>
+</dl>
+<p>script_name
+nts_data</p>
+<blockquote>
+<div>non timeseries data</div></blockquote>
+<dl class="docutils">
+<dt>ts_data </dt>
+<dd>timeseries data</dd>
+<dt>time_obs</dt>
+<dd>observation times for timeseries data</dd>
+</dl>
+<dl class="method">
+<dt id="polyadcirc.run_framework.random_wall.runSet.make_plots">
+<tt class="descname">make_plots</tt><big>(</big><em>wall_points</em>, <em>mann_points</em>, <em>domain</em>, <em>save=True</em>, <em>show=False</em>, <em>bathymetry=False</em><big>)</big><a class="headerlink" href="#polyadcirc.run_framework.random_wall.runSet.make_plots" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plots <tt class="docutils literal"><span class="pre">mesh</span></tt>, <tt class="docutils literal"><span class="pre">station_locations</span></tt>, <tt class="docutils literal"><span class="pre">basis_functions</span></tt>,
+<tt class="docutils literal"><span class="pre">random_fields</span></tt>, <tt class="docutils literal"><span class="pre">mean_field</span></tt>, <tt class="docutils literal"><span class="pre">station_data</span></tt>, and
+save in save_dir/figs</p>
+<div class="admonition-todo admonition" id="index-1">
+<p class="first admonition-title">Todo</p>
+<p class="last">this uses bv_array everywhere. I might want to change this
+later when I go to the nested mesh approach</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="polyadcirc.run_framework.random_wall.runSet.plot_walls">
+<tt class="descname">plot_walls</tt><big>(</big><em>domain</em>, <em>wall_points</em>, <em>save=True</em>, <em>show=False</em><big>)</big><a class="headerlink" href="#polyadcirc.run_framework.random_wall.runSet.plot_walls" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plots the walls with dimenstions described in <tt class="docutils literal"><span class="pre">wall_points</span></tt> and saves
+the plots in <tt class="docutils literal"><span class="pre">self.save_dir</span></tt></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>domain</strong> &#8211; <a class="reference internal" href="#module-polyadcirc.run_framework.domain" title="polyadcirc.run_framework.domain"><tt class="xref py py-class docutils literal"><span class="pre">domain</span></tt></a></li>
+<li><strong>wall_points</strong> (<tt class="xref py py-class docutils literal"><span class="pre">np.array</span></tt> of size (5, <tt class="docutils literal"><span class="pre">num_of_walls</span></tt>)) &#8211; containts the box_limits, and wall_height for each
+wall [ximin, xmax, ymin, ymax, wall_height]</li>
+<li><strong>save</strong> (<em>boolean</em>) &#8211; flag for whether or not to save plots</li>
+<li><strong>show</strong> (<em>boolean</em>) &#8211; flag for whether or not to show plots</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="polyadcirc.run_framework.random_wall.runSet.run_nobatch">
+<tt class="descname">run_nobatch</tt><big>(</big><em>data, wall_points, mann_points, save_file, num_procs=12, procs_pnode=12, ts_names=['fort.61'], nts_names=['maxele.63'], screenout=True, num_writers=None, TpN=12</em><big>)</big><a class="headerlink" href="#polyadcirc.run_framework.random_wall.runSet.run_nobatch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Runs <strong class="program">ADCIRC</strong> for all of the configurations specified by
+<tt class="docutils literal"><span class="pre">wall_points</span></tt> and <tt class="docutils literal"><span class="pre">mann_points</span></tt> and returns a dictonary of arrays
+containing data from output files. Runs batches of <strong class="program">PADCIRC</strong>
+as a single for loop and preps both the <tt class="docutils literal"><span class="pre">fort.13</span></tt> and fort.14`` in
+the same step.</p>
+<blockquote>
+<div>Reads in a default Manning&#8217;s <em>n</em> value from self.save_dir and stores
+it in data.manningsn_default</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>data</strong> &#8211; <a class="reference internal" href="#module-polyadcirc.run_framework.domain" title="polyadcirc.run_framework.domain"><tt class="xref py py-class docutils literal"><span class="pre">domain</span></tt></a></li>
+<li><strong>wall_points</strong> (<tt class="xref py py-class docutils literal"><span class="pre">np.array</span></tt> of size (5, <tt class="docutils literal"><span class="pre">num_of_walls</span></tt>)) &#8211; containts the box_limits, and wall_height for each
+wall [ximin, xmax, ymin, ymax, wall_height]</li>
+<li><strong>mann_points</strong> (<tt class="xref py py-class docutils literal"><span class="pre">np.array</span></tt> of size (<tt class="docutils literal"><span class="pre">num_of_basis_vec</span></tt>,
+<tt class="docutils literal"><span class="pre">num_of_random_fields</span></tt>), <tt class="docutils literal"><span class="pre">num_of_random_fields</span></tt> MUST be the
+same as <tt class="docutils literal"><span class="pre">num_of_walls</span></tt>. The ith wall will be associated with
+the ith field specifed by mann_points) &#8211; containts the weights to be used for each run</li>
+<li><strong>save_file</strong> (<em>string</em>) &#8211; name of file to save mdict to</li>
+<li><strong>num_procs</strong> (<em>int or 12</em>) &#8211; number of processors per <strong class="program">ADCIRC</strong>
+simulation, 12 on lonestar, and 16 on stamped</li>
+<li><strong>procs_pnode</strong> (<em>int</em>) &#8211; number of processors per node</li>
+<li><strong>ts_names</strong> (<em>list()</em>) &#8211; names of ADCIRC timeseries
+output files to be recorded from each run</li>
+<li><strong>nts_names</strong> (<em>list()</em>) &#8211; names of ADCIRC non timeseries
+output files to be recorded from each run</li>
+<li><strong>screenout</strong> (<em>boolean</em>) &#8211; flag (True &#8211;  write <tt class="docutils literal"><span class="pre">ADCIRC</span></tt> output to
+screen, False &#8211; write <tt class="docutils literal"><span class="pre">ADCIRC</span></tt> output to temp file</li>
+<li><strong>num_writers</strong> (<em>int</em>) &#8211; number of MPI processes to dedicate soley to
+the task of writing ascii files. This MUST be &lt; num_procs</li>
+<li><strong>TpN</strong> (<em>int</em>) &#8211; number of tasks (cores to use) per node (wayness)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">(<tt class="xref py py-class docutils literal"><span class="pre">np.array</span></tt>, <tt class="xref py py-class docutils literal"><span class="pre">np.ndarray</span></tt>, <tt class="xref py py-class docutils literal"><span class="pre">np.ndarray</span></tt>)</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">(<tt class="docutils literal"><span class="pre">time_obs</span></tt>, <tt class="docutils literal"><span class="pre">ts_data</span></tt>, <tt class="docutils literal"><span class="pre">nts_data</span></tt>)</p>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Currently supports ADCIRC output files <tt class="docutils literal"><span class="pre">fort.6*</span></tt>,
+<tt class="docutils literal"><span class="pre">*.63</span></tt>, <tt class="docutils literal"><span class="pre">fort.7*</span></tt>, but NOT Hot Start Output
+(<tt class="docutils literal"><span class="pre">fort.67</span></tt>, <tt class="docutils literal"><span class="pre">fort.68</span></tt>)</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="polyadcirc.run_framework.random_wall.runSet.run_points">
+<tt class="descname">run_points</tt><big>(</big><em>data, wall_points, mann_points, save_file, num_procs=12, procs_pnode=12, ts_names=['fort.61'], nts_names=['maxele.63'], screenout=True, s_p_wall=None, num_writers=None, TpN=12</em><big>)</big><a class="headerlink" href="#polyadcirc.run_framework.random_wall.runSet.run_points" title="Permalink to this definition">¶</a></dt>
+<dd><p>Runs <strong class="program">ADCIRC</strong> for all of the configurations specified by
+<tt class="docutils literal"><span class="pre">wall_points</span></tt> and <tt class="docutils literal"><span class="pre">mann_points</span></tt> and returns a dictonary of arrays
+containing data from output files. Assumes that the number of
+<tt class="docutils literal"><span class="pre">wall_points</span></tt> is less than the number of <tt class="docutils literal"><span class="pre">mann_points</span></tt>. Runs
+batches of <strong class="program">PADCIRC</strong> as a double for loop with the
+<strong class="program">ADCPREP</strong> prepping the <tt class="docutils literal"><span class="pre">fort.14</span></tt> file on the exterior loop
+and the <tt class="docutils literal"><span class="pre">fort.13</span></tt> file on the interior loop.</p>
+<blockquote>
+<div>Reads in a default Manning&#8217;s <em>n</em> value from self.save_dir and stores
+it in data.manningsn_default</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>data</strong> &#8211; <a class="reference internal" href="#module-polyadcirc.run_framework.domain" title="polyadcirc.run_framework.domain"><tt class="xref py py-class docutils literal"><span class="pre">domain</span></tt></a></li>
+<li><strong>wall_points</strong> (<tt class="xref py py-class docutils literal"><span class="pre">np.array</span></tt> of size (5, <tt class="docutils literal"><span class="pre">num_of_walls</span></tt>)) &#8211; containts the box_limits, and wall_height for each
+wall [ximin, xmax, ymin, ymax, wall_height]</li>
+<li><strong>mann_points</strong> (<tt class="xref py py-class docutils literal"><span class="pre">np.array</span></tt> of size (<tt class="docutils literal"><span class="pre">num_of_basis_vec</span></tt>,
+<tt class="docutils literal"><span class="pre">num_of_random_fields</span></tt>), <tt class="docutils literal"><span class="pre">num_of_random_fields</span></tt> MUST be a
+multiple of <tt class="docutils literal"><span class="pre">num_of_walls</span></tt>. The ith wall will be associated with
+the ith set of i*(num_of_random_fields/num_of_walls) mann_points) &#8211; containts the weights to be used for each run</li>
+<li><strong>save_file</strong> (<em>string</em>) &#8211; name of file to save mdict to</li>
+<li><strong>num_procs</strong> (<em>int or 12</em>) &#8211; number of processors per <strong class="program">ADCIRC</strong>
+simulation, 12 on lonestar, and 16 on stamped</li>
+<li><strong>procs_pnode</strong> (<em>int</em>) &#8211; number of processors per node</li>
+<li><strong>ts_names</strong> (<em>list()</em>) &#8211; names of ADCIRC timeseries
+output files to be recorded from each run</li>
+<li><strong>nts_names</strong> (<em>list()</em>) &#8211; names of ADCIRC non timeseries
+output files to be recorded from each run</li>
+<li><strong>screenout</strong> (<em>boolean</em>) &#8211; flag (True &#8211;  write <tt class="docutils literal"><span class="pre">ADCIRC</span></tt> output to
+screen, False &#8211; write <tt class="docutils literal"><span class="pre">ADCIRC</span></tt> output to temp file</li>
+<li><strong>num_writers</strong> (<em>int</em>) &#8211; number of MPI processes to dedicate soley to
+the task of writing ascii files. This MUST be &lt; num_procs</li>
+<li><strong>TpN</strong> (<em>int</em>) &#8211; number of tasks (cores to use) per node (wayness)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">(<tt class="xref py py-class docutils literal"><span class="pre">np.array</span></tt>, <tt class="xref py py-class docutils literal"><span class="pre">np.ndarray</span></tt>, <tt class="xref py py-class docutils literal"><span class="pre">np.ndarray</span></tt>)</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">(<tt class="docutils literal"><span class="pre">time_obs</span></tt>, <tt class="docutils literal"><span class="pre">ts_data</span></tt>, <tt class="docutils literal"><span class="pre">nts_data</span></tt>)</p>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Currently supports ADCIRC output files <tt class="docutils literal"><span class="pre">fort.6*</span></tt>,
+<tt class="docutils literal"><span class="pre">*.63</span></tt>, <tt class="docutils literal"><span class="pre">fort.7*</span></tt>, but NOT Hot Start Output
+(<tt class="docutils literal"><span class="pre">fort.67</span></tt>, <tt class="docutils literal"><span class="pre">fort.68</span></tt>)</p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-polyadcirc.run_framework.random_wall_Q">
+<span id="polyadcirc-run-framework-random-wall-q-module"></span><h2>polyadcirc.run_framework.random_wall_Q module<a class="headerlink" href="#module-polyadcirc.run_framework.random_wall_Q" title="Permalink to this headline">¶</a></h2>
+<p>This module contains functions to pull data from ADCIRC output files and the
+<a class="reference internal" href="#polyadcirc.run_framework.random_wall_Q.runSet" title="polyadcirc.run_framework.random_wall_Q.runSet"><tt class="xref py py-class docutils literal"><span class="pre">runSet</span></tt></a> which controls the running of ADCIRC simulations within a set
+of processors allocated by the submission script</p>
+<dl class="function">
+<dt id="polyadcirc.run_framework.random_wall_Q.loadmat">
+<tt class="descclassname">polyadcirc.run_framework.random_wall_Q.</tt><tt class="descname">loadmat</tt><big>(</big><em>save_file</em>, <em>base_dir</em>, <em>grid_dir</em>, <em>save_dir</em>, <em>basis_dir</em><big>)</big><a class="headerlink" href="#polyadcirc.run_framework.random_wall_Q.loadmat" title="Permalink to this definition">¶</a></dt>
+<dd><p>Loads data from <tt class="docutils literal"><span class="pre">save_file</span></tt> into a
+<a class="reference internal" href="#polyadcirc.run_framework.random_manningsn.runSet" title="polyadcirc.run_framework.random_manningsn.runSet"><tt class="xref py py-class docutils literal"><span class="pre">runSet</span></tt></a> object.
+Reconstructs <tt class="xref py py-class docutils literal"><span class="pre">domain</span></tt>.
+Fixes dry data if it was recorded.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>save_file</strong> (<em>string</em>) &#8211; local file name</li>
+<li><strong>grid_dir</strong> (<em>string</em>) &#8211; directory containing <tt class="docutils literal"><span class="pre">fort.14</span></tt>, <tt class="docutils literal"><span class="pre">fort.15</span></tt>, and
+<tt class="docutils literal"><span class="pre">fort.22</span></tt></li>
+<li><strong>save_dir</strong> (<em>string</em>) &#8211; directory where <tt class="docutils literal"><span class="pre">RF_directory_*</span></tt> are
+saved, and where fort.13 is located</li>
+<li><strong>basis_dir</strong> (<em>string</em>) &#8211; directory where <tt class="docutils literal"><span class="pre">landuse_*</span></tt> folders are located</li>
+<li><strong>base_dir</strong> (<em>string</em>) &#8211; directory that contains ADCIRC executables, and
+machine specific <tt class="docutils literal"><span class="pre">in.prep#</span></tt> files</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">tuple of <a class="reference internal" href="#polyadcirc.run_framework.random_wall.runSet" title="polyadcirc.run_framework.random_wall.runSet"><tt class="xref py py-class docutils literal"><span class="pre">runSet</span></tt></a>,
+<tt class="xref py py-class docutils literal"><span class="pre">domain</span></tt> objects, and
+two :class:<a href="#id9"><span class="problematic" id="id10">`</span></a>numpy.array`s</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">(main_run, domain, mann_pts, wall_pts)</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="polyadcirc.run_framework.random_wall_Q.runSet">
+<em class="property">class </em><tt class="descclassname">polyadcirc.run_framework.random_wall_Q.</tt><tt class="descname">runSet</tt><big>(</big><em>grid_dir</em>, <em>save_dir</em>, <em>basis_dir</em>, <em>num_of_parallel_runs=10</em>, <em>base_dir=None</em>, <em>script_name=None</em><big>)</big><a class="headerlink" href="#polyadcirc.run_framework.random_wall_Q.runSet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#polyadcirc.run_framework.random_wall.runSet" title="polyadcirc.run_framework.random_wall.runSet"><tt class="xref py py-class docutils literal"><span class="pre">polyadcirc.run_framework.random_wall.runSet</span></tt></a></p>
+<p>This class controls the running of <strong class="program">ADCIRC</strong> within the processors
+allocated by the submission script</p>
+<dl class="docutils">
+<dt>grid_dir</dt>
+<dd>directory containing <tt class="docutils literal"><span class="pre">fort.14</span></tt>, <tt class="docutils literal"><span class="pre">fort.15</span></tt>, and <tt class="docutils literal"><span class="pre">fort.22</span></tt></dd>
+<dt>save_dir</dt>
+<dd>directory where <tt class="docutils literal"><span class="pre">RF_directory_*</span></tt> are saved, and where fort.13 is
+located</dd>
+<dt>basis_dir </dt>
+<dd>directory where <tt class="docutils literal"><span class="pre">landuse_*</span></tt> folders are located</dd>
+<dt>base_dir</dt>
+<dd>directory that contains ADCIRC executables, and machine
+specific <tt class="docutils literal"><span class="pre">in.prep#</span></tt> files</dd>
+<dt>num_of_parallel_runs</dt>
+<dd>size of batch of jobs to be submitted to queue</dd>
+</dl>
+<p>script_name
+nts_data</p>
+<blockquote>
+<div>non timeseries data</div></blockquote>
+<dl class="docutils">
+<dt>ts_data </dt>
+<dd>timeseries data</dd>
+<dt>time_obs</dt>
+<dd>observation times for timeseries data</dd>
+</dl>
+<dl class="method">
+<dt id="polyadcirc.run_framework.random_wall_Q.runSet.run_nobatch_q">
+<tt class="descname">run_nobatch_q</tt><big>(</big><em>data</em>, <em>wall_points</em>, <em>mann_points</em>, <em>save_file</em>, <em>num_procs=12</em>, <em>procs_pnode=12</em>, <em>stations=None</em>, <em>screenout=True</em>, <em>num_writers=None</em>, <em>TpN=12</em><big>)</big><a class="headerlink" href="#polyadcirc.run_framework.random_wall_Q.runSet.run_nobatch_q" title="Permalink to this definition">¶</a></dt>
+<dd><p>Runs <strong class="program">ADCIRC</strong> for all of the configurations specified by
+<tt class="docutils literal"><span class="pre">wall_points</span></tt> and <tt class="docutils literal"><span class="pre">mann_points</span></tt> and returns a dictonary of arrays
+containing data from output files. Runs batches of <strong class="program">PADCIRC</strong>
+as a single for loop and preps both the <tt class="docutils literal"><span class="pre">fort.13</span></tt> and fort.14`` in
+the same step.</p>
+<p>Stores only the QoI at the stations defined in <cite>stations`</cite>. In this
+case the QoI is the <tt class="docutils literal"><span class="pre">maxele63</span></tt> at the designated station.</p>
+<p>Reads in a default Manning&#8217;s <em>n</em> value from self.save_dir and stores
+it in data.manningsn_default                                                                   
+:param data: <a class="reference internal" href="#module-polyadcirc.run_framework.domain" title="polyadcirc.run_framework.domain"><tt class="xref py py-class docutils literal"><span class="pre">domain</span></tt></a>
+:type wall_points: <tt class="xref py py-class docutils literal"><span class="pre">np.array</span></tt> of size (5, <tt class="docutils literal"><span class="pre">num_of_walls</span></tt>)
+:param wall_points: containts the box_limits, and wall_height for each</p>
+<blockquote>
+<div>wall [ximin, xmax, ymin, ymax, wall_height]</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>mann_points</strong> (<tt class="xref py py-class docutils literal"><span class="pre">np.array</span></tt> of size (<tt class="docutils literal"><span class="pre">num_of_basis_vec</span></tt>,
+<tt class="docutils literal"><span class="pre">num_of_random_fields</span></tt>), <tt class="docutils literal"><span class="pre">num_of_random_fields</span></tt> MUST be the
+same as <tt class="docutils literal"><span class="pre">num_of_walls</span></tt>. The ith wall will be associated with
+the ith field specifed by mann_points) &#8211; containts the weights to be used for each run</li>
+<li><strong>save_file</strong> (<em>string</em>) &#8211; name of file to save mdict to</li>
+<li><strong>num_procs</strong> (<em>int or 12</em>) &#8211; number of processors per <strong class="program">ADCIRC</strong>
+simulation, 12 on lonestar, and 16 on stamped</li>
+<li><strong>procs_pnode</strong> (<em>int</em>) &#8211; number of processors per node</li>
+<li><strong>stations</strong> (<em>list()</em>) &#8211; list of stations to gather QoI from. If
+<tt class="docutils literal"><span class="pre">None</span></tt> uses the stations defined in <tt class="docutils literal"><span class="pre">data</span></tt></li>
+<li><strong>screenout</strong> (<em>boolean</em>) &#8211; flag (True &#8211;  write <tt class="docutils literal"><span class="pre">ADCIRC</span></tt> output to
+screen, False &#8211; write <tt class="docutils literal"><span class="pre">ADCIRC</span></tt> output to temp file</li>
+<li><strong>num_writers</strong> (<em>int</em>) &#8211; number of MPI processes to dedicate soley to
+the task of writing ascii files. This MUST be &lt; num_procs</li>
+<li><strong>TpN</strong> (<em>int</em>) &#8211; number of tasks (cores to use) per node (wayness)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">(<tt class="xref py py-class docutils literal"><span class="pre">np.array</span></tt>, <tt class="xref py py-class docutils literal"><span class="pre">np.ndarray</span></tt>, <tt class="xref py py-class docutils literal"><span class="pre">np.ndarray</span></tt>)</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">(<tt class="docutils literal"><span class="pre">time_obs</span></tt>, <tt class="docutils literal"><span class="pre">ts_data</span></tt>, <tt class="docutils literal"><span class="pre">nts_data</span></tt>)</p>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Currently supports ADCIRC output files <tt class="docutils literal"><span class="pre">fort.6*</span></tt>,
+<tt class="docutils literal"><span class="pre">*.63</span></tt>, <tt class="docutils literal"><span class="pre">fort.7*</span></tt>, but NOT Hot Start Output
+(<tt class="docutils literal"><span class="pre">fort.67</span></tt>, <tt class="docutils literal"><span class="pre">fort.68</span></tt>)</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="polyadcirc.run_framework.random_wall_Q.runSet.update_mdict">
+<tt class="descname">update_mdict</tt><big>(</big><em>mdict</em><big>)</big><a class="headerlink" href="#polyadcirc.run_framework.random_wall_Q.runSet.update_mdict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set up references for <tt class="docutils literal"><span class="pre">mdict</span></tt></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>mdict</strong> (<em>dict()</em>) &#8211; dictionary of run data</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-contents">
+<h2>Module contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h2>
+<span class="target" id="module-polyadcirc.run_framework"></span><p>This subpackage contains</p>
+<ul class="simple">
+<li><a class="reference internal" href="#module-polyadcirc.run_framework.domain" title="polyadcirc.run_framework.domain"><tt class="xref py py-class docutils literal"><span class="pre">domain</span></tt></a> a container object for a data specific to a particular
+mesh(es), grid(s)</li>
+<li><a class="reference internal" href="#module-polyadcirc.run_framework.random_manningsn" title="polyadcirc.run_framework.random_manningsn"><tt class="xref py py-mod docutils literal"><span class="pre">random_manningsn</span></tt></a> a class and associated set
+of methods to run a set of ADCIRC simulations with varying parameters</li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">polyadcirc.run_framework package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-polyadcirc.run_framework.domain">polyadcirc.run_framework.domain module</a></li>
+<li><a class="reference internal" href="#module-polyadcirc.run_framework.random_manningsn">polyadcirc.run_framework.random_manningsn module</a></li>
+<li><a class="reference internal" href="#module-polyadcirc.run_framework.random_wall">polyadcirc.run_framework.random_wall module</a></li>
+<li><a class="reference internal" href="#module-polyadcirc.run_framework.random_wall_Q">polyadcirc.run_framework.random_wall_Q module</a></li>
+<li><a class="reference internal" href="#module-contents">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/polyadcirc.run_framework.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="index.html">PolySim 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Lindley Graham.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+  </body>
+</html>
