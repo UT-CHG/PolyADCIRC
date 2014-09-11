@@ -20,7 +20,7 @@ domain.update()
 bv_dict = tmm.get_basis_vectors(basis_dir)
 
 # create the shelf basis vector dictonary
-shelf_limits = [0, 50]
+shelf_limits = [0, 50] #[0, 100] [50, 100]
 shelf_bv = tmm.create_shelf(domain, shelf_limits, bv_dict)
 
 # write this out to an appropriately numbered basis vector mesh in the correct
