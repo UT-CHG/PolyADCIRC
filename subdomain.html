@@ -1,0 +1,267 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Running with Subdomain ADCIRC &mdash; PolySim 1.2.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.2.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="PolySim 1.2.1 documentation" href="index.html" />
+    <link rel="next" title="Todo List" href="todo_list.html" />
+    <link rel="prev" title="“All” about land use and land classifications" href="landuse_stuff.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="todo_list.html" title="Todo List"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="landuse_stuff.html" title="“All” about land use and land classifications"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">PolySim 1.2.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="running-with-subdomain-adcirc">
+<h1>Running with Subdomain ADCIRC<a class="headerlink" href="#running-with-subdomain-adcirc" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="getting-the-subdomain-adcirc-code">
+<h2>Getting the Subdomain ADCIRC Code<a class="headerlink" href="#getting-the-subdomain-adcirc-code" title="Permalink to this headline">¶</a></h2>
+<p>This code extends the <strong class="program">PolyADCIRC</strong> framework to work with <strong class="program">Subdomain
+ADCIRC v.50</strong>. <strong class="program">Subdomain ADCIRC v.50</strong> was developed by Alper Altuntas
+and Jason Simon under the direction of John Baugh; Department of Civil,
+Construction, and Enviromental Engineering North Carolina State University
+(NCSU), Raleigh, NC 27695. I have merged their original source with
+<strong class="program">ADCIRC v 50.99.09</strong> and updated it so that the command line <tt class="docutils literal"><span class="pre">-I</span></tt> and
+<tt class="docutils literal"><span class="pre">-O</span></tt> options are availiable. I have also added an <tt class="docutils literal"><span class="pre">__init__.py</span></tt> file so
+that their <strong class="program">Python</strong> script directory is recongized as a package.</p>
+<p>As the file structure and set up for <strong class="program">Subdomain ADCIRC</strong> closely
+parallels that of <strong class="program">ADCIRC</strong> the repo containing the subdomain code will
+need to be cloned into your <tt class="docutils literal"><span class="pre">$WORK</span></tt> directory using the
+<tt class="docutils literal"><span class="pre">--separate-git-dir=$HOME/v50_subdomain</span></tt> options:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ git clone --separate-git-dir=$HOME/v50_subdomain ices-workstation:/org/groups/chg/lgraham/v50_subdomain
+</pre></div>
+</div>
+<p>Since this code is currently in development it is not in a public repository.
+If you would like a copy of the code let me know. If you would like a copy of
+the original <strong class="program">Subdomain ADCIRC v.50</strong> code you should contact John
+Baugh at NCSU.</p>
+<p>Make sure you are in the <tt class="docutils literal"><span class="pre">subdomain</span></tt> branch of the <tt class="docutils literal"><span class="pre">PolyADCIRC</span></tt> repo:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ git checkout --track origin/subdomain
+</pre></div>
+</div>
+<p>If you are using the <tt class="docutils literal"><span class="pre">ADCIRC_landuse</span></tt> repo as well make sure to checkout and
+switch to the subdomain branch.</p>
+</div>
+<div class="section" id="setting-up-the-subdomain-grid-dir">
+<h2>Setting up the Subdomain <tt class="docutils literal"><span class="pre">grid_dir</span></tt><a class="headerlink" href="#setting-up-the-subdomain-grid-dir" title="Permalink to this headline">¶</a></h2>
+<p>The subdomain specific files and symbolic linkes generated by the following script
+<tt class="docutils literal"><span class="pre">[subdomain]/fort.{015,019,13,14,...}</span></tt> will need to be copied/moved to the
+<tt class="docutils literal"><span class="pre">grid_dir</span></tt> directory specified in your <tt class="docutils literal"><span class="pre">run_lonestar_test.py</span></tt> script. You
+can also simply specifify a <tt class="docutils literal"><span class="pre">grid_dir</span></tt> for the subdomain and one for the
+fulldomain and then move/copy the <tt class="docutils literal"><span class="pre">fort.13</span></tt> file to the directory containing
+the <tt class="docutils literal"><span class="pre">sae_dir</span></tt> for the subdomain.</p>
+<div class="section" id="setup-subdomain">
+<h3>setup_subdomain<a class="headerlink" href="#setup-subdomain" title="Permalink to this headline">¶</a></h3>
+<p>This script can be found in <tt class="docutils literal"><span class="pre">Polysim/examples</span></tt>.
+Allow running from the command line:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c">#! /usr/bin/env/python</span>
+</pre></div>
+</div>
+<p>Import necessary modules:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">polyadcirc.run_framework.subdomain</span> <span class="kn">as</span> <span class="nn">subdom</span>
+<span class="kn">import</span> <span class="nn">polyadcirc.run_framework.fulldomain</span> <span class="kn">as</span> <span class="nn">fulldom</span>
+<span class="kn">import</span> <span class="nn">glob</span>
+</pre></div>
+</div>
+<p>Specify the path to directory containing the compiled <strong class="program">PADCIRC</strong>
+executables:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">adcirc_dir</span> <span class="o">=</span> <span class="s">&#39;/work/01837/lcgraham/v50_subdomain/work&#39;</span>
+</pre></div>
+</div>
+<p>Specify the path to directory containing the input files for the
+<a class="reference internal" href="polyadcirc.run_framework.html#polyadcirc.run_framework.fulldomain.fulldomain" title="polyadcirc.run_framework.fulldomain.fulldomain"><tt class="xref py py-class docutils literal"><span class="pre">fulldomain</span></tt></a>. This folder should also
+contain a copy of the compiled executable <strong class="program">ADCPREP</strong>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">fulldomain</span> <span class="o">=</span> <span class="n">fulldom</span><span class="o">.</span><span class="n">fulldomain</span><span class="p">(</span><span class="n">adcirc_dir</span><span class="o">+</span><span class="s">&#39;/fulldomain&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Specify the path to the directory that will contain files specific to the
+<a class="reference internal" href="polyadcirc.run_framework.html#polyadcirc.run_framework.subdomain.subdomain" title="polyadcirc.run_framework.subdomain.subdomain"><tt class="xref py py-class docutils literal"><span class="pre">subdomain</span></tt></a>. This folder should also
+contian a copy of the compiled executables <strong class="program">ADCPREP</strong>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">subdomain</span> <span class="o">=</span> <span class="n">subdom</span><span class="o">.</span><span class="n">subdomain</span><span class="p">(</span><span class="n">adcirc_dir</span><span class="o">+</span><span class="s">&#39;/subdomain&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Update object references between the
+<a class="reference internal" href="polyadcirc.run_framework.html#polyadcirc.run_framework.subdomain.subdomain" title="polyadcirc.run_framework.subdomain.subdomain"><tt class="xref py py-class docutils literal"><span class="pre">subdomain</span></tt></a> and the
+<a class="reference internal" href="polyadcirc.run_framework.html#polyadcirc.run_framework.fulldomain.fulldomain" title="polyadcirc.run_framework.fulldomain.fulldomain"><tt class="xref py py-class docutils literal"><span class="pre">fulldomain</span></tt></a>. This is somewhat clunky
+with a possiblity of circular references, so I might alter it in the future:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">subdomain</span><span class="o">.</span><span class="n">set_fulldomain</span><span class="p">(</span><span class="n">fulldomain</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Specify the number of processors for each <strong class="program">PADCIRC</strong> run. This can be
+done separately for each run. Make sure this number is less than or equal to
+the total number of processors requested in your job submission script:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">num_procs</span> <span class="o">=</span> <span class="mi">2</span>
+</pre></div>
+</div>
+<p>Check to see if shape file exists, if not make it:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">subdomain</span><span class="o">.</span><span class="n">path</span><span class="o">+</span><span class="s">&#39;/shape.*14&#39;</span><span class="p">))</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="n">subdomain</span><span class="o">.</span><span class="n">ellipse</span><span class="p">([</span><span class="mf">40824.6</span><span class="p">,</span> <span class="mf">98559.5</span><span class="p">],</span> <span class="p">[</span><span class="mf">98559.5</span><span class="p">,</span> <span class="mi">40824</span><span class="p">,</span><span class="mi">6</span><span class="p">],</span> <span class="mi">60000</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The following steps correspond to Table 1 in Subdomain ADICRC v.50 User Guide.</p>
+<p>Step 1a. Generate Sudomain:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">subdomain</span><span class="o">.</span><span class="n">setup</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Step 1b. Generate Full Domain Control File:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">subdomain</span><span class="o">.</span><span class="n">genfull</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Step 2. Run ADCIRC on the full domain:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">fulldomain</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
+<span class="k">if</span> <span class="n">subdomain</span><span class="o">.</span><span class="n">check_fulldomain</span><span class="p">():</span>
+    <span class="n">disp</span> <span class="o">=</span>  <span class="s">&quot;Output files ``fort.06*`` exist, but running ADCIRC on fulldomain&quot;</span>
+    <span class="k">print</span> <span class="n">disp</span><span class="o">+</span><span class="s">&quot;anyway.&quot;</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="k">print</span> <span class="s">&quot;Output files ``fort.06*`` do not exist, running ADCIRC on fulldomain.&quot;</span>
+<span class="n">fulldomain</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">num_procs</span><span class="p">,</span> <span class="n">adcirc_dir</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Step 3. Extract Subdomain Boundary Conditions:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">subdomain</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
+<span class="n">subdomain</span><span class="o">.</span><span class="n">genbcs</span><span class="p">(</span><span class="n">h0</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Step 4 Run ADCIRC on the subdomain:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">if</span> <span class="n">subdomain</span><span class="o">.</span><span class="n">check</span><span class="p">():</span>
+    <span class="n">subdomain</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">num_procs</span><span class="p">,</span> <span class="n">adcirc_dir</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="k">print</span> <span class="s">&quot;Input file ``fort.019`` does not exit.&quot;</span>
+</pre></div>
+</div>
+<p>Compare subdomain and fulldomain results:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">subdomain</span><span class="o">.</span><span class="n">update_sub2full_map</span><span class="p">()</span>
+<span class="n">ts_data</span><span class="p">,</span> <span class="n">nts_data</span><span class="p">,</span> <span class="n">time_obs</span> <span class="o">=</span> <span class="n">subdomain</span><span class="o">.</span><span class="n">compare_to_fulldomain</span><span class="p">([</span><span class="s">&#39;fort.63&#39;</span><span class="p">,</span>
+                                <span class="s">&#39;fort.64&#39;</span><span class="p">],[</span><span class="s">&#39;maxele.63&#39;</span><span class="p">,</span><span class="s">&#39;maxvel.63&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="setting-up-your-landuse-folders">
+<h2>Setting up your <tt class="docutils literal"><span class="pre">landuse_##</span></tt> folders<a class="headerlink" href="#setting-up-your-landuse-folders" title="Permalink to this headline">¶</a></h2>
+<p>Use the subdomain specific <tt class="docutils literal"><span class="pre">fort.14</span></tt> and <tt class="docutils literal"><span class="pre">fort.13</span></tt> files to generate a set
+of landuse basis folders, see <a class="reference internal" href="landuse_stuff.html"><em>&#8220;All&#8221; about land use and land classifications</em></a>. These <tt class="docutils literal"><span class="pre">landuse_##</span></tt>
+folders will need to be moved to the <tt class="docutils literal"><span class="pre">basis_dir</span></tt> directory specificed in your
+<tt class="docutils literal"><span class="pre">run_lonestar_test.py</span></tt> script.</p>
+</div>
+<div class="section" id="running-polyadcirc-with-subdomains">
+<h2>Running PolyADCIRC with Subdomains<a class="headerlink" href="#running-polyadcirc-with-subdomains" title="Permalink to this headline">¶</a></h2>
+<p>Finally, update the directory paths in a copy of <em class="xref std std-ref">run-lonestar-test</em>. This
+file may be run with no other changes as all the necessary files for
+<strong class="program">Subdomain ADCIRC</strong> are now located in the <tt class="docutils literal"><span class="pre">grid_dir</span></tt>.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Running with Subdomain ADCIRC</a><ul>
+<li><a class="reference internal" href="#getting-the-subdomain-adcirc-code">Getting the Subdomain ADCIRC Code</a></li>
+<li><a class="reference internal" href="#setting-up-the-subdomain-grid-dir">Setting up the Subdomain <tt class="docutils literal"><span class="pre">grid_dir</span></tt></a><ul>
+<li><a class="reference internal" href="#setup-subdomain">setup_subdomain</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#setting-up-your-landuse-folders">Setting up your <tt class="docutils literal"><span class="pre">landuse_##</span></tt> folders</a></li>
+<li><a class="reference internal" href="#running-polyadcirc-with-subdomains">Running PolyADCIRC with Subdomains</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="landuse_stuff.html"
+                        title="previous chapter">&#8220;All&#8221; about land use and land classifications</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="todo_list.html"
+                        title="next chapter">Todo List</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/subdomain.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="todo_list.html" title="Todo List"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="landuse_stuff.html" title="“All” about land use and land classifications"
+             >previous</a> |</li>
+        <li><a href="index.html">PolySim 1.2.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Lindley Graham.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+  </body>
+</html>
