@@ -7,9 +7,8 @@ Overview
 Installation
 ------------
 
-The code currently resides at `GitHub <https://github.com/lcgraham/PolyADCIRC>`_
-in a private repository which will be made public at a later date.
-
+The code currently resides at `GitHub
+<https://github.com/lcgraham/PolyADCIRC>`_.
 If you have a 
 `zip file <https://github.com/lcgraham/PolyADCIRC/archive/master.zip>`_ you can install
 PolyADCIRC using::
