@@ -21,7 +21,7 @@ class gridInfo(pickleable):
     ``*.table`` files specific to a particular grid.
     """
     def __init__(self, basis_dir, grid_dir, gap_data_list, flag=1,
-                 file_name="fort.14", omp_num_threads=None):
+                 file_name="fort.14", make_links=True):
         """ 
         Initalizes a gridInfo object and sets up a directory with links to the
         necessary input files to run :program:`Griddata_v1.1.32.F90` from
@@ -45,7 +45,6 @@ class gridInfo(pickleable):
         self.grid_dir = grid_dir  #: the path for the dir of the grid file
         self.gap_data_files = gap_data_list #: a list of gapInfo objects
         self.basis_dir = basis_dir #: the path for the dir to create landuse_ in
-        self.omp_num_threads = omp_num_threads #: num threads per Griddata run
         """ list() of :class:`~polyadcirc.table_management.gapInfo` objects """
         self.__landclasses = [] 
         self.__unique_tables = {} 
@@ -88,6 +87,7 @@ class gridInfo(pickleable):
                 print "PolyADCIRC folder on your Python Path."
                 print "Name it Griddata_parallel.out."
         
+        
         # Create links to gap files (*.asc) using gap_list of gapInfo objects
         for gap in self.gap_data_files:
             local_file_name = os.path.basename(gap.file_name)
@@ -107,35 +107,57 @@ class gridInfo(pickleable):
                   so that this could be run on a HPC system
         
         """
-
+        # set up first landuse folder
         first_script = self.setup_landuse_folder(0)
-        # run grid_all_data in this folder 
-        subprocess.call(['./'+first_script], cwd=self.basis_dir)
         # set up remaining land-use classifications
         script_list = self.setup_landuse_folders(False)
-        # run remaining bash scripts
         if not parallel:
+            # run grid_all_data in this folder 
+            subprocess.call(['./'+first_script], cwd=self.basis_dir)
+            # run remaining bash scripts
             for s in script_list:
                 subprocess.call(['./'+s], cwd=self.basis_dir)
+            self.cleanup_landuse_folders()
         else:
             print "This needs to be implemented so that we can simultaneously \
                     run griddata on all of the remaining landuse folders. I \
                     would sugguest using gnu parallel."
+            # write first submission script
+            # write remaining scripts
+            # submit first script
+            # submit remaining scripts 
+            # run and clean first folder
+            # run and clean remaining folders
         # remove unnecessary files
         if removeBinaries:
             binaries = glob.glob(self.basis_dir+'/*.asc.binary')
             for f in binaries:
                 os.remove(f)
-        self.cleanup_landuse_folders()
         fm.rename13(basis_dir=self.basis_dir)
+
+    def prep_single_SBATCH(self, script, num):
+        """
+        Write python script and job submission script that runs a single landuse bash
+        script and then cleans the landuse folders.
+
+        :param string script: file name of bash script for this land class
+        :param int num: script number
+        :rtype: string
+        :returns: job submission script name
+
+        """
+        python_script = 'landuse_{:=02d}.py'.format(num)
+        sbatch_script = 'landuse_{:=02d}.sbatch'.format(num)
+        
+
  
     def prep_test(self, removeBinaries=False):
         """
         Assumes :meth:`~polyadcirc.pyGriddata.prep_mesh.prep_all` has been run
         first. Prepares a fort.13 file for testing purposes.
-
-        :param grid: :class:`~polyim.pyGriddata.gridInfo`
-        :param string path: THIS MUST BE CWD (``'.'``) or ``None``
+        
+        :param binary removeBinaries: flag wheter or not to remove
+            ``*.asc.binary`` files
 
         """
         subprocess.call(['./'+self.setup_folder('test')], cwd=
@@ -236,9 +258,6 @@ class gridInfo(pickleable):
         script_name += self.file_name[:-2]+'sh'
         with open(script_name, 'w') as f:
             f.write('#!/bin/bash\n')
-            if self.omp_num_threads:
-                f.write("export OMP_NUM_THREADS=")
-                f.write(str(self.omp_num_threads)+"\n")
             f.write('# This script runs Griddata on several input files\n')
             for i in xrange(len(self.gap_data_files)):
                 input_name = file_name + 'griddata_'+str(i)+'.in'

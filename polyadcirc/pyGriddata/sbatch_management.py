@@ -84,11 +84,11 @@ def write_sbatch(sbatch_file, sbatch_list):
     """
     with open(sbatch_file, 'w') as sf:
         for type, line in sbatch_list:
-            # if the line is a comment or bash command print as is
             if type == "c" or type == "b":
+                # if the line is a comment or bash command print as is
                 sf.write(line)
-                # if the line is a sbatch option reformat the line and print it
             elif type == "o":
+                # if the line is a sbatch option reformat the line and print it
                 sf.write(str(line))
 
 def submit_job(sbatch_file, dir):
@@ -105,8 +105,8 @@ def submit_job(sbatch_file, dir):
     if dir == None:
         dir = os.path.dirname(sbatch_file)
         sbatch_file = os.path.basename(sbatch_file)
-    #output = subprocess.check_call(['sbatch','sbatch_file'], shell=True, cwd=dir)
-    output = subprocess.check_output(["tail", "submitout.txt"], shell=True)
+    #output = subprocess.check_output(['sbatch','sbatch_file'],  cwd=dir)
+    output = subprocess.check_output(["tail", "submitout.txt"])
     for line in output.split('\n'):
         m = re.match("Submitted batch job (\d*)", line)
         if m:
@@ -116,6 +116,39 @@ def submit_job(sbatch_file, dir):
 
 def add_dependency(sbatch_list, jobid_list):
     """
+    Adds an ``afterok`` job dependency to the ``sbatch_list`` after the last
+    sbatch option.
+
+    :param list sbatch_list: annotated list of lines
+    :param string jobid: jobid
+    :rtype: :class:`list`
+    :returns: An annotated list of the lines in the submission script.
+
     """
-    pass
+    # find the index of the the element before which to insert the new option
+    last_option_ind = 0
+    for i, v in enumerate(sbatch_list):
+        type = v[0]
+        if type == "o":
+            last_option_ind = i
+    # create the depdency command
+    option_line = "#SBATCH -d=afterok"
+    for jobid in jobid_list:
+        option_line += ":"+jobid
+    sbatch_list.insert(last_option_ind+1, ("o", sbatch_option(option_line)))
+    return sbatch_list
+
+def add_bash_command(sbatch_list, command):
+    """
+    Appends a bash command to the list.
+
+    :param list sbatch_list: annotated list of lines
+    :param string command: bash command
+
+    :rtype: :class:`list`
+    :returns: An annotated list of the lines in the submission script.
+
+    """
+    sbatch_list.append("c", (command+"\n"))
+    return sbatch_list
             
