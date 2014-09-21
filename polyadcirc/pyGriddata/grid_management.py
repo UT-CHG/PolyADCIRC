@@ -96,7 +96,8 @@ class gridInfo(pickleable):
 
         super(gridInfo, self).__init__()
  
-    def prep_all(self, parallel=False, removeBinaries=False):
+    def prep_all(self, parallel=False, removeBinaries=False, script_name=None,
+            TpN=16):
         """
         Assumes that all the necessary input files are in ``self.basis_dir``.
         This function generates a ``landuse_##`` folder in ``self.basis_dir``
@@ -111,9 +112,9 @@ class gridInfo(pickleable):
         first_script = self.setup_landuse_folder(0)
         # set up remaining land-use classifications
         script_list = self.setup_landuse_folders(False)
+        # run grid_all_data in this folder 
+        subprocess.call(['./'+first_script], cwd=self.basis_dir)       
         if not parallel:
-            # run grid_all_data in this folder 
-            subprocess.call(['./'+first_script], cwd=self.basis_dir)
             # run remaining bash scripts
             for s in script_list:
                 subprocess.call(['./'+s], cwd=self.basis_dir)
@@ -122,33 +123,80 @@ class gridInfo(pickleable):
             print "This needs to be implemented so that we can simultaneously \
                     run griddata on all of the remaining landuse folders. I \
                     would sugguest using gnu parallel."
-            # write first submission script
-            # write remaining scripts
-            # submit first script
-            # submit remaining scripts 
-            # run and clean first folder
-            # run and clean remaining folders
+            self.script_name = script_name
+            # write script to simulatenously run folders
+            run_script = self.write_run_scripts(script_list, TpN,
+                    screenout)
+            stdout_file = open("stdout_file.txt", 'w')
+            p = subprocess.Popen(['./'+run_script], stdout=stdout_file,
+                    cwd=self.basis_dir)
+            p.communicate()
+            stdout_file.close()
+            # run and clean folders
         # remove unnecessary files
         if removeBinaries:
             binaries = glob.glob(self.basis_dir+'/*.asc.binary')
             for f in binaries:
                 os.remove(f)
         fm.rename13(basis_dir=self.basis_dir)
-
-    def prep_single_SBATCH(self, script, num):
+ 
+    def write_run_script(self, script_list, TpN=16, screenout=True)
         """
-        Write python script and job submission script that runs a single landuse bash
-        script and then cleans the landuse folders.
-
-        :param string script: file name of bash script for this land class
-        :param int num: script number
-        :rtype: string
-        :returns: job submission script name
-
-        """
-        python_script = 'landuse_{:=02d}.py'.format(num)
-        sbatch_script = 'landuse_{:=02d}.sbatch'.format(num)
+        Creats a bash script called run_job_batch.sh
         
+        :param list script_list: list of script to run
+        :param int TpN: number of open mp threads, this should be 1 per
+            processor per node
+        :rtype: string
+        :returns: name of bash script for running a batch of jobs within our
+            processor allotment
+
+        """
+        tmp_file = self.script_name.partition('.')[0]+'.tmp'
+        num_jobs = len(script_list)
+        with open(self.base_dir+'/'+self.script_name, 'w') as f:
+            f.write('#!/bin/bash\n')
+            # change i to 2*i or something like that to no use all of the
+            # processors on a node?
+            for i in xrange(num_jobs):
+                line = 'ibrun -n {:d} -o {:d} '.format(num_procs,
+                        num_procs*i*TpN)
+                line += './{} '.format(script_list[i])
+                if not screenout:
+                    line += '> '+tmp_file
+                line += ' &\n'
+                f.write(line)
+            f.write('wait\n')
+        curr_stat = os.stat(self.base_dir+'/'+self.script_name)
+        os.chmod(self.base_dir+'/'+self.script_name,
+                 curr_stat.st_mode | stat.S_IXUSR)
+        return self.script_name
+
+    def write_clean_script(self, n, screenout=False):
+        """
+        Creats a bash script to run :program:`adcprep` with ``in.prepn``
+
+        :param int n: n for ``in.prepn`` input to ADCPREP
+        :param int num_jobs: number of jobs to run
+        :param boolean screenout: flag (True --  write ``ADCPREP`` output to
+            screen, False -- write ``ADCPREP`` output to ``prep_o.txt`` file)
+        :rtype: string
+        :returns: name of bash script for prepping a batch of jobs within our
+            processor allotment
+
+        """
+        with open(self.save_dir+'/prep_'+str(n)+'.sh', 'w') as f:
+            f.write('#!/bin/bash\n')
+            line = "parallel '(cd {} && ./adcprep < in.prep"+str(n)
+            if not screenout:
+                line += " > prep_o.txt"
+            line += ")' :::: dir_list\n"
+            f.write(line)
+            f.write("wait\n")
+        curr_stat = os.stat(self.save_dir+'/prep_'+str(n)+'.sh')
+        os.chmod(self.save_dir+'/prep_'+str(n)+'.sh',
+                 curr_stat.st_mode | stat.S_IXUSR)
+        return self.save_dir+'/prep_'+str(n)+'.sh'
 
  
     def prep_test(self, removeBinaries=False):
