@@ -48,9 +48,10 @@ class gridInfo(pickleable):
         
         """
         self.file_name = file_name #: Name of grid file, ``*.14``
-        self.grid_dir = grid_dir  #: the path for the dir of the grid file
+        self.grid_dir = grid_dir  #: path for the dir of the grid file
         self.gap_data_files = gap_data_list #: a list of gapInfo objects
-        self.basis_dir = basis_dir #: the path for the dir to create landuse_ in
+        self.basis_dir = basis_dir #: path for the dir to create landuse_ in
+        self.table_folder = table_folder #: path for the dir with ``*.table``
         """ list() of :class:`~polyadcirc.table_management.gapInfo` objects """
         self.__landclasses = [] 
         self.__unique_tables = {} 
@@ -64,8 +65,8 @@ class gridInfo(pickleable):
         self.flag = flag #: averaging scheme flag
         
         if make_links:
-            # Look for ``fort.14`` formatted file in grid_dir and place a link to
-            # it in basis_dir
+            # Look for ``fort.14`` formatted file in grid_dir and place a link
+            # to it in basis_dir
             fm.symlink(grid_dir+'/'+file_name, basis_dir+'/'+file_name)
             flagged_file_name = f14.flag_go(self, flag)
             self.file_name = os.path.basename(flagged_file_name)
@@ -90,12 +91,13 @@ class gridInfo(pickleable):
                                os.path.join(basis_dir,
                                             os.path.basename(compiled_prog)))
                 else:
-                    print "Compile a copy of Griddata_v1.32.F90 and put it in the"
-                    print "PolyADCIRC folder on your Python Path."
-                    print "Name it Griddata_parallel.out."
+                    print """Compile a copy of Griddata_v1.32.F90 and put it in
+                    the PolyADCIRC folder on your Python Path. Name it
+                    Griddata_parallel.out."""
             
             
-            # Create links to gap files (*.asc) using gap_list of gapInfo objects
+            # Create links to gap files (*.asc) using gap_list of gapInfo
+            # objects
             for gap in self.gap_data_files:
                 local_file_name = os.path.basename(gap.file_name)
                 fm.symlink(gap.file_name, basis_dir+'/'+local_file_name)
@@ -104,7 +106,7 @@ class gridInfo(pickleable):
         super(gridInfo, self).__init__()
  
     def prep_all(self, parallel=False, removeBinaries=False, script_name=None,
-            TpN=16):
+                 TpN=16):
         """
         Assumes that all the necessary input files are in ``self.basis_dir``.
         This function generates a ``landuse_##`` folder in ``self.basis_dir``
@@ -133,8 +135,7 @@ class gridInfo(pickleable):
             for s in script_list:
                 py_scripts.append(self.write_pyScript(s))
             # write a single bash script to run python scripts simultaneously
-            run_script = self.write_run_script(py_scripts, TpN,
-                    screenout)
+            run_script = self.write_run_script(py_scripts, TpN)
             # run a single bash script to run python scripts simultaneously
             stdout_file = open("stdout_file.txt", 'w')
             p = subprocess.Popen(['./'+run_script], stdout=stdout_file,
@@ -148,7 +149,7 @@ class gridInfo(pickleable):
                 os.remove(f)
         fm.rename13(basis_dir=self.basis_dir)
  
-    def write_run_script(self, script_list, TpN=16, screenout=True)
+    def write_run_script(self, script_list, TpN=16):
         """
         Creats a bash script called run_job_batch.sh
         
@@ -165,11 +166,10 @@ class gridInfo(pickleable):
         with open(self.basis_dir+'/'+self.script_name, 'w') as f:
             f.write('#!/bin/bash\n')
             for i in xrange(num_jobs):
-                line = 'ibrun -n {:d} -o {:d} '.format(num_procs,
-                        num_procs*i*TpN)
+                line = 'ibrun -n {:d} -o {:d} '.format(1,
+                        i*TpN)
                 line += './{} '.format(script_list[i])
-                if not screenout:
-                    line += '> '+tmp_file
+                line += '> '+tmp_file
                 line += ' &\n'
                 f.write(line)
             f.write('wait\n')
@@ -183,7 +183,7 @@ class gridInfo(pickleable):
         Writes a python script to run and then clean a landuse folder.
         """
         match_string = r"grid_all_(.*)_"+self.file_name[:-2]+r"\.sh"
-        landuse_folder = re.match(match_string, s).groups[0]
+        landuse_folder = re.match(match_string, bash_script).groups[0]
         script_name = bash_script[:-2]+"py"
         header = """#! /usr/bin/env python
         # import necessary modules
@@ -203,27 +203,26 @@ class gridInfo(pickleable):
             for i, table in enumerate(self.__unique_tables):
                 # create the table
                 f.write("table{} = tm.read_table('{}', '{}')\
-                        ".format(i, table.file_name, self.table_folder)
+                        ".format(i, table.file_name, self.table_folder))
                 # find the gapInfo objects with that table
-                table_gap_files = []
                 for gap in self.gap_data_files:
                     if gap.table.file_name == table.file_name:
                         f.write("gap_list.extend(tm.gapInfo({0}, table{1},\
                             {2}, {3})\n".format(gap.file_name, i,
                                 gap.horizontal_sys, gap.UTM_zone))
             f.write("grid = gm.gridInfo({}, {}, gap_list,\
-                make_links=False)\n".format(self.basis_dir, self.grid_dir)
+                make_links=False)\n".format(self.basis_dir, self.grid_dir))
             # run appropriate script using subprocess
             f.write("subprocess.call(['./{}'],\
-                cwd=basis_dir)\n".format(bash_script)
+                    cwd=basis_dir)\n".format(bash_script))
             # clean the appropriate folder
-            f.write("grid.cleanup_landuse_folder({})\n".format(os.path.join(self.basis_dir,
-                landuse_folder)))
+            full_fpath = os.path.join(self.basis_dir,
+                landuse_folder)
+            f.write("grid.cleanup_landuse_folder({})\n".format(full_fpath))
         curr_stat = os.stat(self.basis_dir+'/'+script_name)
         os.chmod(self.basis_dir+'/'+script_name,
                  curr_stat.st_mode | stat.S_IXUSR)
         return script_name
-
  
     def prep_test(self, removeBinaries=False):
         """
@@ -528,8 +527,10 @@ def compare(basis_dir=None, default=0.012):
     weights = np.array(tables[0].land_classes.values())
     lim = (np.min(weights), np.max(weights))
     bv_dict = tmm.get_basis_vectors(basis_dir)
-    combo = tmm.combine_basis_vectors(weights, bv_dict, default, domain.node_num)
-    bv_array = tmm.get_basis_vec_array(basis_dir, domain.node_num)
+    combo = tmm.combine_basis_vectors(weights, bv_dict, default,
+                                      domain.node_num) 
+    bv_array = tmm.get_basis_vec_array(basis_dir,
+                                       domain.node_num)
     plt.basis_functions(domain, bv_array, path=basis_dir)
     plt.field(domain, original, 'original', clim=lim, path=basis_dir)
     plt.field(domain, combo, 'reconstruction', clim=lim, path=basis_dir)
