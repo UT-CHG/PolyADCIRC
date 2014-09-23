@@ -63,7 +63,7 @@ class gridInfo(pickleable):
             #: list of landclasses used by this grid
                 self.__landclasses.append((x, k))
         self.flag = flag #: averaging scheme flag
-        
+
         if make_links:
             # Look for ``fort.14`` formatted file in grid_dir and place a link
             # to it in basis_dir
@@ -75,7 +75,7 @@ class gridInfo(pickleable):
             if len(glob.glob(self.basis_dir+'/Griddata_*.out')) == 0:
                 # check to see if Griddata is compiled and on the python path 
                 for p in sys.path:
-                    if re.search("PolyADCIRC", p):
+                    if os.path.basename(p) == "PolyADCIRC":
                         locations1 = glob.glob(p+"/*Griddata_*.out")
                         locations2 = glob.glob(p+"/polyadcirc/pyGriddata/Griddata_*.out")
                         if locations1:
@@ -94,7 +94,6 @@ class gridInfo(pickleable):
                     print """Compile a copy of Griddata_v1.32.F90 and put it in
                     the PolyADCIRC folder on your Python Path. Name it
                     Griddata_parallel.out."""
-            
             
             # Create links to gap files (*.asc) using gap_list of gapInfo
             # objects
@@ -115,6 +114,21 @@ class gridInfo(pickleable):
 
         .. todo:: Update so that landuse folders can be prepped n at a time and
                   so that this could be run on a HPC system
+
+        Currently, the parallel option preps the first folder and then all the
+        remaining folders at once. This means that you need to have
+        ``(num_land_classes-1)*TpN*nodes`` nodes availiable assuming 
+        ``TpN == cores_per_node``.
+
+        :param binary parallel: Flag whether or not to simultaneously prep
+            landuse folders.
+        :param binary removeBinarues: Flag whether or not to remove
+            ``*.asc.binary`` files when completed.
+        :param string script_name: Name to prevent simulatenous read/write
+            issues for parallel runs.
+        :param int TpN: Tasks per node or rather ``OMP_NUM_THREADS``. For
+            memory locality this should be a factor of the number of cores per
+            node.
         
         """
         # set up first landuse folder
@@ -122,7 +136,7 @@ class gridInfo(pickleable):
         # set up remaining land-use classifications
         script_list = self.setup_landuse_folders(False)
         # run grid_all_data in this folder 
-        subprocess.call(['./'+first_script], cwd=self.basis_dir)       
+        #subprocess.call(['./'+first_script], cwd=self.basis_dir)       
         if not parallel:
             # run remaining bash scripts
             for s in script_list:
@@ -137,11 +151,11 @@ class gridInfo(pickleable):
             # write a single bash script to run python scripts simultaneously
             run_script = self.write_run_script(py_scripts, TpN)
             # run a single bash script to run python scripts simultaneously
-            stdout_file = open("stdout_file.txt", 'w')
-            p = subprocess.Popen(['./'+run_script], stdout=stdout_file,
-                    cwd=self.basis_dir)
-            p.communicate()
-            stdout_file.close()
+            #stdout_file = open("stdout_file.txt", 'w')
+            #p = subprocess.Popen(['./'+run_script], stdout=stdout_file,
+            #        cwd=self.basis_dir)
+            #p.communicate()
+            #stdout_file.close()
         # remove unnecessary files
         if removeBinaries:
             binaries = glob.glob(self.basis_dir+'/*.asc.binary')
@@ -181,33 +195,37 @@ class gridInfo(pickleable):
     def write_pyScript(self, bash_script):
         """ 
         Writes a python script to run and then clean a landuse folder.
+
+        :param string bash_script: The name of the script produced by
+            :func:`~polyadcirc.pyGriddata.grid_management.gridInfo.create_bash_script`
+
+        :rtype: string
+        :returns: name of the python script
+
         """
-        match_string = r"grid_all_(.*)_"+self.file_name[:-2]+r"\.sh"
-        landuse_folder = re.match(match_string, bash_script).groups[0]
+        match_string = r"grid_all_(.*)_"+self.file_name[:-3]+r"\.sh"
+        landuse_folder = re.match(match_string, bash_script).groups()[0]
         script_name = bash_script[:-2]+"py"
-        header = """#! /usr/bin/env python
-        # import necessary modules
-        import polyadcirc.run_framework.domain as dom
-        import polyadcirc.pyGriddata.table_management as tm
-        import polyadcirc.pyGriddata.file_management as fm
-        import polyadcirc.pyGriddata.table_to_mesh_map as tmm
-        import polyadcirc.pyGriddata.grid_management as gm
-        import polyadcirc.pyADCIRC.fort13_management as f13
-        import glob
-        """
         with open(self.basis_dir+'/'+script_name, 'w') as f:
-            f.write(header)
-            f.write("grid_dir = {}\n".format(self.grid_dir))
-            f.write("basis_dir = {}\n".format(self.basis_dir))
+            f.write("#! /usr/bin/env python\n"
+            f.write("# import necessary modules
+            f.write("import polyadcirc.pyGriddata.table_management as tm\n"
+            f.write("import polyadcirc.pyGriddata.file_management as fm\n"
+            f.write("import polyadcirc.pyGriddata.table_to_mesh_map as tmm\n"
+            f.write("import polyadcirc.pyGriddata.grid_management as gm\n"
+            f.write("import polyadcirc.pyADCIRC.fort13_management as f13\n"
+            f.write("import glob\n"
+            f.write("grid_dir = '{}'\n".format(self.grid_dir))
+            f.write("basis_dir = '{}'\n".format(self.basis_dir))
             f.write("gap_list = []\n")
             for i, table in enumerate(self.__unique_tables):
                 # create the table
-                f.write("table{} = tm.read_table('{}', '{}')\
-                        ".format(i, table.file_name, self.table_folder))
+                f.write("table{} = tm.read_table('{}', '{}')\n \
+                        ".format(i, table, self.table_folder))
                 # find the gapInfo objects with that table
                 for gap in self.gap_data_files:
-                    if gap.table.file_name == table.file_name:
-                        f.write("gap_list.extend(tm.gapInfo({0}, table{1},\
+                    if gap.table.file_name == table:
+                        f.write("gap_list.add(tm.gapInfo('{0}', table{1},\
                             {2}, {3})\n".format(gap.file_name, i,
                                 gap.horizontal_sys, gap.UTM_zone))
             f.write("grid = gm.gridInfo({}, {}, gap_list,\
