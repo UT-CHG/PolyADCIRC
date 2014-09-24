@@ -136,7 +136,7 @@ class gridInfo(pickleable):
         # set up remaining land-use classifications
         script_list = self.setup_landuse_folders(False)
         # run grid_all_data in this folder 
-        #subprocess.call(['./'+first_script], cwd=self.basis_dir)       
+        subprocess.call(['./'+first_script], cwd=self.basis_dir)       
         if not parallel:
             # run remaining bash scripts
             for s in script_list:
@@ -151,11 +151,11 @@ class gridInfo(pickleable):
             # write a single bash script to run python scripts simultaneously
             run_script = self.write_run_script(py_scripts, TpN)
             # run a single bash script to run python scripts simultaneously
-            #stdout_file = open("stdout_file.txt", 'w')
-            #p = subprocess.Popen(['./'+run_script], stdout=stdout_file,
-            #        cwd=self.basis_dir)
-            #p.communicate()
-            #stdout_file.close()
+            stdout_file = open("stdout_file.txt", 'w')
+            p = subprocess.Popen(['./'+run_script], stdout=stdout_file,
+                                 cwd=self.basis_dir)
+            p.communicate()
+            stdout_file.close()
         # remove unnecessary files
         if removeBinaries:
             binaries = glob.glob(self.basis_dir+'/*.asc.binary')
@@ -180,8 +180,7 @@ class gridInfo(pickleable):
         with open(self.basis_dir+'/'+self.script_name, 'w') as f:
             f.write('#!/bin/bash\n')
             for i in xrange(num_jobs):
-                line = 'ibrun -n {:d} -o {:d} '.format(1,
-                        i*TpN)
+                line = 'ibrun -n {:d} -o {:d} '.format(1, i*TpN)
                 line += './{} '.format(script_list[i])
                 line += '> '+tmp_file
                 line += ' &\n'
@@ -207,36 +206,32 @@ class gridInfo(pickleable):
         landuse_folder = re.match(match_string, bash_script).groups()[0]
         script_name = bash_script[:-2]+"py"
         with open(self.basis_dir+'/'+script_name, 'w') as f:
-            f.write("#! /usr/bin/env python\n"
-            f.write("# import necessary modules
-            f.write("import polyadcirc.pyGriddata.table_management as tm\n"
-            f.write("import polyadcirc.pyGriddata.file_management as fm\n"
-            f.write("import polyadcirc.pyGriddata.table_to_mesh_map as tmm\n"
-            f.write("import polyadcirc.pyGriddata.grid_management as gm\n"
-            f.write("import polyadcirc.pyADCIRC.fort13_management as f13\n"
-            f.write("import glob\n"
+            f.write("#! /usr/bin/env python\n")
+            f.write("# import necessary modules\n")
+            f.write("import polyadcirc.pyGriddata.table_management as tm\n")
+            f.write("import polyadcirc.pyGriddata.grid_management as gm\n")
+            f.write("import subprocess\n")
             f.write("grid_dir = '{}'\n".format(self.grid_dir))
             f.write("basis_dir = '{}'\n".format(self.basis_dir))
             f.write("gap_list = []\n")
             for i, table in enumerate(self.__unique_tables):
                 # create the table
-                f.write("table{} = tm.read_table('{}', '{}')\n \
-                        ".format(i, table, self.table_folder))
+                f.write("table{} = tm.read_table".format(i))
+                f.write("('{}', '{}')\n".format(table, self.table_folder))
                 # find the gapInfo objects with that table
                 for gap in self.gap_data_files:
                     if gap.table.file_name == table:
-                        f.write("gap_list.add(tm.gapInfo('{0}', table{1},\
-                            {2}, {3})\n".format(gap.file_name, i,
-                                gap.horizontal_sys, gap.UTM_zone))
-            f.write("grid = gm.gridInfo({}, {}, gap_list,\
-                make_links=False)\n".format(self.basis_dir, self.grid_dir))
+                        f.write("gap_list.append(tm.gapInfo('"+gap.file_name+"'")
+                        f.write(", table{}, {}, {}))\n".format(i,
+                                    gap.horizontal_sys, gap.UTM_zone))
+            f.write("grid = gm.gridInfo(basis_dir, grid_dir") 
+            f.write(", gap_list, make_links=False)\n")
             # run appropriate script using subprocess
-            f.write("subprocess.call(['./{}'],\
-                    cwd=basis_dir)\n".format(bash_script))
+            f.write("subprocess.call(['./{}'], ".format(bash_script))
+            f.write("cwd=basis_dir)\n")
             # clean the appropriate folder
-            full_fpath = os.path.join(self.basis_dir,
-                landuse_folder)
-            f.write("grid.cleanup_landuse_folder({})\n".format(full_fpath))
+            full_fpath = os.path.join(self.basis_dir, landuse_folder)
+            f.write("grid.cleanup_landuse_folder('{}')\n".format(full_fpath))
         curr_stat = os.stat(self.basis_dir+'/'+script_name)
         os.chmod(self.basis_dir+'/'+script_name,
                  curr_stat.st_mode | stat.S_IXUSR)
@@ -429,7 +424,7 @@ class gridInfo(pickleable):
         script_name = self.create_bash_script(folder_name)
         # create the *.table file needed for grid_all_data
         self.setup_tables_single_value(class_num, manningsn_value,
-                self.basis_dir+'/'+folder_name)
+                                       self.basis_dir+'/'+folder_name)
         return script_name
 
     def setup_landuse_folders(self, create_all=True):
@@ -458,7 +453,7 @@ class gridInfo(pickleable):
                 script_list.append(self.setup_landuse_folder(i))
         return script_list
 
-    def setup_folder(self, folder_name = 'temp'):
+    def setup_folder(self, folder_name='temp'):
         """ 
         Set up a single folder with name folder_name 
 
@@ -471,7 +466,8 @@ class gridInfo(pickleable):
         # create a folder for this land-use classification
         fm.mkdir(self.basis_dir+'/'+folder_name)
         # cp self.file_name folder_name
-        fm.copy(self.basis_dir+'/'+self.file_name, self.basis_dir+'/'+folder_name)
+        fm.copy(self.basis_dir+'/'+self.file_name,
+                self.basis_dir+'/'+folder_name)
         # create *.in files
         self.create_griddata_input_files(folder_name)
         # create *.sh files
@@ -558,6 +554,6 @@ def compare(basis_dir=None, default=0.012):
     plt.field(domain, original-combo_array, 'diff_ori_array', path=basis_dir)
     plt.field(domain, combo-combo_array, 'diff_com_array', path=basis_dir)
     combo_bv = tmm.combine_basis_vectors(np.ones(weights.shape),
-            bv_dict, default, domain.node_num)
+                                         bv_dict, default, domain.node_num)
     plt.field(domain, combo_bv, 'combo_bv', path=basis_dir)
 
