@@ -21,7 +21,12 @@ change in the future. This package requires `GNU Parallel
 <http://www.gnu.org/software/parallel/>`_, `matplotlib
 <http://http://matplotlib.org>`_, `scipy <scipy.org>`_, mpl_toolkit, and `numpy
 <http://http://www.numpy.org>`_. This package interacts with :program:`ADCIRC`
-and :program:`GridData` which are NOT provided with this package.
+and :program:`GridData`. :program:`ADCIRC` is NOT provided with this package.
+
+:program:`Griddata_parallel.out` needs to be compiled in the
+``PolyADCIRC/polyadcirc/pyGriddata`` folder::
+
+    gfortran -openmp -DHIGHMEM -o Griddata_parallel.out Griddata_v1.32.F90
 
 Package Layout
 --------------

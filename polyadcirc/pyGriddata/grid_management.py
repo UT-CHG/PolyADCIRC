@@ -68,7 +68,7 @@ class gridInfo(pickleable):
         if len(glob.glob(self.basis_dir+'/Griddata_*.out')) == 0:
             # check to see if Griddata is compiled and on the python path 
             for p in sys.path:
-                if re.search("PolyADCIRC", p):
+                if os.path.basename(p) == "PolyADCIRC":
                     locations1 = glob.glob(p+"/*Griddata_*.out")
                     locations2 = glob.glob(p+"/polyadcirc/pyGriddata/Griddata_*.out")
                     if locations1:
