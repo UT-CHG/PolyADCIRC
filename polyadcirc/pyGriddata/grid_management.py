@@ -68,7 +68,7 @@ class gridInfo(pickleable):
         self.file_name = os.path.basename(flagged_file_name)
 
         # check to see if Griddata is here
-        if executable_dir = None:
+        if executable_dir == None:
             executable_dir = sys.path
         else:
             executable_dir = [executable_dir]
