@@ -21,7 +21,8 @@ class gridInfo(pickleable):
     ``*.table`` files specific to a particular grid.
     """
     def __init__(self, basis_dir, grid_dir, gap_data_list, flag=1,
-                 file_name="fort.14", omp_num_threads=None):
+                 file_name="fort.14", omp_num_threads=None,
+                 executable_dir=None): 
         """ 
         Initalizes a gridInfo object and sets up a directory with links to the
         necessary input files to run :program:`Griddata_v1.1.32.F90` from
@@ -39,6 +40,8 @@ class gridInfo(pickleable):
             :meth:`~polyadcirc.pyADCIRC.flag_fort14.flag_fort14`
         :param string file_name: the name of the ``fort.14`` formatted file in
             ``grid_dir``
+        :param string executable_dir: path to the directory containing the 
+            ``Griddata_*.out`` file
         
         """
         self.file_name = file_name #: Name of grid file, ``*.14``
@@ -65,10 +68,14 @@ class gridInfo(pickleable):
         self.file_name = os.path.basename(flagged_file_name)
 
         # check to see if Griddata is here
+        if executable_dir = None:
+            executable_dir = sys.path
+        else:
+            executable_dir = [executable_dir]
         if len(glob.glob(self.basis_dir+'/Griddata_*.out')) == 0:
             # check to see if Griddata is compiled and on the python path
             compiled_prog = None
-            for p in sys.path:
+            for p in executable_dir:
                 if os.path.basename(p) == "PolyADCIRC":
                     locations1 = glob.glob(p+"/*Griddata_*.out")
                     locations2 = glob.glob(p+"/polyadcirc/pyGriddata/Griddata_*.out")
