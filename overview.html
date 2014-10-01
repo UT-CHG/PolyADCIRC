@@ -67,7 +67,12 @@ PolyADCIRC using:</p>
 <p>from the package root directory. The PolyADCIRC package is currently NOT avaiable in
 the <a class="reference external" href="http://pypi.python.org/pypi/Sphinx">Python Package Index</a> this may
 change in the future. This package requires <a class="reference external" href="http://www.gnu.org/software/parallel/">GNU Parallel</a>, <a class="reference external" href="http://http://matplotlib.org">matplotlib</a>, <a class="reference external" href="scipy.org">scipy</a>, mpl_toolkit, and <a class="reference external" href="http://http://www.numpy.org">numpy</a>. This package interacts with <strong class="program">ADCIRC</strong>
-and <strong class="program">GridData</strong> which are NOT provided with this package.</p>
+and <strong class="program">GridData</strong>. <strong class="program">ADCIRC</strong> is NOT provided with this package.</p>
+<p><strong class="program">Griddata_parallel.out</strong> needs to be compiled in the
+<tt class="docutils literal"><span class="pre">PolyADCIRC/polyadcirc/pyGriddata</span></tt> folder:</p>
+<div class="highlight-python"><div class="highlight"><pre>gfortran -openmp -DHIGHMEM -o Griddata_parallel.out Griddata_v1.32.F90
+</pre></div>
+</div>
 </div>
 <div class="section" id="package-layout">
 <h2>Package Layout<a class="headerlink" href="#package-layout" title="Permalink to this headline">¶</a></h2>
