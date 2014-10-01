@@ -21,7 +21,8 @@ class gridInfo(pickleable):
     ``*.table`` files specific to a particular grid.
     """
     def __init__(self, basis_dir, grid_dir, gap_data_list, flag=1,
-                 file_name="fort.14", make_links=True, table_folder=None):
+                 file_name="fort.14", make_links=True, table_folder=None,
+                 executable_dir=None):
         """ 
         Initalizes a gridInfo object and sets up a directory with links to the
         necessary input files to run :program:`Griddata_v1.1.32.F90` from
@@ -45,6 +46,8 @@ class gridInfo(pickleable):
         :param string table_folder: The folder containing the ``*.table`` file.
             This is ONLY necessary when running simutaneous copues of the
             :program:`Griddata`.
+        :param string executable_dir: path to the directory containing the
+            compiled ``Griddata_*.out`` executable 
         
         """
         self.file_name = file_name #: Name of grid file, ``*.14``
@@ -72,29 +75,31 @@ class gridInfo(pickleable):
             self.file_name = os.path.basename(flagged_file_name)
 
             # check to see if Griddata is here
+            if executable_dir == None:
+                executable_dir = sys.path
+            else:
+                executable_dir = [executable_dir]
             if len(glob.glob(self.basis_dir+'/Griddata_*.out')) == 0:
                 # check to see if Griddata is compiled and on the python path
                 compiled_prog = None
-                for p in sys.path:
-                    if os.path.basename(p) == "PolyADCIRC":
-                        locations1 = glob.glob(p+"/*Griddata_*.out")
-                        locations2 = glob.glob(p+"/polyadcirc/pyGriddata/Griddata_*.out")
-                        if locations1:
-                            compiled_prog = locations1[0]
-                        elif locations2:
-                            compiled_prog = locations2[0]
-                        else:
-                            compiled_prog = None
-                        break
+                for p in executable_dir:
+                    locations1 = glob.glob(p+"/*Griddata_*.out")
+                    locations2 = glob.glob(p+"/polyadcirc/pyGriddata/Griddata_*.out")
+                    if locations1:
+                        compiled_prog = locations1[0]
+                    elif locations2:
+                        compiled_prog = locations2[0]
+                    else:
+                        compiled_prog = None
+                    break
                 # put link to Griddata here
                 if compiled_prog:
                     fm.symlink(compiled_prog,
                                os.path.join(basis_dir,
                                             os.path.basename(compiled_prog)))
                 else:
-                    print """Compile a copy of Griddata_v1.32.F90 and put it in
-                    the PolyADCIRC folder on your Python Path. Name it
-                    Griddata_parallel.out."""
+                    print """Compile a copy of Griddata_v1.32.F90 and specify
+                    it's location using executable_dir"""
             
             # Create links to gap files (*.asc) using gap_list of gapInfo
             # objects
