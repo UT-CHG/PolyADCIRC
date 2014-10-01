@@ -40,6 +40,7 @@ class gridInfo(pickleable):
             :meth:`~polyadcirc.pyADCIRC.flag_fort14.flag_fort14`
         :param string file_name: the name of the ``fort.14`` formatted file in
             ``grid_dir``
+        :param int omp_num_threads: the number of omp threads to export
         :param string executable_dir: path to the directory containing the 
             ``Griddata_*.out`` file
         
@@ -76,16 +77,15 @@ class gridInfo(pickleable):
             # check to see if Griddata is compiled and on the python path
             compiled_prog = None
             for p in executable_dir:
-                if os.path.basename(p) == "PolyADCIRC":
-                    locations1 = glob.glob(p+"/*Griddata_*.out")
-                    locations2 = glob.glob(p+"/polyadcirc/pyGriddata/Griddata_*.out")
-                    if locations1:
-                        compiled_prog = locations1[0]
-                    elif locations2:
-                        compiled_prog = locations2[0]
-                    else:
-                        compiled_prog = None
-                    break
+                locations1 = glob.glob(p+"/*Griddata_*.out")
+                locations2 = glob.glob(p+"/polyadcirc/pyGriddata/Griddata_*.out")
+                if locations1:
+                    compiled_prog = locations1[0]
+                elif locations2:
+                    compiled_prog = locations2[0]
+                else:
+                    compiled_prog = None
+                break
             # put link to Griddata here
             if compiled_prog:
                 fm.symlink(compiled_prog,
