@@ -48,7 +48,8 @@ Create a :class:`~polyadcirc.pyGriddata.gridObject.gridInfo` object and store
 references to the :class:`~polyadcirc.pyGriddata.table_management.gapInfo`
 objects::
 
-    grid = gm.gridInfo(basis_dir, grid_dir, gap_list)
+    grid = gm.gridInfo(basis_dir, grid_dir, gap_list,
+            executable_dir="directory_containing_Griddataexecutable")
     
 Set up files to run :program:`Griddata_v1.32.F90` to create the landuse basis
 folders and run :program:`Griddata_v1.32.F90` to map the landuse classification
