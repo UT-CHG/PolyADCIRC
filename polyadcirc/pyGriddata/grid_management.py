@@ -44,7 +44,7 @@ class gridInfo(pickleable):
             to files. This is ONLY used when running simulatenous copies of the
             :program:`Griddata` and it is implemented automatically.
         :param string table_folder: The folder containing the ``*.table`` file.
-            This is ONLY necessary when running simutaneous copues of the
+            This is ONLY necessary when running simutaneous copies of the
             :program:`Griddata`.
         :param string executable_dir: path to the directory containing the
             compiled ``Griddata_*.out`` executable 
