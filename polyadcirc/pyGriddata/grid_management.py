@@ -111,7 +111,7 @@ class gridInfo(pickleable):
         super(gridInfo, self).__init__()
  
     def prep_all(self, parallel=False, removeBinaries=False, script_name=None,
-                 TpN=16):
+                 TpN=16, class_nums=None):
         """
         Assumes that all the necessary input files are in ``self.basis_dir``.
         This function generates a ``landuse_##`` folder in ``self.basis_dir``
@@ -135,14 +135,31 @@ class gridInfo(pickleable):
         :param int TpN: Tasks per node or rather ``OMP_NUM_THREADS``. For
             memory locality this should be a factor of the number of cores per
             node.
+        :param list class_nums: List of integers indicating which classes to
+            prep. This assumes all the ``*.asc.binary`` files are already in
+            existence.
         
         """
-        # set up first landuse folder
-        first_script = self.setup_landuse_folder(0)
-        # set up remaining land-use classifications
-        script_list = self.setup_landuse_folders(False)
-        # run grid_all_data in this folder 
-        subprocess.call(['./'+first_script], cwd=self.basis_dir)       
+        if class_nums == None:
+            class_nums = range(len(self.__landclasses))
+
+        # Are there any binary files?
+        binaries = glob.glob(self.basis_dir+'/*.asc.binary')
+        # If not create them
+        if not(binaries):
+            # set up first landuse folder
+            first_script = self.setup_landuse_folder(0)
+            # set up remaining land-use classifications
+            script_list = self.setup_landuse_folders(False)
+            # run grid_all_data in this folder 
+            subprocess.call(['./'+first_script], cwd=self.basis_dir)
+            class_nums.remove(0)
+        else:
+            script_list = self.setup_landuse_folders()
+
+        if len(class_nums) != len(script_list):
+            script_list = script_list[class_nums]
+
         if not parallel:
             # run remaining bash scripts
             for s in script_list:
