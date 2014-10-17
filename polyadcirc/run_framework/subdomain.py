@@ -11,6 +11,8 @@ import polyadcirc.pyADCIRC.fort15_management as f15
 import polyadcirc.pyADCIRC.output as output
 import polyadcirc.run_framework.random_manningsn as rmn
 import scipy.io as sio
+import polyadirc.basic.comm as comm
+import py as subadcirc
 
 def loadmat(save_file, base_dir, grid_dir, save_dir, basis_dir):
     """
@@ -595,6 +597,58 @@ class subdomain(dom.domain):
         self.read_py_node()
         #: dict() where key = subdomain element #, value = fulldomain element #
         self.read_py_ele()
+
+    def trim_fort13(self, old_fort13, new_fort13):
+        """
+        Trim ``old_fort13`` to match the nodes in this subdomain and save as
+        ``new_fort13``. This only assumes that a ``py.140`` file exists.
+
+        :param string old_fort13: path to the old ``fort.13`` file to be
+            trimmed
+        :param string new_fort13: path to save the new ``fort.13`` file
+        """
+        trim_fort13(old_fort13, new_fort13, os.path.join(self.path, 'py.140'))
+
+    def trim_multiple_fort13(self, old_fort13, new_fort13):
+        """
+        Trim ``old_fort13`` to match the nodes in this subdomain and save as
+        ``new_fort13``. This only assumes that a ``py.140`` file exists.
+
+        :param string old_fort13: path to the old ``fort.13`` file to be
+            trimmed
+        :param string new_fort13: path to save the new ``fort.13`` file
+        """
+        trim_multiple_fort13(old_fort13, new_fort13, os.path.join(self.path, 'py.140'))
+
+
+def trim_fort13(self, old_fort13, new_fort13, pynode_map):
+    """
+    Trim ``old_fort13`` to match the nodes in this subdomain and save as
+    ``new_fort13``. This only assumes that a ``py.140`` file exists.
+
+    :param string old_fort13: path to the old ``fort.13`` file to be
+        trimmed
+    :param string new_fort13: path to save the new ``fort.13`` file
+    """
+    subadcirc.gebsub.main13(None, old_fort13, new_fort13,
+            os.path.join(self.path, 'py.140'))
+
+def trim_multiple_fort13(self, old_fort13, new_fort13, pynode_map):
+    """
+    Trim ``old_fort13`` to match the nodes in this subdomain and save as
+    ``new_fort13``. This only assumes that a ``py.140`` file exists.
+
+    :param string old_fort13: path to the old ``fort.13`` file to be
+        trimmed
+    :param string new_fort13: path to save the new ``fort.13`` file
+    """
+    size = comm.Get_size()
+    rank = comm.Get_rank()
+
+    for i in range(0+rank, size, size):
+        if not(os.path.exists(os.path.dirname(new_fort13[i]))):
+            os.makedirs(os.path.dirname(new_fort13[i]))
+        trim_fort13(old_fort14[i], new_fort13[i], pynode_map)
 
 def ellipse_properties(x, y, w):
     """

@@ -36,7 +36,7 @@ def read_manningsn(fid):
     """
     return np.fromstring(fid.readline(), sep=' ')
 
-def read_nodal_attr(data, path=None, file_name='fort.13'):
+def read_nodal_attr(data, path=None, file_name='fort.13', nums=None):
     """
     Load in nodal attributes from a ``*.13`` file (only does Manning's n for
     now) and return a dictonary (like a MATLAB struct) with these attributes).
@@ -47,6 +47,8 @@ def read_nodal_attr(data, path=None, file_name='fort.13'):
     :param path: the directory containing the ``fort.13`` to be read in
     :type file_name: string
     :param file_name: the name of the ``fort.13`` formatted file
+    :param list nums: list of nodes to read
+
     :rtype: dict()
     :return: dictionary of Manning's *n* values
 
@@ -56,6 +58,7 @@ def read_nodal_attr(data, path=None, file_name='fort.13'):
     if path == None:
         path = os.getcwd()
     full_file_name = path+'/'+file_name
+
     
     flag = 0
     attribute_name_present = 0
@@ -85,9 +88,10 @@ def read_nodal_attr(data, path=None, file_name='fort.13'):
             if attribute_name_present == 2:
                 for i in xrange(data.manningsn_num):
                     a = read_manningsn(f)
-                    data.node[int(a[0])].manningsn = a[1]
-                    manningsn_values[int(a[0])] = a[1]
-                    flag = 1
+                    if (nums == None) or (int(a[0]) in nums):
+                        data.node[int(a[0])].manningsn = a[1]
+                        manningsn_values[int(a[0])] = a[1]
+                flag = 1
     return manningsn_values
 
 def read_default(data, path=None, file_name='fort.13'):
