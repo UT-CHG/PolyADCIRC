@@ -645,7 +645,7 @@ def trim_multiple_fort13(self, old_fort13, new_fort13, pynode_map):
     size = comm.Get_size()
     rank = comm.Get_rank()
 
-    for i in range(0+rank, size, size):
+    for i in range(0+rank, len(old_fort13), size):
         if not(os.path.exists(os.path.dirname(new_fort13[i]))):
             os.makedirs(os.path.dirname(new_fort13[i]))
         trim_fort13(old_fort14[i], new_fort13[i], pynode_map)

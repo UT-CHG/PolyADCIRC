@@ -14,6 +14,10 @@ import polyadcirc.pyGriddata.table_management as tm
 import polyadcirc.pyGriddata.table_to_mesh_map as tmm
 import polyadcirc.pyGriddata.file_management as fm
 import polyadcirc.run_framework.domain as dom
+import polyadcirc.basic.comm as comm
+
+size = comm.Get_size()
+rank = comm.Get_rank()
 
 class gridInfo(pickleable):
     """
@@ -21,12 +25,18 @@ class gridInfo(pickleable):
     ``*.table`` files specific to a particular grid.
     """
     def __init__(self, basis_dir, grid_dir, gap_data_list, flag=1,
-                 file_name="fort.14", make_links=True, table_folder=None,
+                 file_name="fort.14", table_folder=None,
                  executable_dir=None):
         """ 
         Initalizes a gridInfo object and sets up a directory with links to the
         necessary input files to run :program:`Griddata_v1.1.32.F90` from
         within that directory.
+
+        To run in parallel use :program:`mpirun` or :program:`ibrun`. If
+        :program:`Griddata_v1.32.F90` has been compiled using the ``DGHIGHMEM``
+        option make sure to correctly set ``OMP_NUM_THREADS`` to be the number
+        of processors per node. Then the number of mpi tasks should be set to
+        the number of nodes. 
         
         :param string basis_dir: the path to create the landuse_##
             directories in
@@ -40,9 +50,6 @@ class gridInfo(pickleable):
             :meth:`~polyadcirc.pyADCIRC.flag_fort14.flag_fort14`
         :param string file_name: the name of the ``fort.14`` formatted file in
             ``grid_dir``
-        :param binary make_links: Flag whether or not to create symbolic links
-            to files. This is ONLY used when running simulatenous copies of the
-            :program:`Griddata` and it is implemented automatically.
         :param string table_folder: The folder containing the ``*.table`` file.
             This is ONLY necessary when running simutaneous copies of the
             :program:`Griddata`.
@@ -67,7 +74,7 @@ class gridInfo(pickleable):
                 self.__landclasses.append((x, k))
         self.flag = flag #: averaging scheme flag
 
-        if make_links:
+        if rank == 0:
             # Look for ``fort.14`` formatted file in grid_dir and place a link
             # to it in basis_dir
             fm.symlink(grid_dir+'/'+file_name, basis_dir+'/'+file_name)
@@ -110,8 +117,8 @@ class gridInfo(pickleable):
 
         super(gridInfo, self).__init__()
  
-    def prep_all(self, parallel=False, removeBinaries=False, script_name=None,
-                 TpN=16, class_nums=None):
+    def prep_all(self, removeBinaries=False, script_name=None, TpN=16,
+            class_nums=None):
         """
         Assumes that all the necessary input files are in ``self.basis_dir``.
         This function generates a ``landuse_##`` folder in ``self.basis_dir``
@@ -142,11 +149,11 @@ class gridInfo(pickleable):
         """
         if class_nums == None:
             class_nums = range(len(self.__landclasses))
-
+        
         # Are there any binary files?
         binaries = glob.glob(self.basis_dir+'/*.asc.binary')
         # If not create them
-        if not(binaries):
+        if not(binaries) and rank == 0:
             # set up first landuse folder
             first_script = self.setup_landuse_folder(0)
             # set up remaining land-use classifications
@@ -154,111 +161,32 @@ class gridInfo(pickleable):
             # run grid_all_data in this folder 
             subprocess.call(['./'+first_script], cwd=self.basis_dir)
             class_nums.remove(0)
-        else:
+        elif and rank == 0:
             script_list = self.setup_landuse_folders()
+        else:
+            script_list = None
+        script_list = comm.bcast(script_list, root=0)
 
         if len(class_nums) != len(script_list):
             script_list = script_list[class_nums]
 
-        if not parallel:
-            # run remaining bash scripts
-            for s in script_list:
-                subprocess.call(['./'+s], cwd=self.basis_dir)
-            self.cleanup_landuse_folders()
-        else:
-            self.script_name = script_name
-            # write python scripts to run and clean a single folder
-            py_scripts = []
-            for s in script_list:
-                py_scripts.append(self.write_pyScript(s))
-            # write a single bash script to run python scripts simultaneously
-            run_script = self.write_run_script(py_scripts, TpN)
-            # run a single bash script to run python scripts simultaneously
-            stdout_file = open("stdout_file.txt", 'w')
-            p = subprocess.Popen(['./'+run_script], stdout=stdout_file,
-                                 cwd=self.basis_dir)
-            p.communicate()
-            stdout_file.close()
+        # run remaining bash scripts
+        for i in range(0+rank, len(script_list), size):
+            # run griddata
+            subprocess.call(['./'+script_list[i]], cwd=self.basis_dir)
+            # clean up folder
+            match_string = r"grid_all_(.*)_"+self.file_name[:-3]+r"\.sh"
+            landuse_folder = re.match(match_string, script_list[i]).groups()[0]
+            landuse_folder = os.path.basename(landuse_folder)
+            self.cleanup_landuse_folder(os.join(self.basis_dir, landuse_folder))
+            # rename fort.13 file
+            fm.rename13([os.join(self.basis_dir, landuse_folder)], self.basis_dir)  
+
         # remove unnecessary files
-        if removeBinaries:
+        if removeBinaries and rank == 0:
             binaries = glob.glob(self.basis_dir+'/*.asc.binary')
             for f in binaries:
                 os.remove(f)
-        fm.rename13(basis_dir=self.basis_dir)
- 
-    def write_run_script(self, script_list, TpN=16):
-        """
-        Creats a bash script called run_job_batch.sh
-        
-        :param list script_list: list of script to run
-        :param int TpN: number of open mp threads, this should be 1 per
-            processor per node
-        :rtype: string
-        :returns: name of bash script for running a batch of jobs within our
-            processor allotment
-
-        """
-        tmp_file = self.script_name.partition('.')[0]+'.tmp'
-        num_jobs = len(script_list)
-        with open(self.basis_dir+'/'+self.script_name, 'w') as f:
-            f.write('#!/bin/bash\n')
-            for i in xrange(num_jobs):
-                line = 'ibrun -n {:d} -o {:d} '.format(1, i*TpN)
-                line += './{} '.format(script_list[i])
-                line += '> '+tmp_file
-                line += ' &\n'
-                f.write(line)
-            f.write('wait\n')
-        curr_stat = os.stat(self.basis_dir+'/'+self.script_name)
-        os.chmod(self.basis_dir+'/'+self.script_name,
-                 curr_stat.st_mode | stat.S_IXUSR)
-        return self.script_name
-
-    def write_pyScript(self, bash_script):
-        """ 
-        Writes a python script to run and then clean a landuse folder.
-
-        :param string bash_script: The name of the script produced by
-            :func:`~polyadcirc.pyGriddata.grid_management.gridInfo.create_bash_script`
-
-        :rtype: string
-        :returns: name of the python script
-
-        """
-        match_string = r"grid_all_(.*)_"+self.file_name[:-3]+r"\.sh"
-        landuse_folder = re.match(match_string, bash_script).groups()[0]
-        script_name = bash_script[:-2]+"py"
-        with open(self.basis_dir+'/'+script_name, 'w') as f:
-            f.write("#! /usr/bin/env python\n")
-            f.write("# import necessary modules\n")
-            f.write("import polyadcirc.pyGriddata.table_management as tm\n")
-            f.write("import polyadcirc.pyGriddata.grid_management as gm\n")
-            f.write("import subprocess\n")
-            f.write("grid_dir = '{}'\n".format(self.grid_dir))
-            f.write("basis_dir = '{}'\n".format(self.basis_dir))
-            f.write("gap_list = []\n")
-            for i, table in enumerate(self.__unique_tables):
-                # create the table
-                f.write("table{} = tm.read_table".format(i))
-                f.write("('{}', '{}')\n".format(table, self.table_folder))
-                # find the gapInfo objects with that table
-                for gap in self.gap_data_files:
-                    if gap.table.file_name == table:
-                        f.write("gap_list.append(tm.gapInfo('"+gap.file_name+"'")
-                        f.write(", table{}, {}, {}))\n".format(i,
-                                    gap.horizontal_sys, gap.UTM_zone))
-            f.write("grid = gm.gridInfo(basis_dir, grid_dir") 
-            f.write(", gap_list, make_links=False)\n")
-            # run appropriate script using subprocess
-            f.write("subprocess.call(['./{}'], ".format(bash_script))
-            f.write("cwd=basis_dir)\n")
-            # clean the appropriate folder
-            full_fpath = os.path.join(self.basis_dir, landuse_folder)
-            f.write("grid.cleanup_landuse_folder('{}')\n".format(full_fpath))
-        curr_stat = os.stat(self.basis_dir+'/'+script_name)
-        os.chmod(self.basis_dir+'/'+script_name,
-                 curr_stat.st_mode | stat.S_IXUSR)
-        return script_name
  
     def prep_test(self, removeBinaries=False):
         """
