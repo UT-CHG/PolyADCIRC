@@ -11,8 +11,8 @@ import polyadcirc.pyADCIRC.fort15_management as f15
 import polyadcirc.pyADCIRC.output as output
 import polyadcirc.run_framework.random_manningsn as rmn
 import scipy.io as sio
-import polyadcirc.basic.comm as comm
-import py as subadcirc
+from polyadcirc.pyADCIRC.basic import comm
+import py.gensub as gensub 
 
 def loadmat(save_file, base_dir, grid_dir, save_dir, basis_dir):
     """
@@ -245,7 +245,7 @@ class subdomain(dom.domain):
         :returns: (x, y, r)
 
         """
-        with open(subdomain.path+"/shape.c14", "r") as fid:
+        with open(self.path+"/shape.c14", "r") as fid:
             t = fid.readline().split()
             x = float(t[0])
             y = float(t[1])
@@ -621,7 +621,7 @@ class subdomain(dom.domain):
         trim_multiple_fort13(old_fort13, new_fort13, os.path.join(self.path, 'py.140'))
 
 
-def trim_fort13(self, old_fort13, new_fort13, pynode_map):
+def trim_fort13(old_fort13, new_fort13, pynode_map):
     """
     Trim ``old_fort13`` to match the nodes in this subdomain and save as
     ``new_fort13``. This only assumes that a ``py.140`` file exists.
@@ -630,10 +630,9 @@ def trim_fort13(self, old_fort13, new_fort13, pynode_map):
         trimmed
     :param string new_fort13: path to save the new ``fort.13`` file
     """
-    subadcirc.gebsub.main13(None, old_fort13, new_fort13,
-            os.path.join(self.path, 'py.140'))
+    gensub.main13(None, old_fort13, new_fort13, pynode_map)
 
-def trim_multiple_fort13(self, old_fort13, new_fort13, pynode_map):
+def trim_multiple_fort13(old_fort13, new_fort13, pynode_map):
     """
     Trim ``old_fort13`` to match the nodes in this subdomain and save as
     ``new_fort13``. This only assumes that a ``py.140`` file exists.
@@ -648,7 +647,7 @@ def trim_multiple_fort13(self, old_fort13, new_fort13, pynode_map):
     for i in range(0+rank, len(old_fort13), size):
         if not(os.path.exists(os.path.dirname(new_fort13[i]))):
             os.makedirs(os.path.dirname(new_fort13[i]))
-        trim_fort13(old_fort14[i], new_fort13[i], pynode_map)
+        trim_fort13(old_fort13[i], new_fort13[i], pynode_map)
 
 def ellipse_properties(x, y, w):
     """

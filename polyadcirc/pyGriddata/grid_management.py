@@ -14,7 +14,7 @@ import polyadcirc.pyGriddata.table_management as tm
 import polyadcirc.pyGriddata.table_to_mesh_map as tmm
 import polyadcirc.pyGriddata.file_management as fm
 import polyadcirc.run_framework.domain as dom
-import polyadcirc.basic.comm as comm
+from polyadcirc.pyADCIRC.basic import comm
 
 size = comm.Get_size()
 rank = comm.Get_rank()
@@ -117,8 +117,7 @@ class gridInfo(pickleable):
 
         super(gridInfo, self).__init__()
  
-    def prep_all(self, removeBinaries=False, script_name=None, TpN=16,
-            class_nums=None):
+    def prep_all(self, removeBinaries=False, class_nums=None):
         """
         Assumes that all the necessary input files are in ``self.basis_dir``.
         This function generates a ``landuse_##`` folder in ``self.basis_dir``
@@ -129,19 +128,12 @@ class gridInfo(pickleable):
                   so that this could be run on a HPC system
 
         Currently, the parallel option preps the first folder and then all the
-        remaining folders at once. This means that you need to have
-        ``(num_land_classes-1)*TpN*nodes`` nodes availiable assuming 
-        ``TpN == cores_per_node``.
+        remaining folders at once.
 
         :param binary parallel: Flag whether or not to simultaneously prep
             landuse folders.
         :param binary removeBinarues: Flag whether or not to remove
             ``*.asc.binary`` files when completed.
-        :param string script_name: Name to prevent simulatenous read/write
-            issues for parallel runs.
-        :param int TpN: Tasks per node or rather ``OMP_NUM_THREADS``. For
-            memory locality this should be a factor of the number of cores per
-            node.
         :param list class_nums: List of integers indicating which classes to
             prep. This assumes all the ``*.asc.binary`` files are already in
             existence.
@@ -161,7 +153,7 @@ class gridInfo(pickleable):
             # run grid_all_data in this folder 
             subprocess.call(['./'+first_script], cwd=self.basis_dir)
             class_nums.remove(0)
-        elif and rank == 0:
+        elif rank == 0:
             script_list = self.setup_landuse_folders()
         else:
             script_list = None
@@ -178,9 +170,9 @@ class gridInfo(pickleable):
             match_string = r"grid_all_(.*)_"+self.file_name[:-3]+r"\.sh"
             landuse_folder = re.match(match_string, script_list[i]).groups()[0]
             landuse_folder = os.path.basename(landuse_folder)
-            self.cleanup_landuse_folder(os.join(self.basis_dir, landuse_folder))
+            self.cleanup_landuse_folder(os.path.join(self.basis_dir, landuse_folder))
             # rename fort.13 file
-            fm.rename13([os.join(self.basis_dir, landuse_folder)], self.basis_dir)  
+            fm.rename13([os.path.join(self.basis_dir, landuse_folder)], self.basis_dir)  
 
         # remove unnecessary files
         if removeBinaries and rank == 0:
