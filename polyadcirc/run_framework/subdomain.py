@@ -11,7 +11,7 @@ import polyadcirc.pyADCIRC.fort15_management as f15
 import polyadcirc.pyADCIRC.output as output
 import polyadcirc.run_framework.random_manningsn as rmn
 import scipy.io as sio
-import polyadirc.basic.comm as comm
+import polyadcirc.basic.comm as comm
 import py as subadcirc
 
 def loadmat(save_file, base_dir, grid_dir, save_dir, basis_dir):
