@@ -215,3 +215,24 @@ def create_from_fort13(domain, mann_dict, vectors):
             new_mann_dict[i] = mann_dict[i]
 
     return mann_dict
+
+def condense_bv_dict(mann_dict, TOL=None):
+    """
+    Condenses the ``mann_dict`` land classificaiton mesh by removing values
+    that are below ``TOL``.
+
+    :param dict mann_dict: a dictionary created from a ``fort.13`` formatted
+        file or a dictionary of Manning's n values
+    :param double TOL: Tolerance close to zero, default is 1e-10
+
+    :rtype: dict()
+    :returns: basis vector of values
+    """
+    if TOL == None:
+        TOL = 1e-10
+    new_mann_dict = {}
+    for k, v in mann_dict:
+        if v > TOL:
+            new_mann_dict[k] = v
+    return new_mann_dict
+

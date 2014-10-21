@@ -117,7 +117,8 @@ class gridInfo(pickleable):
         
         super(gridInfo, self).__init__()
  
-    def prep_all(self, removeBinaries=False, class_nums=None):
+    def prep_all(self, removeBinaries=False, class_nums=None, condense=True,
+            TOL=None):
         """
         Assumes that all the necessary input files are in ``self.basis_dir``.
         This function generates a ``landuse_##`` folder in ``self.basis_dir``
@@ -137,6 +138,10 @@ class gridInfo(pickleable):
         :param list class_nums: List of integers indicating which classes to
             prep. This assumes all the ``*.asc.binary`` files are already in
             existence.
+        :param boolean condense: Flag whether or not to condense ``fort.13`` to
+            only non-zero values within a tolerance.
+        :param double TOL: Tolerance below which to consider a Manning's n
+            value to be zero if ``condense == True``
         
         """
         if class_nums == None:
@@ -173,7 +178,16 @@ class gridInfo(pickleable):
             self.cleanup_landuse_folder(os.path.join(self.basis_dir,
                 landuse_folder))
             # rename fort.13 file
-            fm.rename13([landuse_folder], self.basis_dir)  
+            fm.rename13([landuse_folder], self.basis_dir) 
+            if condense:
+                landuse_folder_path = os.path.join(self.basis_dir,
+                        landuse_folder)
+                # read fort.13 file
+                mann_dict = f13.read_nodal_attr_dict(landuse_folder_path)
+                # condense fort.13 file
+                condensed_bv = tmm.condense_bv_dict(mann_dict, TOL)
+                # write new file
+                f13.update_mann(condensed_bv, landuse_folder_path) 
 
         # remove unnecessary files
         if removeBinaries and rank == 0:

@@ -21,7 +21,7 @@ def write_manningsn(fid, node, value):
     :return: formatted string for a line in a ``fort.13`` formatted file
 
     """
-    return fid.write('{:<8d} {:17.15f}\n'.format(int(node), value))
+    return fid.write('{:<8d} {:17.15g}\n'.format(int(node), value))
 
 def read_manningsn(fid):
     """
