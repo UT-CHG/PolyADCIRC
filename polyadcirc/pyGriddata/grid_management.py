@@ -107,14 +107,14 @@ class gridInfo(pickleable):
                 else:
                     print """Compile a copy of Griddata_v1.32.F90 and specify
                     it's location using executable_dir"""
-            
             # Create links to gap files (*.asc) using gap_list of gapInfo
             # objects
             for gap in self.gap_data_files:
                 local_file_name = os.path.basename(gap.file_name)
                 fm.symlink(gap.file_name, basis_dir+'/'+local_file_name)
                 gap.file_name = local_file_name
-
+        self.file_name = comm.bcast(self.file_name, root=0)
+        
         super(gridInfo, self).__init__()
  
     def prep_all(self, removeBinaries=False, class_nums=None):
@@ -158,9 +158,10 @@ class gridInfo(pickleable):
         else:
             script_list = None
         script_list = comm.bcast(script_list, root=0)
-
+        
         if len(class_nums) != len(script_list):
-            script_list = script_list[class_nums]
+            temp = [script_list[i] for i in class_nums]
+            script_list = temp
 
         # run remaining bash scripts
         for i in range(0+rank, len(script_list), size):
@@ -169,10 +170,10 @@ class gridInfo(pickleable):
             # clean up folder
             match_string = r"grid_all_(.*)_"+self.file_name[:-3]+r"\.sh"
             landuse_folder = re.match(match_string, script_list[i]).groups()[0]
-            landuse_folder = os.path.basename(landuse_folder)
-            self.cleanup_landuse_folder(os.path.join(self.basis_dir, landuse_folder))
+            self.cleanup_landuse_folder(os.path.join(self.basis_dir,
+                landuse_folder))
             # rename fort.13 file
-            fm.rename13([os.path.join(self.basis_dir, landuse_folder)], self.basis_dir)  
+            fm.rename13([landuse_folder], self.basis_dir)  
 
         # remove unnecessary files
         if removeBinaries and rank == 0:
