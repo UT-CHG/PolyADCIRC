@@ -164,14 +164,14 @@ folders</li>
 
 <dl class="class">
 <dt id="polyadcirc.pyGriddata.grid_management.gridInfo">
-<em class="property">class </em><tt class="descclassname">polyadcirc.pyGriddata.grid_management.</tt><tt class="descname">gridInfo</tt><big>(</big><em>basis_dir</em>, <em>grid_dir</em>, <em>gap_data_list</em>, <em>flag=1</em>, <em>file_name='fort.14'</em>, <em>omp_num_threads=None</em>, <em>executable_dir=None</em><big>)</big><a class="headerlink" href="#polyadcirc.pyGriddata.grid_management.gridInfo" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">polyadcirc.pyGriddata.grid_management.</tt><tt class="descname">gridInfo</tt><big>(</big><em>basis_dir</em>, <em>grid_dir</em>, <em>gap_data_list</em>, <em>flag=1</em>, <em>file_name='fort.14'</em>, <em>table_folder=None</em>, <em>executable_dir=None</em><big>)</big><a class="headerlink" href="#polyadcirc.pyGriddata.grid_management.gridInfo" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="polyadcirc.pyADCIRC.html#polyadcirc.pyADCIRC.basic.pickleable" title="polyadcirc.pyADCIRC.basic.pickleable"><tt class="xref py py-class docutils literal"><span class="pre">polyadcirc.pyADCIRC.basic.pickleable</span></tt></a></p>
 <p>This class contains references to the <tt class="docutils literal"><span class="pre">fort.14</span></tt>, <tt class="docutils literal"><span class="pre">*.asc</span></tt>, and
 <tt class="docutils literal"><span class="pre">*.table</span></tt> files specific to a particular grid.</p>
 <dl class="attribute">
 <dt id="polyadcirc.pyGriddata.grid_management.gridInfo.basis_dir">
 <tt class="descname">basis_dir</tt><em class="property"> = None</em><a class="headerlink" href="#polyadcirc.pyGriddata.grid_management.gridInfo.basis_dir" title="Permalink to this definition">¶</a></dt>
-<dd><p>the path for the dir to create <a href="#id8"><span class="problematic" id="id9">landuse_</span></a> in</p>
+<dd><p>path for the dir to create <a href="#id8"><span class="problematic" id="id9">landuse_</span></a> in</p>
 </dd></dl>
 
 <dl class="method">
@@ -300,18 +300,12 @@ and unique_tables.values() =
 <dl class="attribute">
 <dt id="polyadcirc.pyGriddata.grid_management.gridInfo.grid_dir">
 <tt class="descname">grid_dir</tt><em class="property"> = None</em><a class="headerlink" href="#polyadcirc.pyGriddata.grid_management.gridInfo.grid_dir" title="Permalink to this definition">¶</a></dt>
-<dd><p>the path for the dir of the grid file</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="polyadcirc.pyGriddata.grid_management.gridInfo.omp_num_threads">
-<tt class="descname">omp_num_threads</tt><em class="property"> = None</em><a class="headerlink" href="#polyadcirc.pyGriddata.grid_management.gridInfo.omp_num_threads" title="Permalink to this definition">¶</a></dt>
-<dd><p>list() of <tt class="xref py py-class docutils literal"><span class="pre">gapInfo</span></tt> objects</p>
+<dd><p>path for the dir of the grid file</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="polyadcirc.pyGriddata.grid_management.gridInfo.prep_all">
-<tt class="descname">prep_all</tt><big>(</big><em>parallel=False</em>, <em>removeBinaries=False</em><big>)</big><a class="headerlink" href="#polyadcirc.pyGriddata.grid_management.gridInfo.prep_all" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">prep_all</tt><big>(</big><em>removeBinaries=False</em>, <em>class_nums=None</em>, <em>condense=True</em>, <em>TOL=None</em><big>)</big><a class="headerlink" href="#polyadcirc.pyGriddata.grid_management.gridInfo.prep_all" title="Permalink to this definition">¶</a></dt>
 <dd><p>Assumes that all the necessary input files are in <tt class="docutils literal"><span class="pre">self.basis_dir</span></tt>.
 This function generates a <tt class="docutils literal"><span class="pre">landuse_##</span></tt> folder in <tt class="docutils literal"><span class="pre">self.basis_dir</span></tt>
 for every land classification number containing a <tt class="docutils literal"><span class="pre">fort.13</span></tt> file
@@ -321,6 +315,29 @@ specific to that land classification number.</p>
 <p class="last">Update so that landuse folders can be prepped n at a time and
 so that this could be run on a HPC system</p>
 </div>
+<p>Currently, the parallel option preps the first folder and then all the
+remaining folders at once.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>parallel</strong> (<em>binary</em>) &#8211; Flag whether or not to simultaneously prep
+landuse folders.</li>
+<li><strong>removeBinarues</strong> (<em>binary</em>) &#8211; Flag whether or not to remove
+<tt class="docutils literal"><span class="pre">*.asc.binary</span></tt> files when completed.</li>
+<li><strong>class_nums</strong> (<em>list</em>) &#8211; List of integers indicating which classes to
+prep. This assumes all the <tt class="docutils literal"><span class="pre">*.asc.binary</span></tt> files are already in
+existence.</li>
+<li><strong>condense</strong> (<em>boolean</em>) &#8211; Flag whether or not to condense <tt class="docutils literal"><span class="pre">fort.13</span></tt> to
+only non-zero values within a tolerance.</li>
+<li><strong>TOL</strong> (<em>double</em>) &#8211; Tolerance below which to consider a Manning&#8217;s n
+value to be zero if <tt class="docutils literal"><span class="pre">condense</span> <span class="pre">==</span> <span class="pre">True</span></tt></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -332,11 +349,8 @@ first. Prepares a fort.13 file for testing purposes.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>grid</strong> &#8211; <tt class="xref py py-class docutils literal"><span class="pre">gridInfo</span></tt></li>
-<li><strong>path</strong> (<em>string</em>) &#8211; THIS MUST BE CWD (<tt class="docutils literal"><span class="pre">'.'</span></tt>) or <tt class="docutils literal"><span class="pre">None</span></tt></li>
-</ul>
-</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>removeBinaries</strong> (<em>binary</em>) &#8211; flag wheter or not to remove
+<tt class="docutils literal"><span class="pre">*.asc.binary</span></tt> files</td>
 </tr>
 </tbody>
 </table>
@@ -443,6 +457,12 @@ classifications are assigned a <tt class="docutils literal"><span class="pre">ma
 </tr>
 </tbody>
 </table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="polyadcirc.pyGriddata.grid_management.gridInfo.table_folder">
+<tt class="descname">table_folder</tt><em class="property"> = None</em><a class="headerlink" href="#polyadcirc.pyGriddata.grid_management.gridInfo.table_folder" title="Permalink to this definition">¶</a></dt>
+<dd><p>list() of <tt class="xref py py-class docutils literal"><span class="pre">gapInfo</span></tt> objects</p>
 </dd></dl>
 
 </dd></dl>
@@ -1100,8 +1120,63 @@ all nodes in numerical order</p>
 </dd></dl>
 
 <dl class="function">
+<dt id="polyadcirc.pyGriddata.table_to_mesh_map.condense_bv_dict">
+<tt class="descclassname">polyadcirc.pyGriddata.table_to_mesh_map.</tt><tt class="descname">condense_bv_dict</tt><big>(</big><em>mann_dict</em>, <em>TOL=None</em><big>)</big><a class="headerlink" href="#polyadcirc.pyGriddata.table_to_mesh_map.condense_bv_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Condenses the <tt class="docutils literal"><span class="pre">mann_dict</span></tt> land classificaiton mesh by removing values
+that are below <tt class="docutils literal"><span class="pre">TOL</span></tt>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>mann_dict</strong> (<em>dict</em>) &#8211; a dictionary created from a <tt class="docutils literal"><span class="pre">fort.13</span></tt> formatted
+file or a dictionary of Manning&#8217;s n values</li>
+<li><strong>TOL</strong> (<em>double</em>) &#8211; Tolerance close to zero, default is 1e-10</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">dict()</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">basis vector of values</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="polyadcirc.pyGriddata.table_to_mesh_map.create_from_fort13">
+<tt class="descclassname">polyadcirc.pyGriddata.table_to_mesh_map.</tt><tt class="descname">create_from_fort13</tt><big>(</big><em>domain</em>, <em>mann_dict</em>, <em>vectors</em><big>)</big><a class="headerlink" href="#polyadcirc.pyGriddata.table_to_mesh_map.create_from_fort13" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a basis vector where the value at default nodes is the value in the
+<tt class="docutils literal"><span class="pre">mann_dict</span></tt> created from reading in a <tt class="docutils literal"><span class="pre">fort.13</span></tt> formatted file. If the
+node is default in both <tt class="docutils literal"><span class="pre">mann_dict</span></tt> and <tt class="docutils literal"><span class="pre">vectors</span></tt> then it remains a
+default node.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>domain</strong> (<a class="reference internal" href="polyadcirc.run_framework.html#module-polyadcirc.run_framework.domain" title="polyadcirc.run_framework.domain"><tt class="xref py py-class docutils literal"><span class="pre">domain</span></tt></a>) &#8211; a computational domain for a physical domain</li>
+<li><strong>mann_dict</strong> (<em>dict</em>) &#8211; a dictionary created from a <tt class="docutils literal"><span class="pre">fort.13</span></tt> formatted
+file or a dictionary of Manning&#8217;s n values</li>
+<li><strong>vectors</strong> (<em>dict()</em>) &#8211; basis vectors</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">dict()</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">basis vector of values</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
 <dt id="polyadcirc.pyGriddata.table_to_mesh_map.create_shelf">
-<tt class="descclassname">polyadcirc.pyGriddata.table_to_mesh_map.</tt><tt class="descname">create_shelf</tt><big>(</big><em>domain</em>, <em>shelf_bathymetry</em>, <em>vectors=None</em><big>)</big><a class="headerlink" href="#polyadcirc.pyGriddata.table_to_mesh_map.create_shelf" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">polyadcirc.pyGriddata.table_to_mesh_map.</tt><tt class="descname">create_shelf</tt><big>(</big><em>domain</em>, <em>shelf_bathymetry</em>, <em>vectors</em><big>)</big><a class="headerlink" href="#polyadcirc.pyGriddata.table_to_mesh_map.create_shelf" title="Permalink to this definition">¶</a></dt>
 <dd><p>Creates a contitnetal shelf basis vector where the value at default
 nodes between user defined bathymetric bounds are 1 and the other
 default nodes are untouched. This basis vector can now be used to create a
@@ -1227,9 +1302,9 @@ currently assumes only 1 folder per landuse classification with the name
 </dd></dl>
 
 </div>
-<div class="section" id="module-polyadcirc.pyGriddata">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-polyadcirc.pyGriddata" title="Permalink to this headline">¶</a></h2>
-<p>This package contains a set of modules mainly for the mapping of nodal data to
+<div class="section" id="module-contents">
+<h2>Module contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h2>
+<span class="target" id="module-polyadcirc.pyGriddata"></span><p>This package contains a set of modules mainly for the mapping of nodal data to
 an <strong class="program">ADCIRC</strong> mesh using landuse data and the <strong class="program">Fortran90</strong>
 program <strong class="program">Griddata_v1.32.F90</strong>. <strong class="program">GridData</strong> is a
 <strong class="program">FORTRAN</strong> program originally developed by Seizo Tanaka (ST3) and
@@ -1242,6 +1317,7 @@ C.H.Lab., University of Notre Dame.</p>
 <li><a class="reference internal" href="#module-polyadcirc.pyGriddata.table_to_mesh_map" title="polyadcirc.pyGriddata.table_to_mesh_map"><tt class="xref py py-mod docutils literal"><span class="pre">table_to_mesh_map</span></tt></a></li>
 <li><a class="reference internal" href="#module-polyadcirc.pyGriddata.grid_management" title="polyadcirc.pyGriddata.grid_management"><tt class="xref py py-mod docutils literal"><span class="pre">grid_management</span></tt></a></li>
 <li><a class="reference internal" href="#module-polyadcirc.pyGriddata.manufacture_gap" title="polyadcirc.pyGriddata.manufacture_gap"><tt class="xref py py-mod docutils literal"><span class="pre">manufacture_gap</span></tt></a></li>
+<li><tt class="xref py py-mod docutils literal"><span class="pre">sbatch_management</span></tt></li>
 </ul>
 </div></blockquote>
 <p><a class="reference internal" href="#module-polyadcirc.pyGriddata.grid_management" title="polyadcirc.pyGriddata.grid_management"><tt class="xref py py-mod docutils literal"><span class="pre">grid_management</span></tt></a> prepares <tt class="docutils literal"><span class="pre">*.table</span> <span class="pre">and</span>
@@ -1292,7 +1368,7 @@ lonestar and so that there is also a version that runs on a workstation</p>
 <li><a class="reference internal" href="#module-polyadcirc.pyGriddata.manufacture_gap">polyadcirc.pyGriddata.manufacture_gap module</a></li>
 <li><a class="reference internal" href="#module-polyadcirc.pyGriddata.table_management">polyadcirc.pyGriddata.table_management module</a></li>
 <li><a class="reference internal" href="#module-polyadcirc.pyGriddata.table_to_mesh_map">polyadcirc.pyGriddata.table_to_mesh_map module</a></li>
-<li><a class="reference internal" href="#module-polyadcirc.pyGriddata">Module contents</a></li>
+<li><a class="reference internal" href="#module-contents">Module contents</a></li>
 </ul>
 </li>
 </ul>

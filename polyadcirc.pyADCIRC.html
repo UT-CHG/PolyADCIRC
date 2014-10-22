@@ -61,6 +61,41 @@
 <li><tt class="xref py py-mod docutils literal"><span class="pre">polyadcirc.pyGriddata.gridObject</span></tt></li>
 </ul>
 <dl class="class">
+<dt id="polyadcirc.pyADCIRC.basic.MPI_for_no_mpi4py">
+<em class="property">class </em><tt class="descclassname">polyadcirc.pyADCIRC.basic.</tt><tt class="descname">MPI_for_no_mpi4py</tt><a class="headerlink" href="#polyadcirc.pyADCIRC.basic.MPI_for_no_mpi4py" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="polyadcirc.pyADCIRC.basic.comm_for_no_mpi4py">
+<em class="property">class </em><tt class="descclassname">polyadcirc.pyADCIRC.basic.</tt><tt class="descname">comm_for_no_mpi4py</tt><a class="headerlink" href="#polyadcirc.pyADCIRC.basic.comm_for_no_mpi4py" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="polyadcirc.pyADCIRC.basic.comm_for_no_mpi4py.Get_rank">
+<tt class="descname">Get_rank</tt><big>(</big><big>)</big><a class="headerlink" href="#polyadcirc.pyADCIRC.basic.comm_for_no_mpi4py.Get_rank" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="polyadcirc.pyADCIRC.basic.comm_for_no_mpi4py.Get_size">
+<tt class="descname">Get_size</tt><big>(</big><big>)</big><a class="headerlink" href="#polyadcirc.pyADCIRC.basic.comm_for_no_mpi4py.Get_size" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="polyadcirc.pyADCIRC.basic.comm_for_no_mpi4py.allgather">
+<tt class="descname">allgather</tt><big>(</big><em>val</em><big>)</big><a class="headerlink" href="#polyadcirc.pyADCIRC.basic.comm_for_no_mpi4py.allgather" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="polyadcirc.pyADCIRC.basic.comm_for_no_mpi4py.allreduce">
+<tt class="descname">allreduce</tt><big>(</big><em>val1</em>, <em>val2</em>, <em>op=None</em><big>)</big><a class="headerlink" href="#polyadcirc.pyADCIRC.basic.comm_for_no_mpi4py.allreduce" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="polyadcirc.pyADCIRC.basic.comm_for_no_mpi4py.bcast">
+<tt class="descname">bcast</tt><big>(</big><em>val</em>, <em>root=0</em><big>)</big><a class="headerlink" href="#polyadcirc.pyADCIRC.basic.comm_for_no_mpi4py.bcast" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
 <dt id="polyadcirc.pyADCIRC.basic.location">
 <em class="property">class </em><tt class="descclassname">polyadcirc.pyADCIRC.basic.</tt><tt class="descname">location</tt><big>(</big><em>x</em>, <em>y</em><big>)</big><a class="headerlink" href="#polyadcirc.pyADCIRC.basic.location" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#polyadcirc.pyADCIRC.basic.pickleable" title="polyadcirc.pyADCIRC.basic.pickleable"><tt class="xref py py-class docutils literal"><span class="pre">polyadcirc.pyADCIRC.basic.pickleable</span></tt></a></p>
@@ -355,7 +390,7 @@ as the fromstring method returns an array :rtype: <tt class="xref py py-class do
 
 <dl class="function">
 <dt id="polyadcirc.pyADCIRC.fort13_management.read_nodal_attr">
-<tt class="descclassname">polyadcirc.pyADCIRC.fort13_management.</tt><tt class="descname">read_nodal_attr</tt><big>(</big><em>data</em>, <em>path=None</em>, <em>file_name='fort.13'</em><big>)</big><a class="headerlink" href="#polyadcirc.pyADCIRC.fort13_management.read_nodal_attr" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">polyadcirc.pyADCIRC.fort13_management.</tt><tt class="descname">read_nodal_attr</tt><big>(</big><em>data</em>, <em>path=None</em>, <em>file_name='fort.13'</em>, <em>nums=None</em><big>)</big><a class="headerlink" href="#polyadcirc.pyADCIRC.fort13_management.read_nodal_attr" title="Permalink to this definition">¶</a></dt>
 <dd><p>Load in nodal attributes from a <tt class="docutils literal"><span class="pre">*.13</span></tt> file (only does Manning&#8217;s n for
 now) and return a dictonary (like a MATLAB struct) with these attributes).</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -367,6 +402,7 @@ now) and return a dictonary (like a MATLAB struct) with these attributes).</p>
 nodal attribute information will be added :type path: string or None</li>
 <li><strong>path</strong> &#8211; the directory containing the <tt class="docutils literal"><span class="pre">fort.13</span></tt> to be read in</li>
 <li><strong>file_name</strong> (<em>string</em>) &#8211; the name of the <tt class="docutils literal"><span class="pre">fort.13</span></tt> formatted file</li>
+<li><strong>nums</strong> (<em>list</em>) &#8211; list of nodes to read</li>
 </ul>
 </td>
 </tr>
@@ -1020,7 +1056,7 @@ from</li>
 
 <dl class="function">
 <dt id="polyadcirc.pyADCIRC.plotADCIRC.basis_functions">
-<tt class="descclassname">polyadcirc.pyADCIRC.plotADCIRC.</tt><tt class="descname">basis_functions</tt><big>(</big><em>domain</em>, <em>bv_array</em>, <em>path=None</em>, <em>save=True</em>, <em>show=False</em>, <em>ics=1</em>, <em>ext='.png'</em>, <em>cmap=&lt;matplotlib.colors.LinearSegmentedColormap object at 0x30b22d0&gt;</em><big>)</big><a class="headerlink" href="#polyadcirc.pyADCIRC.plotADCIRC.basis_functions" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">polyadcirc.pyADCIRC.plotADCIRC.</tt><tt class="descname">basis_functions</tt><big>(</big><em>domain</em>, <em>bv_array</em>, <em>path=None</em>, <em>save=True</em>, <em>show=False</em>, <em>ics=1</em>, <em>ext='.png'</em>, <em>cmap=&lt;matplotlib.colors.LinearSegmentedColormap object at 0x4468d90&gt;</em><big>)</big><a class="headerlink" href="#polyadcirc.pyADCIRC.plotADCIRC.basis_functions" title="Permalink to this definition">¶</a></dt>
 <dd><p>Given a <tt class="docutils literal"><span class="pre">bv_array</span></tt> containing basis functions, plot them</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -1085,7 +1121,7 @@ from</li>
 
 <dl class="function">
 <dt id="polyadcirc.pyADCIRC.plotADCIRC.field">
-<tt class="descclassname">polyadcirc.pyADCIRC.plotADCIRC.</tt><tt class="descname">field</tt><big>(</big><em>domain</em>, <em>z</em>, <em>title</em>, <em>clim=None</em>, <em>path=None</em>, <em>save=True</em>, <em>show=False</em>, <em>ics=1</em>, <em>ext='.png'</em>, <em>cmap=&lt;matplotlib.colors.LinearSegmentedColormap object at 0x30b22d0&gt;</em><big>)</big><a class="headerlink" href="#polyadcirc.pyADCIRC.plotADCIRC.field" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">polyadcirc.pyADCIRC.plotADCIRC.</tt><tt class="descname">field</tt><big>(</big><em>domain</em>, <em>z</em>, <em>title</em>, <em>clim=None</em>, <em>path=None</em>, <em>save=True</em>, <em>show=False</em>, <em>ics=1</em>, <em>ext='.png'</em>, <em>cmap=&lt;matplotlib.colors.LinearSegmentedColormap object at 0x4468d90&gt;</em><big>)</big><a class="headerlink" href="#polyadcirc.pyADCIRC.plotADCIRC.field" title="Permalink to this definition">¶</a></dt>
 <dd><p>Given a domain, plot the nodal value z</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -1263,7 +1299,7 @@ keys, and which runs in <tt class="docutils literal"><span class="pre">points</s
 
 <dl class="function">
 <dt id="polyadcirc.pyADCIRC.plotADCIRC.random_fields">
-<tt class="descclassname">polyadcirc.pyADCIRC.plotADCIRC.</tt><tt class="descname">random_fields</tt><big>(</big><em>domain</em>, <em>points</em>, <em>bv_array</em>, <em>path=None</em>, <em>save=True</em>, <em>show=False</em>, <em>ics=1</em>, <em>ext='.png'</em>, <em>cmap=&lt;matplotlib.colors.LinearSegmentedColormap object at 0x30b22d0&gt;</em><big>)</big><a class="headerlink" href="#polyadcirc.pyADCIRC.plotADCIRC.random_fields" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">polyadcirc.pyADCIRC.plotADCIRC.</tt><tt class="descname">random_fields</tt><big>(</big><em>domain</em>, <em>points</em>, <em>bv_array</em>, <em>path=None</em>, <em>save=True</em>, <em>show=False</em>, <em>ics=1</em>, <em>ext='.png'</em>, <em>cmap=&lt;matplotlib.colors.LinearSegmentedColormap object at 0x4468d90&gt;</em><big>)</big><a class="headerlink" href="#polyadcirc.pyADCIRC.plotADCIRC.random_fields" title="Permalink to this definition">¶</a></dt>
 <dd><p>Given a <tt class="docutils literal"><span class="pre">bv_array</span></tt> a set of random points, plot the <tt class="docutils literal"><span class="pre">r_fields</span></tt>
 generated in
 <a class="reference internal" href="polyadcirc.run_framework.html#polyadcirc.run_framework.random_manningsn.runSet.run_points" title="polyadcirc.run_framework.random_manningsn.runSet.run_points"><tt class="xref py py-meth docutils literal"><span class="pre">run_points()</span></tt></a></p>
