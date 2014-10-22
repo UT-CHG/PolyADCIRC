@@ -81,7 +81,7 @@ def symlink(src, dst, overwrite=1):
     if not os.path.lexists(dst):
         os.symlink(src, dst)
     elif overwrite > 0 and os.path.islink(dst):
-        remove(dst)
+        os.remove(dst)
         print "removing old link"
         os.symlink(src, dst)
     elif overwrite > 1 and os.path.isfile(dst):

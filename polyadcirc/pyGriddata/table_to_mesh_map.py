@@ -163,7 +163,7 @@ def get_default_nodes(domain, vectors=None):
     default_node_list = np.nonzero(default_bv_array)[0]
     return default_node_list
 
-def create_shelf(domain, shelf_bathymetry, vectors=None):
+def create_shelf(domain, shelf_bathymetry, vectors):
     """
     Creates a contitnetal shelf basis vector where the value at default
     nodes between user defined bathymetric bounds are 1 and the other
@@ -191,5 +191,48 @@ def create_shelf(domain, shelf_bathymetry, vectors=None):
 
     return shelf_dict
 
+def create_from_fort13(domain, mann_dict, vectors):
+    """
+    Creates a basis vector where the value at default nodes is the value in the
+    ``mann_dict`` created from reading in a ``fort.13`` formatted file. If the
+    node is default in both ``mann_dict`` and ``vectors`` then it remains a
+    default node.
 
-    
+    :param domain: a computational domain for a physical domain
+    :type domain: :class:`~polyadcirc.run_framework.domain`
+    :param dict mann_dict: a dictionary created from a ``fort.13`` formatted
+        file or a dictionary of Manning's n values
+    :param vectors: basis vectors
+    :type vectors: dict()
+
+    :rtype: dict()
+    :returns: basis vector of values
+    """
+    new_mann_dict = {}
+    default_node_list = get_default_nodes(domain, vectors)
+    for i in default_node_list:
+        if i in mann_dict:
+            new_mann_dict[i] = mann_dict[i]
+
+    return mann_dict
+
+def condense_bv_dict(mann_dict, TOL=None):
+    """
+    Condenses the ``mann_dict`` land classificaiton mesh by removing values
+    that are below ``TOL``.
+
+    :param dict mann_dict: a dictionary created from a ``fort.13`` formatted
+        file or a dictionary of Manning's n values
+    :param double TOL: Tolerance close to zero, default is 1e-10
+
+    :rtype: dict()
+    :returns: basis vector of values
+    """
+    if TOL == None:
+        TOL = 1e-10
+    new_mann_dict = {}
+    for k, v in mann_dict.iteritems():
+        if v > TOL:
+            new_mann_dict[k] = v
+    return new_mann_dict
+

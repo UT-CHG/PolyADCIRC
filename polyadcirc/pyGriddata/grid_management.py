@@ -14,6 +14,10 @@ import polyadcirc.pyGriddata.table_management as tm
 import polyadcirc.pyGriddata.table_to_mesh_map as tmm
 import polyadcirc.pyGriddata.file_management as fm
 import polyadcirc.run_framework.domain as dom
+from polyadcirc.pyADCIRC.basic import comm
+
+size = comm.Get_size()
+rank = comm.Get_rank()
 
 class gridInfo(pickleable):
     """
@@ -21,12 +25,18 @@ class gridInfo(pickleable):
     ``*.table`` files specific to a particular grid.
     """
     def __init__(self, basis_dir, grid_dir, gap_data_list, flag=1,
-                 file_name="fort.14", omp_num_threads=None,
-                 executable_dir=None): 
+                 file_name="fort.14", table_folder=None,
+                 executable_dir=None):
         """ 
         Initalizes a gridInfo object and sets up a directory with links to the
         necessary input files to run :program:`Griddata_v1.1.32.F90` from
         within that directory.
+
+        To run in parallel use :program:`mpirun` or :program:`ibrun`. If
+        :program:`Griddata_v1.32.F90` has been compiled using the ``DGHIGHMEM``
+        option make sure to correctly set ``OMP_NUM_THREADS`` to be the number
+        of processors per node. Then the number of mpi tasks should be set to
+        the number of nodes. 
         
         :param string basis_dir: the path to create the landuse_##
             directories in
@@ -40,16 +50,18 @@ class gridInfo(pickleable):
             :meth:`~polyadcirc.pyADCIRC.flag_fort14.flag_fort14`
         :param string file_name: the name of the ``fort.14`` formatted file in
             ``grid_dir``
-        :param int omp_num_threads: the number of omp threads to export
-        :param string executable_dir: path to the directory containing the 
-            ``Griddata_*.out`` file
+        :param string table_folder: The folder containing the ``*.table`` file.
+            This is ONLY necessary when running simutaneous copies of the
+            :program:`Griddata`.
+        :param string executable_dir: path to the directory containing the
+            compiled ``Griddata_*.out`` executable 
         
         """
         self.file_name = file_name #: Name of grid file, ``*.14``
-        self.grid_dir = grid_dir  #: the path for the dir of the grid file
+        self.grid_dir = grid_dir  #: path for the dir of the grid file
         self.gap_data_files = gap_data_list #: a list of gapInfo objects
-        self.basis_dir = basis_dir #: the path for the dir to create landuse_ in
-        self.omp_num_threads = omp_num_threads #: num threads per Griddata run
+        self.basis_dir = basis_dir #: path for the dir to create landuse_ in
+        self.table_folder = table_folder #: path for the dir with ``*.table``
         """ list() of :class:`~polyadcirc.table_management.gapInfo` objects """
         self.__landclasses = [] 
         self.__unique_tables = {} 
@@ -62,49 +74,51 @@ class gridInfo(pickleable):
                 self.__landclasses.append((x, k))
         self.flag = flag #: averaging scheme flag
 
-        # Look for ``fort.14`` formatted file in grid_dir and place a link to
-        # it in basis_dir
-        fm.symlink(grid_dir+'/'+file_name, basis_dir+'/'+file_name)
-        flagged_file_name = f14.flag_go(self, flag)
-        self.file_name = os.path.basename(flagged_file_name)
+        if rank == 0:
+            # Look for ``fort.14`` formatted file in grid_dir and place a link
+            # to it in basis_dir
+            fm.symlink(grid_dir+'/'+file_name, basis_dir+'/'+file_name)
+            flagged_file_name = f14.flag_go(self, flag)
+            self.file_name = os.path.basename(flagged_file_name)
 
-        # check to see if Griddata is here
-        if executable_dir == None:
-            executable_dir = sys.path
-        else:
-            executable_dir = [executable_dir]
-        if len(glob.glob(self.basis_dir+'/Griddata_*.out')) == 0:
-            # check to see if Griddata is compiled and on the python path
-            compiled_prog = None
-            for p in executable_dir:
-                locations1 = glob.glob(p+"/*Griddata_*.out")
-                locations2 = glob.glob(p+"/polyadcirc/pyGriddata/Griddata_*.out")
-                if locations1:
-                    compiled_prog = locations1[0]
-                elif locations2:
-                    compiled_prog = locations2[0]
-                else:
-                    compiled_prog = None
-                break
-            # put link to Griddata here
-            if compiled_prog:
-                fm.symlink(compiled_prog,
-                           os.path.join(basis_dir,
-                                        os.path.basename(compiled_prog)))
+            # check to see if Griddata is here
+            if executable_dir == None:
+                executable_dir = sys.path
             else:
-                print "Compile a copy of Griddata_v1.32.F90 and put it in the"
-                print "PolyADCIRC folder on your Python Path."
-                print "Name it Griddata_parallel.out."
+                executable_dir = [executable_dir]
+            if len(glob.glob(self.basis_dir+'/Griddata_*.out')) == 0:
+                # check to see if Griddata is compiled and on the python path
+                compiled_prog = None
+                for p in executable_dir:
+                    locations1 = glob.glob(p+"/*Griddata_*.out")
+                    locations2 = glob.glob(p+"/polyadcirc/pyGriddata/Griddata_*.out")
+                    if locations1:
+                        compiled_prog = locations1[0]
+                    elif locations2:
+                        compiled_prog = locations2[0]
+                    else:
+                        compiled_prog = None
+                    break
+                # put link to Griddata here
+                if compiled_prog:
+                    fm.symlink(compiled_prog,
+                               os.path.join(basis_dir,
+                                            os.path.basename(compiled_prog)))
+                else:
+                    print """Compile a copy of Griddata_v1.32.F90 and specify
+                    it's location using executable_dir"""
+            # Create links to gap files (*.asc) using gap_list of gapInfo
+            # objects
+            for gap in self.gap_data_files:
+                local_file_name = os.path.basename(gap.file_name)
+                fm.symlink(gap.file_name, basis_dir+'/'+local_file_name)
+                gap.file_name = local_file_name
+        self.file_name = comm.bcast(self.file_name, root=0)
         
-        # Create links to gap files (*.asc) using gap_list of gapInfo objects
-        for gap in self.gap_data_files:
-            local_file_name = os.path.basename(gap.file_name)
-            fm.symlink(gap.file_name, basis_dir+'/'+local_file_name)
-            gap.file_name = local_file_name
-
         super(gridInfo, self).__init__()
  
-    def prep_all(self, parallel=False, removeBinaries=False):
+    def prep_all(self, removeBinaries=False, class_nums=None, condense=True,
+            TOL=None):
         """
         Assumes that all the necessary input files are in ``self.basis_dir``.
         This function generates a ``landuse_##`` folder in ``self.basis_dir``
@@ -113,37 +127,83 @@ class gridInfo(pickleable):
 
         .. todo:: Update so that landuse folders can be prepped n at a time and
                   so that this could be run on a HPC system
+
+        Currently, the parallel option preps the first folder and then all the
+        remaining folders at once.
+
+        :param binary parallel: Flag whether or not to simultaneously prep
+            landuse folders.
+        :param binary removeBinarues: Flag whether or not to remove
+            ``*.asc.binary`` files when completed.
+        :param list class_nums: List of integers indicating which classes to
+            prep. This assumes all the ``*.asc.binary`` files are already in
+            existence.
+        :param boolean condense: Flag whether or not to condense ``fort.13`` to
+            only non-zero values within a tolerance.
+        :param double TOL: Tolerance below which to consider a Manning's n
+            value to be zero if ``condense == True``
         
         """
+        if class_nums == None:
+            class_nums = range(len(self.__landclasses))
 
-        first_script = self.setup_landuse_folder(0)
-        # run grid_all_data in this folder 
-        subprocess.call(['./'+first_script], cwd=self.basis_dir)
-        # set up remaining land-use classifications
-        script_list = self.setup_landuse_folders(False)
-        # run remaining bash scripts
-        if not parallel:
-            for s in script_list:
-                subprocess.call(['./'+s], cwd=self.basis_dir)
+        # Are there any binary files?
+        binaries = glob.glob(self.basis_dir+'/*.asc.binary')
+        # If not create them
+        if not(binaries) and rank == 0:
+            # set up first landuse folder
+            first_script = self.setup_landuse_folder(class_nums[0])
+            # set up remaining land-use classifications
+            script_list = self.setup_landuse_folders(False)
+            # run grid_all_data in this folder 
+            subprocess.call(['./'+first_script], cwd=self.basis_dir)
+            class_nums.remove(0)
+        elif rank == 0:
+            script_list = self.setup_landuse_folders()
         else:
-            print "This needs to be implemented so that we can simultaneously \
-                    run griddata on all of the remaining landuse folders. I \
-                    would sugguest using gnu parallel."
+            script_list = None
+            class_nums = None
+        class_nums = comm.bcast(class_nums, root=0)
+        script_list = comm.bcast(script_list, root=0)
+        
+        if len(class_nums) != len(script_list):
+            temp = [script_list[i] for i in class_nums]
+            script_list = temp
+
+        # run remaining bash scripts
+        for i in range(0+rank, len(script_list), size):
+            # run griddata
+            subprocess.call(['./'+script_list[i]], cwd=self.basis_dir)
+            # clean up folder
+            match_string = r"grid_all_(.*)_"+self.file_name[:-3]+r"\.sh"
+            landuse_folder = re.match(match_string, script_list[i]).groups()[0]
+            self.cleanup_landuse_folder(os.path.join(self.basis_dir,
+                landuse_folder))
+            # rename fort.13 file
+            fm.rename13([landuse_folder], self.basis_dir) 
+            if condense:
+                landuse_folder_path = os.path.join(self.basis_dir,
+                        landuse_folder)
+                # read fort.13 file
+                mann_dict = f13.read_nodal_attr_dict(landuse_folder_path)
+                # condense fort.13 file
+                condensed_bv = tmm.condense_bv_dict(mann_dict, TOL)
+                # write new file
+                f13.update_mann(condensed_bv, landuse_folder_path) 
+
         # remove unnecessary files
-        if removeBinaries:
+        if removeBinaries and rank == 0:
             binaries = glob.glob(self.basis_dir+'/*.asc.binary')
             for f in binaries:
                 os.remove(f)
-        self.cleanup_landuse_folders()
-        fm.rename13(basis_dir=self.basis_dir)
  
     def prep_test(self, removeBinaries=False):
         """
         Assumes :meth:`~polyadcirc.pyGriddata.prep_mesh.prep_all` has been run
         first. Prepares a fort.13 file for testing purposes.
-
-        :param grid: :class:`~polyim.pyGriddata.gridInfo`
-        :param string path: THIS MUST BE CWD (``'.'``) or ``None``
+        
+        :param binary removeBinaries: flag wheter or not to remove
+            ``*.asc.binary`` files
 
         """
         subprocess.call(['./'+self.setup_folder('test')], cwd=
@@ -244,9 +304,6 @@ class gridInfo(pickleable):
         script_name += self.file_name[:-2]+'sh'
         with open(script_name, 'w') as f:
             f.write('#!/bin/bash\n')
-            if self.omp_num_threads:
-                f.write("export OMP_NUM_THREADS=")
-                f.write(str(self.omp_num_threads)+"\n")
             f.write('# This script runs Griddata on several input files\n')
             for i in xrange(len(self.gap_data_files)):
                 input_name = file_name + 'griddata_'+str(i)+'.in'
@@ -327,7 +384,7 @@ class gridInfo(pickleable):
         script_name = self.create_bash_script(folder_name)
         # create the *.table file needed for grid_all_data
         self.setup_tables_single_value(class_num, manningsn_value,
-                self.basis_dir+'/'+folder_name)
+                                       self.basis_dir+'/'+folder_name)
         return script_name
 
     def setup_landuse_folders(self, create_all=True):
@@ -356,7 +413,7 @@ class gridInfo(pickleable):
                 script_list.append(self.setup_landuse_folder(i))
         return script_list
 
-    def setup_folder(self, folder_name = 'temp'):
+    def setup_folder(self, folder_name='temp'):
         """ 
         Set up a single folder with name folder_name 
 
@@ -369,7 +426,8 @@ class gridInfo(pickleable):
         # create a folder for this land-use classification
         fm.mkdir(self.basis_dir+'/'+folder_name)
         # cp self.file_name folder_name
-        fm.copy(self.basis_dir+'/'+self.file_name, self.basis_dir+'/'+folder_name)
+        fm.copy(self.basis_dir+'/'+self.file_name,
+                self.basis_dir+'/'+folder_name)
         # create *.in files
         self.create_griddata_input_files(folder_name)
         # create *.sh files
@@ -443,8 +501,10 @@ def compare(basis_dir=None, default=0.012):
     weights = np.array(tables[0].land_classes.values())
     lim = (np.min(weights), np.max(weights))
     bv_dict = tmm.get_basis_vectors(basis_dir)
-    combo = tmm.combine_basis_vectors(weights, bv_dict, default, domain.node_num)
-    bv_array = tmm.get_basis_vec_array(basis_dir, domain.node_num)
+    combo = tmm.combine_basis_vectors(weights, bv_dict, default,
+                                      domain.node_num) 
+    bv_array = tmm.get_basis_vec_array(basis_dir,
+                                       domain.node_num)
     plt.basis_functions(domain, bv_array, path=basis_dir)
     plt.field(domain, original, 'original', clim=lim, path=basis_dir)
     plt.field(domain, combo, 'reconstruction', clim=lim, path=basis_dir)
@@ -454,6 +514,6 @@ def compare(basis_dir=None, default=0.012):
     plt.field(domain, original-combo_array, 'diff_ori_array', path=basis_dir)
     plt.field(domain, combo-combo_array, 'diff_com_array', path=basis_dir)
     combo_bv = tmm.combine_basis_vectors(np.ones(weights.shape),
-            bv_dict, default, domain.node_num)
+                                         bv_dict, default, domain.node_num)
     plt.field(domain, combo_bv, 'combo_bv', path=basis_dir)
 
