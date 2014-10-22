@@ -152,7 +152,7 @@ class gridInfo(pickleable):
         # If not create them
         if not(binaries) and rank == 0:
             # set up first landuse folder
-            first_script = self.setup_landuse_folder(class_num[0])
+            first_script = self.setup_landuse_folder(class_nums[0])
             # set up remaining land-use classifications
             script_list = self.setup_landuse_folders(False)
             # run grid_all_data in this folder 
