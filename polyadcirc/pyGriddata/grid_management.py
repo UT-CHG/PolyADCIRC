@@ -146,13 +146,13 @@ class gridInfo(pickleable):
         """
         if class_nums == None:
             class_nums = range(len(self.__landclasses))
-        
+
         # Are there any binary files?
         binaries = glob.glob(self.basis_dir+'/*.asc.binary')
         # If not create them
         if not(binaries) and rank == 0:
             # set up first landuse folder
-            first_script = self.setup_landuse_folder(0)
+            first_script = self.setup_landuse_folder(class_num[0])
             # set up remaining land-use classifications
             script_list = self.setup_landuse_folders(False)
             # run grid_all_data in this folder 
@@ -162,6 +162,8 @@ class gridInfo(pickleable):
             script_list = self.setup_landuse_folders()
         else:
             script_list = None
+            class_nums = None
+        class_nums = comm.bcast(class_nums, root=0)
         script_list = comm.bcast(script_list, root=0)
         
         if len(class_nums) != len(script_list):
