@@ -148,6 +148,11 @@ class gridInfo(pickleable):
         """
         if class_nums == None:
             class_nums = range(len(self.__landclasses))
+        if rank > class_nums:
+            print "There are more MPI TASKS than land classes."
+            print "This code only scales to MPI_TASKS = len(land_classes)."
+            print "Extra MPI TASKS will not be used."
+            return
 
         # Are there any binary files?
         binaries = glob.glob(self.basis_dir+'/*.asc.binary')
