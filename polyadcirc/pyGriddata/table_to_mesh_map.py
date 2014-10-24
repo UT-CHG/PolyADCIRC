@@ -223,13 +223,13 @@ def condense_bv_dict(mann_dict, TOL=None):
 
     :param dict mann_dict: a dictionary created from a ``fort.13`` formatted
         file or a dictionary of Manning's n values
-    :param double TOL: Tolerance close to zero, default is 1e-10
+    :param double TOL: Tolerance close to zero, default is 1e-7
 
     :rtype: dict()
     :returns: basis vector of values
     """
     if TOL == None:
-        TOL = 1e-10
+        TOL = 1e-7
     new_mann_dict = {}
     for k, v in mann_dict.iteritems():
         if v > TOL:

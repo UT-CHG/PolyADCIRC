@@ -189,6 +189,7 @@ class gridInfo(pickleable):
             # rename fort.13 file
             fm.rename13([landuse_folder], self.basis_dir) 
             if condense:
+                print "Removing values below TOL"
                 landuse_folder_path = os.path.join(self.basis_dir,
                         landuse_folder)
                 # read fort.13 file
@@ -197,7 +198,7 @@ class gridInfo(pickleable):
                 condensed_bv = tmm.condense_bv_dict(mann_dict, TOL)
                 # write new file
                 f13.update_mann(condensed_bv, landuse_folder_path) 
-
+        print "Done"
         # remove unnecessary files
         if removeBinaries and rank == 0:
             binaries = glob.glob(self.basis_dir+'/*.asc.binary')
