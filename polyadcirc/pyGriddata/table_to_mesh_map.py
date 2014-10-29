@@ -7,11 +7,17 @@ values for that ``*.table``, or dict, or array of these values.
 import polyadcirc.pyADCIRC.fort13_management as f13
 import numpy as np
 import glob
+from polyadcirc.pyADCIRC.basic import comm
+
+size = comm.Get_size()
+rank = comm.Get_rank()
+
 
 class Error(Exception):
     """ Base class for exceptions in this module."""
     def __init__(self):
         super(Error, self).__init__()
+
 
 class LenError(Error):
     """ Exception raised for errors in dimension or length.
@@ -235,4 +241,21 @@ def condense_bv_dict(mann_dict, TOL=None):
         if v > TOL:
             new_mann_dict[k] = v
     return new_mann_dict
+
+def condense_lcm_folder(basis_folder, TOL=None):
+    """
+    Condenses the ``fort.13`` lanudse classification mesh files in
+    ``landuse_*`` folders in ``basis_dir`` by removing values taht are below
+    ``TOL``.
+
+    :param string basis_dir: the path to directory containing the
+        ``landuse_##`` folders
+    :param double TOL: Tolerance close to zero, default is 1e-7
+    """
+
+    folders = glob.glob(os.path.join(basis_folder, "landuse_*"))
+    for i in range(0+rank, len(script_list), size):
+        mann_dict = f13.read_nodal_attr_dict(folders[i])
+        mann_dict = condense_bv_dict(mann_dict, TOL)
+        f13.update(mann_dict, folders[i])
 

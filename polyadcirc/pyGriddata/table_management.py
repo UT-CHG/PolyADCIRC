@@ -42,8 +42,8 @@ def create_table(landuse_table, folder_name=None):
     """
     print 'Creating landuse_table file '+landuse_table.file_name+'...'
     if folder_name == None:
-        folder_name = os.getcwd()
-    with open(folder_name+'/'+landuse_table.file_name, 'w') as f:
+        folder_name = ''
+    with open(os.path.join(folder_name,landuse_table.file_name), 'w') as f:
         next_str = ' {0:3}    ! '.format(landuse_table.get_num_landclasses())
         next_str += 'Total number of Class\n'
         f.write(next_str)
