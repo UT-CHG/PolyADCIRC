@@ -74,7 +74,7 @@ class subdomain(dom.domain):
     mesh/grid. References to :class:`polyadcirc.run_framework.subdomain` objects
     are also contained in an instantiation of this class.
     """
-    def __init__(self, path, fulldomain=None, node_num=0, element_num=0,
+    def __init__(self, path, node_num=0, element_num=0,
                  node=None, element=None):
         """
         Initialization
@@ -88,10 +88,6 @@ class subdomain(dom.domain):
             if potential_file_list:
                 self.script_dir = potential_file_list[0]
                 break
-
-        #: :class:`~polyadcirc.run_framework.fulldomain`
-        self.fulldomain = fulldomain
-        #self.fulldomain.subdomains.append(self)
 
         #: flag for shape of subdomain (0 ellipse, 1 circle)
         self.flag = None
@@ -107,6 +103,7 @@ class subdomain(dom.domain):
         """
         self.fulldomain = fulldomain
         self.fulldomain.subdomains.append(self)
+        self.read_bv_fort13()
 
     def gensub(self, bound_ele=1, bound_vel=1, bound_wd=1):
         """
@@ -589,6 +586,20 @@ class subdomain(dom.domain):
                 k, v = np.fromstring(line, dtype=int, sep=' ')
                 self.sub2full_element[k] = v
 
+    def read_bv_nodes(self):
+        """
+        Read in the nodes on the boundary and store in ``self.bv_nodes`` as a
+        list.
+
+        :rtype: list()
+        :returns: list of boundary nodes
+        """
+        self.bv_nodes = []
+        with open(os.path.join(self.path, 'bv.nodes'), 'r') as fid:
+            for line in fid:
+                self.bv_nodes.append(int(np.fromstring(line, sep=' ')[0]))
+        return self.bv_nodes
+
     def update_sub2full_map(self):
         """
         Read in the subdomain to fulldomain element and node maps
@@ -619,6 +630,47 @@ class subdomain(dom.domain):
         :param string new_fort13: path to save the new ``fort.13`` file
         """
         trim_multiple_fort13(old_fort13, new_fort13, os.path.join(self.path, 'py.140'))
+
+    def read_bv_fort13(self):
+        """
+        Read the boundary value nodal values for Manning's n from
+        ``self.fulldomain`` and save as a ``dict`` as ``self.bv_fort13``.
+        """
+        self.read_bv_nodes()
+        self.bv_fort13 = f13.read_nodal_attr(self.fulldomain, self.fulldomain.path,
+                nums=self.bv_nodes)
+
+    def set_bv_fort13(self, mann_dict):
+        """
+        Replace the boundary nodal values with the boundary nodal values in the
+        fulldomain.
+
+        :param dict mann_dict: dictonary of nodal values
+        
+        :rtype: dict
+        :returns: dictionary of nodal values
+
+        """
+        for k, v in self.bv_fort13.iteritems():
+            mann_dict[k] = v
+        return mann_dict
+
+    def update_mann(self, data, path=None, default=None, file_name='fort.13'):
+        """
+        Write out fort.13 to path with the attributes contained in Data.  
+
+        :type data: :class:`np.array` or :class:`dict`
+        :param data: containing the nodal attribute information
+        :type path: string or None
+        :param path: the directory to which the fort.13 file will be written
+        :type default: None or float
+        :param default: default value
+        :type file_name: string
+        :param file_name: the name of the ``fort.13`` formatted file
+
+        """
+        data = self.set_bv_fort13(data)
+        f13.update_mann(data, path, default, file_name)
 
 
 def trim_fort13(old_fort13, new_fort13, pynode_map):

@@ -194,7 +194,7 @@ def read_nodal_attr_dict(path=None, file_name='fort.13'):
                 flag = 1
     return manningsn_values
 
-def update_mann(data, path=None, default = None, file_name='fort.13'):
+def update_mann(data, path=None, default=None, file_name='fort.13'):
     """
     Write out fort.13 to path with the attributes contained in Data.  
     
