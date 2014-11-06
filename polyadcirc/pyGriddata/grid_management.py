@@ -112,7 +112,8 @@ class gridInfo(pickleable):
             for gap in self.gap_data_files:
                 local_file_name = os.path.basename(gap.file_name)
                 fm.symlink(gap.file_name, basis_dir+'/'+local_file_name)
-                fm.symlink(gap.file_name+'.binary',
+                if os.path.exists(gap.file_name+'.binary'):
+                    fm.symlink(gap.file_name+'.binary',
                         basis_dir+'/'+local_file_name+'.binary')
                 gap.file_name = local_file_name
         self.file_name = comm.bcast(self.file_name, root=0)
