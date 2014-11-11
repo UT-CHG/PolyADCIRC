@@ -64,6 +64,14 @@ class domain(pickleable):
         self.path = path
         super(domain, self).__init__()
 
+    def read_spatial_grid_header(self):
+        """
+        Reads in spatial grid header from ``fort.14`` file in self.path
+
+        See :meth:`polyadcirc.pyADCIRC.fort14_management.read_spatial_grid`       
+        """
+        f14.read_spatial_grid_header(self, self.path)
+
     def read_spatial_grid(self):
         """
         Reads in spatial grid from ``fort.14`` file in self.path

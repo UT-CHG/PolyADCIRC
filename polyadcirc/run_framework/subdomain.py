@@ -10,6 +10,7 @@ import polyadcirc.run_framework.domain as dom
 import polyadcirc.pyADCIRC.fort15_management as f15
 import polyadcirc.pyADCIRC.output as output
 import polyadcirc.run_framework.random_manningsn as rmn
+import polyadcirc.pyGriddata.file_management as fm
 import scipy.io as sio
 from polyadcirc.pyADCIRC.basic import comm
 import py.gensub as gensub 
@@ -89,6 +90,8 @@ class subdomain(dom.domain):
                 self.script_dir = potential_file_list[0]
                 break
 
+        fm.mkdir(path)
+
         #: flag for shape of subdomain (0 ellipse, 1 circle)
         self.flag = None
 
@@ -103,7 +106,6 @@ class subdomain(dom.domain):
         """
         self.fulldomain = fulldomain
         self.fulldomain.subdomains.append(self)
-        self.read_bv_fort13()
 
     def gensub(self, bound_ele=1, bound_vel=1, bound_wd=1):
         """
@@ -608,6 +610,8 @@ class subdomain(dom.domain):
         self.read_py_node()
         #: dict() where key = subdomain element #, value = fulldomain element #
         self.read_py_ele()
+        #: list of boundary nodes
+        self.read_bv_fort13()
 
     def trim_fort13(self, old_fort13, new_fort13):
         """
