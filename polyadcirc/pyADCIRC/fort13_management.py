@@ -76,20 +76,21 @@ def read_nodal_attr(data, path=None, file_name='fort.13', nums=None):
                     data.manningsn_default = float(f.readline().strip())
                     # set default nodal value
                     # THIS PART MIGHT NEED TO BE ALTERED
-                    for node in data.node.values():
-                        node.manningsn = data.manningsn_default
+                    #for node in data.node.values():
+                    #    node.manningsn = data.manningsn_default
             # read in the number of non-default valued nodes
             if attribute_name_present == 1:
                 line = f.readline()
                 if line.find('mannings_n_at_sea_floor') >= 0:
                     attribute_name_present = 2
-                    data.manningsn_num = float(f.readline().strip())
+                    data.manningsn_num = int(f.readline().strip())
             # read in the non-default nodal values
             if attribute_name_present == 2:
                 for i in xrange(data.manningsn_num):
                     a = read_manningsn(f)
                     if (nums == None) or (int(a[0]) in nums):
-                        data.node[int(a[0])].manningsn = a[1]
+                        if data.node.has_key(int(a[0])):
+                            data.node[int(a[0])].manningsn = a[1]
                         manningsn_values[int(a[0])] = a[1]
                 flag = 1
     return manningsn_values

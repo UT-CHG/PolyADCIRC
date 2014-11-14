@@ -46,6 +46,18 @@ class fulldomain(dom.domain):
         self.subdomains.append(subdomain)
         subdomain.fulldomain = self
 
+    def add_subdomains(self, subdomains):
+        """
+        Adds subdomain to self.subdomains.
+
+        :type subdomains: list of :class:`~polyadcirc.run_framework.subdomain`
+        :param subdomains: subdomains within this domain
+
+        """
+        self.subdomains.extend(subdomains)
+        for s in subdomains:
+            s.fulldomain = self
+
     def update_subdomains(self):
         """
         Update relational references between fulldomain and it's subdomains by

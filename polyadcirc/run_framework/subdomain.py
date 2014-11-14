@@ -8,6 +8,7 @@ import glob, os, sys, subprocess, re, math
 import numpy as np
 import polyadcirc.run_framework.domain as dom
 import polyadcirc.pyADCIRC.fort15_management as f15
+import polyadcirc.pyADCIRC.fort13_management as f13
 import polyadcirc.pyADCIRC.output as output
 import polyadcirc.run_framework.random_manningsn as rmn
 import polyadcirc.pyGriddata.file_management as fm
@@ -143,7 +144,7 @@ class subdomain(dom.domain):
         command += '< gensub.in'
         subprocess.call(command, shell=True, cwd=self.path)
 
-        self.update_sub2full_map()
+        #self.update_sub2full_map()
         self.create_fort15()
         fort22_files = glob.glob(self.fulldomain.path+'/fort.22*')
         for fid in fort22_files:
@@ -641,7 +642,7 @@ class subdomain(dom.domain):
         ``self.fulldomain`` and save as a ``dict`` as ``self.bv_fort13``.
         """
         self.read_bv_nodes()
-        self.bv_fort13 = f13.read_nodal_attr(self.fulldomain, self.fulldomain.path,
+        self.bv_fort13 = f13.read_nodal_attr(self, self.path,
                 nums=self.bv_nodes)
 
     def set_bv_fort13(self, mann_dict):
