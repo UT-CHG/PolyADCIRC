@@ -87,7 +87,7 @@ def combine_basis_vectors(weights, vectors, default_value, node_num):
         num_of_basis_vec) 
     :param vectors: basis vectors
     :returns: an array of size (node_num, 1) containing the manningsn value at
-        all nodes in numerical order
+        all nodes in numerical order or a dictionary
     
     """
     if len(weights) != len(vectors):
@@ -96,8 +96,7 @@ def combine_basis_vectors(weights, vectors, default_value, node_num):
     if type(vectors[0]) == np.array:
         combine_bv_array(weights, vectors)
     else:
-        return dict_to_array(add_dict(vectors, weights)[0], default_value,
-                             node_num)
+        return add_dict(vectors, weights)[0]
         
 def add_dict(dict_list, weights):
     """
