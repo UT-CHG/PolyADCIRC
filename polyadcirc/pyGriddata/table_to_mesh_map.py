@@ -6,7 +6,7 @@ values for that ``*.table``, or dict, or array of these values.
 
 import polyadcirc.pyADCIRC.fort13_management as f13
 import numpy as np
-import glob
+import glob, os
 from polyadcirc.pyADCIRC.basic import comm
 
 size = comm.Get_size()
@@ -86,8 +86,8 @@ def combine_basis_vectors(weights, vectors, default_value, node_num):
     :type vectors: list of dicts OR :class:`numpy.array` of size (node_num,
         num_of_basis_vec) 
     :param vectors: basis vectors
-    :returns: an array of size (node_num, 1) containing the manningsn value at all
-        nodes in numerical order
+    :returns: an array of size (node_num, 1) containing the manningsn value at
+        all nodes in numerical order
     
     """
     if len(weights) != len(vectors):
@@ -162,8 +162,8 @@ def get_default_nodes(domain, vectors=None):
 
     """
     if vectors:
-        default_bv_array = combine_basis_vectors(np.zeros((len(vectors),)), vectors,
-                                                 1.0, domain.node_num)
+        default_bv_array = combine_basis_vectors(np.zeros((len(vectors),)),
+                vectors, 1.0, domain.node_num)
     else:
         default_bv_array = np.ones((domain.node_num,))
     default_node_list = np.nonzero(default_bv_array)[0]
@@ -192,9 +192,9 @@ def create_shelf(domain, shelf_bathymetry, vectors):
     shelf_dict = dict()
     default_node_list = get_default_nodes(domain, vectors)
     for i in default_node_list:
-        if bathymetry[i] >= shelf_bathymetry[0] and bathymetry[i] <= shelf_bathymetry[1]:
-            shelf_dict[i+1] = 1.0
-
+        if bathymetry[i] >= shelf_bathymetry[0]:
+            if bathymetry[i] <= shelf_bathymetry[1]:
+                shelf_dict[i+1] = 1.0
     return shelf_dict
 
 def create_from_fort13(domain, mann_dict, vectors):
@@ -254,8 +254,8 @@ def condense_lcm_folder(basis_folder, TOL=None):
     """
 
     folders = glob.glob(os.path.join(basis_folder, "landuse_*"))
-    for i in range(0+rank, len(script_list), size):
+    for i in range(0+rank, len(folders), size):
         mann_dict = f13.read_nodal_attr_dict(folders[i])
         mann_dict = condense_bv_dict(mann_dict, TOL)
-        f13.update(mann_dict, folders[i])
+        f13.update_mann(mann_dict, folders[i])
 
