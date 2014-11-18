@@ -163,10 +163,14 @@ def get_default_nodes(domain, vectors=None):
     if vectors:
         default_bv_array = combine_basis_vectors(np.zeros((len(vectors),)),
                 vectors, 1.0, domain.node_num)
+        alternate = combine_basis_vectors(np.ones((len(vectors),)), vectors)
+        alt2 = np.ones((domain.node_num,))
+        alt2[alternate.keys()] = 0
+        list2 = np.nonzero(alt2)[0]
     else:
         default_bv_array = np.ones((domain.node_num,))
     default_node_list = np.nonzero(default_bv_array)[0]
-    return default_node_list
+    return default_node_list, list2
 
 def create_shelf(domain, shelf_bathymetry, vectors):
     """
