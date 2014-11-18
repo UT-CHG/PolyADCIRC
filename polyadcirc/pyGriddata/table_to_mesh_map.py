@@ -170,7 +170,8 @@ def get_default_nodes(domain, vectors=None):
                 vectors, 1.0, domain.node_num)
         alternate = combine_basis_vectors(np.ones((len(vectors),)), vectors)
         alt2 = np.ones((domain.node_num,))
-        alt2[alternate.keys()] = 0
+        keys = [k-1 for k in alternate.keys()]
+        alt2[keys] = 0
         list2 = np.nonzero(alt2)[0]
     else:
         default_bv_array = np.ones((domain.node_num,))
