@@ -303,7 +303,7 @@ def station_data(ts_data, time_obs, keys=None, stations = None, path=None,
                 line_segs.set_array(np.arange(ts_data[k].shape[2]))
                 ax.add_collection(line_segs)
                 ax.set_xlabel('time')
-                colorbar(line_segs, fig)
+                colorbar(line_segs)
 
             elif num_plts == 2:
                 ax1 = fig.add_subplot(121)
@@ -331,7 +331,7 @@ def station_data(ts_data, time_obs, keys=None, stations = None, path=None,
                 ax2.add_collection(line_segs2)
                 ax2.set_xlabel('time')
                 ax2.set_ylabel('v (m/s)')
-                colorbar(line_segs2, fig)
+                colorbar(line_segs2)
 
             save_show(path+'/figs/'+k+'/station'+str(i), save, show, ext)
 
@@ -386,7 +386,7 @@ def nts_line_data(nts_data, keys=None, path=None, save=True, show=False,
         line_segs = LineCollection(segs, linestyles = 'solid')
         line_segs.set_array(np.arange(nts_data[k].shape[1]))
         ax.add_collection(line_segs)
-        colorbar(line_segs, fig)
+        colorbar(line_segs)
         fig.title(k)
         fig.xlabel('node number')
         save_show(path+'/figs/nts/'+k, save, show, ext)
@@ -721,7 +721,7 @@ def save_show(full_name, save, show, ext):
     else:
         plt.close()
 
-def colorbar(mappable = None, fig = None):
+def colorbar(mappable = None):
     """
     Add a colorbar to the current figure/plot/subfigure/axes
 
@@ -729,10 +729,7 @@ def colorbar(mappable = None, fig = None):
     :param figure fig: Figure to add the colorbar to
     
     """
-    #if fig == None:
     ax = plt.gca()
-    #else:
-    #    ax = fig.get_axes()
     divider = make_axes_locatable(ax)
     cax = divider.append_axes("right", "5%", pad="3%")
     return plt.colorbar(mappable, cax=cax)

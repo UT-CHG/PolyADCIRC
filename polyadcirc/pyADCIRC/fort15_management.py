@@ -190,6 +190,7 @@ def subdomain(fulldomain_path, subdomain_path):
 
     """
     class fdata:
+        """ Storage class for station information """
         def __init__(self):
             self.stations = {}
             self.recording = {}
@@ -197,7 +198,8 @@ def subdomain(fulldomain_path, subdomain_path):
     data = fdata()
         
     with open(fulldomain_path+'/fort.15', 
-              'r') as fid_read, open(subdomain_path+'/fort.15', 'w') as fid_write:
+              'r') as fid_read, open(subdomain_path+'/fort.15', 
+                                     'w') as fid_write:
         line = fid_read.readline()
         while line != '':
             if line.find('DT') >= 0:
@@ -216,7 +218,7 @@ def subdomain(fulldomain_path, subdomain_path):
             elif line.find('DRAMP') >= 0:
                 fid_write.write(line)
                 line = line.partition('!')
-                dramp = np.fromstring(line[0].strip(),sep=' ',dtype=float)
+                dramp = np.fromstring(line[0].strip(), sep=' ', dtype=float)
                 data.time = basic.time(dt, statim, rnday, dramp) 
             elif line.find('NBFR') >= 0:
                 line = line.partition('!')

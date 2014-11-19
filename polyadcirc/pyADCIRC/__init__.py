@@ -1,5 +1,5 @@
 """
-This subackage contains 
+This subpackage contains 
 
 *   the class :class:`~polyadcirc.pyADCIRC.basic.pickleable`;
 *   the module :mod:`~polyadcirc.pyADCIRC.basic` a set of classes for container
@@ -13,8 +13,8 @@ This subackage contains
     :mod:`~polyadcirc.run_framework` and :mod:`~polyadcirc.pyGriddata` modules;
 *   the module :mod:`~polyadcirc.pyADCIRC.prep_management` is used to generate
     input files to :program:`ADCPREP`.
-* :mod:`~polyadcirc.pyADCIRC.plotADCIRC` a set of functions for plotting
-  simulation outputs
+*   :mod:`~polyadcirc.pyADCIRC.plotADCIRC` a set of functions for plotting
+    simulation outputs
 
 """
 __all__ = ["fort15_management", "fort14_management", "fort13_management",

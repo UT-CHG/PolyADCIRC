@@ -9,20 +9,43 @@ This module contains a set of simple classes for use by
 """
 
 class comm_for_no_mpi4py:
+    """
+    A set of stand ins for when mpi4py is not installed
+    """
     def __init__(self):
         pass
     def Get_size(self):
+        """
+        :rtype: int
+        :returns: 1
+        """
         return 1
     def Get_rank(self):
+        """
+        :rtype: int
+        :returns: 0
+        """
         return 0 
-    def allgather(self,val):
+    def allgather(self, val):
+        """
+        :returns: val
+        """
         return val
-    def allreduce(self,val1, val2, op=None):
+    def allreduce(self, val1, val2, op=None):
+        """
+        :returns: val1
+        """
         return val1
-    def bcast(self,val, root=0):
+    def bcast(self, val, root=0):
+        """
+        :returns: val
+        """
         return val
 
 class MPI_for_no_mpi4py:
+    """
+    A stand in class for when mpi4py is not installed
+    """
     def __init__(self):
         self.SUM = None
         
@@ -41,10 +64,19 @@ class pickleable(object):
         super(pickleable, self).__init__()
 
     def __getstate__(self):
+        """
+        :rtype: dict
+        :returns: ``self.__dict__.copy()``
+        """
         odict = self.__dict__.copy()
         return odict
 
     def __setstate__(self, dict):
+        """
+        :param dict: dict to update
+
+        ``self.__dict__.update(dict)``
+        """
         self.__dict__.update(dict)
 
 class location(pickleable):

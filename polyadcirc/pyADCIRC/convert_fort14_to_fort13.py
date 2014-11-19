@@ -125,7 +125,7 @@ def convert(source, keep_flags=0, target='fort.13'):
                             read_target_nodes += 1
                             # add a simple loop to keep in check
                             # with fid_read514
-                            while read_target_nodes < attr_num and b[0]<a[0]:
+                            while read_target_nodes < attr_num and b[0] < a[0]:
                                 b = read_manningsn(fid_read)
                                 read_target_nodes += 1
                             if a[3] > 0:
@@ -192,9 +192,10 @@ def convert_go(grid, folder_name=None, keep_flags=0):
         1. ``_flags`` -- creates a ``fort.13`` formatted file with remainings
             flags for Griddata intact
         2. _fillins -- creates a ``fort.13`` formatted file and fills in
-            remiaing flags from Griddata with data from source if data is present
-        3. _color -- creates a ``fort.13`` formatted file and color codes the
-            data based on wheter or not is is a default value or not
+            remiaing flags from Griddata with data from source if data is
+            present 
+        3. _color -- creates a ``fort.13`` formatted file and color
+            codes the data based on wheter or not is is a default value or not
 
     """
     if folder_name == None:

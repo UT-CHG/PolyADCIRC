@@ -1,10 +1,10 @@
-import numpy as np
-import os, math
-
 """
 This module is for the manipulation and creation of ``fort.19`` and
 ``fort.20`` files.
 """
+
+import numpy as np
+import os, math
 
 def write_fort19(etiminc, esbin, file_name=None):
     """
@@ -32,7 +32,7 @@ def write_fort19(etiminc, esbin, file_name=None):
         for k in esbin:
             fid.write('{:17.15f}\n'.format(k))
 
-def sin_wave(t_start, t_finish, amplitude, nnodes, time, periods = .5, 
+def sin_wave(t_start, t_finish, amplitude, nnodes, time, periods=.5, 
          shift=0, timinc=None):
     """
     
