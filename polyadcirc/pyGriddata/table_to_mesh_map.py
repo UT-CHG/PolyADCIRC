@@ -81,10 +81,7 @@ def combine_bv_array(weights, array):
 
 def combine_basis_vectors(weights, vectors, default_value=None, node_num=None):
     """
-
-    Currently ``default_value`` and ``node_num`` are NOT being used to fill in
-    default nodes.
-
+    
     :type weights: :class:`numpy.array`
     :param weights: array of size (num_of_basis_vec, 1)
     :type vectors: list of dicts OR :class:`numpy.array` of size (node_num,
@@ -97,9 +94,11 @@ def combine_basis_vectors(weights, vectors, default_value=None, node_num=None):
     if len(weights) != len(vectors):
         raise LenError('weights, vectors', 'dimensions do not match')
 
-
     if type(vectors[0]) == np.array:
         combine_bv_array(weights, vectors)
+    elif default_value and node_num:
+        return dict_to_array(add_dict(vectirs, weights)[0], default_value,
+                node_num)
     else:
         return add_dict(vectors, weights)[0]
         
@@ -175,6 +174,7 @@ def get_default_nodes(domain, vectors=None):
         list2 = np.nonzero(alt2)[0]
     else:
         default_bv_array = np.ones((domain.node_num,))
+        list2 = None
     default_node_list = np.nonzero(default_bv_array)[0]
     return default_node_list, list2
 
