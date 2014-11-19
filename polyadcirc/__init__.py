@@ -1,7 +1,7 @@
 """
 This package is a Python-based framework for running batches of parallel ADCIRC
-simulations with varying parameters (Manning’s n and limited variable
-bathymetry, etc). Includes documentation for a Python interface to a slightly
+simulations with varying parameters (Manning's n and limited variable
+bathymetry, etc). Includes documentation for a Python interface to a slightly 
 modified verion of GridData (Griddata_v1.32.F90). GridData is a FORTRAN program
 originally developed by Seizo Tanaka (ST3) and C.H.Lab., University of Notre
 Dame.

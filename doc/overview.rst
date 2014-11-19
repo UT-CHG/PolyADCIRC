@@ -66,7 +66,7 @@ Code Overview
 --------------
 
 :mod:`pyADCIRC` Package
-~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
 
 .. automodule:: polyadcirc.pyADCIRC
 
@@ -85,7 +85,7 @@ Code Overview
 
 Internal dependencies
 ---------------------
-Dependencies via :keyword:`import` statements::
+Dependencies via ``import`` statements::
 
     polyadcirc 
           \-pyADCIRC 
