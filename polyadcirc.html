@@ -91,6 +91,24 @@
 </div>
 <div class="section" id="module-polyadcirc">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-polyadcirc" title="Permalink to this headline">¶</a></h2>
+<p>This package is a Python-based framework for running batches of parallel ADCIRC
+simulations with varying parameters (Manning&#8217;s n and limited variable
+bathymetry, etc). Includes documentation for a Python interface to a slightly 
+modified verion of GridData (Griddata_v1.32.F90). GridData is a FORTRAN program
+originally developed by Seizo Tanaka (ST3) and C.H.Lab., University of Notre
+Dame.</p>
+<p>All code documented here is written for Linux with a bash shell. It can be
+modified for other shells. This code requires GNU Parallel to be installed in
+order to run properly.</p>
+<p>This package contaings three subpackages</p>
+<ul class="simple">
+<li><a class="reference internal" href="overview.html#module-polyadcirc.pyADCIRC" title="polyadcirc.pyADCIRC"><tt class="xref py py-mod docutils literal"><span class="pre">pyADCIRC</span></tt></a> a set of modules primarily for I/O with
+<strong class="program">ADCIRC</strong> through text files</li>
+<li><a class="reference internal" href="overview.html#module-polyadcirc.run_framework" title="polyadcirc.run_framework"><tt class="xref py py-mod docutils literal"><span class="pre">run_framework</span></tt></a> a set of modules used to run batches of
+<strong class="program">PADCIRC</strong> in parallel</li>
+<li><a class="reference internal" href="overview.html#module-polyadcirc.pyGriddata" title="polyadcirc.pyGriddata"><tt class="xref py py-mod docutils literal"><span class="pre">pyGriddata</span></tt></a> a set modules and some FORTRAN code used to
+create sets of nodal data for use by <strong class="program">PADCIRC</strong></li>
+</ul>
 </div>
 </div>
 

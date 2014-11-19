@@ -405,6 +405,13 @@ attributes).</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="polyadcirc.run_framework.domain.domain.read_spatial_grid_header">
+<tt class="descname">read_spatial_grid_header</tt><big>(</big><big>)</big><a class="headerlink" href="#polyadcirc.run_framework.domain.domain.read_spatial_grid_header" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reads in spatial grid header from <tt class="docutils literal"><span class="pre">fort.14</span></tt> file in self.path</p>
+<p>See <a class="reference internal" href="polyadcirc.pyADCIRC.html#polyadcirc.pyADCIRC.fort14_management.read_spatial_grid" title="polyadcirc.pyADCIRC.fort14_management.read_spatial_grid"><tt class="xref py py-meth docutils literal"><span class="pre">polyadcirc.pyADCIRC.fort14_management.read_spatial_grid()</span></tt></a></p>
+</dd></dl>
+
+<dl class="method">
 <dt id="polyadcirc.run_framework.domain.domain.run">
 <tt class="descname">run</tt><big>(</big><em>num_procs</em>, <em>base_dir</em>, <em>input_dir=None</em>, <em>global_dir=None</em>, <em>write_option=None</em>, <em>num_writers=None</em>, <em>LorS=None</em>, <em>R=False</em><big>)</big><a class="headerlink" href="#polyadcirc.run_framework.domain.domain.run" title="Permalink to this definition">¶</a></dt>
 <dd><p>Preprocess and run ADCIRC on this domain</p>
@@ -470,6 +477,26 @@ accordingly</p>
 </table>
 <p>See <tt class="xref py py-meth docutils literal"><span class="pre">read_spatial_grid()</span></tt> 
 See <a class="reference internal" href="polyadcirc.pyADCIRC.html#polyadcirc.pyADCIRC.fort15_management.read_recording_data" title="polyadcirc.pyADCIRC.fort15_management.read_recording_data"><tt class="xref py py-meth docutils literal"><span class="pre">read_recording_data()</span></tt></a></p>
+</dd></dl>
+
+<dl class="method">
+<dt id="polyadcirc.run_framework.domain.domain.update_mann">
+<tt class="descname">update_mann</tt><big>(</big><em>data</em>, <em>path=None</em>, <em>default=None</em>, <em>file_name='fort.13'</em><big>)</big><a class="headerlink" href="#polyadcirc.run_framework.domain.domain.update_mann" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write out fort.13 to path with the attributes contained in Data.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>data</strong> (<tt class="xref py py-class docutils literal"><span class="pre">np.array</span></tt> or <tt class="xref py py-class docutils literal"><span class="pre">dict</span></tt>) &#8211; containing the nodal attribute information</li>
+<li><strong>path</strong> (<em>string or None</em>) &#8211; the directory to which the fort.13 file will be written</li>
+<li><strong>default</strong> (<em>None or float</em>) &#8211; default value</li>
+<li><strong>file_name</strong> (<em>string</em>) &#8211; the name of the <tt class="docutils literal"><span class="pre">fort.13</span></tt> formatted file</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </dd></dl>

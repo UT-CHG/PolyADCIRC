@@ -76,7 +76,7 @@ has been run in each of the folders.</p>
 <dl class="function">
 <dt id="polyadcirc.pyGriddata.file_management.mkdir">
 <tt class="descclassname">polyadcirc.pyGriddata.file_management.</tt><tt class="descname">mkdir</tt><big>(</big><em>path</em><big>)</big><a class="headerlink" href="#polyadcirc.pyGriddata.file_management.mkdir" title="Permalink to this definition">¶</a></dt>
-<dd><p>If path !exists then mkdir</p>
+<dd><p>If path !exists then <tt class="xref py py-meth docutils literal"><span class="pre">os.makedirs()</span></tt></p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1078,7 +1078,7 @@ weights[-1]*dict_list[-1]</p>
 
 <dl class="function">
 <dt id="polyadcirc.pyGriddata.table_to_mesh_map.combine_basis_vectors">
-<tt class="descclassname">polyadcirc.pyGriddata.table_to_mesh_map.</tt><tt class="descname">combine_basis_vectors</tt><big>(</big><em>weights</em>, <em>vectors</em>, <em>default_value</em>, <em>node_num</em><big>)</big><a class="headerlink" href="#polyadcirc.pyGriddata.table_to_mesh_map.combine_basis_vectors" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">polyadcirc.pyGriddata.table_to_mesh_map.</tt><tt class="descname">combine_basis_vectors</tt><big>(</big><em>weights</em>, <em>vectors</em>, <em>default_value=None</em>, <em>node_num=None</em><big>)</big><a class="headerlink" href="#polyadcirc.pyGriddata.table_to_mesh_map.combine_basis_vectors" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1090,8 +1090,8 @@ num_of_basis_vec)) &#8211; basis vectors</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">an array of size (node_num, 1) containing the manningsn value at all
-nodes in numerical order</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">an array of size (node_num, 1) containing the manningsn value at
+all nodes in numerical order or a dictionary</p>
 </td>
 </tr>
 </tbody>
@@ -1131,7 +1131,7 @@ that are below <tt class="docutils literal"><span class="pre">TOL</span></tt>.</
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>mann_dict</strong> (<em>dict</em>) &#8211; a dictionary created from a <tt class="docutils literal"><span class="pre">fort.13</span></tt> formatted
 file or a dictionary of Manning&#8217;s n values</li>
-<li><strong>TOL</strong> (<em>double</em>) &#8211; Tolerance close to zero, default is 1e-10</li>
+<li><strong>TOL</strong> (<em>double</em>) &#8211; Tolerance close to zero, default is 1e-7</li>
 </ul>
 </td>
 </tr>
@@ -1139,6 +1139,27 @@ file or a dictionary of Manning&#8217;s n values</li>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">basis vector of values</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="polyadcirc.pyGriddata.table_to_mesh_map.condense_lcm_folder">
+<tt class="descclassname">polyadcirc.pyGriddata.table_to_mesh_map.</tt><tt class="descname">condense_lcm_folder</tt><big>(</big><em>basis_folder</em>, <em>TOL=None</em><big>)</big><a class="headerlink" href="#polyadcirc.pyGriddata.table_to_mesh_map.condense_lcm_folder" title="Permalink to this definition">¶</a></dt>
+<dd><p>Condenses the <tt class="docutils literal"><span class="pre">fort.13</span></tt> lanudse classification mesh files in
+<tt class="docutils literal"><span class="pre">landuse_*</span></tt> folders in <tt class="docutils literal"><span class="pre">basis_dir</span></tt> by removing values taht are below
+<tt class="docutils literal"><span class="pre">TOL</span></tt>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>basis_dir</strong> (<em>string</em>) &#8211; the path to directory containing the
+<tt class="docutils literal"><span class="pre">landuse_##</span></tt> folders</li>
+<li><strong>TOL</strong> (<em>double</em>) &#8211; Tolerance close to zero, default is 1e-7</li>
+</ul>
 </td>
 </tr>
 </tbody>
