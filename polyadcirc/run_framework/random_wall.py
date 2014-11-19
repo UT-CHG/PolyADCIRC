@@ -217,7 +217,7 @@ class runSet(rmn.runSet):
                                                         bv_dict, default,
                                                         data.node_num)
                     # create the fort.13 for r_field
-                    data.update_mann(r_field, self.rf_dirs[i])
+                    f13.update_mann(r_field, self.rf_dirs[i])
                 # do a batch run of python
                 #PARALLEL: update file containing the list of rf_dirs
                 self.update_dir_file(self.num_of_parallel_runs)
@@ -376,7 +376,7 @@ class runSet(rmn.runSet):
                 r_field = tmm.combine_basis_vectors(mann_points[..., i+k], bv_dict,
                                                     default, data.node_num)
                 # create the fort.13 for r_field
-                data.update_mann(r_field, self.rf_dirs[i])
+                f13.update_mann(r_field, self.rf_dirs[i])
             # do a batch run of python
             #PARALLEL: update file containing the list of rf_dirs
             self.update_dir_file(self.num_of_parallel_runs)

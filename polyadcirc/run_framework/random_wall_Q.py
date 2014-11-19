@@ -6,7 +6,6 @@ of processors allocated by the submission script
 """
 import numpy as np
 import glob, os, subprocess, shutil 
-import polyadcirc.pyADCIRC.fort13_management as f13
 import polyadcirc.pyADCIRC.fort14_management as f14
 import polyadcirc.run_framework.random_wall as rmw
 import polyadcirc.pyGriddata.table_to_mesh_map as tmm

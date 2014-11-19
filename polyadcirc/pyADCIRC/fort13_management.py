@@ -220,7 +220,6 @@ def update_mann(data, path=None, default=None, file_name='fort.13'):
 
     flag = 0
     attribute_name_present = 0
-    step = 0
     
     with open(file_name, 'r') as fid_read, open(tmp_name, 'w') as fid_write:
         while flag == 0:

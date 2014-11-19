@@ -59,8 +59,6 @@ def remove(files):
     """
     if isinstance(files, str): #is files a string
         files = [files]
-    if not isinstance(files, list):
-        "Error"
     for f in files:
         if os.path.isdir(f):
             sh.rmtree(f)
@@ -90,5 +88,5 @@ def symlink(src, dst, overwrite=1):
         os.symlink(src, dst)
     elif overwrite > 2 and os.path.isdir(dst):
         remove(dst)
-        "removing old directory"
+        print "removing old directory"
         os.symlink(src, dst)
