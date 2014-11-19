@@ -20,13 +20,13 @@ def copy(src, dst):
 
 def mkdir(path):
     """ 
-    If path !exists then mkdir
+    If path !exists then :meth:`os.makedirs`
 
     :param string path: path of directory to create
 
     """
     if os.path.exists(path) == False:
-        os.mkdir(path)
+        os.makedirs(path)
 
 def rename13(dirs=None, basis_dir=None):
     """

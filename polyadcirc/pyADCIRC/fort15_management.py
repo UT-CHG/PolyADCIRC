@@ -216,7 +216,7 @@ def subdomain(fulldomain_path, subdomain_path):
             elif line.find('DRAMP') >= 0:
                 fid_write.write(line)
                 line = line.partition('!')
-                dramp = float(line[0].strip())
+                dramp = np.fromstring(line[0].strip(),sep=' ',dtype=float)
                 data.time = basic.time(dt, statim, rnday, dramp) 
             elif line.find('NBFR') >= 0:
                 line = line.partition('!')

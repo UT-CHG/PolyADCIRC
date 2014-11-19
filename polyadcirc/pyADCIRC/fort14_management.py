@@ -118,6 +118,33 @@ def read_spatial_grid(data, path=None, make_domain_map=False):
         print 'Domain map construction complete'
     return data
 
+def read_spatial_grid_header(data, path=None):
+    """ 
+    Reads in the the number of nodes and elements from the ``fort.14`` file in
+    ``path`` and updates data
+
+    :type data: :class:`polyadcirc.run_framework.domain`
+    :param data: python object to save the ``fort.14`` data to
+    :type path: string or None
+    :param path: path to the``fort.14`` fortmatted file
+    :returns: reference to data
+
+    """
+    if path == None:
+        path = os.getcwd()
+
+    file_name = path+'/fort.14'
+
+    with open(file_name, 'r') as f:
+        f.readline()
+        # Read in total number of nodes (OUT of fort.14 instead of fort.16 as
+        # in serial case)
+        a = np.fromstring(f.readline(), dtype=int, sep=' ')
+        data.node_num = a[1]
+        data.element_num = a[0]
+        
+    return data
+
 def update(data, bathymetry=None, path=None, file_name='fort.14'):
     """
     Write out bathymetry in data to ``fort.14`` formated file, by updating

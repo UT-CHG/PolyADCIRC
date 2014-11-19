@@ -64,6 +64,14 @@ class domain(pickleable):
         self.path = path
         super(domain, self).__init__()
 
+    def read_spatial_grid_header(self):
+        """
+        Reads in spatial grid header from ``fort.14`` file in self.path
+
+        See :meth:`polyadcirc.pyADCIRC.fort14_management.read_spatial_grid`       
+        """
+        f14.read_spatial_grid_header(self, self.path)
+
     def read_spatial_grid(self):
         """
         Reads in spatial grid from ``fort.14`` file in self.path
@@ -338,7 +346,23 @@ class domain(pickleable):
             command.append('-'+write_option)
             command.append(str(num_writers))
         subprocess.call(command, cwd=base_dir)
-    
+ 
+    def update_mann(self, data, path=None, default=None, file_name='fort.13'):
+        """
+        Write out fort.13 to path with the attributes contained in Data.  
+
+        :type data: :class:`np.array` or :class:`dict`
+        :param data: containing the nodal attribute information
+        :type path: string or None
+        :param path: the directory to which the fort.13 file will be written
+        :type default: None or float
+        :param default: default value
+        :type file_name: string
+        :param file_name: the name of the ``fort.13`` formatted file
+
+        """
+        f13.update_mann(data, path, default, file_name)   
+
 def adjust_factor(x, x_lims, b_lims=None):
     """
     :param float x: current x value
