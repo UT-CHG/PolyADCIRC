@@ -176,7 +176,7 @@ def get_default_nodes(domain, vectors=None):
         default_bv_array = np.ones((domain.node_num,))
         #list2 = None
     default_node_list = np.nonzero(default_bv_array)[0]
-    return default_node_listi#, list2
+    return default_node_list#, list2
 
 def create_shelf(domain, shelf_bathymetry, vectors):
     """
