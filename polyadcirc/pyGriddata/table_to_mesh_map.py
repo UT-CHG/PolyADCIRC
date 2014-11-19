@@ -97,7 +97,7 @@ def combine_basis_vectors(weights, vectors, default_value=None, node_num=None):
     if type(vectors[0]) == np.array:
         combine_bv_array(weights, vectors)
     elif default_value and node_num:
-        return dict_to_array(add_dict(vectirs, weights)[0], default_value,
+        return dict_to_array(add_dict(vectors, weights)[0], default_value,
                 node_num)
     else:
         return add_dict(vectors, weights)[0]
