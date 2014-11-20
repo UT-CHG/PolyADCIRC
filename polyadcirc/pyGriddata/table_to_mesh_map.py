@@ -178,6 +178,50 @@ def get_default_nodes(domain, vectors=None):
     default_node_list = np.nonzero(default_bv_array)[0]
     return default_node_list#, list2
 
+def split_bv_nodes(land_class_num, vectors):
+    """
+    Given a set of basis vectors and a land classification class number splits
+    a land classification basis vector dictionary into nodes that are purely
+    that land classification and nodes that are only paritially that land
+    classification. Returns a new list of land classification vectors with::
+        
+        vectors[land_class_num] = mixed_vector
+        vectors[max(vectors.keys())+1] = pure_vector
+
+    :param int land_class_num: land classification to split
+    :param dict vectors: basis vectors
+
+    :rtype: dict
+    :returns: modified dictionary of basis vectors
+
+    """
+
+def merge_with_fort13(mann_dict, factor, land_class_num, vectors):
+    """
+    Creates a ``basis vector`` where the value at default nodes and pure nodes
+    in the land classification basis vector with ``land_class_num`` are
+    replaced set to the the scaled value in the ``mann_dict`` which is created
+    from reading in a ``fort.13`` formatted file. If the node is default in
+    both ``mann_dict`` and ``vectors`` then it remains a default node. Returns
+    a new list of land classification vectors with::
+        
+        vectors[land_class_num] = mixed_vector #original values
+        vectors[max(vectors.keys())+1] = new_vector #scaled merged values
+
+    :param dict mann_dict: a dictionary created from a ``fort.13`` formatted
+        file or a dictionary of Manning's n values
+    :param float factor: the factor by which to divide the values in
+        ``mann_dict``
+    :param int land_class_num: land classification to split and merge
+    :param dict vectors: basis vectors
+
+    :rtype: dict
+    :returns: modified dictionary of basis vectors
+
+    """
+
+
+
 def create_shelf(domain, shelf_bathymetry, vectors):
     """
     Creates a contitnetal shelf basis vector where the value at default
