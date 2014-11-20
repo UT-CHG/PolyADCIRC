@@ -233,7 +233,7 @@ def merge_with_fort13(domain, mann_dict, factor, land_class_num, vectors):
     expanded_vectors = split_bv_nodes(land_class_num, vectors)
     last = len(expanded_vectors)-1
     pure_nodes = expanded_vectors[last].keys()
-    default_node_list.expand(pure_nodes)
+    default_node_list.extend(pure_nodes)
     new_mann_dict = dict()
     for i in default_node_list:
         if i in mann_dict:
