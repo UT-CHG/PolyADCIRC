@@ -231,7 +231,7 @@ def merge_with_fort13(domain, mann_dict, factor, land_class_num, vectors):
     """
     default_node_list = get_default_nodes(domain, vectors)
     expanded_vectors = split_bv_nodes(land_class_num, vectors)
-    last = len(expanded_vectors)
+    last = len(expanded_vectors)-1
     pure_nodes = expanded_vectors[last].keys()
     default_node_list.expand(pure_nodes)
     new_mann_dict = dict()
@@ -332,3 +332,23 @@ def condense_lcm_folder(basis_folder, TOL=None):
         mann_dict = condense_bv_dict(mann_dict, TOL)
         f13.update_mann(mann_dict, folders[i])
 
+def detemine_domiant_types(domain, vectors):
+    """
+    Determine the dominant land classification types for a particular mesh
+    and the corresponding percentages of those land classification types.
+
+    :param domain: a computational domain for a physical domain
+    :type domain: :class:`~polyadcirc.run_framework.domain`
+    :param list vectors: basis vectors
+
+    :rtype: :class:`numpy.ndarray`
+    :returns: sorted list of ranking, land classification number, and percentage of
+        land classification type present as a (len, 3) array
+
+    """
+    
+    percentages = np.array([np.sum(v.values()) for v in vectors])
+    percentages = percentages * 100.0 / domain.node_num
+    sort_ind = np.argsort(percentages)
+    return np.column_stack((range(len(vectors)), sort_ind,
+        percentages(sort_ind)))
