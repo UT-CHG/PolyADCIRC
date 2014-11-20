@@ -98,7 +98,7 @@ def combine_basis_vectors(weights, vectors, default_value=None, node_num=None):
         combine_bv_array(weights, vectors)
     elif default_value and node_num:
         return dict_to_array(add_dict(vectors, weights)[0], default_value,
-                node_num)
+                             node_num)
     else:
         return add_dict(vectors, weights)[0]
         
@@ -166,7 +166,7 @@ def get_default_nodes(domain, vectors=None):
     """
     if vectors:
         default_bv_array = combine_basis_vectors(np.zeros((len(vectors),)),
-                vectors, 1.0, domain.node_num)
+                                                 vectors, 1.0, domain.node_num)
         #alternate = combine_basis_vectors(np.ones((len(vectors),)), vectors)
         #alt2 = np.ones((domain.node_num,))
         #keys = [k-1 for k in alternate.keys()]
@@ -186,17 +186,27 @@ def split_bv_nodes(land_class_num, vectors):
     classification. Returns a new list of land classification vectors with::
         
         vectors[land_class_num] = mixed_vector
-        vectors[max(vectors.keys())+1] = pure_vector
+        vectors[len(vectors)+1] = pure_vector
 
     :param int land_class_num: land classification to split
-    :param dict vectors: basis vectors
+    :param list vectors: basis vectors
 
-    :rtype: dict
-    :returns: modified dictionary of basis vectors
+    :rtype: list
+    :returns: modified list of basis vectors
 
     """
+    pure_vector = dict()
+    mixed_vector = dict()
+    for i, v in vectors[land_class_num].iteritems():
+        if v < 1.0:
+            mixed_vector[i] = v
+        else:
+            pure_vector[i] = v
+    vectors[land_class_num] = mixed_vector
+    vectors.append(pure_vector)
+    return vectors
 
-def merge_with_fort13(mann_dict, factor, land_class_num, vectors):
+def merge_with_fort13(domain, mann_dict, factor, land_class_num, vectors):
     """
     Creates a ``basis vector`` where the value at default nodes and pure nodes
     in the land classification basis vector with ``land_class_num`` are
@@ -213,14 +223,25 @@ def merge_with_fort13(mann_dict, factor, land_class_num, vectors):
     :param float factor: the factor by which to divide the values in
         ``mann_dict``
     :param int land_class_num: land classification to split and merge
-    :param dict vectors: basis vectors
+    :param list vectors: basis vectors
 
-    :rtype: dict
-    :returns: modified dictionary of basis vectors
+    :rtype: list
+    :returns: modified list of basis vectors
 
     """
-
-
+    default_node_list = get_default_nodes(domain, vectors)
+    expanded_vectors = split_bv_nodes(land_class_num, vectors)
+    last = len(expanded_vectors)
+    pure_nodes = expanded_vectors[last].keys()
+    default_node_list.expand(pure_nodes)
+    new_mann_dict = dict()
+    for i in default_node_list:
+        if i in mann_dict:
+            new_mann_dict[i] = mann_dict[i]/factor
+        elif i in pure_nodes:
+            new_mann_dict[i] = 1.0
+    expanded_vectors[last] = new_mann_dict
+    return expanded_vectors
 
 def create_shelf(domain, shelf_bathymetry, vectors):
     """
@@ -267,12 +288,11 @@ def create_from_fort13(domain, mann_dict, vectors):
     :rtype: dict()
     :returns: basis vector of values
     """
-    new_mann_dict = {}
+    new_mann_dict = dict()
     default_node_list = get_default_nodes(domain, vectors)
     for i in default_node_list:
         if i in mann_dict:
             new_mann_dict[i] = mann_dict[i]
-
     return new_mann_dict
 
 def condense_bv_dict(mann_dict, TOL=None):
