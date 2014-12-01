@@ -232,14 +232,13 @@ def merge_with_fort13(domain, mann_dict, factor, land_class_num, vectors):
     default_node_list = get_default_nodes(domain, vectors)
     expanded_vectors = split_bv_nodes(land_class_num, vectors)
     last = len(expanded_vectors)-1
-    pure_nodes = expanded_vectors[last].keys()
-    default_node_list = np.hstack((default_node_list, pure_nodes))
-    new_mann_dict = dict()
+    new_mann_dict = expanded_vectors[last]
     for i in default_node_list:
         if i in mann_dict:
             new_mann_dict[i] = mann_dict[i]/factor
-        elif i in pure_nodes:
-            new_mann_dict[i] = 1.0
+    for i in new_mann_dict.keys():
+         if i in mann_dict:
+            new_mann_dict[i] = mann_dict[i]/factor    
     expanded_vectors[last] = new_mann_dict
     return expanded_vectors
 
