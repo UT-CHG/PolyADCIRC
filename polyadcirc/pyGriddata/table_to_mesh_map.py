@@ -331,7 +331,7 @@ def condense_lcm_folder(basis_folder, TOL=None):
         mann_dict = condense_bv_dict(mann_dict, TOL)
         f13.update_mann(mann_dict, folders[i])
 
-def detemine_types(domain, vectors):
+def determine_types(domain, vectors):
     """
     Determine the dominant land classification types for a particular mesh
     and the corresponding percentages of those land classification types.
