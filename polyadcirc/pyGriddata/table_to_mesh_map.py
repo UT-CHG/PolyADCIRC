@@ -346,6 +346,7 @@ def determine_types(domain, vectors):
 
     """
     domain.read_spatial_grid_header()
+    print domain.node_num
     percentages = np.array([np.sum(v.values()) for v in vectors])
     percentages = percentages * 100.0 / domain.node_num
     sort_ind = np.argsort(percentages)
