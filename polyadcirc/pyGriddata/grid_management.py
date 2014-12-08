@@ -166,6 +166,8 @@ class gridInfo(pickleable):
             # run grid_all_data in this folder 
             subprocess.call(['./'+first_script], cwd=self.basis_dir)
             class_nums.remove(0)
+            self.cleanup_landuse_folder(os.path.join(self.basis_dir,
+                'landuse_00'))
         elif rank == 0:
             script_list = self.setup_landuse_folders()
         else:
