@@ -168,6 +168,7 @@ class gridInfo(pickleable):
             class_nums.remove(0)
             self.cleanup_landuse_folder(os.path.join(self.basis_dir,
                 'landuse_00'))
+            fm.rename13(['landuse_00'], self.basis_dir)
         elif rank == 0:
             script_list = self.setup_landuse_folders()
         else:
