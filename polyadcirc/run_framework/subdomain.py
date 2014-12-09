@@ -687,6 +687,7 @@ def trim_fort13(old_fort13, new_fort13, pynode_map):
         trimmed
     :param string new_fort13: path to save the new ``fort.13`` file
     """
+    print pynode_map
     gensub.main13(None, old_fort13, new_fort13, pynode_map)
 
 def trim_multiple_fort13(old_fort13, new_fort13, pynode_map):
@@ -700,6 +701,8 @@ def trim_multiple_fort13(old_fort13, new_fort13, pynode_map):
     """
     size = comm.Get_size()
     rank = comm.Get_rank()
+
+    print "len old, len new", len(old_fort13), len(new_fort13)
 
     for i in range(0+rank, len(old_fort13), size):
         if not(os.path.exists(os.path.dirname(new_fort13[i]))):

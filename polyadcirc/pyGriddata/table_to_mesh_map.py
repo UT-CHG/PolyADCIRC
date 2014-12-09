@@ -349,6 +349,8 @@ def determine_types(domain, vectors):
     print domain.node_num
     percentages = np.array([np.sum(v.values()) for v in vectors])
     #percentages = percentages * 100.0 / domain.node_num
-    sort_ind = np.fliplr(np.argsort(percentages))
+    sort_ind = np.argsort(percentages).tolist().reverse()
+    print percentages
+    print len(vectors), len(sort_ind), len(percentages[sort_ind])
     return np.column_stack((range(len(vectors)), sort_ind,
         percentages[sort_ind]))

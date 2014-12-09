@@ -120,7 +120,7 @@ class gridInfo(pickleable):
         
         super(gridInfo, self).__init__()
  
-    def prep_all(self, removeBinaries=False, class_nums=None, condense=True,
+    def prep_all(self, removeBinaries=False, class_nums=None, condense=False,
             TOL=None):
         """
         Assumes that all the necessary input files are in ``self.basis_dir``.
@@ -166,9 +166,20 @@ class gridInfo(pickleable):
             # run grid_all_data in this folder 
             subprocess.call(['./'+first_script], cwd=self.basis_dir)
             class_nums.remove(0)
+            landuse_folder = 'landuse_00'
             self.cleanup_landuse_folder(os.path.join(self.basis_dir,
-                'landuse_00'))
-            fm.rename13(['landuse_00'], self.basis_dir)
+                landuse_folder))
+            fm.rename13([landuse_folder], self.basis_dir)
+            if condense:
+                print "Removing values below TOL"
+                landuse_folder_path = os.path.join(self.basis_dir,
+                        landuse_folder)
+                # read fort.13 file
+                mann_dict = f13.read_nodal_attr_dict(landuse_folder_path)
+                # condense fort.13 file
+                condensed_bv = tmm.condense_bv_dict(mann_dict, TOL)
+                # write new file
+                f13.update_mann(condensed_bv, landuse_folder_path)
         elif rank == 0:
             script_list = self.setup_landuse_folders()
         else:
