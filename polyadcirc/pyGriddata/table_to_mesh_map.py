@@ -309,7 +309,7 @@ def condense_bv_dict(mann_dict, TOL=None):
     if TOL == None:
         TOL = 1e-7
     new_mann_dict = {}
-    for k, v in mann_dict.iteritems():
+    for k, v in sorted(mann_dict.iteritems()):
         if v > TOL:
             new_mann_dict[k] = v
     return new_mann_dict

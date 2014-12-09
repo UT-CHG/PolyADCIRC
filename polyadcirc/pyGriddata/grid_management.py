@@ -120,7 +120,7 @@ class gridInfo(pickleable):
         
         super(gridInfo, self).__init__()
  
-    def prep_all(self, removeBinaries=False, class_nums=None, condense=False,
+    def prep_all(self, removeBinaries=False, class_nums=None, condense=True,
             TOL=None):
         """
         Assumes that all the necessary input files are in ``self.basis_dir``.
