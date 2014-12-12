@@ -253,7 +253,7 @@ def update_mann(data, path=None, default=None, file_name='fort.13'):
                     for k, v in enumerate(data):
                         write_manningsn(fid_write, k+1, v)
                 else:
-                    for k, v in data.iteritems():
+                    for k, v in sorted(data.iteritems()):
                         write_manningsn(fid_write, k, v)
                 flag = 1
         # write out remainder of fid_read to fid_write
