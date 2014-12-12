@@ -348,6 +348,7 @@ def determine_types(domain, vectors):
     domain.read_spatial_grid_header()
     percentages = np.array([np.sum(v.values()) for v in vectors])
     percentages = percentages * 100.0 / domain.node_num
-    sort_ind = np.argsort(percentages) #.tolist().reverse()
+    sort_ind = np.argsort(percentages).tolist()
+    sort_ind.reverse()
     return np.column_stack((range(len(vectors)), sort_ind,
         percentages[sort_ind]))
