@@ -11,6 +11,7 @@ import polyadcirc.pyADCIRC.fort15_management as f15
 import polyadcirc.pyADCIRC.fort13_management as f13
 import polyadcirc.pyADCIRC.output as output
 import polyadcirc.run_framework.random_manningsn as rmn
+import polyadcirc.pyADCIRC.post_management as post
 import polyadcirc.pyGriddata.file_management as fm
 import scipy.io as sio
 from polyadcirc.pyADCIRC.basic import comm
@@ -169,7 +170,7 @@ class subdomain(dom.domain):
         """
         return self.fulldomain.genfull(noutgs, nspoolgs, [self])
 
-    def genbcs(self, forcing_freq=1, dt=None, nspoolgs=1, h0=None):
+    def genbcs(self, forcing_freq=1, dt=None, nspoolgs=1, h0=None, L=False):
         """
         Generate the ``fort.019`` which is the boundary conditions file needed
         for a subdomain run of :program:`ADCIRC`. This requires the presence of
@@ -182,10 +183,20 @@ class subdomain(dom.domain):
         :param int nspoolgs: the number of timesteps at which information is
             written to the new output files ``fort.06*``
         :param float h0: minimum water depth for a node to be wet
+        :param boolean L: flag whether or not :program:`PADCIRC` was run with
+            ``-L`` flag and if local files need to be post-processed into
+            global files
         :rtype: string
         :returns: command line for invoking genbcs.py
 
         """
+        if L:
+            # create post-processing input file
+            post.write_sub(self.fulldomain.path)
+            # run ADCPOST
+            subprocess.call('./adcpost < in.postsub > post_o.txt', shell=True,
+                    cwd=self.fulldomain.path)
+
         if self.check_fulldomain():
             if h0 == None:
                 h0 = self.h0

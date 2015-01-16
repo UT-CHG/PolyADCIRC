@@ -47,7 +47,7 @@ def post_script_n(path, n):
     curr_stat = os.stat(path+'/post'+str(n)+'.sh')
     os.chmod(path+'/post'+str(n)+'.sh', curr_stat.st_mode | stat.S_IXUSR)
 
-def write_sub(path, hotfiles):
+def write_sub(path, hotfiles=False):
     """
     Write out a ``in.postsub`` file and save it to path
 
@@ -67,7 +67,7 @@ def write_sub(path, hotfiles):
             f.write('n\n')
         f.write('quit\n')
 
-def write_n(path, n, hotfiles):
+def write_n(path, n, hotfiles=False):
     """
     Write out a ``in.postn`` file and save it to path
 
@@ -87,7 +87,7 @@ def write_n(path, n, hotfiles):
             f.write('n\n')
         f.write('quit\n')
 
-def write_multi(path, nums, hotfiles):
+def write_multi(path, nums, hotfiles=False):
     """
     Write out a ``in.postmulti`` file and save it to path
 
@@ -108,7 +108,7 @@ def write_multi(path, nums, hotfiles):
             f.write('n\n')
         f.write('quit\n')
 
-def write_ALL(path, hotfiles):
+def write_ALL(path, hotfiles=False):
     """
     Write out a ``in.postALL` file and save it to path
 

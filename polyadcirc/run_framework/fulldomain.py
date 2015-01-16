@@ -7,6 +7,7 @@ is the :class:`fulldomain`.
 
 import polyadcirc.run_framework.domain as dom
 import subprocess, glob, sys
+import polyadcic.pyADCIRC.post_management as post
 
 class fulldomain(dom.domain):
     """
@@ -100,7 +101,8 @@ class fulldomain(dom.domain):
             subprocess.call(command, shell=True, cwd=self.path)
         return command
 
-    def genbcss(self, forcing_freq=None, dt=None, nspoolgs=None, h0=None): 
+    def genbcss(self, forcing_freq=None, dt=None, nspoolgs=None, h0=None,
+            L=False): 
         """
         Generate the ``fort.019`` files for the subdomains. This requires the
         presence of the output files from a fulldomain run, ``fort.06*``.
@@ -111,11 +113,21 @@ class fulldomain(dom.domain):
         :param list() nspoolgs: the number of timesteps at which information is
             written to the new output files ``fort.06*``
         :param list() h0: minimum water depth for a node to be wet
+        :param boolean L: flag whether or not :program:`PADCIRC` was run with
+            ``-L`` flag and if local files need to be post-processed into
+            global files
         :rtype: list()
         :return: command lines for invoking genbcs.py
 
         """
         commands = []
+        if L:
+             # create post-processing input file
+             post.write_sub(self.path)
+             # run ADCPOST
+             subprocess.call('./adcpost < in.postsub > post_o.txt', shell=True,
+                     cwd=self.path)
+
         if self.check_fulldomain():
             if forcing_freq == None:
                 forcing_freq = [1 for i in self.subdomains]
