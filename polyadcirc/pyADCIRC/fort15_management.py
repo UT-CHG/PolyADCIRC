@@ -56,7 +56,7 @@ def read_recording_data(data, path=None):
                 rnday = float(line[0].strip())
             elif line.find('DRAMP') >= 0:
                 line = line.partition('!')
-                dramp = np.fromstring(line[0].strip())#float(line[0].strip())
+                dramp = np.fromstring(line[0].strip(), sep=' ')#float(line[0].strip())
                 data.time = basic.time(dt, statim, rnday, dramp) 
             elif line.find('H0') >= 0:
                 line = line.partition('!')[0]
