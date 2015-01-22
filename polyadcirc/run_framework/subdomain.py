@@ -147,13 +147,20 @@ class subdomain(dom.domain):
 
         #self.update_sub2full_map()
         self.create_fort15()
+        self.link_fort22()
+        return command
+
+    def link_fort22(self):
+        """
+        Create symboolic links to ``fort.22*`` meterological files in this
+        subdomain folder from the fulldomain folder.
+        """
         fort22_files = glob.glob(self.fulldomain.path+'/fort.22*')
         for fid in fort22_files:
             new_fid = self.path+'/'+fid.rpartition('/')[-1]
             if os.path.exists(new_fid):
                 os.remove(new_fid)
             os.symlink(fid, self.path+'/'+fid.rpartition('/')[-1])
-        return command
 
     def genfull(self, noutgs=1, nspoolgs=1):
         """ 
@@ -196,6 +203,9 @@ class subdomain(dom.domain):
             # run ADCPOST
             subprocess.call('./adcpost < in.postsub > post_o.txt', shell=True,
                     cwd=self.fulldomain.path)
+        
+        self.create_fort15()
+        self.link_fort22()
 
         if self.check_fulldomain():
             if h0 == None:
