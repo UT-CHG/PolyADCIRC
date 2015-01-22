@@ -7,7 +7,7 @@ is the :class:`fulldomain`.
 
 import polyadcirc.run_framework.domain as dom
 import subprocess, glob, sys
-import polyadcic.pyADCIRC.post_management as post
+import polyadcirc.pyADCIRC.post_management as post
 
 class fulldomain(dom.domain):
     """
