@@ -206,6 +206,7 @@ class subdomain(dom.domain):
         
         self.create_fort15()
         self.link_fort22()
+        self.read_recording_data()
 
         if self.check_fulldomain():
             if h0 == None:
