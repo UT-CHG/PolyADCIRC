@@ -217,6 +217,7 @@ class subdomain(dom.domain):
             command += self.fulldomain.path+'/ '+self.path+'/ '
             command += str(forcing_freq)+' '+str(dt)+' '+str(nspoolgs)
             command += ' '+str(h0)
+            print command
             subprocess.call(command, shell=True, cwd=self.path)
             return command
         else:
