@@ -65,25 +65,25 @@ def read_recording_data(data, path=None):
             elif line.find('NOUTE') >= 0:
                 line = line.partition('!')
                 _read_record(fid, 'fort61', line, data)
-            elif line.find('NOUTV') >= 0:
+            elif line.find('UNIT 62') >= 0:
                 line = line.partition('!')
                 _read_record(fid, 'fort62', line, data)
             elif line.find('NOUTC') >= 0:
                 line = line.partition('!')
                 #_read_record(fid, 'fort91', line, dt, data)
-            elif line.find('NOUTM') >= 0:
+            elif line.find('UNIT 71/72') >= 0:
                 line = line.partition('!')
                 _read_record7(fid, 'fort71', 'fort72', line, data)
             elif line.find('NOUTGE') >= 0:
                 line = line.partition('!')
                 _read_record(fid, 'fort63', line, data)
-            elif line.find('NOUTGV') >= 0:
+            elif line.find('UNIT 64') >= 0:
                 line = line.partition('!')
                 _read_record(fid, 'fort64', line, data)
             elif line.find('NOUTGC') >= 0:
                 line = line.partition('!')
                 #_read_record(fid, 'fort93', line, dt, data)
-            elif line.find('NOUTGW') >= 0:
+            elif line.find('UNIT 73/74') >= 0:
                 line = line.partition('!')
                 _read_record7(fid, 'fort73', 'fort74', line, data)
             line = fid.readline()
@@ -234,7 +234,7 @@ def subdomain(fulldomain_path, subdomain_path):
                 line = line.partition('!')
                 description = _read_record(fid_read, 'fort61', line, data)
                 _write_record(fid_write, 'fort61', description, data)
-            elif line.find('NOUTV') >= 0:
+            elif line.find('UNIT 62') >= 0:
                 fid_write.write(line)
                 line = line.partition('!')
                 description = _read_record(fid_read, 'fort62', line, data)
@@ -244,7 +244,7 @@ def subdomain(fulldomain_path, subdomain_path):
                 line = line.partition('!')
                 #description = _read_record(fid_read, 'fort91', line, dt, data)
                 #_write_record(fid_write, 'fort91', description, data)
-            elif line.find('NOUTM') >= 0:
+            elif line.find('UNIT 71/72') >= 0:
                 fid_write.write(line)
                 line = line.partition('!')
                 description = _read_record7(fid_read, 'fort71', 'fort72', line,
