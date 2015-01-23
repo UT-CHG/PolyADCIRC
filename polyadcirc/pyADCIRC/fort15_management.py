@@ -61,7 +61,7 @@ def read_recording_data(data, path=None):
             elif line.find('H0') >= 0:
                 line = line.partition('!')[0]
                 line = np.fromstring(line, sep=' ')
-                data.h0 = line[0]
+                data.h0 = np.fromstrin(line[0]
             elif line.find('NOUTE') >= 0:
                 line = line.partition('!')
                 _read_record(fid, 'fort61', line, data)
@@ -104,7 +104,6 @@ def _read_record(fid, key, line, data):
     :returns: station type description
 
     """
-    print line
     nout, touts, toutf, nspool = np.fromstring(line[0].strip(), sep=' ')
     touts = max(touts, data.time.statim)
     toutf = min(toutf, data.time.rnday+data.time.statim)
