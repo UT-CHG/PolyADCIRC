@@ -104,6 +104,7 @@ def _read_record(fid, key, line, data):
     :returns: station type description
 
     """
+    print line
     nout, touts, toutf, nspool = np.fromstring(line[0].strip(), sep=' ')
     touts = max(touts, data.time.statim)
     toutf = min(toutf, data.time.rnday+data.time.statim)
