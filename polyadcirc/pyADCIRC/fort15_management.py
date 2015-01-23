@@ -61,7 +61,7 @@ def read_recording_data(data, path=None):
             elif line.find('H0') >= 0:
                 line = line.partition('!')[0]
                 line = np.fromstring(line, sep=' ')
-                data.h0 = np.fromstring(line[0])
+                data.h0 = np.fromstring(line[0])[0]
             elif line.find('NOUTE') >= 0:
                 line = line.partition('!')
                 _read_record(fid, 'fort61', line, data)
