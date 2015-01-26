@@ -158,9 +158,7 @@ class subdomain(dom.domain):
         fort22_files = glob.glob(self.fulldomain.path+'/fort.22*')
         for fid in fort22_files:
             new_fid = self.path+'/'+fid.rpartition('/')[-1]
-            if os.path.exists(new_fid):
-                os.remove(new_fid)
-            os.symlink(fid, self.path+'/'+fid.rpartition('/')[-1])
+            fm.symlink(fid, self.path+'/'+fid.rpartition('/')[-1])
 
     def genfull(self, noutgs=1, nspoolgs=1):
         """ 
