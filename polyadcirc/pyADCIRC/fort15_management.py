@@ -62,28 +62,28 @@ def read_recording_data(data, path=None):
                 line = line.partition('!')[0]
                 line = np.fromstring(line, sep=' ')
                 data.h0 = np.fromstring(line[0])[0]
-            elif line.find('NOUTE') >= 0:
+            elif line.find('UNIT  61') >= 0:
                 line = line.partition('!')
                 _read_record(fid, 'fort61', line, data)
-            elif line.find('UNIT 62') >= 0:
+            elif line.find('UNIT  62') >= 0:
                 line = line.partition('!')
                 _read_record(fid, 'fort62', line, data)
             elif line.find('NOUTC') >= 0:
                 line = line.partition('!')
                 #_read_record(fid, 'fort91', line, dt, data)
-            elif line.find('UNIT 71/72') >= 0:
+            elif line.find('UNIT  71/72') >= 0:
                 line = line.partition('!')
                 _read_record7(fid, 'fort71', 'fort72', line, data)
             elif line.find('NOUTGE') >= 0:
                 line = line.partition('!')
                 _read_record(fid, 'fort63', line, data)
-            elif line.find('UNIT 64') >= 0:
+            elif line.find('UNIT  64') >= 0:
                 line = line.partition('!')
                 _read_record(fid, 'fort64', line, data)
             elif line.find('NOUTGC') >= 0:
                 line = line.partition('!')
                 #_read_record(fid, 'fort93', line, dt, data)
-            elif line.find('UNIT 73/74') >= 0:
+            elif line.find('UNIT  73/74') >= 0:
                 line = line.partition('!')
                 _read_record7(fid, 'fort73', 'fort74', line, data)
             line = fid.readline()
