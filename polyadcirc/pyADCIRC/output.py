@@ -91,11 +91,9 @@ def get_ts_sr(path, file_name, get_time=False):
         fid.readline()
         line = fid.readline().strip()#rpartition('File')[0]
         line = np.fromstring(line, sep=' ')
-        print line
         total_obs = int(line[0])
         meas_locs = int(line[1])
         irtype = f15.filetype[file_name.replace('.','')][1]
-        print total_obs, meas_locs, irtype
         single_timeseries_data = np.zeros((meas_locs, total_obs, irtype))
         if get_time:
             time_obs = np.zeros((total_obs,))
