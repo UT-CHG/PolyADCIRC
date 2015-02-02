@@ -514,8 +514,6 @@ class subdomain(dom.domain):
             full_data = output.get_nts_sr(self.fulldomain.path, self.fulldomain,
                                           fid)[fulldom_nodes]
             sub_data = output.get_nts_sr(self.path, self, fid)
-            nts_error[key] = (full_data - sub_data)#/full_data
-            # Set nts_data
             nts_data[key] = np.array([full_data.T, sub_data.T]).T
         # Get ts_data
         for fid in ts_names:
@@ -539,11 +537,19 @@ class subdomain(dom.domain):
         # fix dry data
         if ts_data.has_key('fort61'):
             ts_data = rmn.fix_dry_data(ts_data, self)
+        # fix dry nodes nts
+        if nts_data.has_key('maxele63'):
+            nts_data = rmn.fix_dry_nodes(nts_data, self)
         
         # Get ts_error
         for fid in ts_names:
             key = fid.replace('.', '')
             ts_error[key] = (ts_data[key][..., 0] -ts_data[key][..., 1])
+
+        # Get nts_error
+        for fid in nts_names:
+            key = fid.replace('.', '')
+            nts_error[key] = (full_data - sub_data)#/full_data
 
         # Update and save
         # export nontimeseries data
