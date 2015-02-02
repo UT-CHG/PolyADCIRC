@@ -544,12 +544,12 @@ class subdomain(dom.domain):
         # Get ts_error
         for fid in ts_names:
             key = fid.replace('.', '')
-            ts_error[key] = (ts_data[key][..., 0] -ts_data[key][..., 1])
+            ts_error[key] = (ts_data[key][..., 0] - ts_data[key][..., 1])
 
         # Get nts_error
         for fid in nts_names:
             key = fid.replace('.', '')
-            nts_error[key] = (full_data - sub_data)#/full_data
+            nts_error[key] = (nts_data[key][..., 0] - nts_data[key][..., 1])
 
         # Update and save
         # export nontimeseries data
