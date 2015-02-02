@@ -539,7 +539,7 @@ class subdomain(dom.domain):
             ts_data = rmn.fix_dry_data(ts_data, self)
         # fix dry nodes nts
         if nts_data.has_key('maxele63'):
-            nts_data = rmn.fix_dry_nodes(nts_data, self)
+            nts_data = rmn.fix_dry_nodes_nts(nts_data, self)
         
         # Get ts_error
         for fid in ts_names:
