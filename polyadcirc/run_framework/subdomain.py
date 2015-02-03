@@ -480,6 +480,8 @@ class subdomain(dom.domain):
         NOTE THIS DOES NOT CURRENTLY WORK FOR STATION DATA! ONLY USE FOR GLOBAL
         DATA i.e files that are fort.*3 or fort.*4
 
+        NOTE THIS DOES NOT CURRENTLY WORK FOR ANY NTS DATA EXCEPT FOR MAXELE
+
         comparision_data = fulldomain_data - subdomain_data
 
         :param list() ts_names: names of ADCIRC timeseries
@@ -511,8 +513,11 @@ class subdomain(dom.domain):
         # Get nts_error
         for fid in nts_names:
             key = fid.replace('.', '')
+            #if not key == 'maxele63':
             full_data = output.get_nts_sr(self.fulldomain.path, self.fulldomain,
-                                          fid)[fulldom_nodes]
+                                      fid)[fulldom_nodes]
+            #else:
+            #    full_data = np.zeros((len(fulldom_nodes),))
             sub_data = output.get_nts_sr(self.path, self, fid)
             nts_data[key] = np.array([full_data.T, sub_data.T]).T
         # Get ts_data
@@ -539,6 +544,8 @@ class subdomain(dom.domain):
             ts_data = rmn.fix_dry_data(ts_data, self)
         # fix dry nodes nts
         if nts_data.has_key('maxele63'):
+            #nts_data['maxele63'][..., 0] = np.max(ts_data['fort63'][..., 0],
+            #        axis=1)
             nts_data = rmn.fix_dry_nodes_nts(nts_data, self)
         
         # Get ts_error
