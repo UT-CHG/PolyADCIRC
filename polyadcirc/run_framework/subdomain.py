@@ -472,7 +472,7 @@ class subdomain(dom.domain):
         sio.savemat(save_file, mdict, do_compression=True)
         return (ts_error, nts_error)
     
-    def compare_to_fulldomain(self, ts_names, nts_names, save_file=None):
+    def compare_to_fulldomain(self, ts_names, nts_names, save_file=None, timesteps=None):
         """
         Reads in output files from this subdomain and from it's fulldomain and
         compares them.
@@ -489,6 +489,7 @@ class subdomain(dom.domain):
         :param list() nts_names: names of ADCIRC non timeseries
             output files to be recorded from each run
         :param string save_file: name of file to save comparision matricies to
+        :param int timesteps: number of timesteps to read from file
         :rtype: tuple
         :returns: (ts_error, nts_error, time_obs, ts_data, nts_data)
 
@@ -527,13 +528,14 @@ class subdomain(dom.domain):
             total_obs = sub_data.shape[1]
             if self.recording[key][2] == 1:
                 full_data = output.get_ts_sr(self.fulldomain.path,
-                                             fid)[0][fulldom_nodes,
+                                             fid, timesteps=timesteps)[0][fulldom_nodes,
                                                      0:total_obs] 
             else:
                 full_data = output.get_ts_sr(self.fulldomain.path,
-                                             fid)[0][fulldom_nodes, 
+                                             fid, timesteps=timesteps)[0][fulldom_nodes, 
                                                      0:total_obs, :]
-            time_obs[key] = output.get_ts_sr(self.path, fid, True)[-1]
+            time_obs[key] = output.get_ts_sr(self.path, fid,
+                    True,timesteps=timesteps)[-1]
             ts_data[key] = np.array([full_data.T, sub_data.T]).T
        
         # fix dry nodes
