@@ -114,5 +114,5 @@ def get_ts_sr(path, file_name, get_time=False, timesteps=None):
                 single_timeseries_data[j, i, ...] = np.fromstring(fid.readline(), 
                                                                   sep=' ')[1:]
     if irtype == 1:
-        single_timeseries_data = np.squeeze(single_timeseries_data)
+        single_timeseries_data = np.squeeze(single_timeseries_data, axis=2)
     return (single_timeseries_data, time_obs)
