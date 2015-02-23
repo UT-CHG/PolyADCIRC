@@ -525,7 +525,10 @@ class subdomain(dom.domain):
         for fid in ts_names:
             key = fid.replace('.', '')
             sub_data = output.get_ts_sr(self.path, fid)[0]
-            total_obs = sub_data.shape[1]
+            if timesteps and timesteps < total_obs:
+                total_obs = timesteps
+            else:
+                total_obs = sub_data.shape[1]
             if self.recording[key][2] == 1:
                 full_data = output.get_ts_sr(self.fulldomain.path,
                                              fid, timesteps=timesteps)[0][fulldom_nodes,
