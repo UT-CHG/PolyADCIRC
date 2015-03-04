@@ -539,6 +539,8 @@ class subdomain(dom.domain):
             time_obs[key] = output.get_ts_sr(self.path, fid,
                     True,timesteps=timesteps)[-1]
             ts_data[key] = np.array([full_data.T, sub_data.T]).T
+            print key, full_data.shape, full_data.T.shape
+            print key, ts_data[key].shape
        
         # fix dry nodes
         if ts_data.has_key('fort63'):
@@ -548,9 +550,12 @@ class subdomain(dom.domain):
             ts_data = rmn.fix_dry_data(ts_data, self)
         # fix dry nodes nts
         if nts_data.has_key('maxele63'):
-            #nts_data['maxele63'][..., 0] = np.max(ts_data['fort63'][..., 0],
-            #        axis=1)
             nts_data = rmn.fix_dry_nodes_nts(nts_data, self)
+            nts_data['maxele63'][..., 0] = np.max(ts_data['fort63'][..., 0],
+                    axis=1)
+        if nts_data.has_key('maxvel63'):
+            nts_data['maxele63'][..., 0] = np.max(np.sqrt(ts_data['fort64'][..., 0, 0]**2 + ts_data['fort64'][..., 1, 0]**2),
+                    axis=1)
         
         # Get ts_error
         for fid in ts_names:
@@ -567,14 +572,18 @@ class subdomain(dom.domain):
         for k, v in nts_error.iteritems():
             mdict[k] = v
             print k
-            b = np.ma.fix_invalid(v, fill_value=0)
+            #b = np.ma.fix_invalid(v, fill_value=0)
+            b = v
             print np.max(abs(b)), np.argmax(abs(b))
+            print "Nodes above threshold", sum(np.abs(b)>1e-2)
         # export timeseries data
         for k, v in ts_error.iteritems():
             mdict[k] = v
             print k
-            b = np.ma.fix_invalid(v, fill_value=0)
+            #b = np.ma.fix_invalid(v, fill_value=0)
+            b = v
             print np.max(abs(b)), np.argmax(abs(b))
+            print "Nodes above threshold", sum(np.abs(b)>1e-2)
 
         # export time_obes data
         for k, v in time_obs.iteritems():

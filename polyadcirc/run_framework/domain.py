@@ -363,6 +363,21 @@ class domain(pickleable):
         """
         f13.update_mann(data, path, default, file_name)   
 
+    def find_neighbors(self):
+        """
+        Determine the neighbors of each of the nodes and store in
+        ``self.node[#].neighbors`` as a ``set()``.
+        """
+        for n in self.node.itervalues():
+            n.neighbors = set()
+        for e in self.element.itervalues():
+            self.node[e[0]].neighbors.add(e[1])
+            self.node[e[0]].neighbors.add(e[2])
+            self.node[e[1]].neighbors.add(e[0])
+            self.node[e[1]].neighbors.add(e[2])
+            self.node[e[2]].neighbors.add(e[1])
+            self.node[e[2]].neighbors.add(e[0])
+
 def adjust_factor(x, x_lims, b_lims=None):
     """
     :param float x: current x value
