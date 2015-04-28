@@ -527,7 +527,7 @@ class subdomain(dom.domain):
         # Get ts_data
         for fid in ts_names:
             key = fid.replace('.', '')
-            sub_data, time_obs[key] = output.get_ts_sr(self.path, fid, True, ihot=self.ihot)[0]
+            sub_data, time_obs[key] = output.get_ts_sr(self.path, fid, True, ihot=self.ihot)
             total_obs = sub_data.shape[1]
             if timesteps and timesteps < total_obs:
                 total_obs = timesteps
