@@ -6,7 +6,7 @@ arrays.
 
 import numpy as np
 import polyadcirc.pyADCIRC.fort15_management as f15
-import subprocess
+import subprocess, os
 
 def get_data_nts(kk, path, data, nts_data, file_names=["tinun.63"]):
     """
