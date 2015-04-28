@@ -213,8 +213,7 @@ class fulldomain(dom.domain):
         # Get nts_error
         for fid in nts_names:
             key = fid.replace('.', '')
-            fulldict[key] = output.get_nts_sr(self.path,
-                                              self. fid)
+            fulldict[key] = output.get_nts_sr(self.path, self, fid)
 
         # Get ts_data
         for fid in ts_names:
