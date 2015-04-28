@@ -52,7 +52,7 @@ def loadmat(save_file, base_dir, grid_dir, save_dir, basis_dir):
     main_run.time_obs = {}
 
     # load the data from at *.mat file
-    mdat = sio.loadmat(save_dir+'/'+save_file)
+    mdat = sio.loadmat(os.path.join(save_dir, save_file))
 
     for k, v in mdat.iteritems():
         skey = k.split('_')
@@ -157,7 +157,6 @@ class subdomain(dom.domain):
         """
         fort22_files = glob.glob(self.fulldomain.path+'/fort.22*')
         for fid in fort22_files:
-            new_fid = self.path+'/'+fid.rpartition('/')[-1]
             fm.symlink(fid, self.path+'/'+fid.rpartition('/')[-1])
 
     def genfull(self, noutgs=1, nspoolgs=1):
@@ -200,7 +199,7 @@ class subdomain(dom.domain):
             post.write_sub(self.fulldomain.path)
             # run ADCPOST
             subprocess.call('./adcpost < in.postsub > post_o.txt', shell=True,
-                    cwd=self.fulldomain.path)
+                            cwd=self.fulldomain.path)
         
         self.create_fort15()
         self.link_fort22()
@@ -300,8 +299,9 @@ class subdomain(dom.domain):
 
     def ellipse_properties(self, x, y, w):
         """
-        Given a the (x,y) locations of the foci of the ellipse and the width return
-        the center of the ellipse, width, height, and angle relative to the x-axis.
+        Given a the (x,y) locations of the foci of the ellipse and the width
+        return the center of the ellipse, width, height, and angle relative to
+        the x-axis.
 
         :param double x: x-coordinates of the foci
         :param double y: y-coordinates of the foci
@@ -472,7 +472,9 @@ class subdomain(dom.domain):
         sio.savemat(save_file, mdict, do_compression=True)
         return (ts_error, nts_error)
     
-    def compare_to_fulldomain(self, ts_names, nts_names, save_file=None, timesteps=None):
+    def compare_to_fulldomain(self, ts_names, nts_names, save_file=None,
+                              timesteps=None, savefull=True, readmatfull=False,
+                              savesub=True, readmatsub=False):
         """
         Reads in output files from this subdomain and from it's fulldomain and
         compares them.
@@ -498,8 +500,21 @@ class subdomain(dom.domain):
         if save_file == None:
             save_file = self.path+'/compare_s2f.mat'
 
+        full_file = os.path.join(self.fulldomain.path, 'full.mat')
+        sub_file = os.path.join(self.path, 'sub.mat')
+
         # Save matricies to *.mat file for use by MATLAB or Python
         mdict = dict()
+        if readmatsub:
+            subdict = sio.loadmat(sub_file)
+            savesub = False
+        else:
+            subdict = dict()
+        if readmatfull:
+            subdict = sio.loadmat(full_file)
+            savefull = False
+        else:
+            fulldict = dict()
 
         # Pre-allocate arrays for non-timeseries data
         nts_error = {}
@@ -514,37 +529,50 @@ class subdomain(dom.domain):
         # Get nts_error
         for fid in nts_names:
             key = fid.replace('.', '')
-            #if not key == 'maxele63':
-            full_data = output.get_nts_sr(self.fulldomain.path, self.fulldomain,
-                                      fid)[fulldom_nodes]
-            #else:
-            #    full_data = np.zeros((len(fulldom_nodes),))
-            sub_data = output.get_nts_sr(self.path, self, fid)
-            print key, full_data.shape, full_data.T.shape
-            print key, sub_data.shape, sub_data.T.shape
+            if readmatfull:
+                full_data = fulldict[key]
+            else:
+                full_data = output.get_nts_sr(self.fulldomain.path,
+                                              self.fulldomain, fid)
+                if savefull:
+                    fulldict[key] = full_data
+            if readmatsub:
+                sub_data = subdict[key]
+            else:
+                sub_data = output.get_nts_sr(self.path, self, fid)
+                if savesub:
+                    subdict[key] = sub_data
+            full_data = full_data[fulldom_nodes]
             nts_data[key] = np.array([full_data.T, sub_data.T]).T
-            print key, nts_data[key].shape
+
         # Get ts_data
         for fid in ts_names:
             key = fid.replace('.', '')
-            sub_data, time_obs[key] = output.get_ts_sr(self.path, fid, True, ihot=self.ihot)
+            if readmatsub:
+                sub_data, time_obs[key] = subdict[key], subdict[key+'_time']
+            else:
+                sub_data, time_obs[key] = output.get_ts_sr(self.path, fid,
+                                                           True,
+                                                           ihot=self.ihot) 
+                if savesub:
+                    subdict[key], subdict[key+'_time'] = sub_data, time_obs[key]
             total_obs = sub_data.shape[1]
             if timesteps and timesteps < total_obs:
                 total_obs = timesteps
-            if self.recording[key][2] == 1:
-                full_data = output.get_ts_sr(self.fulldomain.path,
-                                             fid, timesteps=timesteps,
-                                             ihot=self.fulldomain.ihot)[0][fulldom_nodes,
-                                                     0:total_obs] 
+            if readmatfull:
+                full_data = fulldict[key]
             else:
                 full_data = output.get_ts_sr(self.fulldomain.path,
                                              fid, timesteps=timesteps,
-                                             ihot=self.fulldomain.ihot)[0][fulldom_nodes, 
-                                                     0:total_obs, :]
+                                             ihot=self.fulldomain.ihot)[0]
+                if savefull:
+                    fulldict[key] = full_data
+                if self.recording[key][2] == 1:
+                    full_data = full_data[fulldom_nodes, 0:total_obs] 
+                else:
+                    full_data = full_data[fulldom_nodes, 0:total_obs, :]
             ts_data[key] = np.array([full_data.T, sub_data.T]).T
-            print key, full_data.shape, full_data.T.shape
-            print key, sub_data.shape, sub_data.T.shape
-            print key, ts_data[key].shape
+
        
         # fix dry nodes
         if ts_data.has_key('fort63'):
@@ -556,10 +584,10 @@ class subdomain(dom.domain):
         if nts_data.has_key('maxele63'):
             nts_data = rmn.fix_dry_nodes_nts(nts_data, self)
             nts_data['maxele63'][..., 0] = np.max(ts_data['fort63'][..., 0],
-                    axis=1)
+                                                  axis=1)
         if nts_data.has_key('maxvel63'):
-            nts_data['maxele63'][..., 0] = np.max(np.sqrt(ts_data['fort64'][..., 0, 0]**2 + ts_data['fort64'][..., 1, 0]**2),
-                    axis=1)
+            nts_data['maxele63'][..., 0] = np.max(np.sqrt(ts_data['fort64'][...,
+                0, 0]**2 + ts_data['fort64'][..., 1, 0]**2), axis=1)
         
         # Get ts_error
         for fid in ts_names:
@@ -579,7 +607,7 @@ class subdomain(dom.domain):
             #b = np.ma.fix_invalid(v, fill_value=0)
             b = v
             print np.max(abs(b)), np.argmax(abs(b))
-            print "Nodes above threshold", sum(np.abs(b)>1e-2)
+            print "Nodes above threshold", sum(np.abs(b) > 1e-2)
         # export timeseries data
         for k, v in ts_error.iteritems():
             mdict[k] = v
@@ -587,13 +615,18 @@ class subdomain(dom.domain):
             #b = np.ma.fix_invalid(v, fill_value=0)
             b = v
             print np.max(abs(b)), np.argmax(abs(b))
-            print "Nodes above threshold", sum(np.abs(b)>1e-2)
+            print "Nodes above threshold", sum(np.abs(b) > 1e-2)
 
-        # export time_obes data
+        # export time_obs data
         for k, v in time_obs.iteritems():
             mdict[k+'_time'] = v
 
         sio.savemat(save_file, mdict, do_compression=True)
+        if savesub:
+            sio.savemat(sub_file, subdict, do_compression=True)
+        if savefull:
+            sio.savemat(full_file, fulldict, do_compression=True)
+
         return (ts_error, nts_error, time_obs, ts_data, nts_data)
 
     def create_fort15(self):
@@ -694,7 +727,7 @@ class subdomain(dom.domain):
         """
         self.read_bv_nodes()
         self.bv_fort13 = f13.read_nodal_attr(self, self.path,
-                nums=self.bv_nodes)
+                                             nums=self.bv_nodes)
 
     def set_bv_fort13(self, mann_dict):
         """
@@ -756,7 +789,7 @@ def trim_multiple_fort13(old_fort13, new_fort13, pynode_map):
     print "len old, len new", len(old_fort13), len(new_fort13)
 
     for i in range(0+rank, len(old_fort13), size):
-        if not(os.path.exists(os.path.dirname(new_fort13[i]))):
+        if not os.path.exists(os.path.dirname(new_fort13[i])):
             os.makedirs(os.path.dirname(new_fort13[i]))
         trim_fort13(old_fort13[i], new_fort13[i], pynode_map)
 
