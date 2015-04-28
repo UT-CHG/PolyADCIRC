@@ -48,6 +48,11 @@ def read_recording_data(data, path=None):
             if line.find('DT') >= 0:
                 line = line.partition('!')
                 dt = float(line[0].strip()) # pylint: disable=C0103
+            elif line.find('IHOT') >= 0:
+                fid_write.write(line)
+                line = line.partition('!')
+                ihot = int(line[0].strip())
+                data.ihot = ihot
             elif line.find('STATIM') >= 0:
                 line = line.partition('!')
                 statim = float(line[0].strip())
