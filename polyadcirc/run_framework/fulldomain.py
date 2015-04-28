@@ -10,6 +10,7 @@ import subprocess, glob, sys, os
 import polyadcirc.pyADCIRC.post_management as post
 import polyadcirc.run_framework.random_manningsn as rmn
 import polyadcirc.pyADCIRC.output as output
+import scipy.io as sio
 
 class fulldomain(dom.domain):
     """

@@ -111,7 +111,6 @@ def fix_dry_nodes(ts_data, data):
     :returns: ts_data
 
     """
-    print "TS_DATA SHAPE",  ts_data['fort63'].shape
     mdat = np.ma.masked_equal(ts_data['fort63'], -99999.0)
 
     for k, v in data.node.iteritems():
