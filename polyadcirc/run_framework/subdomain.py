@@ -474,7 +474,7 @@ class subdomain(dom.domain):
     
     def compare_to_fulldomain(self, ts_names, nts_names, save_file=None,
                               timesteps=None, savefull=True, readmatfull=False,
-                              savesub=True, readmatsub=False):
+                              savesub=True, readmatsub=False, fulldict=None):
         """
         Reads in output files from this subdomain and from it's fulldomain and
         compares them.
@@ -510,11 +510,16 @@ class subdomain(dom.domain):
             savesub = False
         else:
             subdict = dict()
-        if readmatfull:
-            subdict = sio.loadmat(full_file)
-            savefull = False
+
+        if fulldict == None:
+            if readmatfull:
+                fulldict = sio.loadmat(full_file)
+                savefull = False
+            else:
+                fulldict = dict()
         else:
-            fulldict = dict()
+            readmatfull = True
+            savefull = False
 
         # Pre-allocate arrays for non-timeseries data
         nts_error = {}
@@ -529,60 +534,70 @@ class subdomain(dom.domain):
         # Get nts_error
         for fid in nts_names:
             key = fid.replace('.', '')
-            if readmatfull:
-                full_data = fulldict[key]
-            else:
-                full_data = output.get_nts_sr(self.fulldomain.path,
-                                              self.fulldomain, fid)
-                if savefull:
-                    fulldict[key] = full_data
-            if readmatsub:
-                sub_data = subdict[key]
-            else:
-                sub_data = output.get_nts_sr(self.path, self, fid)
-                if savesub:
-                    subdict[key] = sub_data
-            full_data = full_data[fulldom_nodes]
-            nts_data[key] = np.array([full_data.T, sub_data.T]).T
+            if not readmatfull:
+                fulldict[key] = output.get_nts_sr(self.fulldomain.path,
+                                                  self.fulldomain, fid)
+            if not readmatsub:
+                subdict[key] = output.get_nts_sr(self.path, self, fid)
 
         # Get ts_data
         for fid in ts_names:
             key = fid.replace('.', '')
-            if readmatsub:
-                sub_data, time_obs[key] = subdict[key], subdict[key+'_time']
-            else:
-                sub_data, time_obs[key] = output.get_ts_sr(self.path, fid,
-                                                           True,
-                                                           ihot=self.ihot) 
-                if savesub:
-                    subdict[key], subdict[key+'_time'] = sub_data, time_obs[key]
+            if not readmatsub:
+                subdict[key], time_obs[key] = output.get_ts_sr(self.path, fid,
+                                                               True,
+                                                               ihot=self.ihot) 
+                subdict[key+'_time'] = time_obs[key]
+            if not readmatfull:
+                fulldict[key] = output.get_ts_sr(self.fulldomain.path,
+                                                 fid, timesteps=timesteps,
+                                                 ihot=self.fulldomain.ihot)[0]
+       
+        if savesub and not readmatsub:
+            # fix dry nodes
+            if subdict.has_key('fort63'):
+                subdict = rmn.fix_dry_nodes(subdict, self)
+            # fix dry data
+            if subdict.has_key('fort61'):
+                subdict = rmn.fix_dry_data(subdict, self)
+            # fix dry nodes nts
+            if subdict.has_key('maxele63'):
+                subdict = rmn.fix_dry_nodes_nts(subdict, self)
+        if savefull and not readmatfull:
+            # fix dry nodes
+            if fulldict.has_key('fort63'):
+                fulldict = rmn.fix_dry_nodes(fulldict, self)
+            # fix dry data
+            if fulldict.has_key('fort61'):
+                fulldict = rmn.fix_dry_data(fulldict, self)
+            # fix dry nodes nts
+            if fulldict.has_key('maxele63'):
+                fulldict = rmn.fix_dry_nodes_nts(fulldict, self)
+
+        
+        # Get nts_error
+        for fid in nts_names:
+            key = fid.replace('.', '')
+            nts_data[key] = np.array([fulldict[key][fulldom_nodes].T,
+                subdict[key].T]).T
+
+        # Get ts_data
+        for fid in ts_names:
+            key = fid.replace('.', '')
+            sub_data, time_obs[key] = subdict[key], subdict[key+'_time']
             total_obs = sub_data.shape[1]
             if timesteps and timesteps < total_obs:
                 total_obs = timesteps
-            if readmatfull:
-                full_data = fulldict[key]
+            full_data = fulldict[key]
+            if self.recording[key][2] == 1:
+                full_data = full_data[fulldom_nodes, 0:total_obs] 
             else:
-                full_data = output.get_ts_sr(self.fulldomain.path,
-                                             fid, timesteps=timesteps,
-                                             ihot=self.fulldomain.ihot)[0]
-                if savefull:
-                    fulldict[key] = full_data
-                if self.recording[key][2] == 1:
-                    full_data = full_data[fulldom_nodes, 0:total_obs] 
-                else:
-                    full_data = full_data[fulldom_nodes, 0:total_obs, :]
+                full_data = full_data[fulldom_nodes, 0:total_obs, :]
             ts_data[key] = np.array([full_data.T, sub_data.T]).T
 
-       
-        # fix dry nodes
-        if ts_data.has_key('fort63'):
-            ts_data = rmn.fix_dry_nodes(ts_data, self)
-        # fix dry data
-        if ts_data.has_key('fort61'):
-            ts_data = rmn.fix_dry_data(ts_data, self)
-        # fix dry nodes nts
+
+        # update max vaules
         if nts_data.has_key('maxele63'):
-            nts_data = rmn.fix_dry_nodes_nts(nts_data, self)
             nts_data['maxele63'][..., 0] = np.max(ts_data['fort63'][..., 0],
                                                   axis=1)
         if nts_data.has_key('maxvel63'):
@@ -718,7 +733,8 @@ class subdomain(dom.domain):
             trimmed
         :param string new_fort13: path to save the new ``fort.13`` file
         """
-        trim_multiple_fort13(old_fort13, new_fort13, os.path.join(self.path, 'py.140'))
+        trim_multiple_fort13(old_fort13, new_fort13, os.path.join(self.path,
+            'py.140'))
 
     def read_bv_fort13(self):
         """

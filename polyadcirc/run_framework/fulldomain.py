@@ -6,8 +6,10 @@ is the :class:`fulldomain`.
 """
 
 import polyadcirc.run_framework.domain as dom
-import subprocess, glob, sys
+import subprocess, glob, sys, os
 import polyadcirc.pyADCIRC.post_management as post
+import polyadcirc.run_framework.random_manningsn as rmn
+import polyadcirc.pyADCIRC.output as output
 
 class fulldomain(dom.domain):
     """
@@ -102,7 +104,7 @@ class fulldomain(dom.domain):
         return command
 
     def genbcss(self, forcing_freq=None, dt=None, nspoolgs=None, h0=None,
-            L=False): 
+                L=False): 
         """
         Generate the ``fort.019`` files for the subdomains. This requires the
         presence of the output files from a fulldomain run, ``fort.06*``.
@@ -122,11 +124,11 @@ class fulldomain(dom.domain):
         """
         commands = []
         if L:
-             # create post-processing input file
-             post.write_sub(self.path)
-             # run ADCPOST
-             subprocess.call('./adcpost < in.postsub > post_o.txt', shell=True,
-                     cwd=self.path)
+            # create post-processing input file
+            post.write_sub(self.path)
+            # run ADCPOST
+            subprocess.call('./adcpost < in.postsub > post_o.txt', shell=True,
+                            cwd=self.path)
 
         if self.check_fulldomain():
             if forcing_freq == None:
@@ -182,3 +184,55 @@ class fulldomain(dom.domain):
             sub.setup()
 
 
+    def read_and_save_output(self, ts_names, nts_names, save_file=None,
+                             timesteps=None, save=False):
+        """
+        Reads in output files from this fulldomain and saves to a file. 
+
+        NOTE THIS DOES NOT CURRENTLY WORK FOR STATION DATA! ONLY USE FOR GLOBAL
+        DATA i.e files that are fort.*3 or fort.*4
+
+        NOTE THIS DOES NOT CURRENTLY WORK FOR ANY NTS DATA EXCEPT FOR MAXELE
+
+        :param list() ts_names: names of ADCIRC timeseries
+            output files to be recorded from each run
+        :param list() nts_names: names of ADCIRC non timeseries
+            output files to be recorded from each run
+        :param string save_file: name of file to save comparision matricies to
+        :param int timesteps: number of timesteps to read from file
+        :rtype: dict()
+        :returns: full_dict
+
+        """
+        
+        if save_file == None:
+            save_file = os.path.join(self.path, 'full.mat')
+        fulldict = dict()
+
+        # Get nts_error
+        for fid in nts_names:
+            key = fid.replace('.', '')
+            fulldict[key] = output.get_nts_sr(self.fulldomain.path,
+                                              self.fulldomain, fid)
+
+        # Get ts_data
+        for fid in ts_names:
+            key = fid.replace('.', '')
+            fulldict[key] = output.get_ts_sr(self.fulldomain.path,
+                                             fid, timesteps=timesteps,
+                                             ihot=self.fulldomain.ihot)[0]
+
+        # fix dry nodes
+        if fulldict.has_key('fort63'):
+            fulldict = rmn.fix_dry_nodes(fulldict, self)
+        # fix dry data
+        if fulldict.has_key('fort61'):
+            fulldict = rmn.fix_dry_data(fulldict, self)
+        # fix dry nodes nts
+        if fulldict.has_key('maxele63'):
+            fulldict = rmn.fix_dry_nodes_nts(fulldict, self)
+        
+        if save:
+            sio.savemat(save_file, fulldict, do_compression=True)
+
+        return fulldict
