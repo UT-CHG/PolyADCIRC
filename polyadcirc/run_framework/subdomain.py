@@ -520,26 +520,30 @@ class subdomain(dom.domain):
             #else:
             #    full_data = np.zeros((len(fulldom_nodes),))
             sub_data = output.get_nts_sr(self.path, self, fid)
+            print key, full_data.shape, full_data.T.shape
+            print key, sub_data.shape, sub_data.T.shape
             nts_data[key] = np.array([full_data.T, sub_data.T]).T
+            print key, nts_data[key].shape
         # Get ts_data
         for fid in ts_names:
             key = fid.replace('.', '')
-            sub_data = output.get_ts_sr(self.path, fid)[0]
+            sub_data, time_obs[key] = output.get_ts_sr(self.path, fid, True, ihot=self.ihot)[0]
             total_obs = sub_data.shape[1]
             if timesteps and timesteps < total_obs:
                 total_obs = timesteps
             if self.recording[key][2] == 1:
                 full_data = output.get_ts_sr(self.fulldomain.path,
-                                             fid, timesteps=timesteps)[0][fulldom_nodes,
+                                             fid, timesteps=timesteps,
+                                             ihot=self.fulldomain.ihot)[0][fulldom_nodes,
                                                      0:total_obs] 
             else:
                 full_data = output.get_ts_sr(self.fulldomain.path,
-                                             fid, timesteps=timesteps)[0][fulldom_nodes, 
+                                             fid, timesteps=timesteps,
+                                             ihot=self.fulldomain.ihot)[0][fulldom_nodes, 
                                                      0:total_obs, :]
-            time_obs[key] = output.get_ts_sr(self.path, fid,
-                    True,timesteps=timesteps)[-1]
             ts_data[key] = np.array([full_data.T, sub_data.T]).T
             print key, full_data.shape, full_data.T.shape
+            print key, sub_data.shape, sub_data.T.shape
             print key, ts_data[key].shape
        
         # fix dry nodes

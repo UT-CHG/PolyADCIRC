@@ -6,6 +6,7 @@ arrays.
 
 import numpy as np
 import polyadcirc.pyADCIRC.fort15_management as f15
+import subprocess
 
 def get_data_nts(kk, path, data, nts_data, file_names=["tinun.63"]):
     """
@@ -55,7 +56,7 @@ def get_nts_sr(path, data, file_name):
     return single_nodal_data
 
 def get_data_ts(kk, path, ts_data, time_obs, file_names=["fort.61"],
-        timesteps=None):
+        timesteps=None, ihot=None):
     """
     Retrieves data from a timeseries formatted files in path and adds data
     to ``ts_data``
@@ -65,6 +66,7 @@ def get_data_ts(kk, path, ts_data, time_obs, file_names=["fort.61"],
     :param dict() ts_data: reference to dict() to store data to
     :param dict() time_obs: reference to dict() to store time data to
     :param list() file_names: list of :program:`ADCIRC` output files to
+    :param int ihot: hotstart flag (0, 67, 68)
     :param int timesteps: number of timesteps to read
 
     """
@@ -72,11 +74,11 @@ def get_data_ts(kk, path, ts_data, time_obs, file_names=["fort.61"],
         key = fid.replace('.', '')
         if kk == 0:
             ts_data[key][..., kk], time_obs[key] = get_ts_sr(path, fid, True,
-                    timesteps)
+                    timesteps, ihot)
         else:
-            ts_data[key][..., kk] = get_ts_sr(path, fid, timesteps)[0] 
+            ts_data[key][..., kk] = get_ts_sr(path, fid, timesteps, ihot)[0] 
 
-def get_ts_sr(path, file_name, get_time=False, timesteps=None):
+def get_ts_sr(path, file_name, get_time=False, timesteps=None, ihot=None):
     """
      Retrieves data from a timeseries formatted file in path and adds data
     to ``ts_data``
@@ -86,19 +88,31 @@ def get_ts_sr(path, file_name, get_time=False, timesteps=None):
         from
     :param boolean: flag for whether or not to record times of recordings
     :param int timesteps: number of timesteps to read
+    :param int ihot: hotstart flag (0, 67, 68)
     :rtype: :class:`numpy.ndarray`
     :returns: array of dimensions (data.node_num,)
     """
+    # determine the number of lines in the file if HOTSTARTED
+    if ihot > 0:
+        p = subprocess.Popen(['wc', '-l', os.path.join(path, file_name)],
+                stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        result, err = p.communicate()
+        if p.returncode != 0:
+            raise IOError(err)
+        total_lines = int(result.strip().split()[0])
 
     with open(path+'/'+file_name, 'r') as fid:
         # skip some header information
         fid.readline()
         line = fid.readline().strip()#rpartition('File')[0]
         line = np.fromstring(line, sep=' ')
-        total_obs = int(line[0])
+        meas_locs = int(line[1])
+        if ihot > 0:
+            total_obs = (total_lines-1)/(meas_locs+1)
+        else:
+            total_obs = int(line[0])
         if timesteps and timesteps < total_obs:
             total_obs = timesteps
-        meas_locs = int(line[1])
         irtype = f15.filetype[file_name.replace('.','')][1]
         single_timeseries_data = np.zeros((meas_locs, total_obs, irtype))
         if get_time:
