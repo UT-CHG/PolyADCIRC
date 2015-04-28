@@ -213,15 +213,15 @@ class fulldomain(dom.domain):
         # Get nts_error
         for fid in nts_names:
             key = fid.replace('.', '')
-            fulldict[key] = output.get_nts_sr(self.fulldomain.path,
-                                              self.fulldomain, fid)
+            fulldict[key] = output.get_nts_sr(self.path,
+                                              self. fid)
 
         # Get ts_data
         for fid in ts_names:
             key = fid.replace('.', '')
-            fulldict[key] = output.get_ts_sr(self.fulldomain.path,
+            fulldict[key] = output.get_ts_sr(self.path,
                                              fid, timesteps=timesteps,
-                                             ihot=self.fulldomain.ihot)[0]
+                                             ihot=self.ihot)[0]
 
         # fix dry nodes
         if fulldict.has_key('fort63'):
