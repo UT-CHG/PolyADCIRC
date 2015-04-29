@@ -229,11 +229,15 @@ class fulldomain(dom.domain):
             fulldict['fort63'] = np.squeeze(fulldict['fort63'])
         # fix dry data
         if fulldict.has_key('fort61'):
+            fulldict['fort61'] = np.expand_dims(fulldict['fort61'], axis=1)
             fulldict = rmn.fix_dry_data(fulldict, self)
+            fulldict['fort61'] = np.squeeze(fulldict['fort61'])
         # fix dry nodes nts
         if fulldict.has_key('maxele63'):
+            fulldict['maxele63'] = np.expand_dims(fulldict['maxele63'], axis=1)
             fulldict = rmn.fix_dry_nodes_nts(fulldict, self)
-        
+            fulldict['maxele63'] = np.squeeze(fulldict['maxele63'])
+
         if save:
             sio.savemat(save_file, fulldict, do_compression=True)
 
