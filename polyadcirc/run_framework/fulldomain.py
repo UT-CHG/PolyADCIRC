@@ -4,7 +4,7 @@ This module contains a set of methods and a class for interacting with NCSU
 Subdomain Modeling Python code and associated files. The focus of this module
 is the :class:`fulldomain`.
 """
-
+import numpy as np
 import polyadcirc.run_framework.domain as dom
 import subprocess, glob, sys, os
 import polyadcirc.pyADCIRC.post_management as post
