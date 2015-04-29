@@ -556,7 +556,9 @@ class subdomain(dom.domain):
         if savesub and not readmatsub:
             # fix dry nodes
             if subdict.has_key('fort63'):
+                subdict['fort63'] = np.expand_dims(subdict['fort63'], axis=2)
                 subdict = rmn.fix_dry_nodes(subdict, self)
+                subdict['fort63'] = np.squeeze(subdict['fort63'])
             # fix dry data
             if subdict.has_key('fort61'):
                 subdict = rmn.fix_dry_data(subdict, self)
@@ -566,7 +568,9 @@ class subdomain(dom.domain):
         if savefull and not readmatfull:
             # fix dry nodes
             if fulldict.has_key('fort63'):
+                fulldict['fort63'] = np.expand_dims(fulldict['fort63'], axis=2)
                 fulldict = rmn.fix_dry_nodes(fulldict, self)
+                fulldict['fort63'] = np.squeeze(fulldict['fort63'])
             # fix dry data
             if fulldict.has_key('fort61'):
                 fulldict = rmn.fix_dry_data(fulldict, self)

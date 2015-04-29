@@ -224,7 +224,9 @@ class fulldomain(dom.domain):
 
         # fix dry nodes
         if fulldict.has_key('fort63'):
+            fulldict['fort63'] = np.expand_dims(fulldict['fort63'], axis=2)
             fulldict = rmn.fix_dry_nodes(fulldict, self)
+            fulldict['fort63'] = np.squeeze(fulldict['fort63'])
         # fix dry data
         if fulldict.has_key('fort61'):
             fulldict = rmn.fix_dry_data(fulldict, self)
