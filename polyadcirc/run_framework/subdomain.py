@@ -553,7 +553,7 @@ class subdomain(dom.domain):
                                                  fid, timesteps=timesteps,
                                                  ihot=self.fulldomain.ihot)[0]
        
-        if savesub and not readmatsub:
+        if not readmatsub:
             # fix dry nodes
             if subdict.has_key('fort63'):
                 subdict['fort63'] = np.expand_dims(subdict['fort63'], axis=2)
@@ -571,7 +571,7 @@ class subdomain(dom.domain):
                 subdict['maxele63'] = np.squeeze(subdict['maxele63'])
 
 
-        if savefull and not readmatfull:
+        if not readmatfull:
             # fix dry nodes
             if fulldict.has_key('fort63'):
                 fulldict['fort63'] = np.expand_dims(fulldict['fort63'], axis=2)
