@@ -528,10 +528,7 @@ class subdomain(dom.domain):
 
         fulldom_nodes = [v-1 for v in self.sub2full_node.values()]
 
-        nts_data = {}
-        ts_data = {}
-
-        # Get nts_error
+        # Get nts_data
         for fid in nts_names:
             key = fid.replace('.', '')
             if not readmatfull:
@@ -566,7 +563,8 @@ class subdomain(dom.domain):
                 subdict['fort61'] = np.squeeze(subdict['fort61'])
             # fix dry nodes nts
             if subdict.has_key('maxele63'):
-                subdict['maxele63'] = np.expand_dims(subdict['maxele63'], axis=1)
+                subdict['maxele63'] = np.expand_dims(subdict['maxele63'],
+                                                     axis=1) 
                 subdict = rmn.fix_dry_nodes_nts(subdict, self)
                 subdict['maxele63'] = np.squeeze(subdict['maxele63'])
 
@@ -584,20 +582,12 @@ class subdomain(dom.domain):
                 fulldict['fort61'] = np.squeeze(fulldict['fort61'])
             # fix dry nodes nts
             if fulldict.has_key('maxele63'):
-                fulldict['maxele63'] = np.expand_dims(fulldict['maxele63'], axis=1)
+                fulldict['maxele63'] = np.expand_dims(fulldict['maxele63'], 
+                                                      axis=1)
                 fulldict = rmn.fix_dry_nodes_nts(fulldict, self)
                 fulldict['maxele63'] = np.squeeze(fulldict['maxele63'])
-            elif subdict.has_key('maxele63'):
-                fulldict['maxele63'] = subdict['maxele63']
-
-        
-        # Get nts_error
-        for fid in nts_names:
-            key = fid.replace('.', '')
-            nts_data[key] = np.array([fulldict[key][fulldom_nodes].T,
-                subdict[key].T]).T
-
-        # Get ts_data
+    
+        # Get ts_error
         for fid in ts_names:
             key = fid.replace('.', '')
             sub_data, time_obs[key] = subdict[key], subdict[key+'_time']
@@ -609,27 +599,23 @@ class subdomain(dom.domain):
                 full_data = full_data[fulldom_nodes, 0:total_obs] 
             else:
                 full_data = full_data[fulldom_nodes, 0:total_obs, :]
-            ts_data[key] = np.array([full_data.T, sub_data.T]).T
-
-
-        # update max vaules
-        if nts_data.has_key('maxele63'):
-            nts_data['maxele63'][..., 0] = np.max(ts_data['fort63'][..., 0],
-                                                  axis=1)
-        if nts_data.has_key('maxvel63'):
-            nts_data['maxele63'][..., 0] = np.max(np.sqrt(ts_data['fort64'][...,
-                0, 0]**2 + ts_data['fort64'][..., 1, 0]**2), axis=1)
+            ts_error[key] = (full_data - sub_data)
+            if key == 'fort63' and (nts_names.has_key('maxele63') or\
+                    nts_names.has_key('maxele.63')):
+                nts_error['maxele63'] = np.max(full_data[..., 0],
+                                        axis=1) - subdict['maxele63']
+            if key == 'fort64' and (nts_names.has_key('maxvel63') or\
+                    nts_names.has_key('maxvel.63')):
+                nts_error['maxvel63'] = np.max(np.sqrt(full_data[...,
+                    0, 0]**2 + full_data[..., 1, 0]**2), 
+                    axis=1) - subdict['maxvel63']
         
-        # Get ts_error
-        for fid in ts_names:
-            key = fid.replace('.', '')
-            ts_error[key] = (ts_data[key][..., 0] - ts_data[key][..., 1])
-
         # Get nts_error
         for fid in nts_names:
             key = fid.replace('.', '')
-            nts_error[key] = (nts_data[key][..., 0] - nts_data[key][..., 1])
-
+            if key != 'maxele63' and key != 'maxevel63':
+                nts_error[key] = fulldict[key][fulldom_nodes] - subdict[key]
+        
         # Update and save
         # export nontimeseries data
         for k, v in nts_error.iteritems():
@@ -658,7 +644,7 @@ class subdomain(dom.domain):
         if savefull:
             sio.savemat(full_file, fulldict, do_compression=True)
 
-        return (ts_error, nts_error, time_obs, ts_data, nts_data)
+        return (ts_error, nts_error, time_obs, None, None)
 
     def create_fort15(self):
         """
