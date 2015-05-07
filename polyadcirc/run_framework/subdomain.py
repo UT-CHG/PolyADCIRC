@@ -587,7 +587,7 @@ class subdomain(dom.domain):
                 fulldict['maxele63'] = np.expand_dims(fulldict['maxele63'], axis=1)
                 fulldict = rmn.fix_dry_nodes_nts(fulldict, self)
                 fulldict['maxele63'] = np.squeeze(fulldict['maxele63'])
-            elif fulldict.has_key('maxele63') and subdict.has_key('maxele63'):
+            elif subdict.has_key('maxele63'):
                 fulldict['maxele63'] = subdict['maxele63']
 
         
