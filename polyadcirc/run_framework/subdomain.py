@@ -600,12 +600,12 @@ class subdomain(dom.domain):
             else:
                 full_data = full_data[fulldom_nodes, 0:total_obs, :]
             ts_error[key] = (full_data - sub_data)
-            if key == 'fort63' and (nts_names.has_key('maxele63') or\
-                    nts_names.has_key('maxele.63')):
+            if key == 'fort63' and (subdict.has_key('maxele63') or\
+                    subdict.has_key('maxele.63')):
                 nts_error['maxele63'] = np.max(full_data[..., 0],
                                         axis=1) - subdict['maxele63']
-            if key == 'fort64' and (nts_names.has_key('maxvel63') or\
-                    nts_names.has_key('maxvel.63')):
+            if key == 'fort64' and (subdict.has_key('maxvel63') or\
+                    subdict.has_key('maxvel.63')):
                 nts_error['maxvel63'] = np.max(np.sqrt(full_data[...,
                     0, 0]**2 + full_data[..., 1, 0]**2), 
                     axis=1) - subdict['maxvel63']
