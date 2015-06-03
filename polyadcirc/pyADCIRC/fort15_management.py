@@ -216,7 +216,7 @@ def subdomain(fulldomain_path, subdomain_path):
                 statim = float(line[0].strip())
             elif line.find('RNDAY') >= 0:
                 line = line.partition('!')
-                rnday = float(line[0].strip())*0.95
+                rnday = float(line[0].strip())*0.995
                 fid_write.write(' {:<6.3f} {:>30}{}'.format(rnday, '!',
                                                             line[-1])) 
             elif line.find('DRAMP') >= 0:
