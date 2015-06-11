@@ -291,10 +291,12 @@ class runSet(pickleable):
             self.script_name = "run_job_batch.sh"
         super(runSet, self).__init__()
 
-    def initialize_random_field_directories(self, num_procs=12):
+    def initialize_random_field_directories(self, num_procs=12, prep=True):
         """
         Make directories for parallel funs of random fields
-
+        
+        :param int num_procs: number of processes per padcirc run
+        :param bool prep: flag wether or not to run adcprep
         :rtype: list()
         :returns: list of paths to ``RF_directory_*``
 
@@ -316,8 +318,9 @@ class runSet(pickleable):
         self.write_prep_script(1)
         self.write_prep_script(2)
         self.write_prep_script(5)
-        subprocess.call(['./prep_1.sh'], cwd=self.save_dir)
-        subprocess.call(['./prep_2.sh'], cwd=self.save_dir)
+        if prep:
+            subprocess.call(['./prep_1.sh'], cwd=self.save_dir)
+            subprocess.call(['./prep_2.sh'], cwd=self.save_dir)
         return rf_dirs
 
     def remove_random_field_directories(self):
