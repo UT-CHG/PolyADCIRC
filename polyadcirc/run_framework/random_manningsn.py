@@ -365,7 +365,7 @@ class runSet(pickleable):
     def write_run_script(self, num_procs, num_jobs, procs_pnode, TpN,
                          screenout=True, num_writers=None):
         """
-        Creats a bash script called run_job_batch.sh
+        Creates a bash script called ``self.script_name`` in ``self.base_dir``
 
         :type num_procs: int
         :param num_procs: number of processors per job
