@@ -321,7 +321,55 @@ class runSet(pickleable):
         if prep:
             subprocess.call(['./prep_1.sh'], cwd=self.save_dir)
             subprocess.call(['./prep_2.sh'], cwd=self.save_dir)
+        else:
+            self.link_random_field_directories()
         return rf_dirs
+
+    def link_random_field_directories(self):
+        """
+        Assumes that the pre-preped ``RF_directory`` is ``RF_directory_1``.
+        In each of the ``RF_directory_*`` create the ``PE****`` folders copy
+        over the ``fort.13`` and then link the ``fort.019``, ``fort.18``,
+        ``fort.15``, fort.14`` into the ``PE****`` folder. Also link
+        ``metis_graph.txt`` and ``partmesh.txt`` into the ``RF_directory``.
+        
+        :param int num_procs: number of processes per padcirc run
+        """
+        # get a list of all RF_dirs
+        rf_dirs = glob.glob(os.path.join(self.save_dir, 'RF_directory_*'))
+        link_rf_files = ['metis_graph.txt', 'partmesh.txt']
+        # remove the first RF_dir from the list and save the name as a vairbale
+        prime_rf_dir = os.path.join(self.save_dir, 'RF_directory_1')
+        rf_dirs.remove(prime_rf_dir)
+        # create lists of PE directories and files to link
+        PE_dirs = glob.glob(os.path.join(prime_rf_dir, 'PE*'))
+        link_inputs = ['fort.019', 'fort.18', 'fort.15', 'fort.14']
+        if not os.path.exists(os.path.join(prime_rf_dir, 'fort.019')):
+            link_inputs.remove('fort.019')
+
+        for rf_dir in rf_dirs:
+            # link rf files
+            for rf_file in link_rf_files:
+                if os.path.exists(os.path.join(rf_dir, rf_file)):
+                    os.remove(os.path.join(rf_dir, rf_file))
+                os.symlink(os.path.join(prime_rf_dir, rf_file),
+                        os.path.join(rf_dir, rf_file))
+            for PE_dir in PE_dirs:
+                # create the PE* directories
+                my_PE_dir = os.path.join(rf_dir, os.path.basename(PE_dir))
+                if not os.path.exists(my_PE_dir):
+                    mkdir(my_PE_dir)
+                # link files into the PE* directories
+                for input in link_inputs:
+                    if os.path.exists(os.path.join(my_PE_dir, input)):
+                        os.remove(os.path.join(my_PE_dir, input))
+                    os.symlink(os.path.join(PE_dir, input),
+                            os.path.join(my_PE_dir, input))
+                # copy fort.13 into the PE* directories
+                if os.path.exists(os.path.join(my_PE_dir, 'fort.13')):
+                    os.remove(os.path.join(my_PE_dir, 'fort.13'))
+                shutil.copy(os.path.join(PE_dir, 'fort.13'),
+                        os.path.join(my_PE_dir, 'fort.13'))
 
     def remove_random_field_directories(self):
         """
