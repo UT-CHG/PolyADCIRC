@@ -5,7 +5,7 @@ This module contains functions to pull data from a ``fort.61`` and the
 of processors allocated by the submission script
 """
 import numpy as np
-import glob, os, stat, subprocess, shutil
+import glob, os, stat, subprocess, shutil, math
 import polyadcirc.pyADCIRC.fort13_management as f13
 import polyadcirc.pyADCIRC.fort15_management as f15
 from polyadcirc.pyADCIRC.basic import pickleable
@@ -16,6 +16,7 @@ import polyadcirc.pyADCIRC.prep_management as prep
 import polyadcirc.pyADCIRC.output as output
 import polyadcirc.run_framework.domain as dom
 import scipy.io as sio
+from distutils.spawn import find_executable
 
 def loadmat(save_file, base_dir, grid_dir, save_dir, basis_dir):
     """
@@ -363,6 +364,84 @@ class runSet(pickleable):
         prep.write_5(path, num_procs)
 
     def write_run_script(self, num_procs, num_jobs, procs_pnode, TpN,
+                         screenout=True, num_writers=None):
+        """
+        Creates a bash script called ``self.script_name`` in ``self.base_dir``
+
+        :type num_procs: int
+        :param num_procs: number of processors per job
+        :type num_jobs: int
+        :param num_jobs: number of jobs to run
+        :param int procs_pnode: number of processors per node
+        :param boolean screenout: flag (True --  write ``ADCIRC`` output to
+            screen, False -- write ``ADCIRC`` output to temp file)
+        :param int num_writers: number of MPI processes to dedicate soley to
+            the task of writing ascii files
+        :param int TpN: number of tasks (cores to use) per node (wayness)
+        :rtype: string
+        :returns: name of bash script for running a batch of jobs within our
+            processor allotment
+
+        """
+        if find_executable('ibrun'):
+            return self.write_run_script_ibrun(num_procs, num_jobs,
+                    procs_pnode, TpN, screenout, num_writers)
+        else:
+            return self.write_run_script_noibrun(num_procs, num_jobs,
+                    procs_pnode, TpN, screenout, num_writers)
+
+    def write_run_script_noibrun(self, num_procs, num_jobs, procs_pnode, TpN,
+                         screenout=True, num_writers=None):
+        """
+        Creates a bash script called ``self.script_name`` in ``self.base_dir``
+        and a set of rankfiles named ``rankfile_n`` to run multiple non-interacting
+        parallel programs in parallel.
+
+        :type num_procs: int
+        :param num_procs: number of processes per job
+        :type num_jobs: int
+        :param num_jobs: number of jobs to run
+        :param int procs_pnode: number of processors per node
+        :param boolean screenout: flag (True --  write ``ADCIRC`` output to
+            screen, False -- write ``ADCIRC`` output to temp file)
+        :param int num_writers: number of MPI processes to dedicate soley to
+            the task of writing ascii files
+        :param int TpN: number of tasks (processors to use) per node (wayness)
+        :rtype: string
+        :returns: name of bash script for running a batch of jobs within our
+            processor allotment
+
+        """
+        tmp_file = self.script_name.partition('.')[0]+'.tmp'
+        num_nodes = int(math.ceil(num_procs*num_jobs/float(TpN)))
+        with open(os.path.join(self.base_dir, self.script_name), 'w') as f:
+            f.write('#!/bin/bash\n')
+            # change i to 2*i or something like that to no use all of the
+            # processors on a node?
+            for i in xrange(num_jobs):
+                # write the bash file containing mpi commands
+                #line = 'ibrun -n {:d} -o {:d} '.format(num_procs,
+                #        num_procs*i*(procs_pnode/TpN))
+                rankfile = 'rankfile{:d}'.format(i)
+                line = 'mpirun -machinefile $TMP/machines -rf '
+                line += rankfile+' -np {:d} '.format(num_procs)
+                line += './padcirc -I {0} -O {0} '.format(self.rf_dirs[i])
+                if num_writers:
+                    line += '-W '+str(num_writers)+' '
+                if not screenout:
+                    line += '> '+tmp_file
+                line += ' &\n'
+                f.write(line)
+                # write the rankfile containing the bindings
+                with open(os.path.join(self.base_dir, rankfile), 'w') as frank:
+                    for j in xrange(num_procs):
+                        # rank, node_num, slot_nums
+                        if TpN == procs_pnode:
+                            line = 'rank {:d}=n+{:d} slot={:d}'.format(j,
+                                    (i*num_procs+j)/procs_pnode,
+                                    (i*num_procs+j)%procs_pnode)
+    
+    def write_run_script_ibrun(self, num_procs, num_jobs, procs_pnode, TpN,
                          screenout=True, num_writers=None):
         """
         Creates a bash script called ``self.script_name`` in ``self.base_dir``
