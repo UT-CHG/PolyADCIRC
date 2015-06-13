@@ -472,14 +472,15 @@ class runSet(pickleable):
         tmp_file = self.script_name.partition('.')[0]+'.tmp'
         num_nodes = int(math.ceil(num_procs*num_jobs/float(TpN)))
         with open(os.path.join(self.base_dir, self.script_name), 'w') as f:
-            f.write('#!/bin/bash\n')
+            #f.write('#!/bin/bash\n')
             # change i to 2*i or something like that to no use all of the
             # processors on a node?
             for i in xrange(num_jobs):
                 # write the bash file containing mpi commands
                 #line = 'ibrun -n {:d} -o {:d} '.format(num_procs,
                 #        num_procs*i*(procs_pnode/TpN))
-                rankfile = 'rankfile{:d}'.format(i)
+                rankfile = '{}rankfile{:d}'.format(self.script_name.partition('.')[0],
+                        i)
                 line = 'mpirun -machinefile $TMP/machines -rf '
                 line += rankfile+' -np {:d} '.format(num_procs)
                 line += './padcirc -I {0} -O {0} '.format(self.rf_dirs[i])
@@ -497,6 +498,7 @@ class runSet(pickleable):
                             line = 'rank {:d}=n+{:d} slot={:d}'.format(j,
                                     (i*num_procs+j)/procs_pnode,
                                     (i*num_procs+j)%procs_pnode)
+            f.write('wait\n')
         curr_stat = os.stat(self.base_dir+'/'+self.script_name)
         os.chmod(self.base_dir+'/'+self.script_name,
                  curr_stat.st_mode | stat.S_IXUSR)
@@ -753,6 +755,11 @@ class runSet(pickleable):
             # Update and save
             self.update_mdict(mdict)
             self.save(mdict, save_file)
+            if num_points <= self.num_of_parallel_runs:
+                pass
+            elif (k+1)%(num_points/self.num_of_parallel_runs) == 0:
+                msg = str(k+1)+" of "+str(num_points)
+                print msg+" runs have been completed."
 
         # save data
         self.update_mdict(mdict)
