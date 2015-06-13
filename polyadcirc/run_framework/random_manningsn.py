@@ -412,6 +412,8 @@ class runSet(pickleable):
                 os.remove(path+'/'+fid.rpartition('/')[-1])
             os.symlink(fid, path+'/'+fid.rpartition('/')[-1])
             #copy(fid, path+'/'+fid.rpartition('/')[-1])
+        if not os.path.exists(path+'/padcirc'):
+            os.symlink(self.base_dir+'/padcirc', path+'/padcirc')       
         if not os.path.exists(path+'/adcprep'):
             os.symlink(self.base_dir+'/adcprep', path+'/adcprep')
         prep.write_1(path, num_procs)
