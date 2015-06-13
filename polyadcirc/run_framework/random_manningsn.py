@@ -495,6 +495,9 @@ class runSet(pickleable):
                             line = 'rank {:d}=n+{:d} slot={:d}'.format(j,
                                     (i*num_procs+j)/procs_pnode,
                                     (i*num_procs+j)%procs_pnode)
+        curr_stat = os.stat(self.base_dir+'/'+self.script_name)
+        os.chmod(self.base_dir+'/'+self.script_name,
+                 curr_stat.st_mode | stat.S_IXUSR)
         return self.script_name
     
     def write_run_script_ibrun(self, num_procs, num_jobs, procs_pnode, TpN,
