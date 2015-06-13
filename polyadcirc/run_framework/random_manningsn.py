@@ -406,7 +406,7 @@ class runSet(pickleable):
         else:
             sub_files = ['bv.nodes', 'py.140', 'py.141']
             sub_files = [os.path.join(self.grid_dir, sf) for sf in sub_files]
-            input.extend(sub_files)
+            inputs.extend(sub_files)
         for fid in inputs:
             if os.path.exists(path+'/'+fid.rpartition('/')[-1]):
                 os.remove(path+'/'+fid.rpartition('/')[-1])
