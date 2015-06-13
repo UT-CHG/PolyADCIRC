@@ -485,7 +485,7 @@ class runSet(pickleable):
                 # comma separated list of ranks w/o spaces
                 for j in xrange(num_procs-1):
                     line += str(j+i*num_procs)+','
-                line += str((i+1)*num_procs)+' '
+                line += str((i+1)*num_procs-1)+' '
                 if TpN != procs_pnode:
                     line += '-ranks-per-proc {:d} '.format(TpN)
                 line += ' -np {:d} '.format(num_procs)
