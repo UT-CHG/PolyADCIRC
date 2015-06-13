@@ -750,20 +750,25 @@ class subdomain(dom.domain):
         self.bv_fort13 = f13.read_nodal_attr(self, self.path,
                                              nums=self.bv_nodes)
 
-    def set_bv_fort13(self, mann_dict):
+    def set_bv_fort13(self, mann_data):
         """
         Replace the boundary nodal values with the boundary nodal values in the
         fulldomain.
 
-        :param dict mann_dict: dictonary of nodal values
+        :type mann_data: :class:`np.array` or :class:`dict`
+        :param mann_data: containing the nodal attribute information
         
-        :rtype: dict
-        :returns: dictionary of nodal values
+        :rtype: :class:`np.array` or :class:`dict`
+        :returns: dictionary or array of nodal values
 
         """
-        for k, v in self.bv_fort13.iteritems():
-            mann_dict[k] = v
-        return mann_dict
+        if type(mann_data) == 'dict':
+            for k, v in self.bv_fort13.iteritems():
+                mann_data[k] = v
+        else:
+            for k, v in self.bv_fort13.iteritems():
+                mann_data[k-1] = v
+        return mann_data
 
     def update_mann(self, data, path=None, default=None, file_name='fort.13'):
         """
