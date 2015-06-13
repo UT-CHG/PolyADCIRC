@@ -488,7 +488,7 @@ class runSet(pickleable):
                 line += str((i+1)*num_procs-1)+' '
                 if TpN != procs_pnode:
                     line += '-ranks-per-proc {:d} '.format(TpN)
-                line += ' -np {:d} '.format(num_procs)
+                line += '-np {:d} '.format(num_procs)
                 line += './padcirc -I {0} -O {0} '.format(self.rf_dirs[i])
                 if num_writers:
                     line += '-W '+str(num_writers)+' '
