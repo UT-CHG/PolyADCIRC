@@ -278,7 +278,7 @@ def trim_locations(flag, subdomain_path, locs):
 def trim_locations_circle(subdomain_path, locs):
     """
     Remove locations outside of the circular subdomain from locs
-
+    
     :param string subdomain_path: subdomain dir containing ``fort.15`` file
     :param list() locs: list of :class:`~polyadcirc.pyADCIRC.basic.location`
         objects
@@ -291,10 +291,11 @@ def trim_locations_circle(subdomain_path, locs):
         xb = float(line[0])
         yb = float(line[1])
         r = float(fid.readline())
+    sub_stations = []
     for loc in locs:
-        if (xb-loc.x)**2 + (yb-loc.y)**2 >= r**2:
-            locs.remove(loc)    
-    return locs
+        if ((xb-loc.x)**2 + (yb-loc.y)**2) <= r**2:
+            sub_stations.append(loc)    
+    return sub_stations
 
 def trim_locations_ellipse(subdomain_path, locs):
     """
@@ -331,6 +332,7 @@ def trim_locations_ellipse(subdomain_path, locs):
     xaxis = ((0.5*d)**2 + (0.5*w)**2)**(0.5) 
     yaxis = w/2
     
+    sub_stations = []
     for loc in locs:
         #transform Global Coordinates to local coordinates
         X = loc.x - c[0]
@@ -338,9 +340,9 @@ def trim_locations_ellipse(subdomain_path, locs):
         x = cos*X - sin*Y
         y = sin*X + cos*Y
 
-        if x**2/xaxis**2 + y**2/yaxis**2 >= 1:
-            locs.remove(loc)
-    return locs
+        if (x**2/xaxis**2 + y**2/yaxis**2) < 1:
+            sub_stations.append(loc)    
+    return sub_stations
 
 def _write_record(fid, key, description, data):
     """
