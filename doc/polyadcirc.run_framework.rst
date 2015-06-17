@@ -4,14 +4,6 @@ polyadcirc.run_framework package
 Submodules
 ----------
 
-polyadcirc.run_framework.adaptive_sampling module
--------------------------------------------------
-
-.. automodule:: polyadcirc.run_framework.adaptive_sampling
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 polyadcirc.run_framework.domain module
 --------------------------------------
 
@@ -24,6 +16,14 @@ polyadcirc.run_framework.fulldomain module
 ------------------------------------------
 
 .. automodule:: polyadcirc.run_framework.fulldomain
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+polyadcirc.run_framework.no_ibrun module
+----------------------------------------
+
+.. automodule:: polyadcirc.run_framework.no_ibrun
     :members:
     :undoc-members:
     :show-inheritance:

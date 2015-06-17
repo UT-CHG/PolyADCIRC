@@ -76,6 +76,14 @@ polyadcirc.pyADCIRC.plotADCIRC module
     :undoc-members:
     :show-inheritance:
 
+polyadcirc.pyADCIRC.post_management module
+------------------------------------------
+
+.. automodule:: polyadcirc.pyADCIRC.post_management
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 polyadcirc.pyADCIRC.prep_management module
 ------------------------------------------
 

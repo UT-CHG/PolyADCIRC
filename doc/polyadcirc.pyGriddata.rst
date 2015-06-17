@@ -12,10 +12,10 @@ polyadcirc.pyGriddata.file_management module
     :undoc-members:
     :show-inheritance:
 
-polyadcirc.pyGriddata.gridObject module
----------------------------------------
+polyadcirc.pyGriddata.grid_management module
+--------------------------------------------
 
-.. automodule:: polyadcirc.pyGriddata.gridObject
+.. automodule:: polyadcirc.pyGriddata.grid_management
     :members:
     :undoc-members:
     :show-inheritance:
@@ -24,14 +24,6 @@ polyadcirc.pyGriddata.manufacture_gap module
 --------------------------------------------
 
 .. automodule:: polyadcirc.pyGriddata.manufacture_gap
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-polyadcirc.pyGriddata.prep_mesh module
---------------------------------------
-
-.. automodule:: polyadcirc.pyGriddata.prep_mesh
     :members:
     :undoc-members:
     :show-inheritance:
