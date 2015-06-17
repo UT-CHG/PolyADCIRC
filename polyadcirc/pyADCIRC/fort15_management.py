@@ -6,6 +6,7 @@ fort15_management handles the reading/writing of ``fort.15`` formatted files
 import numpy as np
 import os, re, math
 import polyadcirc.pyADCIRC.basic as basic
+import bet.util as util
 
 filetype = {'fort61':(True, 1), 'fort62':(True, 2), 'fort63':(False, 1),
             'tinun63':(False, 1), 'maxele63':(False, 1), 
@@ -13,6 +14,23 @@ filetype = {'fort61':(True, 1), 'fort62':(True, 2), 'fort63':(False, 1),
             'rising63':(False, 1), 'elemaxdry63':(False, 1),
             'fort64':(False, 2), 'fort71':(True, 1), 'fort72':(True, 2),
             'fort73':(False, 1), 'fort74':(False, 2)}
+
+def array_to_loc_list(station_array):
+    stations = []
+    for i in station_array:
+        stations.append(basic.location(i[0], i[1]))
+    return stations
+
+def loc_list_to_array(station_list):
+    xy = [[l.x, l.y] for l in station_list]
+    return np.array(xy)
+
+def fake_stations(domain, num_stat):
+    x = domain.array_x()
+    y = domain.array_y()
+    xy = util.meshgrid_ndim((np.linspace(min(x), max(x), num_stat),
+        np.linspace(min(y), max(y), num_stat)))
+    return array_to_loc_list(xy)
 
 def read_recording_data(data, path=None):
     """
@@ -293,7 +311,7 @@ def trim_locations_circle(subdomain_path, locs):
         r = float(fid.readline())
     sub_stations = []
     for loc in locs:
-        if ((xb-loc.x)**2 + (yb-loc.y)**2) <= r**2:
+        if ((xb-loc.x)**2 + (yb-loc.y)**2) <= (r-r/25)**2:
             sub_stations.append(loc)    
     return sub_stations
 
