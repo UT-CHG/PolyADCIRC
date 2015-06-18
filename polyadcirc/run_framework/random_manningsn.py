@@ -750,7 +750,6 @@ class runSet(pickleable):
         mdict['mann_pts'] = points
         self.save(mdict, save_file)
 
-        #bv_array = tmm.get_basis_vec_array(self.basis_dir)
         bv_dict = tmm.get_basis_vectors(self.basis_dir)
 
         # Pre-allocate arrays for various data files
@@ -842,45 +841,43 @@ class runSet(pickleable):
         ``random_fields``, ``mean_field``, ``station_data``, and
         save in save_dir/figs
 
-        .. todo:: this uses bv_array everywhere. I might want to change this
-                  later when I go to the nested mesh approach
-
         """
         mkdir(self.save_dir+'/figs')
         domain.get_Triangulation(self.save_dir, save, show)
         domain.plot_bathymetry(self.save_dir, save, show)
         domain.plot_station_locations(self.save_dir, bathymetry, save, show)
 
-        bv_array = tmm.get_basis_vec_array(self.basis_dir)
+        bv_dict = tmm.get_basis_vectors(self.basis_dir)
 
-        self.plot_basis_functions(domain, bv_array, save, show)
-        self.plot_random_fields(domain, points, bv_array, save, show)
+        self.plot_basis_functions(domain,
+                tmm.get_basis_vec_array(self.basis_dir), save, show)
+        self.plot_random_fields(domain, points, bv_dict, save, show)
 
-        self.plot_mean_field(domain, points, bv_array, save, show)
+        self.plot_mean_field(domain, points, bv_dict, save, show)
         self.plot_station_data(save, show)
 
-    def plot_basis_functions(self, domain, bv_array, save=True, show=False):
+    def plot_basis_functions(self, domain, bv_dict, save=True, show=False):
         """
         See :meth:``~polsim.pyADCIRC.plotADCIRC.basis_functions`
 
         """
-        plot.basis_functions(domain, bv_array, self.save_dir, save, show)
+        plot.basis_functions(domain, bv_dict, self.save_dir, save, show)
 
-    def plot_random_fields(self, domain, points, bv_array, save=True, show=
+    def plot_random_fields(self, domain, points, bv_dict, save=True, show=
                            False):
         """
         See :meth:`~polsim.rnu_framework.plotADCIRC.random_fields`
 
         """
-        plot.random_fields(domain, points, bv_array, self.save_dir, save, show)
+        plot.random_fields(domain, points, bv_dict, self.save_dir, save, show)
 
-    def plot_mean_field(self, domain, points, bv_array, save=True, show=
+    def plot_mean_field(self, domain, points, bv_dict, save=True, show=
                         False):
         """
         See :meth:`~polsim.rnu_framework.plotADCIRC.mean_field`
 
         """
-        plot.mean_field(domain, points, bv_array, self.save_dir, save, show)
+        plot.mean_field(domain, points, bv_dict, self.save_dir, save, show)
 
     def plot_station_data(self, save=True, show=False):
         """

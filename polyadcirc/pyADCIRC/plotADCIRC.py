@@ -7,6 +7,7 @@ import numpy as np
 import os
 import polyadcirc.pyGriddata.file_management as fm
 import polyadcirc.pyADCIRC.fort15_management as f15
+import polyadcirc.pyGriddata.table_to_mesh_map as tmm
 # import plotting modules
 import matplotlib.pyplot as plt
 import matplotlib.tri as tri
@@ -71,6 +72,9 @@ def bathymetry(domain, path=None, save=True, show=False, mesh = False,
 
     """
     z = domain.array_bathymetry()
+    vmax = np.max(z)
+    vmin = np.min(z)
+    clim = (vmin, vmax)
     if path == None:
         path = os.getcwd()
     plt.figure()
@@ -81,9 +85,11 @@ def bathymetry(domain, path=None, save=True, show=False, mesh = False,
                       cmap=plt.cm.ocean)
     else:
         plt.tricontourf(domain.triangulation, z, cmap=plt.cm.ocean)
-    colorbar()
+    if clim:
+        plt.clim(clim[0], clim[1])
     plt.title('bathymetry')
     plt.gca().set_aspect('equal')
+    colorbar()
     add_2d_axes_labels(ics)    
     save_show(path+'/figs/bathymetry', save, show, ext)
 
@@ -184,18 +190,18 @@ def basis_functions(domain, bv_array, path=None, save=True, show=False,
         field(domain, z, 'basis_function_'+str(i), (0.0,1.0) , path, save,
               show, ics, ext, cmap)
 
-def random_fields(domain, points, bv_array, path=None, save=True, show =
+def random_fields(domain, points, bv_dict, path=None, save=True, show =
                   False, ics=1, ext='.png', cmap = plt.cm.jet):
     """
-    Given a ``bv_array`` a set of random points, plot the ``r_fields``
+    Given a ``bv_dict`` a set of random points, plot the ``r_fields``
     generated in
     :meth:`~polyadcirc.run_framework.random_manningsn.runSet.run_points`
    
     :param domain: :class:`~polyadcirc.run_framework.domain`
     :type points: :class:`np.array`
     :param points: weights for points at which the random domain was sampled
-    :type bv_array: :class:`np.array`
-    :param bv_array: array of basis vectors based on land classification
+    :type bv_dict: list of ``dict``
+    :param bv_dict: list of basis vectors based on land classification
     :type path: string or None
     :param path: directory to store plots
     :type save: boolean
@@ -208,24 +214,28 @@ def random_fields(domain, points, bv_array, path=None, save=True, show =
 
     """
     vmax = np.max(points)
+    if vmax == 1.0:
+        vmax = np.max(points[range(points.shape[0]-1), :])
     vmin = np.min(points)
     clim = (vmin, vmax)
+    default = domain.read_default()
     for i in xrange(points.shape[1]):
-        z = np.dot(bv_array, points[..., i])
+        z = tmm.combine_basis_vectors(points[..., i], bv_dict, default,
+            domain.node_num)
         field(domain, z, 'random_field_'+str(i), clim, path, save, show, ics,
               ext, cmap)
 
-def mean_field(domain, points, bv_array, path=None, save=True, show =
+def mean_field(domain, points, bv_dict, path=None, save=True, show =
                False, ics=1, ext='.png'): 
     """
-    Given a bv_array a set of random points, plot the r_fields generated in
+    Given a bv_dict a set of random points, plot the r_fields generated in
     random_manningsn.runSet.run_points
    
     :param domain: :class:`~polyadcirc.run_framework.domain`
     :type points: :class:`np.array`
     :param points: weights for points at which the random domain was sampled
-    :type bv_array: :class:`np.array`
-    :param bv_array: array of basis vectors based on land classification
+    :type bv_dict: list of ``dict``
+    :param bv_dict: list of basis vectors based on land classification    
     :type path: string or None
     :param path: directory to store plots
     :type save: boolean
@@ -238,9 +248,13 @@ def mean_field(domain, points, bv_array, path=None, save=True, show =
 
     """
     vmax = np.max(points)
+    if vmax == 1.0:
+        vmax = np.max(points[range(points.shape[0]-1), :])
     vmin = np.min(points)
     clim = (vmin, vmax)
-    z = np.dot(bv_array, np.mean(points, 1)) 
+    default = domain.read_default()
+    z = tmm.combine_basis_vectors(np.mean(points, 1), bv_dict, default,
+        domain.node_num)
     field(domain, z, 'mean_field', clim, path, save, show, ics,  ext)
 
 def station_data(ts_data, time_obs, keys=None, stations = None, path=None,
@@ -476,7 +490,7 @@ def nts_pcolor(nts_data, domain, keys=None, points=None, path=None,
             plt.gca().set_aspect('equal')
             cb = colorbar()
             add_2d_axes_labels(ics)    
-            cb.set_label(k+'_'+'diff')
+            cb.set_label(k+'_'+'diff_{}_{}'.format(points))
             save_show(path+'/figs/nts/'+k+'_diff_contour', save, show, ext)
 
 def ts_pcolor(ts_data, time_obs, domain, keys=None, points=None, 
