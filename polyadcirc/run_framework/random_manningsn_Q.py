@@ -6,7 +6,6 @@ of processors allocated by the submission script
 """
 import numpy as np
 import glob, os, subprocess, shutil 
-import polyadcirc.pyADCIRC.fort14_management as f14
 import polyadcirc.pyGriddata.table_to_mesh_map as tmm
 import polyadcirc.pyADCIRC.output as output
 import scipy.io as sio
@@ -28,7 +27,8 @@ def loadmat(save_file, base_dir, grid_dir, save_dir, basis_dir):
     :param string basis_dir: directory where ``landuse_*`` folders are located
     :param string base_dir: directory that contains ADCIRC executables, and
         machine specific ``in.prep#`` files 
-    :rtype: tuple of :class:`~polyadcirc.run_framework.random_manningsn_Q.runSet`,
+    :rtype: tuple of
+        :class:`~polyadcirc.run_framework.random_manningsn_Q.runSet`,
         :class:`~polyadcirc.run_framework.random_manningsn.domain` objects, and
         two :class:`numpy.array`s
     :returns: (main_run, domain, mann_pts, Q)
@@ -133,8 +133,9 @@ class runSet(rmn.runSet):
         # set up saving
         if glob.glob(self.save_dir+'/'+save_file):
             old_files = glob.glob(os.path.join(self.save_dir, "*"+save_file)) 
-            shutil.move(os.path.join(self.save_dir,save_file),
-                    os.path.join(self.save_dir, str(len(old_files))+save_file))
+            shutil.move(os.path.join(self.save_dir, save_file),
+                        os.path.join(self.save_dir,
+                        str(len(old_files))+save_file))
 
         # Save matricies to *.mat file for use by MATLAB or Python
         mdict = dict()
