@@ -94,7 +94,7 @@ def bathymetry(domain, path=None, save=True, show=False, mesh = False,
     save_show(path+'/figs/bathymetry', save, show, ext)
 
 def station_locations(domain, path=None, bathy = False, save=True, 
-                      show=False, ics=1, ext='.png'):
+                      show=False, ics=1, ext='.png', station_markers=None):
     """
     Given a domain, plot the observation stations 
    
@@ -122,6 +122,9 @@ def station_locations(domain, path=None, bathy = False, save=True,
     else:
         plt.triplot(domain.triangulation, 'k-')
         plt.gca().set_aspect('equal')
+
+    if station_markers is None:
+        station_markers = _stationmarkers
     
     for k, v in domain.stations.iteritems():
         x = np.array([e.x for e in v])
@@ -490,7 +493,7 @@ def nts_pcolor(nts_data, domain, keys=None, points=None, path=None,
             plt.gca().set_aspect('equal')
             cb = colorbar()
             add_2d_axes_labels(ics)    
-            cb.set_label(k+'_'+'diff_{}_{}'.format(points))
+            cb.set_label(k+'_'+'diff_{0}_{0}'.format(points))
             save_show(path+'/figs/nts/'+k+'_diff_contour', save, show, ext)
 
 def ts_pcolor(ts_data, time_obs, domain, keys=None, points=None, 
