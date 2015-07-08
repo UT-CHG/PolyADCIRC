@@ -90,12 +90,12 @@ class runSet(rmn.runSet):
             mdict[k] = v
         mdict['Q'] = self.Q
             
-    def run_nobatch_q(self, data, points, save_file, 
+    def run_nobatch_q(self, data, mann_points, save_file, 
                       num_procs=12, procs_pnode=12, stations=None,
                       screenout=True, num_writers=None, TpN=12):
         """
         Runs :program:`ADCIRC` for all of the configurations specified by
-        ``points`` and returns a dictonary of arrays containing data from
+        ``mann_points`` and returns a dictonary of arrays containing data from
         output files. Runs batches of :program:`PADCIRC` as a single for loop
         and preps both the ``fort.13`` and fort.14`` in the same step.
         
@@ -105,9 +105,9 @@ class runSet(rmn.runSet):
         Reads in a default Manning's *n* value from self.save_dir and stores
         it in data.manningsn_default                                                                   
         :param data: :class:`~polyadcirc.run_framework.domain`
-        :type points: :class:`np.array` of size (``num_of_basis_vec``,
+        :type mann_points: :class:`np.array` of size (``num_of_basis_vec``,
             ``num_of_random_fields``), ``num_of_random_fields``
-        :param points: containts the weights to be used for each run
+        :param mann_points: containts the weights to be used for each run
         :type save_file: string
         :param save_file: name of file to save mdict to 
         :type num_procs: int or 12
@@ -139,13 +139,13 @@ class runSet(rmn.runSet):
 
         # Save matricies to *.mat file for use by MATLAB or Python
         mdict = dict()
-        mdict['mann_pts'] = points 
+        mdict['mann_pts'] = mann_points 
         self.save(mdict, save_file)
 
         bv_dict = tmm.get_basis_vectors(self.basis_dir)
 
         # Pre-allocate arrays for various data files
-        num_points = points.shape[1]
+        num_points = mann_points.shape[1]
         # Pre-allocate arrays for non-timeseries data
         nts_data = {}
         self.nts_data = nts_data
@@ -180,7 +180,7 @@ class runSet(rmn.runSet):
             self.write_prep_script(5)
             for i in xrange(0, step):
                 # generate the Manning's n field
-                r_field = tmm.combine_basis_vectors(points[..., i+k],
+                r_field = tmm.combine_basis_vectors(mann_points[..., i+k],
                                                     bv_dict, default,
                                                     data.node_num)
                 # create the fort.13 for r_field
