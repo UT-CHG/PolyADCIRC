@@ -837,7 +837,7 @@ class runSet(pickleable):
         return time_obs, ts_data, nts_data
 
     def make_plots(self, points, domain, save=True, show=False,
-                   bathymetry=False):
+                   bathymetry=False, ext='.eps', ics=2):
         """
         Plots ``mesh``, ``station_locations``, ``basis_functions``,
         ``random_fields``, ``mean_field``, ``station_data``, and
@@ -845,49 +845,53 @@ class runSet(pickleable):
 
         """
         mkdir(self.save_dir+'/figs')
-        domain.get_Triangulation(self.save_dir, save, show)
-        domain.plot_bathymetry(self.save_dir, save, show)
-        domain.plot_station_locations(self.save_dir, bathymetry, save, show)
+        domain.get_Triangulation(self.save_dir, save, show, ext, ics)
+        domain.plot_bathymetry(self.save_dir, save, show, ext, ics)
+        domain.plot_station_locations(self.save_dir, bathymetry, save, show,
+                ext, ics)
 
         bv_dict = tmm.get_basis_vectors(self.basis_dir)
 
         self.plot_basis_functions(domain,
-                tmm.get_basis_vec_array(self.basis_dir), save, show)
-        self.plot_random_fields(domain, points, bv_dict, save, show)
+                tmm.get_basis_vec_array(self.basis_dir), save, show, ext, ics)
+        self.plot_random_fields(domain, points, bv_dict, save, show, ext, ics)
 
-        self.plot_mean_field(domain, points, bv_dict, save, show)
-        self.plot_station_data(save, show)
+        self.plot_mean_field(domain, points, bv_dict, save, show, ext, ics)
+        self.plot_station_data(save, show, ext)
 
-    def plot_basis_functions(self, domain, bv_dict, save=True, show=False):
+    def plot_basis_functions(self, domain, bv_dict, save=True, show=False, ext='.eps', ics=2):
         """
         See :meth:``~polsim.pyADCIRC.plotADCIRC.basis_functions`
 
         """
-        plot.basis_functions(domain, bv_dict, self.save_dir, save, show)
+        plot.basis_functions(domain, bv_dict, self.save_dir, save, show,
+                ext=ext, ics=ics)
 
     def plot_random_fields(self, domain, points, bv_dict, save=True, show=
-                           False):
+                           False, ext='.eps', ics=2):
         """
         See :meth:`~polsim.rnu_framework.plotADCIRC.random_fields`
 
         """
-        plot.random_fields(domain, points, bv_dict, self.save_dir, save, show)
+        plot.random_fields(domain, points, bv_dict, self.save_dir, save, show,
+                ext=ext, ics=ics)
 
     def plot_mean_field(self, domain, points, bv_dict, save=True, show=
-                        False):
+                        False, ext='.eps', ics=2):
         """
         See :meth:`~polsim.rnu_framework.plotADCIRC.mean_field`
 
         """
-        plot.mean_field(domain, points, bv_dict, self.save_dir, save, show)
+        plot.mean_field(domain, points, bv_dict, self.save_dir, save, show,
+                ext=ext, ics=ics)
 
-    def plot_station_data(self, save=True, show=False):
+    def plot_station_data(self, save=True, show=False, ext='.eps'):
         """
         See :meth:`~polsim.rnu_framework.plotADCIRC.station_data`
 
         """
         plot.station_data(self.ts_data, self.time_obs, None, self.save_dir,
-                          save, show)
+                          save, show, ext=ext)
 
     def fix_dry_data(self, data):
         """

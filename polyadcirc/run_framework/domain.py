@@ -209,7 +209,8 @@ class domain(pickleable):
             path = self.path
         return f13.read_default(self, path, file_name)
 
-    def get_Triangulation(self, path=None, save=True, show=False):
+    def get_Triangulation(self, path=None, save=True, show=False, ext='.eps',
+            ics=2):
         """
         :type path: None or string
         :param string path: directory containing ``figs/`` folder
@@ -218,9 +219,10 @@ class domain(pickleable):
         :returns: See :meth:`~polyadcirc.pyADCIRC.plotADCIRC.get_Triangulation`
 
         """
-        return plot.get_Triangulation(self, path, save, show)
+        return plot.get_Triangulation(self, path, save, show, ext=ext, ics=ics)
 
-    def plot_bathymetry(self, path=None, save=True, show=False):
+    def plot_bathymetry(self, path=None, save=True, show=False, ext='.eps',
+            ics=2):
         """
         :type path: None or string
         :param string path: directory containing ``figs/`` folder
@@ -229,10 +231,11 @@ class domain(pickleable):
         :returns: See :meth:`~polyadcirc.pyADCIRC.plotADCIRC.bathymetry`
 
         """
-        return plot.bathymetry(self, path, save, show)
+        return plot.bathymetry(self, path, save, show, ext=ext, ics=ics)
 
     def plot_station_locations(self, path=None, bathymetry=False, 
-                               save=True, show=False):
+                               save=True, show=False, ext='.eps',
+            ics=2):
         """
         :param string path: directory containing ``figs/`` folder
         :type bathymetry: boolean
@@ -243,7 +246,7 @@ class domain(pickleable):
         :returns: See :meth:`~polyadcirc.pyADCIRC.plotADCIRC.station_locations`
 
         """
-        return plot.station_locations(self, path, bathymetry, save, show)
+        return plot.station_locations(self, path, bathymetry, save, show, ext=ext, ics=ics)
 
     def adjust(self, x_lims=None, b_lims=None, path=None, plotb=False):
         """

@@ -10,6 +10,8 @@ import polyadcirc.pyADCIRC.fort15_management as f15
 import polyadcirc.pyGriddata.table_to_mesh_map as tmm
 # import plotting modules
 import matplotlib.pyplot as plt
+plt.rc('text', usetex=True)
+plt.rc('font', family='serif')
 import matplotlib.tri as tri
 from matplotlib.collections import LineCollection
 from mpl_toolkits.axes_grid1 import make_axes_locatable
@@ -18,7 +20,7 @@ _stationmarkers = {'fort61':'bo', 'fort62':'go', 'fort71':'ro', 'fort72':'co',
                    'fort81':'yo', 'fort91':'ko'}
 
 def get_Triangulation(domain, path=None, save=True, show=False, ics=1,
-                      ext='.png'):
+                      ext='.png', title=False):
     """
     :param domain: :class:`~polyadcirc.run_framework.domain`
     :type path: string or None
@@ -44,15 +46,16 @@ def get_Triangulation(domain, path=None, save=True, show=False, ics=1,
         fm.mkdir(path+'/figs')
     if save or show:
         plt.triplot(triangulation, 'g-')
-        plt.title('grid')
+        if title:
+            plt.title('grid')
         plt.gca().set_aspect('equal')
-        add_2d_axes_labels(ics)    
+        add_2d_axes_labels(ics=ics)    
         save_show(path+'/figs/grid', save, show, ext)
     domain.triangulation = triangulation
     return triangulation
 
 def bathymetry(domain, path=None, save=True, show=False, mesh = False,
-               contour = False, ics=1, ext='.png'):
+               contour = False, ics=1, ext='.png', title=False):
     """
     Given a domain, plot the bathymetry
 
@@ -85,12 +88,13 @@ def bathymetry(domain, path=None, save=True, show=False, mesh = False,
                       cmap=plt.cm.ocean)
     else:
         plt.tricontourf(domain.triangulation, z, cmap=plt.cm.ocean)
+    plt.gca().set_aspect('equal')
+    add_2d_axes_labels(ics=ics)    
     if clim:
         plt.clim(clim[0], clim[1])
-    plt.title('bathymetry')
-    plt.gca().set_aspect('equal')
+    if title:
+        plt.title('bathymetry')
     colorbar()
-    add_2d_axes_labels(ics)    
     save_show(path+'/figs/bathymetry', save, show, ext)
 
 def station_locations(domain, path=None, bathy = False, save=True, 
@@ -129,10 +133,10 @@ def station_locations(domain, path=None, bathy = False, save=True,
     for k, v in domain.stations.iteritems():
         x = np.array([e.x for e in v])
         y = np.array([e.y for e in v])
-        plt.plot(x, y, _stationmarkers[k], label = k)
+        plt.plot(x, y, station_markers[k], label = k)
     
-    plt.title('station locations')
-    add_2d_axes_labels(ics)    
+    #plt.title('station locations')
+    add_2d_axes_labels(ics=ics)    
     plt.legend(bbox_to_anchor=(0., 1.02, 1., .102), loc=3,
                ncol=2, mode="expand", borderaxespad=0.)
     save_show(path+'/figs/station_locations', save, show, ext)
@@ -166,7 +170,7 @@ def field(domain, z, title, clim = None,  path=None, save=True, show =
     plt.autoscale(tight=True)
     if clim:
         plt.clim(clim[0], clim[1])
-    add_2d_axes_labels(ics)    
+    add_2d_axes_labels(ics=ics)    
     colorbar()
     #plt.title(title)
     save_show(path+'/figs/'+title, save, show, ext)
@@ -461,7 +465,7 @@ def nts_pcolor(nts_data, domain, keys=None, points=None, path=None,
             plt.gca().set_aspect('equal')
             plt.clim(clim[0], clim[1])
             colorbar()
-            add_2d_axes_labels(ics)    
+            add_2d_axes_labels(ics=ics)    
             plt.title(k+'_'+str(j))
             save_show(path+'/figs/nts/'+k+'_'+str(j)+'_contour', save, show,
                       ext)
@@ -474,7 +478,7 @@ def nts_pcolor(nts_data, domain, keys=None, points=None, path=None,
             plt.gca().set_aspect('equal')
             plt.clim(clim[0], clim[1])
             cb = colorbar()
-            #add_2d_axes_labels(ics)    
+            #add_2d_axes_labels(ics=ics)    
             cb.set_label(k+'_'+str(points[0]))
             
             plt.subplot(312)
@@ -483,7 +487,7 @@ def nts_pcolor(nts_data, domain, keys=None, points=None, path=None,
             plt.gca().set_aspect('equal')
             plt.clim(clim[0], clim[1])
             cb = colorbar()
-            #add_2d_axes_labels(ics)    
+            #add_2d_axes_labels(ics=ics)    
             cb.set_label(k+'_'+str(points[-1]))
 
             plt.subplot(313)
@@ -492,7 +496,7 @@ def nts_pcolor(nts_data, domain, keys=None, points=None, path=None,
                           cmap=plt.cm.jet)
             plt.gca().set_aspect('equal')
             cb = colorbar()
-            add_2d_axes_labels(ics)    
+            add_2d_axes_labels(ics=ics)    
             cb.set_label(k+'_'+'diff_{0}_{0}'.format(points))
             save_show(path+'/figs/nts/'+k+'_diff_contour', save, show, ext)
 
@@ -547,7 +551,7 @@ def ts_pcolor(ts_data, time_obs, domain, keys=None, points=None,
             fm.mkdir(path+'/figs/ts/'+k+'/run'+str(j))        
             for i, t in enumerate(time_obs[k]):
                 plt.figure()
-                add_2d_axes_labels(ics)    
+                add_2d_axes_labels(ics=ics)    
                 plt.tripcolor(domain.triangulation, ts_data[k][:,i,j],
                               shading='gouraud', cmap=plt.cm.jet)
                 plt.gca().set_aspect('equal')
@@ -571,7 +575,7 @@ def ts_pcolor(ts_data, time_obs, domain, keys=None, points=None,
                 plt.gca().set_aspect('equal')
                 plt.clim(clim[0], clim[1])
                 cb = colorbar()
-                #add_2d_axes_labels(ics)    
+                #add_2d_axes_labels(ics=ics)    
                 cb.set_label(k+'_'+str(points[0]))
                 
                 ax2 = plt.subplot(312)
@@ -580,7 +584,7 @@ def ts_pcolor(ts_data, time_obs, domain, keys=None, points=None,
                 plt.gca().set_aspect('equal')
                 plt.clim(clim[0], clim[1])
                 cb = colorbar()
-                #add_2d_axes_labels(ics)    
+                #add_2d_axes_labels(ics=ics)    
                 cb.set_label(k+'_'+str(points[-1]))
 
                 ax3 = plt.subplot(313)
@@ -589,7 +593,7 @@ def ts_pcolor(ts_data, time_obs, domain, keys=None, points=None,
                 plt.gca().set_aspect('equal')
                 plt.clim(cdiff[0], cdiff[1])
                 cb = colorbar()
-                add_2d_axes_labels(ics)    
+                add_2d_axes_labels(ics=ics)    
                 cb.set_label(k+'_'+'diff')
                 plt.tight_layout()
                 plt.suptitle('time = '+str(t))
@@ -653,7 +657,7 @@ def ts_quiver(ts_data, time_obs, domain, keys=None, points=None,
             fm.mkdir(path+'/figs/ts_quiver/'+k+'/run'+str(j))        
             for i, t in enumerate(time_obs[k]):
                 plt.figure()
-                add_2d_axes_labels(ics)    
+                add_2d_axes_labels(ics=ics)    
                 plt.quiver(x, y, ts_data[k][:,i,0,j], ts_data[k][:,i,1,j],
                            mag[:,i,j])
                 plt.gca().set_aspect('equal')
@@ -678,7 +682,7 @@ def ts_quiver(ts_data, time_obs, domain, keys=None, points=None,
                 plt.gca().set_aspect('equal')
                 plt.clim(clim[0], clim[1])
                 cb = colorbar()
-                #add_2d_axes_labels(ics)    
+                #add_2d_axes_labels(ics=ics)    
                 cb.set_label(k+'_'+str(points[0]))
                 
                 ax2 = plt.subplot(312)
@@ -687,7 +691,7 @@ def ts_quiver(ts_data, time_obs, domain, keys=None, points=None,
                 plt.gca().set_aspect('equal')
                 plt.clim(clim[0], clim[1])
                 cb = colorbar()
-                #add_2d_axes_labels(ics)    
+                #add_2d_axes_labels(ics=ics)    
                 cb.set_label(k+'_'+str(points[-1]))
 
                 ax3 = plt.subplot(313)
@@ -695,7 +699,7 @@ def ts_quiver(ts_data, time_obs, domain, keys=None, points=None,
                 plt.gca().set_aspect('equal')
                 plt.clim(cdiff[0], cdiff[1])
                 cb = colorbar()
-                add_2d_axes_labels(ics)    
+                add_2d_axes_labels(ics=ics)    
                 cb.set_label(k+'_'+'diff')
                 plt.tight_layout()
                 plt.suptitle('time = '+str(t))
@@ -732,7 +736,7 @@ def save_show(full_name, save, show, ext):
     plt.tight_layout()
     if save:
         plt.savefig(full_name+ext, bbox_inches='tight', transparent=True,
-                    pad_inches=0)
+                    pad_inches=0.1)
     if show:
         plt.show()
     else:
@@ -806,7 +810,7 @@ def nts_contour(nts_data, domain, keys=None, points=None, path=None,
                            shading='gouraud', cmap=plt.cm.jet)
             plt.gca().set_aspect('equal')
             colorbar()
-            add_2d_axes_labels(ics)    
+            add_2d_axes_labels(ics=ics)    
             plt.title(k+'_'+str(j))
             save_show(path+'/figs/nts_contour/'+k+'_'+str(j)+'_contour', save,
                       show, ext)
@@ -818,7 +822,7 @@ def nts_contour(nts_data, domain, keys=None, points=None, path=None,
                            shading='gouraud', cmap=plt.cm.jet)
             plt.gca().set_aspect('equal')
             cb = colorbar()
-            #add_2d_axes_labels(ics)    
+            #add_2d_axes_labels(ics=ics)    
             cb.set_label(k+'_'+str(points[0]))
             
             plt.subplot(312)
@@ -826,7 +830,7 @@ def nts_contour(nts_data, domain, keys=None, points=None, path=None,
                            shading='gouraud', cmap=plt.cm.jet)
             plt.gca().set_aspect('equal')
             cb = colorbar()
-            #add_2d_axes_labels(ics)    
+            #add_2d_axes_labels(ics=ics)    
             cb.set_label(k+'_'+str(points[-1]))
 
             plt.subplot(313)
@@ -835,7 +839,7 @@ def nts_contour(nts_data, domain, keys=None, points=None, path=None,
                            cmap=plt.cm.jet)
             plt.gca().set_aspect('equal')
             cb = colorbar()
-            add_2d_axes_labels(ics)    
+            add_2d_axes_labels(ics=ics)    
             cb.set_label(k+'_'+'diff')
             save_show(path+'/figs/nts_contour/'+k+'_diff_contour', save, show,
                       ext)
