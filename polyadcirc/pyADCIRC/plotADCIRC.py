@@ -119,7 +119,7 @@ def station_locations(domain, path=None, bathy = False, save=True,
     if path == None:
         path = os.getcwd()
     if bathy:
-        z = np.array([n.bathy for n in domain.node.itervalues()])
+        z = np.array([n.bathymetry for n in domain.node.itervalues()])
         plt.tripcolor(domain.triangulation, z, shading='gouraud',
                       cmap=plt.cm.ocean)
         plt.gca().set_aspect('equal')
