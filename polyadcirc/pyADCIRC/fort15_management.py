@@ -219,9 +219,7 @@ def subdomain(fulldomain_path, subdomain_path):
     
     data = fdata()
         
-    with open(fulldomain_path+'/fort.15', 
-              'r') as fid_read, open(subdomain_path+'/fort.15', 
-                                     'w') as fid_write:
+    with open(fulldomain_path+'/fort.15', 'r') as fid_read, open(subdomain_path+'/fort.15', 'w') as fid_write:
         line = fid_read.readline()
         while line != '':
             if line.find('DT') >= 0:
