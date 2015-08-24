@@ -408,9 +408,10 @@ class runSet(pickleable):
             sub_files = [os.path.join(self.grid_dir, sf) for sf in sub_files]
             inputs.extend(sub_files)
         for fid in inputs:
-            if os.path.exists(path+'/'+fid.rpartition('/')[-1]):
-                os.remove(path+'/'+fid.rpartition('/')[-1])
-            else:
+            #if os.path.exists(path+'/'+fid.rpartition('/')[-1]):
+            #os.remove(path+'/'+fid.rpartition('/')[-1])
+            #else:
+            if not os.path.exists(path+'/'+fid.rpartition('/')[-1]):
                 os.symlink(fid, path+'/'+fid.rpartition('/')[-1])
             #copy(fid, path+'/'+fid.rpartition('/')[-1])
         if not os.path.exists(path+'/padcirc'):
