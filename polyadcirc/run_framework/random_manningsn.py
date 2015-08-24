@@ -410,7 +410,8 @@ class runSet(pickleable):
         for fid in inputs:
             if os.path.exists(path+'/'+fid.rpartition('/')[-1]):
                 os.remove(path+'/'+fid.rpartition('/')[-1])
-            os.symlink(fid, path+'/'+fid.rpartition('/')[-1])
+            else:
+                os.symlink(fid, path+'/'+fid.rpartition('/')[-1])
             #copy(fid, path+'/'+fid.rpartition('/')[-1])
         if not os.path.exists(path+'/padcirc'):
             os.symlink(self.base_dir+'/padcirc', path+'/padcirc')       
