@@ -36,6 +36,14 @@ polyadcirc.run_framework.random_manningsn module
     :undoc-members:
     :show-inheritance:
 
+polyadcirc.run_framework.random_manningsn_Q module
+--------------------------------------------------
+
+.. automodule:: polyadcirc.run_framework.random_manningsn_Q
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 polyadcirc.run_framework.random_wall module
 -------------------------------------------
 

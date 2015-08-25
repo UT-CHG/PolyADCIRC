@@ -98,7 +98,7 @@ def combine_basis_vectors(weights, vectors, default_value=None, node_num=None):
         combine_bv_array(weights, vectors)
     elif default_value and node_num:
         return dict_to_array(add_dict(vectors, weights)[0], default_value,
-                             node_num)
+                node_num)
     else:
         return add_dict(vectors, weights)[0]
         
@@ -166,17 +166,11 @@ def get_default_nodes(domain, vectors=None):
     """
     if vectors:
         default_bv_array = combine_basis_vectors(np.zeros((len(vectors),)),
-                                                 vectors, 1.0, domain.node_num)
-        #alternate = combine_basis_vectors(np.ones((len(vectors),)), vectors)
-        #alt2 = np.ones((domain.node_num,))
-        #keys = [k-1 for k in alternate.keys()]
-        #alt2[keys] = 0
-        #list2 = np.nonzero(alt2)[0]
+                vectors, 1.0, domain.node_num)
     else:
         default_bv_array = np.ones((domain.node_num,))
-        #list2 = None
     default_node_list = np.nonzero(default_bv_array)[0]
-    return default_node_list#, list2
+    return default_node_list
 
 def split_bv_nodes(land_class_num, vectors):
     """
@@ -242,6 +236,8 @@ def merge_with_fort13(domain, mann_dict, factor, land_class_num, vectors):
     expanded_vectors[last] = new_mann_dict
     return expanded_vectors
 
+=======
+>>>>>>> master
 def create_shelf(domain, shelf_bathymetry, vectors):
     """
     Creates a contitnetal shelf basis vector where the value at default
@@ -352,3 +348,61 @@ def determine_types(domain, vectors):
     sort_ind.reverse()
     return np.column_stack((range(len(vectors)), sort_ind,
         percentages[sort_ind]))
+=======
+
+    :param domain: a computational domain for a physical domain
+    :type domain: :class:`~polyadcirc.run_framework.domain`
+    :param dict mann_dict: a dictionary created from a ``fort.13`` formatted
+        file or a dictionary of Manning's n values
+    :param vectors: basis vectors
+    :type vectors: dict()
+
+    :rtype: dict()
+    :returns: basis vector of values
+    """
+    new_mann_dict = {}
+    default_node_list = get_default_nodes(domain, vectors)
+    for i in default_node_list:
+        if i in mann_dict:
+            new_mann_dict[i] = mann_dict[i]
+
+    return new_mann_dict
+
+def condense_bv_dict(mann_dict, TOL=None):
+    """
+    Condenses the ``mann_dict`` land classificaiton mesh by removing values
+    that are below ``TOL``.
+
+    :param dict mann_dict: a dictionary created from a ``fort.13`` formatted
+        file or a dictionary of Manning's n values
+    :param double TOL: Tolerance close to zero, default is 1e-7
+
+    :rtype: dict()
+    :returns: basis vector of values
+    """
+    if TOL == None:
+        TOL = 1e-7
+    new_mann_dict = {}
+    for k, v in mann_dict.iteritems():
+        if v > TOL:
+            new_mann_dict[k] = v
+    return new_mann_dict
+
+def condense_lcm_folder(basis_folder, TOL=None):
+    """
+    Condenses the ``fort.13`` lanudse classification mesh files in
+    ``landuse_*`` folders in ``basis_dir`` by removing values taht are below
+    ``TOL``.
+
+    :param string basis_dir: the path to directory containing the
+        ``landuse_##`` folders
+    :param double TOL: Tolerance close to zero, default is 1e-7
+    """
+
+    folders = glob.glob(os.path.join(basis_folder, "landuse_*"))
+    for i in range(0+rank, len(folders), size):
+        mann_dict = f13.read_nodal_attr_dict(folders[i])
+        mann_dict = condense_bv_dict(mann_dict, TOL)
+        f13.update_mann(mann_dict, folders[i])
+
+>>>>>>> master

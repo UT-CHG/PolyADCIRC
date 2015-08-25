@@ -22,9 +22,10 @@ need to be cloned into your ``$WORK`` directory using the
 
     $ git clone --separate-git-dir=$HOME/v50_subdomain ices-workstation:/org/groups/chg/lgraham/v50_subdomain
 
-If you would like a copy of :program:`Subdomain ADCIRC v.50` code you should
-contact John Baugh at NCSU. They have a great graphical interface for the
-`ADCIRC Subdomain Modeling Tool<https://github.com/atdyer/SMT>`_.
+If you would like a copy of :program:`Subdomain ADCIRC` it is availiable at
+`SUbdomain Modeling in ADCIRC<http://www4.ncsu.edu/~jwb/subdomain/>`_. They
+have a great graphical interface for the `ADCIRC Subdomain Modeling
+Tool<https://github.com/atdyer/SMT>`_.
 
 Make sure you are in the ``subdomain`` branch of the ``PolyADCIRC`` repo::
 

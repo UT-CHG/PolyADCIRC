@@ -49,6 +49,8 @@ file is in the current working directory::
 Explictly set the ``grid_dir`` to the current working directory::
 
     grid_dir = '.'
+    grid = gm.gridInfo(basis_dir, grid_dir, gap_list,
+            executable_dir="directory_containing_Griddataexecutable")
     
     
 Set up files to run :program:`Griddata_v1.32.F90` to create the landuse basis

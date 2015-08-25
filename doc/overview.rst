@@ -7,14 +7,11 @@ Overview
 Installation
 ------------
 
-The code currently resides at `GitHub<https://github.com/lcgraham/PolyADCIRC>`_
-in a private repository which will be made public at a later date.
+The code currently resides at `GitHub <https://github.com/UT-CHG/PolyADCIRC>`_.
+If you have a `.zip<https://github.com/UT-CHG/PolyADCIRC/archive/master.zip>`_
+file you can install PolyADCIRC using::
 
-If you have a 
-`.zip<https://github.com/lcgraham/PolyADCIRC/archive/master.zip>`_ file you can install
-PolyADCIRC using::
-
-    python setup.py --install
+    python setup.py install
 
 from the package root directory. The PolyADCIRC package is currently NOT avaiable in
 the `Python Package Index <http://pypi.python.org/pypi/Sphinx>`_ this may
@@ -22,7 +19,12 @@ change in the future. This package requires `GNU Parallel
 <http://www.gnu.org/software/parallel/>`_, `matplotlib
 <http://http://matplotlib.org>`_, `scipy <scipy.org>`_, mpl_toolkit, and `numpy
 <http://http://www.numpy.org>`_. This package interacts with :program:`ADCIRC`
-and :program:`GridData` which are NOT provided with this package.
+and :program:`GridData`. :program:`ADCIRC` is NOT provided with this package.
+
+:program:`Griddata_parallel.out` needs to be compiled in the
+``PolyADCIRC/polyadcirc/pyGriddata`` folder::
+
+    gfortran -openmp -DHIGHMEM -o Griddata_parallel.out Griddata_v1.32.F90
 
 Cutting Edge Version
 ~~~~~~~~~~~~~~~~~~~~
@@ -82,7 +84,7 @@ Code Overview
 --------------
 
 :mod:`pyADCIRC` Package
-~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
 
 .. automodule:: polyadcirc.pyADCIRC
 
@@ -101,7 +103,7 @@ Code Overview
 
 Internal dependencies
 ---------------------
-Dependencies via :keyword:`import` statements::
+Dependencies via ``import`` statements::
 
     polyadcirc/
         pyADCIRC/

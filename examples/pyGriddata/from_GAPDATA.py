@@ -19,7 +19,8 @@ table = tm.read_table('CCAP_Manning_20100922.table',
                       adcirc_dir+'/landuse/tables') 
 gap_files = glob.glob('/h1/lgraham/workspace/landuse/data/CCAP_Data/Job*/*.asc')
 gap_list = tm.create_gap_list(table, gap_files) 
-grid = gm.gridInfo(basis_dir, grid_dir, gap_list)
+grid = gm.gridInfo(basis_dir, grid_dir, gap_list,
+        executable_dir='../../polyadcirc/pyGriddata')
 grid.prep_all()
 # test and compare
 grid.prep_test()

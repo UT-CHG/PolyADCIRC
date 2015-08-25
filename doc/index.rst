@@ -48,3 +48,16 @@ Indices and tables
 * :ref:`search`
 
 
+==========
+Disclaimer
+==========
+This code was originally developed for research purposes use at your own risk.
+Hopefully, the documentation is clear. You might find bugs I have overlooked.
+If you find something amiss please report this problem to me through GitHub or
+submit a fix. Thanks!
+
+This material is based upon work supported by the National Science Foundation
+Graduate Research Fellowship under Grant No. DGE-1110007. Any opinion,
+findings, and conclusions or recommendations expressed in this material are
+those of the authors(s) and do not necessarily reflect the views of the
+National Science Foundation.
