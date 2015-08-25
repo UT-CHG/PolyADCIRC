@@ -2,7 +2,7 @@
 
 """
 This module :mod:`~polyadcirc.pyADCIRC.fort13_management` handles the
-reading/writing of ``fort.13`` formatted files
+reading/writing of ``fort.13`` formatted files.
 """
 
 import numpy as np
@@ -58,7 +58,7 @@ def read_nodal_attr(data, path=None, file_name='fort.13', nums=None):
     # Read in nodal values (Manning's n) from fort.13
     if path == None:
         path = os.getcwd()
-    full_file_name = path+'/'+file_name
+    full_file_name = os.path.join(path, file_name)
 
     
     flag = 0
@@ -112,7 +112,7 @@ def read_default(data, path=None, file_name='fort.13'):
     """
     if path == None:
         path = os.getcwd()
-    full_file_name = path+'/'+file_name
+    full_file_name = os.path.join(path, file_name)
     
     flag = 0
     attribute_name_present = 0
@@ -143,7 +143,7 @@ def read_node_num(path=None, file_name='fort.13'):
     """
     if path == None:
         path = os.getcwd()
-    full_file_name = path+'/'+file_name
+    full_file_name = os.path.join(path, file_name)
     
     with open(full_file_name, 'r') as f:
         f.readline()
@@ -157,9 +157,9 @@ def read_nodal_attr_dict(path=None, file_name='fort.13'):
     attributes).
 
     :type path: string or None
-    :param path: the directory containing the fort.13 to be read in
+    :param path: the directory containing the ``fort.13`` to be read in
     :type file_name: string
-    :param file_name: the name of the fort.13 formatted file
+    :param file_name: the name of the ``fort.13`` formatted file
     :rtype: dict()
     :return: dictionary of Manning's *n* 
 
@@ -168,7 +168,7 @@ def read_nodal_attr_dict(path=None, file_name='fort.13'):
     # Read in nodal values (Manning's n) from fort.13
     if path == None:
         path = os.getcwd()
-    full_file_name = path+'/'+file_name
+    full_file_name = os.path.join(path, file_name)
     
     flag = 0
     attribute_name_present = 0
@@ -198,7 +198,7 @@ def read_nodal_attr_dict(path=None, file_name='fort.13'):
 
 def update_mann(data, path=None, default=None, file_name='fort.13'):
     """
-    Write out fort.13 to path with the attributes contained in Data.  
+    Write out ``fort.13`` to path with the attributes contained in Data.  
     
     :type data: :class:`np.array` or :class:`dict`
     :param data: containing the nodal attribute information
@@ -213,8 +213,8 @@ def update_mann(data, path=None, default=None, file_name='fort.13'):
     if path == None:
         path = os.getcwd()
     
-    tmp_name = path+'/'+'temp.13'
-    file_name = path+'/'+file_name
+    tmp_name = os.path.join(path, 'temp.13')
+    file_name = os.path.join(path, file_name)
 
     # this currently uses the present fort.13 file as a template for formatting
     # purposes

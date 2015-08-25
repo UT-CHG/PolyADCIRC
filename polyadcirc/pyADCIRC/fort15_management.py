@@ -1,7 +1,8 @@
 # Copyright (C) 2013 Lindley Graham
 
 """
-fort15_management handles the reading/writing of ``fort.15`` formatted files
+This module, :mod:`~polyadcirc.pyADCIRC.fort15_management`, handles the reading/writing of ``fort.15``
+formatted files.
 """
 
 import numpy as np
@@ -17,6 +18,17 @@ filetype = {'fort61':(True, 1), 'fort62':(True, 2), 'fort63':(False, 1),
             'fort73':(False, 1), 'fort74':(False, 2)}
 
 def array_to_loc_list(station_array):
+    """
+    Convert a :class:`numpy.ndarray` into a list of
+    :class:`~polyadcirc.pyADCIRC.basic.location`s.
+
+    :param station_array: an array of shape (n, 2) where n is the number of
+        station locations
+    :type station_array: :class:`numpy.ndarray`
+    :rtype: list()
+    :returns: list of :class:`~polyadcirc.pyADCIRC.basic.location`s
+    """
+
     stations = []
     for i in station_array:
         stations.append(basic.location(i[0], i[1]))

@@ -1,8 +1,8 @@
 # Copyright (C) 2013 Lindley Graham
 
 """
-A set of methods for converting a fort.14 formatted file to a fort.13 formatted
-file 
+A set of methods for converting a ``fort.14`` formatted file to a ``fort.13`` formatted
+file. 
 """
 
 import re, os, glob

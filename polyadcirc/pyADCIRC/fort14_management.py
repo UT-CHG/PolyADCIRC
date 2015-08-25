@@ -1,7 +1,8 @@
 # Copyright (C) 2013 Lindley Graham
 
 """
-fort14_management handles the reading/writing of fort.14 formatted files
+This module, :mod:`~polyadcirc.pyADCIRC.fort14_management` handles the
+reading/writing of ``fort.14`` formatted files.
 """
 
 import numpy as np
@@ -17,7 +18,7 @@ def clean(grid_object, folder_name=None):
     :param grid_object: :class:`~polyadcirc.pyGriddata.gridObject.gridInfo`
     :param string folder_name: folder to clean
     :rtype: list()
-    :return: list of fort.14 files in ``folder_name``
+    :return: list of ``fort.14`` files in ``folder_name``
 
     """
     if folder_name == None:
@@ -89,7 +90,7 @@ def read_spatial_grid(data, path=None, make_domain_map=False):
     if path == None:
         path = os.getcwd()
 
-    file_name = path+'/fort.14'
+    file_name = os.path.join(path, 'fort.14')
 
     with open(file_name, 'r') as f:
         f.readline()
@@ -134,7 +135,7 @@ def read_spatial_grid_header(data, path=None):
     if path == None:
         path = os.getcwd()
 
-    file_name = path+'/fort.14'
+    file_name = os.path.join(path, 'fort.14')
 
     with open(file_name, 'r') as f:
         f.readline()
@@ -163,8 +164,8 @@ def update(data, bathymetry=None, path=None, file_name='fort.14'):
     if path == None:
         path = os.getcwd()
 
-    file_name = path+'/'+file_name
-    tmp = path+'/temp.14'
+    file_name = os.path.join(path, file_name)
+    tmp = os.path.join(path, 'temp.14')
 
     # this currrently uses the present fort.14 as a template for formatting
     # purposes

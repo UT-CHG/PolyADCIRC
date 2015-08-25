@@ -16,30 +16,42 @@ class comm_for_no_mpi4py:
     """
     def __init__(self):
         pass
+
     def Get_size(self):
         """
         :rtype: int
         :returns: 1
         """
         return 1
+
     def Get_rank(self):
         """
         :rtype: int
         :returns: 0
         """
         return 0 
+
     def allgather(self, val):
         """
+        :param object val: object to allgather
+        :rtype: object
         :returns: val
         """
         return val
-    def allreduce(self, val1, val2, op=None):
+
+    def allreduce(self, val1, op=None):
         """
+        :param object val1: object to allreduce
+        :param op: operation
+        :rtype: object
         :returns: val1
         """
         return val1
+
     def bcast(self, val, root=0):
         """
+        :param object val: object to broadcast
+        :rtype: object
         :returns: val
         """
         return val
