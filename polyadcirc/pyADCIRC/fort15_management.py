@@ -1,8 +1,8 @@
 # Copyright (C) 2013 Lindley Graham
 
 """
-This module, :mod:`~polyadcirc.pyADCIRC.fort15_management`, handles the reading/writing of ``fort.15``
-formatted files.
+This module, :mod:`~polyadcirc.pyADCIRC.fort15_management`, handles the
+reading/writing of ``fort.15`` formatted files.
 """
 
 import numpy as np
@@ -35,14 +35,39 @@ def array_to_loc_list(station_array):
     return stations
 
 def loc_list_to_array(station_list):
+    """
+    Convert a list of station locations to an array of x and y values.
+
+    :param list station_list: list of
+        :class:`~polyadcirc.pyADCIRC.basic.location`s
+    :rtype: :class:`numpy.ndarray` of shape (n, 2)
+    :returns: array of station locations
+    """
+    
     xy = [[l.x, l.y] for l in station_list]
     return np.array(xy)
 
 def fake_stations(domain, num_stat):
+    """
+    Given a domain and a number of stations creates a grid of stations with
+    ``num_stat`` stations in the x and y directions.
+
+    :param domain: physical domain used to define the minimum and maximum
+        extent of the grid of stations to be created
+    :type domain: :class:`~polyadcirc.run_framework.domain`
+    :param num_stat: number of stations in the x and y directions
+    :type num_stat: int or iterable of length 2
+    :rtype: list
+    :returns: list of :class:`~polyadcirc.pyADCIRC.basic.location`s
+    """
+
     x = domain.array_x()
     y = domain.array_y()
-    xy = util.meshgrid_ndim((np.linspace(min(x), max(x), num_stat),
-        np.linspace(min(y), max(y), num_stat)))
+    if type(num_stat) is int:
+        num_stat = [num_stat, num_stat]
+
+    xy = util.meshgrid_ndim((np.linspace(min(x), max(x), num_stat[0]),
+        np.linspace(min(y), max(y), num_stat[1])))
     return array_to_loc_list(xy)
 
 def read_recording_data(data, path=None):
@@ -68,7 +93,7 @@ def read_recording_data(data, path=None):
     if path == None:
         path = os.getcwd()
 
-    file_name = path+'/fort.15'
+    file_name = os.path.join(path, 'fort.15')
         
     data.stations = {}
     data.recording = {}
@@ -231,8 +256,10 @@ def subdomain(fulldomain_path, subdomain_path):
             self.recording = {}
     
     data = fdata()
+    fullfile = os.path.join(fulldomain_path, 'fort.15')
+    subfile = os.path.join(subdomain_path, 'fort.15')
         
-    with open(fulldomain_path+'/fort.15', 'r') as fid_read, open(subdomain_path+'/fort.15', 'w') as fid_write:
+    with open(fullfile, 'r') as fid_read, open(subfile, 'w') as fid_write:
         line = fid_read.readline()
         while line != '':
             if line.find('DT') >= 0:
@@ -315,7 +342,7 @@ def trim_locations_circle(subdomain_path, locs):
     :returns: list of locations inside the subdomain
 
     """
-    with open(subdomain_path+"/shape.c14", "r") as fid:
+    with open(os.path.join(subdomain_path, "shape.c14"), "r") as fid:
         line = fid.readline().split()
         xb = float(line[0])
         yb = float(line[1])
@@ -337,7 +364,7 @@ def trim_locations_ellipse(subdomain_path, locs):
     :returns: list of locations inside the subdomain
 
     """
-    with open(subdomain_path+"/shape.e14", "r") as fid:
+    with open(os.path.join(subdomain_path, "shape.e14"), "r") as fid:
         point1 = fid.readline().split()
         p1 = [float(point1[0]), float(point1[1])]
         point2 = fid.readline().split()
@@ -403,8 +430,8 @@ def set_ihot(ihot, path=None):
     if path == None:
         path = os.getcwd()
 
-    tmp_name = path +"/temp.15"
-    file_name = path +"/fort.15"
+    tmp_name = os.path.join(path, "temp.15")
+    file_name = os.path.join(path, "fort.15")
 
     with open(file_name, 'r') as fid_read, open(tmp_name, 'w') as fid_write:
         line = fid_read.readline()
@@ -430,8 +457,8 @@ def set_write_hot(nhstar, nhsinc, path=None):
     if path == None:
         path = os.getcwd()
 
-    tmp_name = path +"/temp.15"
-    file_name = path +"/fort.15"
+    tmp_name = os.path.join(path, "temp.15")
+    file_name = os.path.join(path, "fort.15")
 
     with open(file_name, 'r') as fid_read, open(tmp_name, 'w') as fid_write:
         line = fid_read.readline()

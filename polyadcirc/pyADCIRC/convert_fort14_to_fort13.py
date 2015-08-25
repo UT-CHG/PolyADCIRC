@@ -202,9 +202,9 @@ def convert_go(grid, folder_name=None, keep_flags=0):
     if folder_name == None:
         folder_name = os.getcwd()
 
-    fort_14_files = glob.glob(folder_name+'/'+grid.file_name[:-3]+'5*.14')
-    fort_14_files.sort()
+    fort_14_files = glob.glob(os.path.join(folder_name,
+        grid.file_name[:-3]+'5*.14')) fort_14_files.sort()
     fort_14_files.reverse()
     source = fort_14_files[0]
 
-    convert(source, keep_flags, grid.grid_dir+'/fort.13')
+    convert(source, keep_flags, os.path.join(grid.grid_dir, 'fort.13'))

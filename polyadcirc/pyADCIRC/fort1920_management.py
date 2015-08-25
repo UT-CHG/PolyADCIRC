@@ -24,7 +24,7 @@ def write_fort19(etiminc, esbin, file_name=None):
                 Non-periodic Elevation Boundary Condition File
     """
     if file_name == None:
-        file_name = os.getcwd()+'/fort.19'
+        file_name = os.path.join(os.getcwd(), 'fort.19')
 
     esbin = esbin.ravel()
     
@@ -47,6 +47,8 @@ def sin_wave(t_start, t_finish, amplitude, nnodes, time, periods=.5,
     :param float periods: number of periods to include in the wave
     :param float shift: number of periods to shift the wave  
     :param int timinc: time increment (secs) between consecutive sets of data
+
+    :rtype: tuple of (:class:`numpy.ndarray`, :class:`numpy.ndarray`, 
 
     """
     if timinc == None:

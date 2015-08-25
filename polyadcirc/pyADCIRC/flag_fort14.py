@@ -16,7 +16,7 @@ Flags all of the nodes in a grid file accordining to the flagging scheme for
    Flag_value: -777.0
    This scheme pick up the nearest point of GIS database inside of Grid_scale.
 """
-import glob
+import glob, os
 
 def flag_fort14(grid_file_name="fort.14", avg_scheme=2):
     """ 
@@ -35,8 +35,8 @@ def flag_fort14(grid_file_name="fort.14", avg_scheme=2):
     print "Flagging values with "+str(avg_flag[avg_scheme])
     grid_dir, _, grid_file_name = grid_file_name.rpartition('/')
     prefix = "flagged_"
-    flagged_file_path = grid_dir+'/'+prefix+grid_file_name
-    with open(grid_dir+'/'+grid_file_name, 'r') as fid_read:
+    flagged_file_path = os.path.join(grid_dir, prefix+grid_file_name)
+    with open(os.path.join(grid_dir, grid_file_name), 'r') as fid_read:
         with open(flagged_file_path, 'w') as fid_write:
             # Read and write grid name 
             fid_write.write(fid_read.readline())
@@ -76,7 +76,7 @@ def flag_fort14_go(grid, avg_scheme=2):
     :returns: flagged file path
 
     """
-    return flag_fort14(grid.basis_dir+'/'+grid.file_name, avg_scheme)
+    return flag_fort14(os.path.join(grid.basis_dir, grid.file_name), avg_scheme)
 
 if __name__ == "__main__":
     flag_fort14()
