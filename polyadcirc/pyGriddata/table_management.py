@@ -1,3 +1,5 @@
+# Copyright (C) 2013 Lindley Graham
+
 """
 This modules controls the management and creation of ``*.table`` files
 """

@@ -1,3 +1,5 @@
+# Copyright (C) 2013 Lindley Graham
+
 """
 This module handles the setting up of landuse classfication folders, bash
 scripts, and the cleaning of these folders after :program:`Griddata_v1.32.F90`

@@ -1,4 +1,5 @@
-# Lindley Graham 4/10/2013
+# Copyright (C) 2013 Lindley Graham
+
 """
 This module contains functions to pull data from a ``fort.61`` and the
 :class:`runSet` which controls the running of ADCIRC simulations within a set

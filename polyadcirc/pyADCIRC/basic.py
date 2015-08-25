@@ -1,3 +1,5 @@
+# Copyright (C) 2013 Lindley Graham
+
 """
 This module contains a set of simple classes for use by
 

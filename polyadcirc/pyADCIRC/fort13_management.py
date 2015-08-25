@@ -1,4 +1,5 @@
-# Lindley Graham 3/27/2013 
+# Copyright (C) 2013 Lindley Graham
+
 """
 This module :mod:`~polyadcirc.pyADCIRC.fort13_management` handles the
 reading/writing of ``fort.13`` formatted files

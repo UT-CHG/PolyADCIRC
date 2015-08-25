@@ -1,3 +1,5 @@
+# Copyright (C) 2013 Lindley Graham
+
 #pylint: disable=E1101, C0324
 """
 A set of functions for plotting data from :class:`runSet`

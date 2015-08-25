@@ -1,3 +1,5 @@
+# Copyright (C) 2013 Lindley Graham
+
 """
 This module contains the class definition for
 :class:`~polyadcirc.mesh_mapping.grid_mamangement`.

@@ -1,3 +1,5 @@
+# Copyright (C) 2013 Lindley Graham
+
 """
 See :class:`domain`
 """

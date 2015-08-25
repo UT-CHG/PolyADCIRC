@@ -1,4 +1,4 @@
-# Lindley Graham 6/12/2013
+# Copyright (C) 2013 Lindley Graham
 
 """
 This module contains functions to generate GAP formatted ``*.asc`` files as a

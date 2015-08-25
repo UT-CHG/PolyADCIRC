@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+
+# Copyright (C) 2013 Lindley Graham
+
 """
 This module contains a set of methods and a class for interacting with NCSU
 Subdomain Modeling Python code and associated files. The focus of this module

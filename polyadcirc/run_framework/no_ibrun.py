@@ -1,4 +1,4 @@
-# Lindley Graham 06/10/2015
+# Copyright (C) 2013 Lindley Graham
 
 """
 This file provides a mpirun workaround for clusters that do not have the ibrun

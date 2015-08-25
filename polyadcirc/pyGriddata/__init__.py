@@ -1,3 +1,5 @@
+# Copyright (C) 2013 Lindley Graham
+
 """
 
 This package contains a set of modules mainly for the mapping of nodal data to

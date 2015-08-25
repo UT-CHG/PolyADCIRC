@@ -1,4 +1,5 @@
-# Lindley Graham
+# Copyright (C) 2013 Lindley Graham
+
 """
 This module controls the automatic writing of ``in.post*`` files
 """

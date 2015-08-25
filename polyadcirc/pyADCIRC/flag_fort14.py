@@ -1,4 +1,5 @@
-# Lindley Graham 03/25/13
+# Copyright (C) 2013 Lindley Graham
+
 """
 Flags all of the nodes in a grid file accordining to the flagging scheme for
 :program:`Griddata_v1.32.F90`

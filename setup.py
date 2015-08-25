@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+# Copyright (C) 2013 Lindley Graham
+
 from distutils.core import setup
 
 setup(name='PolyADCIRC',

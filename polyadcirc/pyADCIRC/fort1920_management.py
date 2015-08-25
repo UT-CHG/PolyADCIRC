@@ -1,3 +1,5 @@
+# Copyright (C) 2013 Lindley Graham
+
 """
 This module is for the manipulation and creation of ``fort.19`` and
 ``fort.20`` files.

@@ -1,4 +1,5 @@
-# Lindley Graham 4/3/2013
+# Copyright (C) 2013 Lindley Graham
+
 """
 fort14_management handles the reading/writing of fort.14 formatted files
 """

@@ -1,3 +1,5 @@
+# Copyright (C) 2013 Lindley Graham
+
 """
 This module given a ``*.table`` (and ``*.table`` and ``*.13 files`` from
 :mod:`prep_table_to_mesh_map`) produces a ``*.13`` file of Manning's *n* 

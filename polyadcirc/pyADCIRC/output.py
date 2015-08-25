@@ -1,5 +1,7 @@
+# Copyright (C) 2013 Lindley Graham
+
 """
-THis module provides methods for retrieving data from ASCII ADCIRC formatted
+This module provides methods for retrieving data from ASCII ADCIRC formatted
 timeseries and non-timeseries data files and returning that data as numpy
 arrays.
 """
