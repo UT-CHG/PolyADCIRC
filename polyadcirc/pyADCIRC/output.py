@@ -47,7 +47,7 @@ def get_nts_sr(path, data, file_name):
     """
 
     single_nodal_data = np.zeros((data.node_num,))        
-    with open(path+'/'+file_name, 'r') as fid:
+    with open(os.path.join(path, file_name), 'r') as fid:
         # skip header information
         # skip some header information
         fid.readline()
@@ -103,7 +103,7 @@ def get_ts_sr(path, file_name, get_time=False, timesteps=None, ihot=None):
             raise IOError(err)
         total_lines = int(result.strip().split()[0])
 
-    with open(path+'/'+file_name, 'r') as fid:
+    with open(os.path.join(path, file_name), 'r') as fid:
         # skip some header information
         fid.readline()
         line = fid.readline().strip()#rpartition('File')[0]

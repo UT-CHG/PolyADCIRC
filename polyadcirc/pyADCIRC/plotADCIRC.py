@@ -33,7 +33,8 @@ def get_Triangulation(domain, path=None, save=True, show=False, ics=1,
     :param show: flag for whether or not to show plots
     :param int ics: coordinate system (1 cartisian, 2 polar)
     :param string ext: file extesion
-    :returns: :class:`matplotlib.tri.Triangulation`
+    :rtype: :class:`matplotlib.tri.Triangulation`
+    :returns: triangulation of ``domain``
 
     """
 
@@ -44,15 +45,16 @@ def get_Triangulation(domain, path=None, save=True, show=False, ics=1,
     plt.figure()
     if path == None:
         path = os.getcwd()
-    if not os.path.exists(path+'/figs'):
-        fm.mkdir(path+'/figs')
+    fig_folder = os.path.join(path, 'figs')
+    if not os.path.exists(fig_folder):
+        fm.mkdir(fid_folder)
     if save or show:
         plt.triplot(triangulation, 'g-')
         if title:
             plt.title('grid')
         plt.gca().set_aspect('equal')
         add_2d_axes_labels(ics=ics)    
-        save_show(path+'/figs/grid', save, show, ext)
+        save_show(os.path.join(fig_folder,'grid'), save, show, ext)
     domain.triangulation = triangulation
     return triangulation
 
@@ -97,7 +99,7 @@ def bathymetry(domain, path=None, save=True, show=False, mesh = False,
     if title:
         plt.title('bathymetry')
     colorbar()
-    save_show(path+'/figs/bathymetry', save, show, ext)
+    save_show(os.path.join(path, 'figs', 'bathymetry'), save, show, ext)
 
 def station_locations(domain, path=None, bathy = False, save=True, 
                       show=False, ics=1, ext='.png', station_markers=None):
@@ -141,7 +143,7 @@ def station_locations(domain, path=None, bathy = False, save=True,
     add_2d_axes_labels(ics=ics)    
     plt.legend(bbox_to_anchor=(0., 1.02, 1., .102), loc=3,
                ncol=2, mode="expand", borderaxespad=0.)
-    save_show(path+'/figs/station_locations', save, show, ext)
+    save_show(os.path.join(path, 'figs', 'station_locations'), save, show, ext)
 
 def field(domain, z, title, clim = None,  path=None, save=True, show =
           False, ics=1, ext='.png', cmap=plt.cm.jet):
@@ -175,7 +177,7 @@ def field(domain, z, title, clim = None,  path=None, save=True, show =
     add_2d_axes_labels(ics=ics)    
     colorbar()
     #plt.title(title)
-    save_show(path+'/figs/'+title, save, show, ext)
+    save_show(os.path.join(path, 'figs', title), save, show, ext)
 
 def basis_functions(domain, bv_array, path=None, save=True, show=False,
                     ics=1, ext='.png', cmap = plt.cm.jet):
@@ -304,7 +306,7 @@ def station_data(ts_data, time_obs, keys=None, stations = None, path=None,
     keys = s_keys
 
     for k in keys:
-        fm.mkdir(path+'/figs/'+k)
+        fm.mkdir(os.path.join(path, 'figs', k))
         if stations[k] == None:
             stations = xrange(ts_data[k].shape[0]) 
         for i in stations:
@@ -356,7 +358,7 @@ def station_data(ts_data, time_obs, keys=None, stations = None, path=None,
                 ax2.set_ylabel('v (m/s)')
                 colorbar(line_segs2)
 
-            save_show(path+'/figs/'+k+'/station'+str(i), save, show, ext)
+            save_show(os.path.join(path, 'figs', k, 'station'+str(i)), save, show, ext)
 
 def nts_line_data(nts_data, keys=None, path=None, save=True, show=False, 
                   ext='.png'): 
@@ -391,7 +393,7 @@ def nts_line_data(nts_data, keys=None, path=None, save=True, show=False,
             s_keys.append(k)
     keys = s_keys
 
-    fm.mkdir(path+'/figs/nts')
+    fm.mkdir(os.path.join(path, 'figs', 'nts'))
 
     for k in keys:
         fig = plt.figure()
@@ -412,7 +414,7 @@ def nts_line_data(nts_data, keys=None, path=None, save=True, show=False,
         colorbar(line_segs)
         fig.title(k)
         fig.xlabel('node number')
-        save_show(path+'/figs/nts/'+k, save, show, ext)
+        save_show((os.path.join(path, 'figs', 'nts', k), save, show, ext)
 
 def nts_pcolor(nts_data, domain, keys=None, points=None, path=None, 
                save=True, show=False, ics=1, ext='.png'): 
@@ -455,7 +457,8 @@ def nts_pcolor(nts_data, domain, keys=None, points=None, path=None,
     if points == None:
         points = (0, nts_data[keys[0]].shape[-1]-1)
 
-    fm.mkdir(path+'/figs/nts')
+    if not os.path.exists(os.path.join(path, 'figs', 'nts')):
+        fm.mkdir(os.path.join(path, 'figs', 'nts'))
 
     for k in keys:
         
@@ -469,8 +472,8 @@ def nts_pcolor(nts_data, domain, keys=None, points=None, path=None,
             colorbar()
             add_2d_axes_labels(ics=ics)    
             plt.title(k+'_'+str(j))
-            save_show(path+'/figs/nts/'+k+'_'+str(j)+'_contour', save, show,
-                      ext)
+            save_show(os.path.join(path, 'figs',
+                'nts',k+'_'+str(j)+'_contour'), save, show, ext)
 
         if len(points) == 2:
             plt.figure(figsize=(6,9))
@@ -500,7 +503,8 @@ def nts_pcolor(nts_data, domain, keys=None, points=None, path=None,
             cb = colorbar()
             add_2d_axes_labels(ics=ics)    
             cb.set_label(k+'_'+'diff_{0}_{0}'.format(points))
-            save_show(path+'/figs/nts/'+k+'_diff_contour', save, show, ext)
+            save_show(os.path.join(path, 'figs', 'nts', k+'_diff_contour'),
+                    save, show, ext)
 
 def ts_pcolor(ts_data, time_obs, domain, keys=None, points=None, 
               path=None, save=True, show=False, ics=1, ext='.png'): 
@@ -544,13 +548,15 @@ def ts_pcolor(ts_data, time_obs, domain, keys=None, points=None,
     if points == None:
         points = (0, ts_data[keys[0]].shape[-1]-1)
 
-    fm.mkdir(path+'/figs/ts')
-
+    fm.mkdir(os.path.join(path, 'figs', 'ts'))
+    
     for k in keys:
-        fm.mkdir(path+'/figs/ts/'+k)        
+        fig_folder = os.path.join(path, 'figs', 'ts', k)
+        fm.mkdir(fig_folder)
         clim = (np.min(ts_data[k]),np.max(ts_data[k]))
         for j in points:
-            fm.mkdir(path+'/figs/ts/'+k+'/run'+str(j))        
+            subfig_folder = os.path.join(fig_folder, 'run'+str(j))
+            fm.mkdir(subfig_folder)        
             for i, t in enumerate(time_obs[k]):
                 plt.figure()
                 add_2d_axes_labels(ics=ics)    
@@ -560,10 +566,10 @@ def ts_pcolor(ts_data, time_obs, domain, keys=None, points=None,
                 plt.clim(clim[0], clim[1])
                 colorbar()
                 plt.title('time = '+str(t))
-                save_show(path+'/figs/ts/'+k+'/run'+str(j)+'/'+str(i),
-                          save, show, ext)
+                save_show(os.path.join(subfig_folder, str(i)), save, show, ext)
 
         if len(points) == 2:
+            #TODO: stopped working here
             fm.mkdir(path+'/figs/ts/'+k+'/diff')
             
             diff = ts_data[k][:,:,points[-1]] - ts_data[k][:,:,points[0]]
