@@ -58,7 +58,7 @@ def get_nts_sr(path, data, file_name):
     return single_nodal_data
 
 def get_data_ts(kk, path, ts_data, time_obs, file_names=["fort.61"],
-        timesteps=None, ihot=None):
+                timesteps=None, ihot=None):
     """
     Retrieves data from a timeseries formatted files in path and adds data
     to ``ts_data``
@@ -76,7 +76,7 @@ def get_data_ts(kk, path, ts_data, time_obs, file_names=["fort.61"],
         key = fid.replace('.', '')
         if kk == 0:
             ts_data[key][..., kk], time_obs[key] = get_ts_sr(path, fid, True,
-                    timesteps, ihot)
+                                                             timesteps, ihot)
         else:
             ts_data[key][..., kk] = get_ts_sr(path, fid, timesteps, ihot)[0] 
 
@@ -97,7 +97,7 @@ def get_ts_sr(path, file_name, get_time=False, timesteps=None, ihot=None):
     # determine the number of lines in the file if HOTSTARTED
     if ihot > 0:
         p = subprocess.Popen(['wc', '-l', os.path.join(path, file_name)],
-                stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+                             stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         result, err = p.communicate()
         if p.returncode != 0:
             raise IOError(err)
@@ -115,7 +115,7 @@ def get_ts_sr(path, file_name, get_time=False, timesteps=None, ihot=None):
             total_obs = int(line[0])
         if timesteps and timesteps < total_obs:
             total_obs = timesteps
-        irtype = f15.filetype[file_name.replace('.','')][1]
+        irtype = f15.filetype[file_name.replace('.', '')][1]
         single_timeseries_data = np.zeros((meas_locs, total_obs, irtype))
         if get_time:
             time_obs = np.zeros((total_obs,))

@@ -35,7 +35,7 @@ def write_fort19(etiminc, esbin, file_name=None):
             fid.write('{:17.15f}\n'.format(k))
 
 def sin_wave(t_start, t_finish, amplitude, nnodes, time, periods=.5, 
-         shift=0, timinc=None):
+             shift=0, timinc=None):
     """
     Creates data for a sine wave for forcing over the simulation ``time``
     evert ``timinc``.

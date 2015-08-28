@@ -16,7 +16,7 @@ Flags all of the nodes in a grid file accordining to the flagging scheme for
    Flag_value: -777.0
    This scheme pick up the nearest point of GIS database inside of Grid_scale.
 """
-import glob, os
+import os
 
 def flag_fort14(grid_file_name="fort.14", avg_scheme=2):
     """ 

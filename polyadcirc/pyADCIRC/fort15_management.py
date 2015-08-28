@@ -67,7 +67,7 @@ def fake_stations(domain, num_stat):
         num_stat = [num_stat, num_stat]
 
     xy = util.meshgrid_ndim((np.linspace(min(x), max(x), num_stat[0]),
-        np.linspace(min(y), max(y), num_stat[1])))
+                             np.linspace(min(y), max(y), num_stat[1])))
     return array_to_loc_list(xy)
 
 def read_recording_data(data, path=None):
@@ -116,7 +116,8 @@ def read_recording_data(data, path=None):
                 rnday = float(line[0].strip())
             elif line.find('DRAMP') >= 0:
                 line = line.partition('!')
-                dramp = np.fromstring(line[0].strip(), sep=' ')#float(line[0].strip())
+                dramp = np.fromstring(line[0].strip(), sep=' ')
+                #float(line[0].strip())
                 data.time = basic.time(dt, statim, rnday, dramp) 
             elif line.find('H0') >= 0:
                 line = line.partition('!')[0]
