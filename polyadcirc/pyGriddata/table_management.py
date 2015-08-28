@@ -20,7 +20,7 @@ def create_table_single_value(class_num, landuse_table, manningsn_value,
     :param int class_num: land classification number
     :type landuse_table: :class:`tableInfo`
     :param landuse_table: table to base the single value table off of
-    :param float manningsn_value: Manningn's *n* value for `class_num`
+    :param float manningsn_value: Manningn's *n* value for ``class_num``
     :param string folder_name: folder to create the table in
 
     """
@@ -88,7 +88,7 @@ def read_tables(folder_name=None):
     if folder_name == None:
         folder_name = os.getcwd()
     list_of_tables = []
-    list_of_table_names = glob.glob(folder_name+'/*.table')
+    list_of_table_names = glob.glob(os.path.join(folder_name, '*.table'))
     for x in list_of_table_names:
         x = x[len(folder_name)+1:]
         list_of_tables.append(read_table(x, folder_name))
@@ -104,7 +104,7 @@ def create_gap_list_from_folder(table, folder_name):
     :returns: list of :class:`~polyadcirc.pyGriddata.table_management.gapInfo`
         objects
     """
-    gap_files = glob.glob(folder_name+'/*.asc')
+    gap_files = glob.glob(os.path.join(folder_name, '*.asc'))
     return create_gap_list(table, gap_files)
    
 def create_gap_list(table, gap_files):
@@ -119,7 +119,7 @@ def create_gap_list(table, gap_files):
     """
     gap_list = []
     for f in gap_files:
-        meta_filename = glob.glob(f.rpartition('/')[0]+'/*.txt')
+        meta_filename = glob.glob(os.path.join(f.rpartition('/')[0], '*.txt'))
         with open(meta_filename[0], 'r') as meta_info:
             for line in meta_info:
                 m = re.match(r"UTM map zone", line)
@@ -154,7 +154,7 @@ class gapInfo(pickleable):
         :returns: text that matches relevant lines of ``*.in`` file 
         """
         string_rep = ''
-        string_rep += "{0:80}! Name of GAP/NLCD data file.\n".format(
+        string_rep += "{0:80}! Name of GAP/NLCD data file.\n".format(\
                 self.file_name)
         string_rep += "{0:80}!".format(self.table.file_name)
         string_rep += " Name of classified value table.\n"
@@ -193,7 +193,7 @@ class gapInfo(pickleable):
         
         """
         string_rep = ''
-        string_rep += "{0:80}! Name of GAP/NLCD data file.\n".format(
+        string_rep += "{0:80}! Name of GAP/NLCD data file.\n".format(\
                 self.file_name)
         if folder_name:
             table_name = folder_name+'/'+self.table.file_name
@@ -202,7 +202,7 @@ class gapInfo(pickleable):
         string_rep += "{0:80}!".format(table_name)
         string_rep += " Name of classified value table.\n"
         convert = 'N'
-        if glob.glob(basis_dir+'/'+self.file_name+'.binary') == []:
+        if glob.glob(os.path.join(basis_dir, self.file_name+'.binary')) == []:
             convert = 'Y'
         else:
             convert = 'N'
@@ -229,7 +229,7 @@ class gapInfo(pickleable):
         """ 
         Create a ``*.table`` in ``folder_name`` where the landuse classification
         numbered class_num is assigned a value of ``manningsn_value`` and all
-        other landuse classifications are assigned a manningsn_value of 0
+        other landuse classifications are assigned a ``manningsn_value`` of 0.
 
         :param int class_num: land classification number
         :param float manningsn_value: Manningn's *n* value for `class_num`
@@ -243,7 +243,7 @@ class gapInfo(pickleable):
         """ 
         Create ``self.table_name.table`` in`` folder_name`` where the landuse
         classification numbered ``landuse_table.keys()`` is assigned a
-        ``manningsn_value`` of ``landuse_table['key']``
+        ``manningsn_value`` of ``landuse_table['key']``.
         
         :param string folder_name: folder to create the table in
 
@@ -308,7 +308,7 @@ class tableInfo(pickleable):
         Create a ``*.table`` in ``folder_name`` where the landuse
         classification numbered class_num is assigned a value of
         ``manningsn_value`` and all other landuse classifications are assigned
-        a manningsn_value of 0
+        a manningsn_value of 0.
 
         :param int class_num: land classification number
         :param float manningsn_value: Manningn's *n* value for `class_num`
@@ -322,7 +322,7 @@ class tableInfo(pickleable):
         """ 
         Create ``table_name.table`` in`` folder_name`` where the landuse
         classification numbered ``landuse_table.keys()`` is assigned a
-        ``manningsn_value`` of ``landuse_table['key']``
+        ``manningsn_value`` of ``landuse_table['key']``.
         
         :param string folder_name: folder to create the table in
 
@@ -331,7 +331,7 @@ class tableInfo(pickleable):
 
     def read_table(self, folder_name=None):
         """ 
-        Read in ``self.file_name`` in ``folder_name`` 
+        Read in ``self.file_name`` in ``folder_name`` .
        
         :param string folder_name: folder to read the table from
         :rtype: :class:`tableInfo`

@@ -15,7 +15,7 @@ import subprocess, math, os
 def write_gapfile(gap_data, xllcorner, yllcorner, file_name='gap_data.asc',
                   cellsize=30, NODATA_value=-9999):
     """
-    Writes out a GAP formatted ``*.asc`` file to file_name
+    Writes out a GAP formatted ``*.asc`` file to ``file_name``.
 
     :param string file_name: full path to file_name
     :type gap_data: :class:`np.array`
@@ -45,7 +45,7 @@ def write_gapfile(gap_data, xllcorner, yllcorner, file_name='gap_data.asc',
 def random(xl, xr, yl, yu, landclasses, cellsize=30, p=None, path=None):
     """
     Generates a random matrix that covers the area defined by xl, xr, yl, yu
-    where the land classification numbers are chosen from landclasses
+    where the land classification numbers are chosen from landclasses.
 
     .. seealso:: `Numpy documenation <http://docs.scipy.org/doc/numpy/reference/generated/numpy.random.choice.html#numpy.random.choice>`_
 
@@ -70,7 +70,7 @@ def random(xl, xr, yl, yu, landclasses, cellsize=30, p=None, path=None):
     nrow = int(math.ceil((yu-yl)/cellsize)) + 1
     if path == None:
         path = os.getcwd()
-    with open(path+'/p_struct.txt', 'w') as fid:
+    with open(os.path.join(path, 'p_struct.txt'), 'w') as fid:
         fid.write(str(p))
     return np.random.choice(landclasses, (nrow, ncol), True, p)
 
@@ -78,7 +78,7 @@ def random_vertical(x_points, yl, yu, landclasses, cellsize=30,
                     p_sections=None, path=None):
     """
     Generates a random matrix that covers the area defined by x_points, yl,
-    yu where the land classification numbers are chosen from landclasses
+    yu where the land classification numbers are chosen from landclasses.
 
     .. seealso:: `Numpy documenation <http://docs.scipy.org/doc/numpy/reference/generated/numpy.random.choice.html#numpy.random.choice>`_
 
@@ -91,8 +91,8 @@ def random_vertical(x_points, yl, yu, landclasses, cellsize=30,
     :param landclasses: list of land classification numbers
     :param int cellsize: size of the cell in meters
     :type p_sections: list() of size num_sections of 1D array-like or int   
-    :param p_sections: list of probabilities for each section associated with each 
-        land classification
+    :param p_sections: list of probabilities for each section associated with
+        each land classification
     :param string path: folder to write out probability structure to as
         p_struct.txt
     :rtype: int or :class:`numpy.ndarray`
@@ -113,18 +113,18 @@ def random_vertical(x_points, yl, yu, landclasses, cellsize=30,
     for prob, r, l in zip(p_sections, xr, xl):
         ncol = r - l + 1
         gap_arrays.append(np.random.choice(landclasses, (nrow, ncol), True,
-            prob))
+                                           prob))
     if path == None:
         path = os.getcwd()
-    with open(path+'/p_struct.txt', 'w') as fid:
+    with open(os.path.join(path, 'p_struct.txt'), 'w') as fid:
         fid.write(str(p_sections))
     return np.hstack(gap_arrays)
 
-def random_horizontal(y_points, xl, xr, landclasses, cellsize=30, 
+def random_horizontal(y_points, xl, xr, landclasses, cellsize=30,
                       p_sections=None, path=None):
     """
     Generates a random matrix that covers the area defined by xl, xr, y_points
-    where the land classification numbers are chosen from landclasses
+    where the land classification numbers are chosen from landclasses.
 
     .. seealso:: `Numpy documenation <http://docs.scipy.org/doc/numpy/reference/generated/numpy.random.choice.html#numpy.random.choice>`_
 
@@ -137,8 +137,8 @@ def random_horizontal(y_points, xl, xr, landclasses, cellsize=30,
     :param landclasses: list of land classification numbers
     :param int cellsize: size of the cell in meters
     :type p_sections: list() of size num_sections of 1D array-like or int   
-    :param p_sections: list of probabilities for each section associated with each land 
-        classification
+    :param p_sections: list of probabilities for each section associated with
+        each land classification
     :param string path: folder to write out probability structure to as
         p_struct.txt
     :rtype: int or :class:`numpy.ndarray`
@@ -159,10 +159,10 @@ def random_horizontal(y_points, xl, xr, landclasses, cellsize=30,
     for prob, u, l in zip(p_sections, yu, yl):
         nrow = u - l + 1
         gap_arrays.append(np.random.choice(landclasses, (nrow, ncol), True,
-            prob))
+                                           prob))
     if path == None:
         path = os.getcwd()
-    with open(path+'/p_struct.txt', 'w') as fid:
+    with open(os.path.join(path, 'p_struct.txt'), 'w') as fid:
         fid.write(str(p_sections))
    
     return np.vstack(gap_arrays)
@@ -171,7 +171,7 @@ def random_patches(x_points, y_points, landclasses, cellsize=30,
                    p_sections=None, path=None):
     """
     Generates a random matrix that covers the area defined by x_points,
-    y_points where the land classification numbers are chosen from landclasses
+    y_points where the land classification numbers are chosen from landclasses.
 
     .. seealso:: `Numpy documenation <http://docs.scipy.org/doc/numpy/reference/generated/numpy.random.choice.html#numpy.random.choice>`_
     
@@ -185,9 +185,9 @@ def random_patches(x_points, y_points, landclasses, cellsize=30,
     :param landclasses: list of land classification numbers
     :param int cellsize: size of the cell in meters
     :type p_sections: list() of size num_sections of 1D array-like or int   
-    :param p_sections: list of probabilities for each section associated with each land 
-        classification sections are numbered n = j + n_x_sections * i where i
-        and j are the ith and jth x and y section respectively
+    :param p_sections: list of probabilities for each section associated with
+        each land classification sections are numbered n = j + n_x_sections * i
+        where i and j are the ith and jth x and y section respectively
     :param string path: folder to write out probability structure to as
         p_struct.txt
     :rtype: int or :class:`numpy.ndarray`
@@ -222,14 +222,14 @@ def random_patches(x_points, y_points, landclasses, cellsize=30,
             nrow = u - b + 1
             print i, r, l, u, b, p_sections[i]
             gap_arrays_v.append(np.random.choice(landclasses, (nrow, ncol), True,
-                                p_sections[i]))
+                                                 p_sections[i]))
             i += 1
         gap_arrays_r.append(np.vstack(gap_arrays_v))
         gap_arrays_v = list()
 
     if path == None:
         path = os.getcwd()
-    with open(path+'/p_struct.txt', 'w') as fid:
+    with open(os.path.join(path, 'p_struct.txt'), 'w') as fid:
         fid.write(str(p_sections))
 
     return np.hstack(gap_arrays_r)

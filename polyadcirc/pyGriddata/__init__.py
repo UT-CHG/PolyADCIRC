@@ -39,9 +39,7 @@ additional needed files:
 .. note :: This module requires a modified version of
     :program:`Griddatat_v1.32.F90` that takes ``*.in`` files
 
-.. todo:: update so that this works similarly to how I have things working on
-    lonestar and so that there is also a version that runs on a workstation
     
 """
 __all__ = ['file_management', 'table_management', 'table_to_mesh_map',
-            'grid_management', 'manufacture_gap', 'sbatch_management']
+           'grid_management', 'manufacture_gap', 'sbatch_management']

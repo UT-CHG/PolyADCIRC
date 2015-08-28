@@ -415,7 +415,7 @@ def nts_line_data(nts_data, keys=None, path=None, save=True, show=False,
         colorbar(line_segs)
         fig.title(k)
         fig.xlabel('node number')
-        save_show((os.path.join(path, 'figs', 'nts', k), save, show, ext)
+        save_show(os.path.join(path, 'figs', 'nts', k), save, show, ext)
 
 def nts_pcolor(nts_data, domain, keys=None, points=None, path=None, 
                save=True, show=False, ics=1, ext='.png'): 

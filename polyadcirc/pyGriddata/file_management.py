@@ -39,14 +39,14 @@ def rename13(dirs=None, basis_dir=None):
     """
     files = []
     if dirs == None and basis_dir == None:
-        files = glob.glob('landuse_*/*.13')
+        files = glob.glob(os.path.join('landuse_*', '*.13'))
     elif dirs == None and basis_dir:
-        files = glob.glob(basis_dir+'/landuse_*/*.13')
+        files = glob.glob(os.path.join(basis_dir, 'landuse_*', '*.13'))
     else:
         for d in dirs:
             files.append(glob.glob(os.path.join(basis_dir, d)+'/*.13')[0])
     for f in files:
-        os.rename(f, os.path.dirname(f)+'/fort.13')
+        os.rename(f, os.path.join(os.path.dirname(f), 'fort.13'))
 
 def remove(files):
     """

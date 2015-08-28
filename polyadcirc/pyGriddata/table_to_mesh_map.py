@@ -44,7 +44,7 @@ def get_basis_vectors(path=None):
     :returns: list of dicts for each landuse classification.
     
     """
-    landuse_folders = glob.glob(path+'/landuse_*')
+    landuse_folders = glob.glob(os.path.join(path, 'landuse_*'))
     landuse_folders.sort()
     basis_vec = [f13.read_nodal_attr_dict(folder) for folder in landuse_folders]
     return basis_vec    
@@ -52,7 +52,7 @@ def get_basis_vectors(path=None):
 def get_basis_vec_array(path=None, node_num=None):
     """
     NOTE: this impementation currently assumes that there are no default nodes
-    this will need to be updated later
+    this will need to be updated later..
     
     :param string path: folder containing the landuse folders
     :param int node_num: number of nodes in the mesh
@@ -62,7 +62,7 @@ def get_basis_vec_array(path=None, node_num=None):
     """
     bv_list_of_dict = get_basis_vectors(path)
     if node_num == None:
-        ex_folder = glob.glob(path+'/landuse_*')[0]
+        ex_folder = glob.glob(os.path.join(path, 'landuse_*'))[0]
         node_num = f13.read_node_num(ex_folder)
     bv_array = np.zeros((len(bv_list_of_dict), node_num))
     for k, v in enumerate(bv_list_of_dict):
@@ -71,6 +71,10 @@ def get_basis_vec_array(path=None, node_num=None):
 
 def combine_bv_array(weights, array):
     """
+
+    Combine basis vector arrays using ``weights`` as the Manning's n value for
+    each basis vector array.
+    
     :type weights: :class:`numpy.array`
     :param weights: array of size (num_of_basis_vec, 1)
     :type array: :class:`numpy.array` of size (node_num, num_of_basis_vec)
@@ -83,6 +87,10 @@ def combine_bv_array(weights, array):
 
 def combine_basis_vectors(weights, vectors, default_value=None, node_num=None):
     """
+
+    Combine basis vectors using ``weights`` as the Manning's n value for each
+    basis vector. If a ``default_value`` is set then all nodes with out data
+    are set to the ``default_value``.
     
     :type weights: :class:`numpy.array`
     :param weights: array of size (num_of_basis_vec, 1)
@@ -100,12 +108,13 @@ def combine_basis_vectors(weights, vectors, default_value=None, node_num=None):
         combine_bv_array(weights, vectors)
     elif default_value and node_num:
         return dict_to_array(add_dict(vectors, weights)[0], default_value,
-                node_num)
+                             node_num)
     else:
         return add_dict(vectors, weights)[0]
         
 def add_dict(dict_list, weights):
     """
+    Adds a list of ``dict``s together.
 
     :param dict_list: list of dicts
     :param list() weights: list of weights
@@ -118,6 +127,9 @@ def add_dict(dict_list, weights):
 
 def add_dict_pair(dict1, dict2):
     """
+
+    Adds two ``dict``s together.
+
     :param dict dict1: first dict
     :param dict dict2: second dict
     :rtype: dict
@@ -138,7 +150,7 @@ def dict_to_array(data, default_value, node_num):
     """
     Given a dictonary, default_value, and number of nodes converts a dictornary
     to an array of size(node_num, 1) and fills in the missing entires with the
-    default_value
+    default_value.
 
     :param data: dict
     :param float default_value: default
@@ -168,7 +180,7 @@ def get_default_nodes(domain, vectors=None):
     """
     if vectors:
         default_bv_array = combine_basis_vectors(np.zeros((len(vectors),)),
-                vectors, 1.0, domain.node_num)
+                                                 vectors, 1.0, domain.node_num)
     else:
         default_bv_array = np.ones((domain.node_num,))
     default_node_list = np.nonzero(default_bv_array)[0]
@@ -233,7 +245,7 @@ def merge_with_fort13(domain, mann_dict, factor, land_class_num, vectors):
         if i in mann_dict:
             new_mann_dict[i] = mann_dict[i]/factor
     for i in new_mann_dict.keys():
-         if i in mann_dict:
+        if i in mann_dict:
             new_mann_dict[i] = mann_dict[i]/factor    
     expanded_vectors[last] = new_mann_dict
     return expanded_vectors
@@ -337,8 +349,8 @@ def determine_types(domain, vectors):
     :param list vectors: basis vectors
 
     :rtype: :class:`numpy.ndarray`
-    :returns: sorted list of ranking, land classification number, and percentage of
-        land classification type present as a (len, 3) array
+    :returns: sorted list of ranking, land classification number, and
+        percentage of land classification type present as a (len, 3) array
 
     """
     domain.read_spatial_grid_header()
@@ -347,4 +359,4 @@ def determine_types(domain, vectors):
     sort_ind = np.argsort(percentages).tolist()
     sort_ind.reverse()
     return np.column_stack((range(len(vectors)), sort_ind,
-        percentages[sort_ind]))
+                            percentages[sort_ind]))
