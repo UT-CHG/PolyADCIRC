@@ -10,7 +10,7 @@ This module contains a set of simple classes for use by
 * :py:mod:`polyadcirc.pyGriddata.gridObject`
 """
 
-class comm_for_no_mpi4py:
+class comm_for_no_mpi4py(object):
     """
     A set of stand ins for when mpi4py is not installed
     """
@@ -56,7 +56,7 @@ class comm_for_no_mpi4py:
         """
         return val
 
-class MPI_for_no_mpi4py:
+class MPI_for_no_mpi4py(object):
     """
     A stand in class for when mpi4py is not installed
     """

@@ -238,8 +238,6 @@ def merge_with_fort13(domain, mann_dict, factor, land_class_num, vectors):
     expanded_vectors[last] = new_mann_dict
     return expanded_vectors
 
-=======
->>>>>>> master
 def create_shelf(domain, shelf_bathymetry, vectors):
     """
     Creates a contitnetal shelf basis vector where the value at default
@@ -350,61 +348,3 @@ def determine_types(domain, vectors):
     sort_ind.reverse()
     return np.column_stack((range(len(vectors)), sort_ind,
         percentages[sort_ind]))
-=======
-
-    :param domain: a computational domain for a physical domain
-    :type domain: :class:`~polyadcirc.run_framework.domain`
-    :param dict mann_dict: a dictionary created from a ``fort.13`` formatted
-        file or a dictionary of Manning's n values
-    :param vectors: basis vectors
-    :type vectors: dict()
-
-    :rtype: dict()
-    :returns: basis vector of values
-    """
-    new_mann_dict = {}
-    default_node_list = get_default_nodes(domain, vectors)
-    for i in default_node_list:
-        if i in mann_dict:
-            new_mann_dict[i] = mann_dict[i]
-
-    return new_mann_dict
-
-def condense_bv_dict(mann_dict, TOL=None):
-    """
-    Condenses the ``mann_dict`` land classificaiton mesh by removing values
-    that are below ``TOL``.
-
-    :param dict mann_dict: a dictionary created from a ``fort.13`` formatted
-        file or a dictionary of Manning's n values
-    :param double TOL: Tolerance close to zero, default is 1e-7
-
-    :rtype: dict()
-    :returns: basis vector of values
-    """
-    if TOL == None:
-        TOL = 1e-7
-    new_mann_dict = {}
-    for k, v in mann_dict.iteritems():
-        if v > TOL:
-            new_mann_dict[k] = v
-    return new_mann_dict
-
-def condense_lcm_folder(basis_folder, TOL=None):
-    """
-    Condenses the ``fort.13`` lanudse classification mesh files in
-    ``landuse_*`` folders in ``basis_dir`` by removing values taht are below
-    ``TOL``.
-
-    :param string basis_dir: the path to directory containing the
-        ``landuse_##`` folders
-    :param double TOL: Tolerance close to zero, default is 1e-7
-    """
-
-    folders = glob.glob(os.path.join(basis_folder, "landuse_*"))
-    for i in range(0+rank, len(folders), size):
-        mann_dict = f13.read_nodal_attr_dict(folders[i])
-        mann_dict = condense_bv_dict(mann_dict, TOL)
-        f13.update_mann(mann_dict, folders[i])
-
->>>>>>> master

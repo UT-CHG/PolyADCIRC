@@ -26,8 +26,8 @@ def clean(grid_object, folder_name=None):
         print 'Removing extra *.14 files in current directory...'
     else:
         print 'Removing extra *.14 files in '+folder_name+'...'
-    fort_14_files = glob.glob(os.path.join(folder_name,
-        '*'+grid_object.file_name[:-3]+'*.14'))
+    fort_14_files = glob.glob(os.path.join(folder_name,\
+                    '*'+grid_object.file_name[:-3]+'*.14'))
     fort_14_files.sort()
     fort_14_files.reverse()
     for fid in fort_14_files[1:]:
@@ -180,7 +180,7 @@ def update(data, bathymetry=None, path=None, file_name='fort.14'):
         for i, v in data.node.iteritems():
             # pylint: disable=C0103
             fw.write('{:<7d} {:9.8E} {:9.8E} {:7.2f}\n'.format(i, v.x, v.y,
-                bathymetry[i-1]))
+                                                               bathymetry[i-1]))
             f.readline()
         for line in f:
             fw.write(line)

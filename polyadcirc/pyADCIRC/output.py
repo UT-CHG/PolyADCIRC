@@ -127,8 +127,8 @@ def get_ts_sr(path, file_name, get_time=False, timesteps=None, ihot=None):
             else:
                 fid.readline()
             for j in xrange(meas_locs): 
-                single_timeseries_data[j, i, ...] = np.fromstring(fid.readline(), 
-                                                                  sep=' ')[1:]
+                single_timeseries_data[j, i, ...] = np.fromstring(\
+                        fid.readline(), sep=' ')[1:]
     if irtype == 1:
         single_timeseries_data = np.squeeze(single_timeseries_data, axis=2)
     return (single_timeseries_data, time_obs)

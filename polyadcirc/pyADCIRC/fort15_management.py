@@ -250,7 +250,7 @@ def subdomain(fulldomain_path, subdomain_path):
     :param string subdomain_path: subdomain dir containing ``fort.15`` file
 
     """
-    class fdata:
+    class fdata(object):
         """ Storage class for station information """
         def __init__(self):
             self.stations = {}

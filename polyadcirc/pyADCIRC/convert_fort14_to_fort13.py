@@ -1,13 +1,14 @@
 # Copyright (C) 2013 Lindley Graham
 
 """
-A set of methods for converting a ``fort.14`` formatted file to a ``fort.13`` formatted
-file. 
+A set of methods for converting a ``fort.14`` formatted file to a ``fort.13``
+formatted file. 
 """
 
 import re, os, glob
 import numpy as np
-from polyadcirc.pyADCIRC.fort13_management import write_manningsn, read_manningsn
+from polyadcirc.pyADCIRC.fort13_management import write_manningsn,\
+        read_manningsn
 
 class Error(Exception):
     """Base class for exceptions in this module."""
@@ -44,9 +45,10 @@ def convert(source, keep_flags=0, target='fort.13'):
         1. ``_flags`` -- creates a ``fort.13`` formatted file with remainings
             flags for Griddata intact
         2. _fillins -- creates a ``fort.13`` formatted file and fills in
-            remiaing flags from Griddata with data from source if data is present
-        3. _color -- creates a ``fort.13`` formatted file and color codes the
-            data based on wheter or not is is a default value or not
+            remiaing flags from Griddata with data from source if data is
+            present 
+        3. _color -- creates a ``fort.13`` formatted file and color
+            codes the data based on wheter or not is is a default value or not
 
     """
     output_name = source[:-3]
@@ -81,7 +83,7 @@ def convert(source, keep_flags=0, target='fort.13'):
     flag = 0
     attribute_name_present = 0
 
-    with open(source, 'r') as fid_read514, open(output_name, 
+    with open(source, 'r') as fid_read514, open(output_name, \
             'w') as fid_write, open(target, 'r') as fid_read:
         fid_read514.readline()
         while flag == 0:
@@ -202,8 +204,8 @@ def convert_go(grid, folder_name=None, keep_flags=0):
     if folder_name == None:
         folder_name = os.getcwd()
 
-    fort_14_files = glob.glob(os.path.join(folder_name,
-        grid.file_name[:-3]+'5*.14')) 
+    fort_14_files = glob.glob(os.path.join(folder_name,\
+                              grid.file_name[:-3]+'5*.14')) 
     fort_14_files.sort()
     fort_14_files.reverse()
     source = fort_14_files[0]

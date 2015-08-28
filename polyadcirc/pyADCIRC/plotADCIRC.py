@@ -47,7 +47,7 @@ def get_Triangulation(domain, path=None, save=True, show=False, ics=1,
         path = os.getcwd()
     fig_folder = os.path.join(path, 'figs')
     if not os.path.exists(fig_folder):
-        fm.mkdir(fid_folder)
+        fm.mkdir(fig_folder)
     if save or show:
         plt.triplot(triangulation, 'g-')
         if title:
@@ -232,7 +232,7 @@ def random_fields(domain, points, bv_dict, path=None, save=True, show =
     default = domain.read_default()
     for i in xrange(points.shape[1]):
         z = tmm.combine_basis_vectors(points[..., i], bv_dict, default,
-            domain.node_num)
+                                      domain.node_num)
         field(domain, z, 'random_field_'+str(i), clim, path, save, show, ics,
               ext, cmap)
 
@@ -265,7 +265,7 @@ def mean_field(domain, points, bv_dict, path=None, save=True, show =
     clim = (vmin, vmax)
     default = domain.read_default()
     z = tmm.combine_basis_vectors(np.mean(points, 1), bv_dict, default,
-        domain.node_num)
+                                  domain.node_num)
     field(domain, z, 'mean_field', clim, path, save, show, ics,  ext)
 
 def station_data(ts_data, time_obs, keys=None, stations = None, path=None,
@@ -358,7 +358,8 @@ def station_data(ts_data, time_obs, keys=None, stations = None, path=None,
                 ax2.set_ylabel('v (m/s)')
                 colorbar(line_segs2)
 
-            save_show(os.path.join(path, 'figs', k, 'station'+str(i)), save, show, ext)
+            save_show(os.path.join(path, 'figs', k, 'station'+str(i)), save,
+                      show, ext)
 
 def nts_line_data(nts_data, keys=None, path=None, save=True, show=False, 
                   ext='.png'): 
@@ -414,7 +415,7 @@ def nts_line_data(nts_data, keys=None, path=None, save=True, show=False,
         colorbar(line_segs)
         fig.title(k)
         fig.xlabel('node number')
-        save_show((os.path.join(path, 'figs', 'nts', k), save, show, ext))
+        save_show((os.path.join(path, 'figs', 'nts', k), save, show, ext)
 
 def nts_pcolor(nts_data, domain, keys=None, points=None, path=None, 
                save=True, show=False, ics=1, ext='.png'): 
@@ -473,7 +474,7 @@ def nts_pcolor(nts_data, domain, keys=None, points=None, path=None,
             add_2d_axes_labels(ics=ics)    
             plt.title(k+'_'+str(j))
             save_show(os.path.join(path, 'figs',
-                'nts',k+'_'+str(j)+'_contour'), save, show, ext)
+                      'nts',k+'_'+str(j)+'_contour'), save, show, ext)
 
         if len(points) == 2:
             plt.figure(figsize=(6,9))
@@ -504,7 +505,7 @@ def nts_pcolor(nts_data, domain, keys=None, points=None, path=None,
             add_2d_axes_labels(ics=ics)    
             cb.set_label(k+'_'+'diff_{0}_{0}'.format(points))
             save_show(os.path.join(path, 'figs', 'nts', k+'_diff_contour'),
-                    save, show, ext)
+                      save, show, ext)
 
 def ts_pcolor(ts_data, time_obs, domain, keys=None, points=None, 
               path=None, save=True, show=False, ics=1, ext='.png'): 
@@ -576,7 +577,7 @@ def ts_pcolor(ts_data, time_obs, domain, keys=None, points=None,
 
             for i, t in enumerate(time_obs[k]):
                 plt.figure(figsize=(6,9))
-                ax1 = plt.subplot(311)
+                plt.subplot(311)
                 plt.tripcolor(domain.triangulation, ts_data[k][:,i,points[0]],
                               shading='gouraud', cmap=plt.cm.jet)
                 plt.gca().set_aspect('equal')
@@ -585,7 +586,7 @@ def ts_pcolor(ts_data, time_obs, domain, keys=None, points=None,
                 #add_2d_axes_labels(ics=ics)    
                 cb.set_label(k+'_'+str(points[0]))
                 
-                ax2 = plt.subplot(312)
+                plt.subplot(312)
                 plt.tripcolor(domain.triangulation, ts_data[k][:,i,points[-1]],
                               shading='gouraud', cmap=plt.cm.jet)
                 plt.gca().set_aspect('equal')
@@ -594,7 +595,7 @@ def ts_pcolor(ts_data, time_obs, domain, keys=None, points=None,
                 #add_2d_axes_labels(ics=ics)    
                 cb.set_label(k+'_'+str(points[-1]))
 
-                ax3 = plt.subplot(313)
+                plt.subplot(313)
                 plt.tripcolor(domain.triangulation, diff[:,i] ,
                               shading='gouraud', cmap=plt.cm.jet)
                 plt.gca().set_aspect('equal')
@@ -605,7 +606,7 @@ def ts_pcolor(ts_data, time_obs, domain, keys=None, points=None,
                 plt.tight_layout()
                 plt.suptitle('time = '+str(t))
                 save_show(os.path.join(path, 'figs', 'ts', k, 'diff', str(i)),
-                        save, show, ext)
+                          save, show, ext)
  
 def ts_quiver(ts_data, time_obs, domain, keys=None, points=None, 
               path=None, save=True, show=False, ics=1, ext='.png'): 
@@ -676,7 +677,7 @@ def ts_quiver(ts_data, time_obs, domain, keys=None, points=None,
                           save, show, ext)
 
         if len(points) == 2:
-            fm.mkdir(os.path.join(fig_folder, 'diff')
+            fm.mkdir(os.path.join(fig_folder, 'diff'))
             
             diff = ts_data[k][:,:,:,points[-1]] - ts_data[k][:,:,:,points[0]]
             mag_diff = np.sqrt(pow(diff[:,:,0],2)+pow(diff[:,:,1],2))
@@ -712,7 +713,7 @@ def ts_quiver(ts_data, time_obs, domain, keys=None, points=None,
                 plt.tight_layout()
                 plt.suptitle('time = '+str(t))
                 save_show(os.path.join(fig_folder, 'diff', str(i)), save, show,
-                    ext) 
+                          ext) 
 
 def add_2d_axes_labels(fig = None , ics=1):
     """
