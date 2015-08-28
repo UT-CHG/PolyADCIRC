@@ -2,7 +2,10 @@
 
 """
 This module contains methods used in calculating the volume of water present in
-an ADCIRC simulation
+an ADCIRC simulation.
+
+.. todo:: Some of these routines could be parallelized.
+
 """
 
 import numpy as np
@@ -28,8 +31,8 @@ def total_volume(domain, elevation):
 
 def sub_volume(domain, elevation, elements):
     """
-    Calculates the total volume of water contained in an ADCIRC simulation with
-    sea surface height given by elevation.
+    Calculates the total volume of water contained in an ADCIRC simulation for
+    a given set of elements with sea surface height given by elevation.
 
     :param domain: :class:`~polyadcirc.run_framework.domain`
     :param elevation: eta, sea surface height (NOT WATER COLUMN HEIGHT)

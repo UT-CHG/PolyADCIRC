@@ -569,8 +569,7 @@ def ts_pcolor(ts_data, time_obs, domain, keys=None, points=None,
                 save_show(os.path.join(subfig_folder, str(i)), save, show, ext)
 
         if len(points) == 2:
-            #TODO: stopped working here
-            fm.mkdir(path+'/figs/ts/'+k+'/diff')
+            fm.mkdir(os.path.join(path, 'figs', 'ts', k, 'diff'))
             
             diff = ts_data[k][:,:,points[-1]] - ts_data[k][:,:,points[0]]
             cdiff = (np.min(diff), np.max(diff))
@@ -605,7 +604,8 @@ def ts_pcolor(ts_data, time_obs, domain, keys=None, points=None,
                 cb.set_label(k+'_'+'diff')
                 plt.tight_layout()
                 plt.suptitle('time = '+str(t))
-                save_show(path+'/figs/ts/'+k+'/diff/'+str(i), save, show, ext)
+                save_show(os.path.join(path, 'figs', 'ts', k, 'diff', str(i)),
+                        save, show, ext)
  
 def ts_quiver(ts_data, time_obs, domain, keys=None, points=None, 
               path=None, save=True, show=False, ics=1, ext='.png'): 
@@ -632,8 +632,8 @@ def ts_quiver(ts_data, time_obs, domain, keys=None, points=None,
     :type show: boolean
     :param show: flag for whether or not to show plots
     :param int ics:  polar coordinate option (1 = cart coords, 2 = polar
-   
-
+    :param string ext: file extension
+ 
     .. todo:: maybe add plt.streamplot, but this requires a regularly spaced
         grid and is therefore more expenseive to do
 
@@ -651,18 +651,18 @@ def ts_quiver(ts_data, time_obs, domain, keys=None, points=None,
 
     if points == None:
         points = (0, ts_data[keys[0]].shape[-1]-1)
-
-    fm.mkdir(path+'/figs/ts_quiver')
+    fig_folder = os.path.join(path, 'figs', 'ts_quiver')
+    fm.mkdir(fig_folder)
 
     x = domain.array_x()
     y = domain.array_y()
 
     for k in keys:
-        fm.mkdir(path+'/figs/ts_quiver/'+k)        
+        fm.mkdir(os.path.join(fig_folder, k))
         mag = np.sqrt(pow(ts_data[k][:,:,0,:],2)+pow(ts_data[k][:,:,1,:],2))
         clim = (np.min(mag),np.max(mag))
         for j in points:
-            fm.mkdir(path+'/figs/ts_quiver/'+k+'/run'+str(j))        
+            fm.mkdir(os.path.join(fig_folder, k, 'run'+str(j)))
             for i, t in enumerate(time_obs[k]):
                 plt.figure()
                 add_2d_axes_labels(ics=ics)    
@@ -672,11 +672,11 @@ def ts_quiver(ts_data, time_obs, domain, keys=None, points=None,
                 plt.clim(clim[0], clim[1])
                 colorbar()
                 plt.title('time = '+str(t))
-                save_show(path+'/figs/ts_quiver/'+k+'/run'+str(j)+'/'+str(i),
+                save_show(os.path.join(fig_folder, k, 'run'+str(j), str(i)),
                           save, show, ext)
 
         if len(points) == 2:
-            fm.mkdir(path+'/figs/ts_quiver/'+k+'/diff')
+            fm.mkdir(os.path.join(fig_folder, 'diff')
             
             diff = ts_data[k][:,:,:,points[-1]] - ts_data[k][:,:,:,points[0]]
             mag_diff = np.sqrt(pow(diff[:,:,0],2)+pow(diff[:,:,1],2))
@@ -711,8 +711,8 @@ def ts_quiver(ts_data, time_obs, domain, keys=None, points=None,
                 cb.set_label(k+'_'+'diff')
                 plt.tight_layout()
                 plt.suptitle('time = '+str(t))
-                save_show(path+'/figs/ts_quiver/'+k+'/diff/'+str(i), save,
-                          show, ext) 
+                save_show(os.path.join(fig_folder, 'diff', str(i)), save, show,
+                    ext) 
 
 def add_2d_axes_labels(fig = None , ics=1):
     """
@@ -755,7 +755,6 @@ def colorbar(mappable = None):
     Add a colorbar to the current figure/plot/subfigure/axes
 
     :param mappable: See `matplotlib <matplotlib.org>`_
-    :param figure fig: Figure to add the colorbar to
     
     """
     ax = plt.gca()
@@ -808,7 +807,8 @@ def nts_contour(nts_data, domain, keys=None, points=None, path=None,
     if points == None:
         points = (0, nts_data[keys[0]].shape[-1]-1)
 
-    fm.mkdir(path+'/figs/nts_contour')
+    fig_folder = os.path.join(path, 'figs', 'nts_contour')
+    fm.mkdir(fig_folder)
 
     for k in keys:
         
@@ -820,7 +820,7 @@ def nts_contour(nts_data, domain, keys=None, points=None, path=None,
             colorbar()
             add_2d_axes_labels(ics=ics)    
             plt.title(k+'_'+str(j))
-            save_show(path+'/figs/nts_contour/'+k+'_'+str(j)+'_contour', save,
+            save_show(os.path.join(fig_folder, k+'_'+str(j)+'_contour'), save,
                       show, ext)
 
         if len(points) == 2:
@@ -849,6 +849,6 @@ def nts_contour(nts_data, domain, keys=None, points=None, path=None,
             cb = colorbar()
             add_2d_axes_labels(ics=ics)    
             cb.set_label(k+'_'+'diff')
-            save_show(path+'/figs/nts_contour/'+k+'_diff_contour', save, show,
+            save_show(os.path.join(fig_folder, k+'_diff_contour'), save, show,
                       ext)
 

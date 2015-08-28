@@ -14,11 +14,12 @@ def post_script_sub(path):
     :param string path: folder to save ``postsub.sh`` to
     
     """
-    with open(path+'/postsub.sh', 'w') as f:
+    filename = os.path.join(path, 'postsub.sh')
+    with open(filename, 'w') as f:
         f.write('#!/bin/bash\n')
         f.write('./adcpost < in.postsub > post_o.txt\n')
-    curr_stat = os.stat(path+'/postsub.sh')
-    os.chmod(path+'/postsub.sh', curr_stat.st_mode | stat.S_IXUSR)
+    curr_stat = os.stat(filename)
+    os.chmod(filename, curr_stat.st_mode | stat.S_IXUSR)
 
 def post_script_ALL(path):
     """
@@ -28,11 +29,12 @@ def post_script_ALL(path):
     :param string path: folder to save ``postALL.sh`` to
     
     """
+    filename = os.path.join(path, 'postALL.sh')
     with open(path+'/postALL.sh', 'w') as f:
         f.write('#!/bin/bash\n')
         f.write('./adcpost < in.postALL > post_o.txt\n')
-    curr_stat = os.stat(path+'/postALL.sh')
-    os.chmod(path+'/postALL.sh', curr_stat.st_mode | stat.S_IXUSR)
+    curr_stat = os.stat(filename)
+    os.chmod(filename, curr_stat.st_mode | stat.S_IXUSR)
 
 def post_script_n(path, n):
     """
@@ -42,11 +44,12 @@ def post_script_n(path, n):
     :param string path: folder to save ``postn.sh`` to
     
     """
-    with open(path+'/post'+str(n)+'.sh', 'w') as f:
+    filename = os.path.join(path, 'post'+str(n)+'.sh')
+    with open(filename, 'w') as f:
         f.write('#!/bin/bash\n')
         f.write('./adcpost < in.post'+str(n)+' > post_o.txt\n')
-    curr_stat = os.stat(path+'/post'+str(n)+'.sh')
-    os.chmod(path+'/post'+str(n)+'.sh', curr_stat.st_mode | stat.S_IXUSR)
+    curr_stat = os.stat(filename)
+    os.chmod(filename, curr_stat.st_mode | stat.S_IXUSR)
 
 def write_sub(path, hotfiles=False):
     """
@@ -57,7 +60,8 @@ def write_sub(path, hotfiles=False):
         files
 
     """
-    with open(path+'/in.postsub', 'w') as f:
+    filename = os.path.join(path, 'in.postsub')
+    with open(filename, 'w') as f:
         f.write('post\n')
         f.write('1063\n')
         f.write('1064\n')
@@ -78,7 +82,8 @@ def write_n(path, n, hotfiles=False):
         files
 
     """
-    with open(path+'/in.postsub', 'w') as f:
+    filename = os.path.join(path, 'in.postsub')
+    with open(filename, 'w') as f:
         f.write('post\n')
         f.write(str(n)+'\n')
         f.write('999\n')
@@ -98,7 +103,8 @@ def write_multi(path, nums, hotfiles=False):
         files
 
     """
-    with open(path+'/in.postmulti', 'w') as f:
+    filename = os.path.join(path, 'in.postmulti')
+    with open(filename, 'w') as f:
         f.write('post\n')
         for n in nums:
             f.write(str(n)+'\n')
@@ -118,7 +124,8 @@ def write_ALL(path, hotfiles=False):
         files
 
     """
-    with open(path+'/in.postALL', 'w') as f:
+    filename = os.path.join(path, 'in.postALL')
+    with open(filename, 'w') as f:
         f.write('post\n')
         f.write('100\n')
         if hotfiles:
