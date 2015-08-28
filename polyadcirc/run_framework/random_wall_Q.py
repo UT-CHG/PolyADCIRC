@@ -144,8 +144,8 @@ class runSet(rmw.runSet):
         """
         # setup and save to shelf
         # set up saving
-        if glob.glob(self.save_dir+'/'+save_file):
-            os.remove(self.save_dir+'/'+save_file)
+        if glob.glob(os.path.join(self.save_dir, save_file)):
+            os.remove(os.path.join(self.save_dirm save_file))
 
         # Save matricies to *.mat file for use by MATLAB or Python
         mdict = dict()
@@ -205,8 +205,8 @@ class runSet(rmw.runSet):
             data.add_wall(wall_dim[:4], wall_dim[-1])
             # update wall and prep all
             for rf_dir in self.rf_dirs:
-                os.remove(rf_dir+'/fort.14')
-                shutil.copy(self.grid_dir+'/fort.14', rf_dir)
+                os.remove(os.path.join(rf_dir, 'fort.14'))
+                shutil.copy(os.path.join(self.grid_dir, 'fort.14'), rf_dir)
                 f14.update(data, path=rf_dir)
             #PARALLEL: update file containing the list of rf_dirs
             self.update_dir_file(self.num_of_parallel_runs)

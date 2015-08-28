@@ -31,7 +31,7 @@ class fulldomain(dom.domain):
                                          element)
         # figure out where the script dir for the ncsu subdomain code is
         for sys_path in sys.path:
-            potential_file_list = glob.glob(sys_path+'/py')
+            potential_file_list = glob.glob(os.path.join(sys_path, 'py'))
             if potential_file_list:
                 self.script_dir = potential_file_list[0]
                 break
@@ -89,14 +89,14 @@ class fulldomain(dom.domain):
         if subdomains == None:
             subdomains = self.subdomains
         if len(subdomains) == 0:
-            with open(self.path+'/genfull.in', 'w') as fid:
+            with open(os.path.join(self.path, 'genfull.in'), 'w') as fid:
                 fid.write(str(noutgs)+'\n')
                 fid.write(str(nspoolgs)+'\n')
             command = "python "+self.script_dir+" -a "+self.path+'/ '
             command += " < genfull.in"
             subprocess.call(command, shell=True, cwd=self.path)
         else:
-            with open(self.path+'/genfull.in', 'w') as fid:
+            with open(os.path.join(self.path, 'genfull.in'), 'w') as fid:
                 fid.write(str(noutgs)+'\n')
                 fid.write(str(nspoolgs)+'\n')
                 for subdomain in subdomains:
@@ -158,8 +158,8 @@ class fulldomain(dom.domain):
         :returns: False if the ``fort.06*`` files don't exist
 
         """
-        fort06 = glob.glob(self.path+'/fort.06*')
-        fort065 = glob.glob(self.path+'/PE*/fort.065')
+        fort06 = glob.glob(os.path.join(self.path, 'fort.06*'))
+        fort065 = glob.glob(os.path.join(self.path', 'PE*', 'fort.065'))
         if len(fort06) > 0 and len(fort065) > 0:
             return True
         else:

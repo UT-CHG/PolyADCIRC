@@ -75,7 +75,7 @@ class random_manningsn(object):
                             line += '\n'
                         frank.write(line)
             f.write('wait\n')
-        curr_stat = os.stat(self.base_dir+'/'+self.script_name)
-        os.chmod(self.base_dir+'/'+self.script_name,
+        curr_stat = os.stat(os.path.join(self.base_dir, self.script_name))
+        os.chmod(os.path.join(self.base_dir, self.script_name),
                  curr_stat.st_mode | stat.S_IXUSR)
         return self.script_name

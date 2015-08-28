@@ -132,7 +132,7 @@ class runSet(rmn.runSet):
         """
         # setup and save to shelf
         # set up saving
-        if glob.glob(self.save_dir+'/'+save_file):
+        if glob.glob(os.path.join(self.save_dir, save_file)):
             old_files = glob.glob(os.path.join(self.save_dir, "*"+save_file)) 
             shutil.move(os.path.join(self.save_dir, save_file),
                         os.path.join(self.save_dir,

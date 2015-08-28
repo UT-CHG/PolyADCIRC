@@ -40,7 +40,7 @@ def loadmat(save_file, base_dir, grid_dir, save_dir, basis_dir):
                                              save_dir, basis_dir)
     
        # load the data from at *.mat file
-    mdat = sio.loadmat(save_dir+'/'+save_file)
+    mdat = sio.loadmat(os.path.join(save_dir, save_file))
     if mdat.has_key('wall_pts'):
         wall_pts = mdat['wall_pts']
     else:
@@ -133,8 +133,8 @@ class runSet(rmn.runSet):
         """
         # setup and save to shelf
         # set up saving
-        if glob.glob(self.save_dir+'/'+save_file):
-            os.remove(self.save_dir+'/'+save_file)
+        if glob.glob(os.path.join(self.save_dir, save_file)):
+            os.remove(os.path.join(self.save_dir, save_file))
 
         # Save matricies to *.mat file for use by MATLAB or Python
         mdict = dict()
@@ -190,8 +190,8 @@ class runSet(rmn.runSet):
             data.add_wall(wall_dim[:4], wall_dim[-1])
             # update wall and prep all
             for rf_dir in self.rf_dirs:
-                os.remove(rf_dir+'/fort.14')
-                shutil.copy(self.grid_dir+'/fort.14', rf_dir)
+                os.remove(os.path.join(rf_dir, 'fort.14'))
+                shutil.copy(os.path.join(self.grid_dir, 'fort.14'), rf_dir)
                 f14.update(data, path=rf_dir)
             #PARALLEL: update file containing the list of rf_dirs
             self.update_dir_file(self.num_of_parallel_runs)
@@ -295,8 +295,8 @@ class runSet(rmn.runSet):
         """
         # setup and save to shelf
         # set up saving
-        if glob.glob(self.save_dir+'/'+save_file):
-            os.remove(self.save_dir+'/'+save_file)
+        if glob.glob(os.path.join(self.save_dir, save_file)):
+            os.remove(os.path.join(self.save_dir, save_file))
 
         # Save matricies to *.mat file for use by MATLAB or Python
         mdict = dict()
@@ -362,8 +362,8 @@ class runSet(rmn.runSet):
             data.add_wall(wall_dim[:4], wall_dim[-1])
             # update wall and prep all
             for rf_dir in self.rf_dirs:
-                os.remove(rf_dir+'/fort.14')
-                shutil.copy(self.grid_dir+'/fort.14', rf_dir)
+                os.remove(os.path.join(rf_dir, 'fort.14'))
+                shutil.copy(os.path.join(self.grid_dir, 'fort.14'), rf_dir)
                 f14.update(data, path=rf_dir)
             #PARALLEL: update file containing the list of rf_dirs
             self.update_dir_file(self.num_of_parallel_runs)

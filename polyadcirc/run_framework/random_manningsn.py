@@ -55,7 +55,7 @@ def loadmat(save_file, base_dir, grid_dir, save_dir, basis_dir):
     main_run.nts_data = {}
 
     # load the data from at *.mat file
-    mdat = sio.loadmat(save_dir+'/'+save_file)
+    mdat = sio.loadmat(os.path.join(save_dir, save_file))
     if mdat.has_key('mann_pts'):
         mann_pts = mdat['mann_pts']
     else:
@@ -263,7 +263,7 @@ class runSet(pickleable):
         """
         if os.path.exists(save_dir) == False:
             os.mkdir(save_dir)
-            fort13_file = save_dir.rpartition('/')[0]+'/fort.13'
+            fort13_file = os.path.join(save_dir.rpartition('/')[0], 'fort.13')
             copy(fort13_file, save_dir)
         #: string, directory where ``landuse_*`` folders are located
         self.basis_dir = basis_dir
@@ -304,7 +304,7 @@ class runSet(pickleable):
 
         """
         # Check to see if some of the directories already exist
-        rf_dirs = glob.glob(self.save_dir+'/RF_directory_*')
+        rf_dirs = glob.glob(os.path.join(self.save_dir, 'RF_directory_*'))
         num_dir = len(rf_dirs)
         # set up all rf_dirs
         if num_dir >= self.num_of_parallel_runs:
@@ -312,7 +312,7 @@ class runSet(pickleable):
                 self.setup_rfdir(path, num_procs)
         elif num_dir < self.num_of_parallel_runs:
             for i in xrange(num_dir, self.num_of_parallel_runs):
-                rf_dirs.append(self.save_dir+'/RF_directory_'+str(i+1))
+                rf_dirs.append(os.path.join(self.save_dir, 'RF_directory_'+str(i+1)))
                 self.setup_rfdir(rf_dirs[i], num_procs)
         self.rf_dirs = rf_dirs
         #PARALLEL: create file containing the list of rf_dirs
@@ -379,7 +379,7 @@ class runSet(pickleable):
 
         """
         # Check to see if some of the directories already exist
-        rf_dirs = glob.glob(self.save_dir+'/RF_directory_*')
+        rf_dirs = glob.glob(os.path.join(self.save_dir, 'RF_directory_*'))
         # remove all rf_dirs
         for rf_dir in rf_dirs:
             shutil.rmtree(rf_dir)
@@ -394,17 +394,17 @@ class runSet(pickleable):
 
         """
         mkdir(path)
-        copy(self.save_dir+'/fort.13', path)
+        copy(os.path.join(self.save_dir, 'fort.13'), path)
         # crete sybolic links from fort.* files to path
-        inputs1 = glob.glob(self.grid_dir+'/fort.1*')
-        inputs2 = glob.glob(self.grid_dir+'/fort.2*')
-        inputs0 = glob.glob(self.grid_dir+'/fort.01*')
+        inputs1 = glob.glob(os.path.join(self.grid_dir, 'fort.1*'))
+        inputs2 = glob.glob(os.path.join(self.grid_dir, 'fort.2*'))
+        inputs0 = glob.glob(os.path.join(self.grid_dir, 'fort.01*'))
         inputs = inputs0 + inputs1 + inputs2
-        if self.grid_dir+'/fort.13' in inputs:
-            inputs.remove(self.grid_dir+'/fort.13')
-        if not self.grid_dir+'/fort.019' in inputs:
-            if self.grid_dir+'/fort.015' in inputs:
-                inputs.remove(self.grid_dir+'/fort.015')
+        if os.path.join(self.grid_dir, 'fort.13') in inputs:
+            inputs.remove(ps.path.join(self.grid_dir, 'fort.13'))
+        if not os.path.join(self.grid_dir, 'fort.019') in inputs:
+            if os.path.join(self.grid_dir, 'fort.015') in inputs:
+                inputs.remove(os.path.join(self.grid_dir, 'fort.015'))
         else:
             sub_files = ['bv.nodes', 'py.140', 'py.141']
             sub_files = [os.path.join(self.grid_dir, sf) for sf in sub_files]
@@ -417,10 +417,12 @@ class runSet(pickleable):
                 else:
                     os.remove(rf_fid)
             os.symlink(fid, rf_fid)
-        if not os.path.exists(path+'/padcirc'):
-            os.symlink(self.base_dir+'/padcirc', path+'/padcirc')       
-        if not os.path.exists(path+'/adcprep'):
-            os.symlink(self.base_dir+'/adcprep', path+'/adcprep')
+        if not os.path.exists(os.path.join(path, 'padcirc')):
+            os.symlink(os.path.join(self.base_dir, 'padcirc'), 
+                       os.path.join(path, 'padcirc'))       
+        if not os.path.exists(os.path.join(path, 'adcprep')):
+            os.symlink(os.path.join(self.base_dir, 'adcprep'),
+                       os.path.join(path, 'adcprep'))
         prep.write_1(path, num_procs)
         prep.write_2(path, num_procs)
         prep.write_5(path, num_procs)
@@ -504,8 +506,8 @@ class runSet(pickleable):
                 line += ' &\n'
                 f.write(line)
             f.write('wait\n')
-        curr_stat = os.stat(self.base_dir+'/'+self.script_name)
-        os.chmod(self.base_dir+'/'+self.script_name,
+        curr_stat = os.stat(os.path.join(self.base_dir, self.script_name))
+        os.chmod(os.path.join(self.base_dir, self.script_name),
                  curr_stat.st_mode | stat.S_IXUSR)
         return self.script_name
 
@@ -572,8 +574,8 @@ class runSet(pickleable):
                             line += '\n'
                         frank.write(line)
             f.write('wait\n')
-        curr_stat = os.stat(self.base_dir+'/'+self.script_name)
-        os.chmod(self.base_dir+'/'+self.script_name,
+        curr_stat = os.stat(os.path.join(self.base_dir, self.script_name))
+        os.chmod(os.path.join(self.base_dir, self.script_name),
                  curr_stat.st_mode | stat.S_IXUSR)
         return self.script_name
 
@@ -599,7 +601,7 @@ class runSet(pickleable):
 
         """
         tmp_file = self.script_name.partition('.')[0]+'.tmp'
-        with open(self.base_dir+'/'+self.script_name, 'w') as f:
+        with open(os.path.join(self.base_dir, self.script_name), 'w') as f:
             f.write('#!/bin/bash\n')
             # change i to 2*i or something like that to no use all of the
             # processors on a node?
@@ -614,9 +616,9 @@ class runSet(pickleable):
                 line += ' &\n'
                 f.write(line)
             f.write('wait\n')
-        curr_stat = os.stat(self.base_dir+'/'+self.script_name)
-        os.chmod(self.base_dir+'/'+self.script_name,
-                 curr_stat.st_mode | stat.S_IXUSR)
+        curr_stat = os.stat(os.path.join(self.base_dir, self.script_name))
+        os.chmod(os.path.join(self.base_dir, self.script_name),
+                 curr_stat.st_mode | stat.S_IXUS
         return self.script_name
 
     def write_prep_script(self, n, screenout=False):
@@ -632,7 +634,7 @@ class runSet(pickleable):
             processor allotment
 
         """
-        with open(self.save_dir+'/prep_'+str(n)+'.sh', 'w') as f:
+        with open(os.path.join(self.save_dir, 'prep_'+str(n)+'.sh'), 'w') as f:
             f.write('#!/bin/bash\n')
             line = "parallel '(cd {} && ./adcprep < in.prep"+str(n)
             if not screenout:
@@ -640,10 +642,10 @@ class runSet(pickleable):
             line += ")' :::: dir_list\n"
             f.write(line)
             f.write("wait\n")
-        curr_stat = os.stat(self.save_dir+'/prep_'+str(n)+'.sh')
-        os.chmod(self.save_dir+'/prep_'+str(n)+'.sh',
+        curr_stat = os.stat(os.path.join(self.save_dir, 'prep_'+str(n)+'.sh'))
+        os.chmod(os.path.join(self.save_dir, 'prep_'+str(n)+'.sh'),
                  curr_stat.st_mode | stat.S_IXUSR)
-        return self.save_dir+'/prep_'+str(n)+'.sh'
+        return os.path.join(self.save_dir, 'prep_'+str(n)+'.sh')
 
     def update_dir_file(self, num_dirs):
         """
@@ -653,7 +655,7 @@ class runSet(pickleable):
         :param int num_dirs: number of RF_dirs to put in ``dir_list``
 
         """
-        with open(self.save_dir+'/dir_list', 'w') as f:
+        with open(os.path.join(self.save_dir, 'dir_list'), 'w') as f:
             for i in xrange(num_dirs-1):
                 f.write(self.rf_dirs[i]+'\n')
             f.write(self.rf_dirs[num_dirs-1])
@@ -667,7 +669,8 @@ class runSet(pickleable):
         :param string save_file: file name
 
         """
-        sio.savemat(self.save_dir+'/'+save_file, mdict, do_compression=True)
+        sio.savemat(os.path.join(self.save_dir, save_file), mdict,
+                    do_compression=True)
 
     def update_mdict(self, mdict):
         """
@@ -751,7 +754,7 @@ class runSet(pickleable):
         """
         # setup and save to shelf
         # set up saving
-        if glob.glob(self.save_dir+'/'+save_file):
+        if glob.glob(os.path.join(self.save_dir, save_file)):
             old_files = glob.glob(os.path.join(self.save_dir, 
                                                "*"+save_file)) 
             shutil.move(os.path.join(self.save_dir, save_file),
@@ -855,7 +858,7 @@ class runSet(pickleable):
         save in save_dir/figs
 
         """
-        mkdir(self.save_dir+'/figs')
+        mkdir(os.path.join(self.save_dir, 'figs'))
         domain.get_Triangulation(self.save_dir, save, show, ext, ics)
         domain.plot_bathymetry(self.save_dir, save, show, ext, ics)
         domain.plot_station_locations(self.save_dir, bathymetry, save, show,

@@ -337,9 +337,10 @@ class domain(pickleable):
             input_dir = self.path
         if global_dir == None:
             global_dir = self.path
-        if not os.path.exists(self.path+'/adcprep'):
-            os.symlink(base_dir+'/adcprep', self.path+'/adcprep')
-        prep.write_1(self.path, num_procs)
+        if not os.path.exists(os.path.join(self.path, 'adcprep')):
+            os.symlink(os.path.join(base_dir, 'adcprep'),
+                       os.path.join(self.path, 'adcprep')) 
+            prep.write_1(self.path, num_procs)
         prep.write_2(self.path, num_procs)
         subprocess.call('./adcprep < in.prep1 > prep_o.txt', shell=True, 
                         cwd=self.path) 
