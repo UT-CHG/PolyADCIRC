@@ -7,17 +7,18 @@ command.
 import math, os, stat
 
 class random_manningsn(object):
-    def __init__(self, script_name, dir):
+
+    def __init__(self, script_name, fdir):
         self.script_name = script_name
-        self.base_dir = dir
+        self.base_dir = fdir
         self.rf_dirs = ['dirone', 'dirtwo', 'dirthree']
 
     def write_run_script_no_ibrun(self, num_procs, num_jobs, procs_pnode, TpN,
-                         screenout=True, num_writers=None):
+                                  screenout=True, num_writers=None):
         """
         Creates a bash script called ``self.script_name`` in ``self.base_dir``
-        and a set of rankfiles named ``rankfile_n`` to run multiple non-interacting
-        parallel programs in parallel.
+        and a set of rankfiles named ``rankfile_n`` to run multiple
+        non-interacting parallel programs in parallel.
 
         :type num_procs: int
         :param num_procs: number of processes per job
@@ -35,7 +36,7 @@ class random_manningsn(object):
 
         """
         tmp_file = self.script_name.partition('.')[0]+'.tmp'
-        num_nodes = int(math.ceil(num_procs*num_jobs/float(TpN)))
+        # num_nodes = int(math.ceil(num_procs*num_jobs/float(TpN)))
         with open(os.path.join(self.base_dir, self.script_name), 'w') as f:
             f.write('#!/bin/bash\n')
             # change i to 2*i or something like that to no use all of the
@@ -59,17 +60,19 @@ class random_manningsn(object):
                     for j in xrange(num_procs):
                         # rank, node_num, slot_nums
                         if TpN == procs_pnode:
-                            line = 'rank {:d}=n+{:d} slot={:d}'.format(j,
-                                    (i*num_procs+j)/procs_pnode,
+                            line = 'rank {:d}=n+{:d} slot={:d}'.format(j,\
+                                    (i*num_procs+j)/procs_pnode,\
                                     (i*num_procs+j)%procs_pnode)
                         else:
                             processors_per_process = procs_pnode/TpN
-                            line = 'rank {:d}=n+{:d} slot={:d}-{:d}'.format(j,
-                                    (i*num_procs+j)/TpN,
-                                    ((i*num_procs+j)*processors_per_process)%procs_pnode,
-                                    ((i*num_procs+j)*processors_per_process)%procs_pnode+processors_per_process-1)
+                            line = 'rank {:d}=n+{:d} slot={:d}-{:d}'.format(j,\
+                                    (i*num_procs+j)/TpN,\
+                                    ((i*num_procs+j)*processors_per_process)\
+                                    %procs_pnode,\
+                                    ((i*num_procs+j)*processors_per_process)\
+                                    %procs_pnode+processors_per_process-1)
                         if j < num_procs-1:
-                            line+='\n'
+                            line += '\n'
                         frank.write(line)
             f.write('wait\n')
         curr_stat = os.stat(self.base_dir+'/'+self.script_name)

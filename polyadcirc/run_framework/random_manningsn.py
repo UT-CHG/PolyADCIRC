@@ -175,7 +175,8 @@ def convert_to_percent(nts_data, data):
     :returns: nts_data
 
     """
-    nts_data['tinun63'] = nts_data['tinun63'] / (60.0 * 60.0 * 24.0 * data.time.rnday)
+    nts_data['tinun63'] = nts_data['tinun63'] / (60.0 * 60.0 * 24.0 * \
+            data.time.rnday)
 
 def concatenate(run_data1, run_data2):
     """
@@ -354,7 +355,7 @@ class runSet(pickleable):
                 if os.path.exists(os.path.join(rf_dir, rf_file)):
                     os.remove(os.path.join(rf_dir, rf_file))
                 os.symlink(os.path.join(prime_rf_dir, rf_file),
-                        os.path.join(rf_dir, rf_file))
+                           os.path.join(rf_dir, rf_file))
             for PE_dir in PE_dirs:
                 # create the PE* directories
                 my_PE_dir = os.path.join(rf_dir, os.path.basename(PE_dir))
@@ -365,12 +366,12 @@ class runSet(pickleable):
                     if os.path.exists(os.path.join(my_PE_dir, input)):
                         os.remove(os.path.join(my_PE_dir, input))
                     os.symlink(os.path.join(PE_dir, input),
-                            os.path.join(my_PE_dir, input))
+                               os.path.join(my_PE_dir, input))
                 # copy fort.13 into the PE* directories
                 if os.path.exists(os.path.join(my_PE_dir, 'fort.13')):
                     os.remove(os.path.join(my_PE_dir, 'fort.13'))
                 shutil.copy(os.path.join(PE_dir, 'fort.13'),
-                        os.path.join(my_PE_dir, 'fort.13'))
+                            os.path.join(my_PE_dir, 'fort.13'))
 
     def remove_random_field_directories(self):
         """
@@ -446,19 +447,21 @@ class runSet(pickleable):
         """
         if find_executable('ibrun'):
             return self.write_run_script_ibrun(num_procs, num_jobs,
-                    procs_pnode, TpN, screenout, num_writers)
+                                               procs_pnode, TpN, screenout,
+                                               num_writers) 
         else:
             return self.write_run_script_noibrun(num_procs, num_jobs,
-                    procs_pnode, TpN, screenout, num_writers)
+                                                 procs_pnode, TpN, screenout,
+                                                 num_writers)
 
     def write_run_script_noibrun(self, num_procs, num_jobs, procs_pnode, TpN,
-                         screenout=True, num_writers=None):
+                                 screenout=True, num_writers=None):
         """
         MPI VERSION 1.4.1 for EUCLID with the modules needed to run ADCIRC
 
         Creates a bash script called ``self.script_name`` in ``self.base_dir``
-        and a set of rankfiles named ``rankfile_n`` to run multiple non-interacting
-        parallel programs in parallel.
+        and a set of rankfiles named ``rankfile_n`` to run multiple
+        non-interacting parallel programs in parallel.
 
         :type num_procs: int
         :param num_procs: number of processes per job
@@ -476,7 +479,7 @@ class runSet(pickleable):
 
         """
         tmp_file = self.script_name.partition('.')[0]+'.tmp'
-        num_nodes = int(math.ceil(num_procs*num_jobs/float(TpN)))
+        #num_nodes = int(math.ceil(num_procs*num_jobs/float(TpN)))
         with open(os.path.join(self.base_dir, self.script_name), 'w') as f:
             #f.write('#!/bin/bash\n')
             # change i to 2*i or something like that to no use all of the
@@ -506,12 +509,12 @@ class runSet(pickleable):
                  curr_stat.st_mode | stat.S_IXUSR)
         return self.script_name
 
-    def write_run_script_noibrun_MPI19(self, num_procs, num_jobs, procs_pnode, TpN,
-                         screenout=True, num_writers=None):
+    def write_run_script_noibrun_MPI19(self, num_procs, num_jobs, procs_pnode,
+                                       TpN, screenout=True, num_writers=None):
         """
         Creates a bash script called ``self.script_name`` in ``self.base_dir``
-        and a set of rankfiles named ``rankfile_n`` to run multiple non-interacting
-        parallel programs in parallel.
+        and a set of rankfiles named ``rankfile_n`` to run multiple
+        non-interacting parallel programs in parallel.
 
         :type num_procs: int
         :param num_procs: number of processes per job
@@ -538,8 +541,8 @@ class runSet(pickleable):
                 # write the bash file containing mpi commands
                 #line = 'ibrun -n {:d} -o {:d} '.format(num_procs,
                 #        num_procs*i*(procs_pnode/TpN))
-                rankfile = '{}rankfile{:d}'.format(self.script_name.partition('.')[0],
-                        i)
+                rankfile = '{}rankfile{:d}'.format(self.script_name.partition\
+                        ('.')[0], i)
                 line = 'mpirun -machinefile $TMP/machines -rf '
                 line += rankfile+' -np {:d} '.format(num_procs)
                 line += './padcirc -I {0} -O {0} '.format(self.rf_dirs[i])
@@ -554,17 +557,19 @@ class runSet(pickleable):
                     for j in xrange(num_procs):
                         # rank, node_num, slot_nums
                         if TpN == procs_pnode:
-                            line = 'rank {:d}=n+{:d} slot={:d}'.format(j,
-                                    (i*num_procs+j)/procs_pnode,
+                            line = 'rank {:d}=n+{:d} slot={:d}'.format(j,\
+                                    (i*num_procs+j)/procs_pnode,\
                                     (i*num_procs+j)%procs_pnode)
                         else:
                             processors_per_process = procs_pnode/TpN
-                            line = 'rank {:d}=n+{:d} slot={:d}-{:d}'.format(j,
-                                    (i*num_procs+j)/TpN,
-                                    ((i*num_procs+j)*processors_per_process)%procs_pnode,
-                                    ((i*num_procs+j)*processors_per_process)%procs_pnode+processors_per_process-1)
+                            line = 'rank {:d}=n+{:d} slot={:d}-{:d}'.format(j,\
+                                    (i*num_procs+j)/TpN,\
+                                    ((i*num_procs+j)*processors_per_process)\
+                                    %procs_pnode,\
+                                    ((i*num_procs+j)*processors_per_process)\
+                                    %procs_pnode+processors_per_process-1)
                         if j < num_procs-1:
-                            line+='\n'
+                            line += '\n'
                         frank.write(line)
             f.write('wait\n')
         curr_stat = os.stat(self.base_dir+'/'+self.script_name)
@@ -574,7 +579,7 @@ class runSet(pickleable):
 
     
     def write_run_script_ibrun(self, num_procs, num_jobs, procs_pnode, TpN,
-                         screenout=True, num_writers=None):
+                               screenout=True, num_writers=None):
         """
         Creates a bash script called ``self.script_name`` in ``self.base_dir``
 
@@ -599,8 +604,8 @@ class runSet(pickleable):
             # change i to 2*i or something like that to no use all of the
             # processors on a node?
             for i in xrange(num_jobs):
-                line = 'ibrun -n {:d} -o {:d} '.format(num_procs,
-                        num_procs*i*(procs_pnode/TpN))
+                line = 'ibrun -n {:d} -o {:d} '.format(num_procs,\
+                       num_procs*i*(procs_pnode/TpN))
                 line += './padcirc -I {0} -O {0} '.format(self.rf_dirs[i])
                 if num_writers:
                     line += '-W '+str(num_writers)+' '
@@ -747,9 +752,11 @@ class runSet(pickleable):
         # setup and save to shelf
         # set up saving
         if glob.glob(self.save_dir+'/'+save_file):
-            old_files = glob.glob(os.path.join(self.save_dir, "*"+save_file)) 
-            shutil.move(os.path.join(self.save_dir,save_file),
-                    os.path.join(self.save_dir, str(len(old_files))+save_file))
+            old_files = glob.glob(os.path.join(self.save_dir, 
+                                               "*"+save_file)) 
+            shutil.move(os.path.join(self.save_dir, save_file),
+                        os.path.join(self.save_dir, 
+                                     str(len(old_files))+save_file))
 
         # Save matricies to *.mat file for use by MATLAB or Python
         mdict = dict()
@@ -852,24 +859,23 @@ class runSet(pickleable):
         domain.get_Triangulation(self.save_dir, save, show, ext, ics)
         domain.plot_bathymetry(self.save_dir, save, show, ext, ics)
         domain.plot_station_locations(self.save_dir, bathymetry, save, show,
-                ext, ics)
-
+                                      ext, ics)
         bv_dict = tmm.get_basis_vectors(self.basis_dir)
-
         self.plot_basis_functions(domain,
-                tmm.get_basis_vec_array(self.basis_dir), save, show, ext, ics)
+                                  tmm.get_basis_vec_array(self.basis_dir), 
+                                  save, show, ext, ics)
         self.plot_random_fields(domain, points, bv_dict, save, show, ext, ics)
-
         self.plot_mean_field(domain, points, bv_dict, save, show, ext, ics)
         self.plot_station_data(save, show, ext)
 
-    def plot_basis_functions(self, domain, bv_dict, save=True, show=False, ext='.eps', ics=2):
+    def plot_basis_functions(self, domain, bv_dict, save=True, show=False,
+                             ext='.eps', ics=2): 
         """
         See :meth:``~polsim.pyADCIRC.plotADCIRC.basis_functions`
 
         """
         plot.basis_functions(domain, bv_dict, self.save_dir, save, show,
-                ext=ext, ics=ics)
+                             ext=ext, ics=ics)
 
     def plot_random_fields(self, domain, points, bv_dict, save=True, show=
                            False, ext='.eps', ics=2):
@@ -878,7 +884,7 @@ class runSet(pickleable):
 
         """
         plot.random_fields(domain, points, bv_dict, self.save_dir, save, show,
-                ext=ext, ics=ics)
+                           ext=ext, ics=ics)
 
     def plot_mean_field(self, domain, points, bv_dict, save=True, show=
                         False, ext='.eps', ics=2):
@@ -887,7 +893,7 @@ class runSet(pickleable):
 
         """
         plot.mean_field(domain, points, bv_dict, self.save_dir, save, show,
-                ext=ext, ics=ics)
+                        ext=ext, ics=ics)
 
     def plot_station_data(self, save=True, show=False, ext='.eps'):
         """

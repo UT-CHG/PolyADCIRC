@@ -136,7 +136,7 @@ class runSet(rmn.runSet):
             old_files = glob.glob(os.path.join(self.save_dir, "*"+save_file)) 
             shutil.move(os.path.join(self.save_dir, save_file),
                         os.path.join(self.save_dir,
-                        str(len(old_files))+save_file))
+                                     str(len(old_files))+save_file))
 
         # Save matricies to *.mat file for use by MATLAB or Python
         mdict = dict()

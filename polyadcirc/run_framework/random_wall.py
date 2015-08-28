@@ -80,7 +80,7 @@ class runSet(rmn.runSet):
         """
         Initialization
         """
-        super(runSet, self).__init__(grid_dir, save_dir, basis_dir, 
+        super(runSet, self).__init__(grid_dir, save_dir, basis_dir,
                                      num_of_parallel_runs, base_dir,
                                      script_name)
         
@@ -374,7 +374,8 @@ class runSet(rmn.runSet):
             devnull.close()
             for i in xrange(0, step):
                 # generate the Manning's n field
-                r_field = tmm.combine_basis_vectors(mann_points[..., i+k], bv_dict,
+                r_field = tmm.combine_basis_vectors(mann_points[..., i+k], 
+                                                    bv_dict,
                                                     default, data.node_num)
                 # create the fort.13 for r_field
                 f13.update_mann(r_field, self.rf_dirs[i])
@@ -407,8 +408,8 @@ class runSet(rmn.runSet):
 
         return time_obs, ts_data, nts_data
     
-    def make_plots(self, wall_points, mann_points, domain, save=True, show=False, 
-                   bathymetry=False):
+    def make_plots(self, wall_points, mann_points, domain, save=True, 
+                   show=False, bathymetry=False):
         """
         Plots ``mesh``, ``station_locations``, ``basis_functions``,
         ``random_fields``, ``mean_field``, ``station_data``, and

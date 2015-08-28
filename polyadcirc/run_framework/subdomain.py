@@ -152,14 +152,14 @@ class subdomain(dom.domain):
         self.link_fort22(winddir)
         return command
 
-    def link_fort22(self, dir=None):
+    def link_fort22(self, fdir=None):
         """
         Create symboolic links to ``fort.22*`` meterological files in this
         subdomain folder from the fulldomain folder.
         """
-        if dir == None:
-            dir = self.fulldomain.path
-        fort22_files = glob.glob(os.path.join(dir, 'fort.22*'))
+        if fdir == None:
+            fdir = self.fulldomain.path
+        fort22_files = glob.glob(os.path.join(fdir, 'fort.22*'))
         for fid in fort22_files:
             fm.symlink(fid, self.path+'/'+fid.rpartition('/')[-1])
 
@@ -317,7 +317,7 @@ class subdomain(dom.domain):
         return ellipse_properties(x, y, w)
 
     def setup(self, flag=None, bound_ele=1, bound_vel=1, bound_wd=1,
-            winddir=None):
+              winddir=None):
         """
         Generate the subdomain input files (``fort.13``, ``fort.14``,
         ``fort.015``, ``py.141``, ``py.140``) and shape file. Creates
@@ -608,12 +608,12 @@ class subdomain(dom.domain):
             if key == 'fort63' and (subdict.has_key('maxele63') or\
                     subdict.has_key('maxele.63')):
                 nts_error['maxele63'] = np.max(full_data,
-                                        axis=1) - subdict['maxele63']
+                                               axis=1) - subdict['maxele63']
             if key == 'fort64' and (subdict.has_key('maxvel63') or\
                     subdict.has_key('maxvel.63')):
                 nts_error['maxvel63'] = np.max(np.sqrt(full_data[:, :, 0]**2 +
-                    full_data[:, :, 1]**2), 
-                    axis=1) - subdict['maxvel63']
+                                                       full_data[:, :, 1]**2), 
+                                               axis=1) - subdict['maxvel63']
         
         # Get nts_error
         for fid in nts_names:
@@ -741,7 +741,7 @@ class subdomain(dom.domain):
         :param string new_fort13: path to save the new ``fort.13`` file
         """
         trim_multiple_fort13(old_fort13, new_fort13, os.path.join(self.path,
-            'py.140'))
+                                                                  'py.140'))
 
     def read_bv_fort13(self):
         """
