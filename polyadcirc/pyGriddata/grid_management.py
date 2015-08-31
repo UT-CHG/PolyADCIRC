@@ -79,7 +79,8 @@ class gridInfo(pickleable):
         if rank == 0:
             # Look for ``fort.14`` formatted file in grid_dir and place a link
             # to it in basis_dir
-            fm.symlink(grid_dir+'/'+file_name, basis_dir+'/'+file_name)
+            fm.symlink(os.path.join(grid_dir, file_name),
+                       os.path.join(basis_dir, file_name))
             flagged_file_name = f14.flag_go(self, flag)
             self.file_name = os.path.basename(flagged_file_name)
 
@@ -237,13 +238,13 @@ class gridInfo(pickleable):
         """
         subprocess.call(['./'+self.setup_folder('test')], cwd=
                         self.basis_dir)
-        self.convert(self.basis_dir+'/'+'test')
+        self.convert(os.path.join(self.basis_dir, 'test'))
         # remove unnecessary files
         if removeBinaries:
             binaries = glob.glob(os.path.join(self.basis_dir, '*.asc.binary'))
             for f in binaries:
                 os.remove(f)
-        self.cleanup_landuse_folder(self.basis_dir+'/test')
+        self.cleanup_landuse_folder(os.path.join(self.basis_dir, 'test'))
         fm.rename13(['test'], self.basis_dir)  
 
     def __str__(self):
@@ -528,7 +529,7 @@ def compare(basis_dir=None, default=0.012):
     for fid in old_files:
         os.remove(fid)
     domain.get_Triangulation(path=basis_dir)
-    original = f13.read_nodal_attr_dict(basis_dir+'/test')
+    original = f13.read_nodal_attr_dict(os.path.join(basis_dir, 'test'))
     original = tmm.dict_to_array(original, default, domain.node_num)
     weights = np.array(tables[0].land_classes.values())
     lim = (np.min(weights), np.max(weights))

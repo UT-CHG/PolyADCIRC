@@ -67,7 +67,7 @@ def read_table(table_file_name, folder_name=None):
     if folder_name == None:
         folder_name = os.getcwd()
     landuse_classes = {}
-    with open(folder_name+'/'+table_file_name, 'r') as f:
+    with open(os.path.join(folder_name, table_file_name), 'r') as f:
         for line in f:
             m = re.match(r" +(\d+) +(\d+.\d+) +:(.*)", line)
             if m != None:
@@ -196,7 +196,7 @@ class gapInfo(pickleable):
         string_rep += "{0:80}! Name of GAP/NLCD data file.\n".format(\
                 self.file_name)
         if folder_name:
-            table_name = folder_name+'/'+self.table.file_name
+            table_name = os.path.join(folder_name, self.table.file_name)
         else:
             table_name = self.table.file_name
         string_rep += "{0:80}!".format(table_name)
