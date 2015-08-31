@@ -40,7 +40,7 @@ def loadmat(save_file, base_dir, grid_dir, save_dir, basis_dir):
                                              save_dir, basis_dir)
     
        # load the data from at *.mat file
-    mdat = sio.loadmat(save_dir+'/'+save_file)
+    mdat = sio.loadmat(os.path.join(save_dir, save_file))
     if mdat.has_key('wall_pts'):
         wall_pts = mdat['wall_pts']
     else:
@@ -145,7 +145,7 @@ class runSet(rmw.runSet):
         # setup and save to shelf
         # set up saving
         if glob.glob(os.path.join(self.save_dir, save_file)):
-            os.remove(os.path.join(self.save_dirm save_file))
+            os.remove(os.path.join(self.save_dir, save_file))
 
         # Save matricies to *.mat file for use by MATLAB or Python
         mdict = dict()

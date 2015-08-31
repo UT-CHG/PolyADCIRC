@@ -1,12 +1,18 @@
 # Copyright (C) 2013 Lindley Graham
 
 """
-This file provides a mpirun workaround for clusters that do not have the ibrun
+This file provides a mpirun work-around for clusters that do not have the ibrun
 command.
 """
-import math, os, stat
+import os, stat
 
 class random_manningsn(object):
+    """
+    This class is an implementation of
+    :class:`polyadcirc.run_framework.random_manningsn` that provides a
+    ``mpirun`` based work-around for clusters that do not have ibrun. It is
+    probabaly system dependent and might need to be modified.
+    """
 
     def __init__(self, script_name, fdir):
         self.script_name = script_name

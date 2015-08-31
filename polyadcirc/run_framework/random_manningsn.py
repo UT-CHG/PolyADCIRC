@@ -7,7 +7,6 @@ of processors allocated by the submission script
 """
 import numpy as np
 import glob, os, stat, subprocess, shutil, math
-import polyadcirc.pyADCIRC.fort13_management as f13
 import polyadcirc.pyADCIRC.fort15_management as f15
 from polyadcirc.pyADCIRC.basic import pickleable
 import polyadcirc.pyGriddata.table_to_mesh_map as tmm
@@ -293,7 +292,7 @@ class runSet(pickleable):
             self.script_name = "run_job_batch.sh"
         super(runSet, self).__init__()
 
-    def initialize_random_field_directories(self, num_procs=12, prep=True):
+    def initialize_random_field_directories(self, num_procs=12, prepRF=True):
         """
         Make directories for parallel funs of random fields
         
@@ -312,7 +311,8 @@ class runSet(pickleable):
                 self.setup_rfdir(path, num_procs)
         elif num_dir < self.num_of_parallel_runs:
             for i in xrange(num_dir, self.num_of_parallel_runs):
-                rf_dirs.append(os.path.join(self.save_dir, 'RF_directory_'+str(i+1)))
+                rf_dirs.append(os.path.join(self.save_dir, 
+                                            'RF_directory_'+str(i+1)))
                 self.setup_rfdir(rf_dirs[i], num_procs)
         self.rf_dirs = rf_dirs
         #PARALLEL: create file containing the list of rf_dirs
@@ -320,7 +320,7 @@ class runSet(pickleable):
         self.write_prep_script(1)
         self.write_prep_script(2)
         self.write_prep_script(5)
-        if prep:
+        if prepRF:
             subprocess.call(['./prep_1.sh'], cwd=self.save_dir)
             subprocess.call(['./prep_2.sh'], cwd=self.save_dir)
         else:
@@ -401,7 +401,7 @@ class runSet(pickleable):
         inputs0 = glob.glob(os.path.join(self.grid_dir, 'fort.01*'))
         inputs = inputs0 + inputs1 + inputs2
         if os.path.join(self.grid_dir, 'fort.13') in inputs:
-            inputs.remove(ps.path.join(self.grid_dir, 'fort.13'))
+            inputs.remove(os.path.join(self.grid_dir, 'fort.13'))
         if not os.path.join(self.grid_dir, 'fort.019') in inputs:
             if os.path.join(self.grid_dir, 'fort.015') in inputs:
                 inputs.remove(os.path.join(self.grid_dir, 'fort.015'))
@@ -534,7 +534,7 @@ class runSet(pickleable):
 
         """
         tmp_file = self.script_name.partition('.')[0]+'.tmp'
-        num_nodes = int(math.ceil(num_procs*num_jobs/float(TpN)))
+        #num_nodes = int(math.ceil(num_procs*num_jobs/float(TpN)))
         with open(os.path.join(self.base_dir, self.script_name), 'w') as f:
             #f.write('#!/bin/bash\n')
             # change i to 2*i or something like that to no use all of the
@@ -618,7 +618,7 @@ class runSet(pickleable):
             f.write('wait\n')
         curr_stat = os.stat(os.path.join(self.base_dir, self.script_name))
         os.chmod(os.path.join(self.base_dir, self.script_name),
-                 curr_stat.st_mode | stat.S_IXUS
+                 curr_stat.st_mode | stat.S_IXUS)
         return self.script_name
 
     def write_prep_script(self, n, screenout=False):

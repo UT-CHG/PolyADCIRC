@@ -89,7 +89,7 @@ class subdomain(dom.domain):
 
         # figure out where the script dir for the ncsu subdomain code is
         for sys_path in sys.path:
-            potential_file_list = glob.glob(sys_path+'/py')
+            potential_file_list = glob.glob(os.path.join(sys_path, 'py'))
             if potential_file_list:
                 self.script_dir = potential_file_list[0]
                 break
@@ -132,16 +132,16 @@ class subdomain(dom.domain):
         :returns: command line for invoking gensub.py
 
         """
-        with open(self.path+'/gensub.in', 'w') as fid:
+        with open(os.path.join(self.path, 'gensub.in'), 'w') as fid:
             fid.write(str(bound_ele)+'\n')
             fid.write(str(bound_vel)+'\n')
             fid.write(str(bound_wd)+'\n')
-        command = 'python '+self.script_dir+'/gensub.py '
-        command += self.fulldomain.path+'/fort.14 '+str(self.flag)+' '
-        command += 'fort.14 '
+        command = 'python '+os.path.join(self.script_dir, 'gensub.py')+' '
+        command += os.path.join(self.fulldomain.path, 'fort.14')
+        command += ' '+str(self.flag)+' fort.14 '
         
-        if os.path.exists(self.fulldomain.path+'/fort.13'):
-            command += self.fulldomain.path+'/fort.13 '
+        if os.path.exists(os.path.join(self.fulldomain.path, 'fort.13')):
+            command += os.path.join(self.fulldomain.path, 'fort.13')+' '
             command += 'fort.13 ' 
         
         command += '< gensub.in'
@@ -161,7 +161,7 @@ class subdomain(dom.domain):
             fdir = self.fulldomain.path
         fort22_files = glob.glob(os.path.join(fdir, 'fort.22*'))
         for fid in fort22_files:
-            fm.symlink(fid, self.path+'/'+fid.rpartition('/')[-1])
+            fm.symlink(fid, os.path.join(self.path, fid.rpartition('/')[-1]))
 
     def genfull(self, noutgs=1, nspoolgs=1):
         """ 
@@ -236,7 +236,7 @@ class subdomain(dom.domain):
         :returns: flag for :meth:`py.gensub`
 
         """
-        with open(self.path+'/shape.c14', 'w') as fid:
+        with open(os.path.join(self.path, 'shape.c14'), 'w') as fid:
             fid.write('{:17.15f} {:17.15f}\n'.format(x, y))
             fid.write(str(r))
         self.flag = 1
@@ -253,7 +253,7 @@ class subdomain(dom.domain):
         :returns: flag for :meth:`py.gensub`
 
         """
-        with open(self.path+'/shape.e14', 'w') as fid:
+        with open(os.path.join(self.path, 'shape.e14'), 'w') as fid:
             fid.write('{:17.15f} {:17.15f}\n'.format(x[0], y[0]))
             fid.write('{:17.15f} {:17.15f}\n'.format(x[1], y[1]))
             fid.write(str(w))
@@ -269,7 +269,7 @@ class subdomain(dom.domain):
         :returns: (x, y, r)
 
         """
-        with open(self.path+"/shape.c14", "r") as fid:
+        with open(os.path.join(self.path, "shape.c14"), "r") as fid:
             t = fid.readline().split()
             x = float(t[0])
             y = float(t[1])
@@ -290,7 +290,7 @@ class subdomain(dom.domain):
 
         """
 
-        with open(self.path+"/shape.e14", "r") as fid:
+        with open(os.path.join(self.path, "shape.e14"), "r") as fid:
             point1 = fid.readline().split()
             point2 = fid.readline().split()
             x = [float(point1[0]), float(point2[0])]
@@ -342,10 +342,10 @@ class subdomain(dom.domain):
         """
         # Appropriately flag subdomain
         if flag == None and self.flag == None:
-            circle = glob.glob(self.path+'/shape.c14')
+            circle = glob.glob(os.path.join(self.path, 'shape.c14'))
             if len(circle) > 0:
                 self.flag = 1
-            ellipse = glob.glob(self.path+'/shape.e14')
+            ellipse = glob.glob(os.path.join(self.path, 'shape.e14'))
             if len(ellipse) > 0:
                 self.flag = 0
         elif flag != None:
@@ -354,8 +354,8 @@ class subdomain(dom.domain):
         f_list = ['fort.015', 'fort.13', 'fort.14', 'bv.nodes', 'py.140',
                   'py.141']
         for fid in f_list:
-            if os.path.exists(self.path+'/'+fid):
-                os.remove(self.path+'/'+fid)
+            if os.path.exists(os.path.join(self.path, fid)):
+                os.remove(os.path.join(self.path, fid))
         return self.gensub(bound_ele, bound_vel, bound_wd, winddir)
         
     def check_fulldomain(self):
@@ -376,7 +376,7 @@ class subdomain(dom.domain):
         :returns: False the ``fort.019`` doesn't exist
 
         """
-        fort019 = glob.glob(self.path+'/fort.019')
+        fort019 = glob.glob(os.path.join(self.path, 'fort.019'))
         return len(fort019) > 0
 
     def compare_runSet(self, ts_data, nts_data, ts_names=None, 
@@ -403,7 +403,7 @@ class subdomain(dom.domain):
         """
         
         if save_file == None:
-            save_file = self.path+'/compare_s2f_runSet.mat'
+            save_file = os.path.join(self.path, 'compare_s2f_runSet.mat')
 
         nts_keys = []
         if nts_names == None:
@@ -503,7 +503,7 @@ class subdomain(dom.domain):
         """
         
         if save_file == None:
-            save_file = self.path+'/compare_s2f.mat'
+            save_file = os.path.join(self.path, 'compare_s2f.mat')
 
         full_file = os.path.join(self.fulldomain.path, 'full.mat')
         sub_file = os.path.join(self.path, 'sub.mat')
@@ -672,7 +672,7 @@ class subdomain(dom.domain):
         where key = subdomain node #, value = fulldomain node #
         """
         self.sub2full_node = {}
-        with open(self.path+'/py.140', 'r') as fid:
+        with open(os.path.join(self.path, 'py.140'), 'r') as fid:
             fid.readline() # skip header
             for line in fid:
                 k, v = np.fromstring(line, dtype=int, sep=' ')
@@ -689,7 +689,7 @@ class subdomain(dom.domain):
         where key = subdomain element #, value = fulldomain element #
         """
         self.sub2full_element = {}
-        with open(self.path+'/py.141', 'r') as fid:
+        with open(os.path.join(self.path, 'py.141'), 'r') as fid:
             fid.readline() # skip header
             for line in fid:
                 k, v = np.fromstring(line, dtype=int, sep=' ')

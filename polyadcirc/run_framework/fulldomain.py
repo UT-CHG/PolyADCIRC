@@ -159,7 +159,7 @@ class fulldomain(dom.domain):
 
         """
         fort06 = glob.glob(os.path.join(self.path, 'fort.06*'))
-        fort065 = glob.glob(os.path.join(self.path', 'PE*', 'fort.065'))
+        fort065 = glob.glob(os.path.join(self.path, 'PE*', 'fort.065'))
         if len(fort06) > 0 and len(fort065) > 0:
             return True
         else:

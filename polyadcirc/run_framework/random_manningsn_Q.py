@@ -39,7 +39,7 @@ def loadmat(save_file, base_dir, grid_dir, save_dir, basis_dir):
                                              save_dir, basis_dir)
     
        # load the data from at *.mat file
-    mdat = sio.loadmat(save_dir+'/'+save_file)
+    mdat = sio.loadmat(os.path.join(save_dir, save_file))
     Q = mdat['Q']
     
     return (main_run, domain, mann_pts, Q)
