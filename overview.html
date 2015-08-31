@@ -1,66 +1,149 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>Overview &mdash; PolySim 0.1 documentation</title>
-    
-    <link rel="stylesheet" href="_static/default.css" type="text/css" />
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    './',
-        VERSION:     '0.1',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
-      };
-    </script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="PolySim 0.1 documentation" href="index.html" />
-    <link rel="next" title="Running on TACC" href="running_on_TACC.html" />
-    <link rel="prev" title="Welcome to PolyADCIRC’s documentation!" href="index.html" /> 
-  </head>
-  <body>
-    <div class="related">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             accesskey="I">index</a></li>
-        <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
-          <a href="running_on_TACC.html" title="Running on TACC"
-             accesskey="N">next</a> |</li>
-        <li class="right" >
-          <a href="index.html" title="Welcome to PolyADCIRC’s documentation!"
-             accesskey="P">previous</a> |</li>
-        <li><a href="index.html">PolySim 0.1 documentation</a> &raquo;</li> 
-      </ul>
-    </div>  
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Overview &mdash; PolyADCIRC 0.2.0 documentation</title>
+  
 
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
-          <div class="body">
+  
+  
+
+  
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic|Roboto+Slab:400,700|Inconsolata:400,700&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="PolyADCIRC 0.2.0 documentation" href="index.html"/>
+        <link rel="next" title="Running on TACC" href="running_on_lonestar.html"/>
+        <link rel="prev" title="Welcome to PolyADCIRC’s documentation!" href="index.html"/> 
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+          <a href="index.html" class="fa fa-home"> PolyADCIRC</a>
+        
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="">Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#package-layout">Package Layout</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#code-overview">Code Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#internal-dependencies">Internal dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#external-dependencies">External dependencies</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="running_on_lonestar.html">Running on Lonestar</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="running_on_lonestar.html#file-system-setup">File System Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="running_on_lonestar.html#python-scripts">Python Scripts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="running_on_lonestar.html#job-submission-script">Job Submission Script</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="submerged_wall.html">Limited Variable Bathymetry</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="submerged_wall.html#few-walls">few_walls</a></li>
+<li class="toctree-l2"><a class="reference internal" href="submerged_wall.html#load-few-walls">load_few_walls</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="large_jobs.html">Large Jobs</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="large_jobs.html#concatenation-2">concatenation_2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="large_jobs.html#concatenate-many">concatenate_many</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="landuse_stuff.html">All about mapping landuse data to the mesh</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="landuse_stuff.html#preparing-basis-vector-files-from-gap-nlcd-data">Preparing basis vector files from GAP/NLCD data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="landuse_stuff.html#comparing-the-python-vs-griddata-v1-32-f90-reconstructions">Comparing the Python vs. <strong class="program">Griddata_v1.32.F90</strong> Reconstructions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="landuse_stuff.html#manufacturing-gap-data">Manufacturing GAP data</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="subdomain.html">Running with Subdomain ADCIRC</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="subdomain.html#getting-the-subdomain-adcirc-code">Getting the Subdomain ADCIRC Code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="subdomain.html#setting-up-the-subdomain-grid-dir">Setting up the Subdomain <code class="docutils literal"><span class="pre">grid_dir</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="subdomain.html#setting-up-your-landuse-folders">Setting up your <code class="docutils literal"><span class="pre">landuse_##</span></code> folders</a></li>
+<li class="toctree-l2"><a class="reference internal" href="subdomain.html#running-polyadcirc-with-subdomains">Running PolyADCIRC with Subdomains</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="todo_list.html">Todo List</a></li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">PolyADCIRC</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>Overview</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          <a href="_sources/overview.txt" rel="nofollow"> View page source</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document">
             
   <div class="section" id="overview">
 <span id="id1"></span><h1>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="installation">
 <h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
-<p>The code currently resides at <a class="reference external" href="https://github.com/lcgraham/PolyADCIRC">GitHub</a>.
-If you have a
-<a class="reference external" href="https://github.com/lcgraham/PolyADCIRC/archive/master.zip">zip file</a> you can install
-PolyADCIRC using:</p>
+<p>The code currently resides at <a class="reference external" href="https://github.com/UT-CHG/PolyADCIRC">GitHub</a>.
+If you have a <a href="#id5"><span class="problematic" id="id6">`.zip&lt;https://github.com/UT-CHG/PolyADCIRC/archive/master.zip&gt;`_</span></a>
+file you can install PolyADCIRC using:</p>
 <div class="highlight-python"><div class="highlight"><pre>python setup.py install
 </pre></div>
 </div>
@@ -69,9 +152,28 @@ the <a class="reference external" href="http://pypi.python.org/pypi/Sphinx">Pyth
 change in the future. This package requires <a class="reference external" href="http://www.gnu.org/software/parallel/">GNU Parallel</a>, <a class="reference external" href="http://http://matplotlib.org">matplotlib</a>, <a class="reference external" href="scipy.org">scipy</a>, mpl_toolkit, and <a class="reference external" href="http://http://www.numpy.org">numpy</a>. This package interacts with <strong class="program">ADCIRC</strong>
 and <strong class="program">GridData</strong>. <strong class="program">ADCIRC</strong> is NOT provided with this package.</p>
 <p><strong class="program">Griddata_parallel.out</strong> needs to be compiled in the
-<tt class="docutils literal"><span class="pre">PolyADCIRC/polyadcirc/pyGriddata</span></tt> folder:</p>
+<code class="docutils literal"><span class="pre">PolyADCIRC/polyadcirc/pyGriddata</span></code> folder:</p>
 <div class="highlight-python"><div class="highlight"><pre>gfortran -openmp -DHIGHMEM -o Griddata_parallel.out Griddata_v1.32.F90
 </pre></div>
+</div>
+<div class="section" id="cutting-edge-version">
+<h3>Cutting Edge Version<a class="headerlink" href="#cutting-edge-version" title="Permalink to this headline">¶</a></h3>
+<p>To use the cutting edge version of this package you need to add the PolySim git
+repo to your <code class="docutils literal"><span class="pre">PYTHONPATH</span></code>. The PolySim repo is located at:</p>
+<div class="highlight-python"><div class="highlight"><pre>/org/groups/chg/lgraham/PolySim.git
+</pre></div>
+</div>
+<p>You can do this by adding the line:</p>
+<div class="highlight-python"><div class="highlight"><pre>export PYTHONPATH=~/PolyADCIRC:$PYTHONPATH
+</pre></div>
+</div>
+<p>to your <code class="docutils literal"><span class="pre">~/.bash_profile</span></code> or <code class="docutils literal"><span class="pre">~/.bashrc</span></code> file.</p>
+<p>To check that this has worked you can type (in a Python enviroment):</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sys</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sys</span><span class="o">.</span><span class="n">path</span>
+</pre></div>
+</div>
+<p>and the PolyADCIRC directory should be listed in that path.</p>
 </div>
 </div>
 <div class="section" id="package-layout">
@@ -94,53 +196,55 @@ and <strong class="program">GridData</strong>. <strong class="program">ADCIRC</s
     run_framework/
         __init__.py
         random_manningsn.py
+        subdomain.py
         random_wall.py
-        random_wall_Q.py
+        fulldomain.py
         domain.py
     pyGriddata/
         __init__.py
         file_management.py
-        grid_management.py
-        table_management.py
         table_to_mesh_map.py
         manufacture_gap.py
+        gridObject.py
 </pre></div>
 </div>
 </div>
 <div class="section" id="code-overview">
 <h2>Code Overview<a class="headerlink" href="#code-overview" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="module-polyadcirc.pyADCIRC">
-<span id="pyadcirc-package"></span><h3><tt class="xref py py-mod docutils literal"><span class="pre">pyADCIRC</span></tt> Package<a class="headerlink" href="#module-polyadcirc.pyADCIRC" title="Permalink to this headline">¶</a></h3>
+<span id="pyadcirc-package"></span><h3><code class="xref py py-mod docutils literal"><span class="pre">pyADCIRC</span></code> Package<a class="headerlink" href="#module-polyadcirc.pyADCIRC" title="Permalink to this headline">¶</a></h3>
 <p>This subpackage contains</p>
 <ul class="simple">
-<li>the class <a class="reference internal" href="polyadcirc.pyADCIRC.html#polyadcirc.pyADCIRC.basic.pickleable" title="polyadcirc.pyADCIRC.basic.pickleable"><tt class="xref py py-class docutils literal"><span class="pre">pickleable</span></tt></a>;</li>
-<li>the module <a class="reference internal" href="polyadcirc.pyADCIRC.html#module-polyadcirc.pyADCIRC.basic" title="polyadcirc.pyADCIRC.basic"><tt class="xref py py-mod docutils literal"><span class="pre">basic</span></tt></a> a set of classes for container
-objectd used by the <a class="reference internal" href="#module-polyadcirc.run_framework" title="polyadcirc.run_framework"><tt class="xref py py-mod docutils literal"><span class="pre">run_framework</span></tt></a>;</li>
-<li>the modules <a class="reference internal" href="polyadcirc.pyADCIRC.html#module-polyadcirc.pyADCIRC.fort13_management" title="polyadcirc.pyADCIRC.fort13_management"><tt class="xref py py-mod docutils literal"><span class="pre">fort13_management</span></tt></a>, 
-<a class="reference internal" href="polyadcirc.pyADCIRC.html#module-polyadcirc.pyADCIRC.fort14_management" title="polyadcirc.pyADCIRC.fort14_management"><tt class="xref py py-mod docutils literal"><span class="pre">fort14_management</span></tt></a>, and 
-<a class="reference internal" href="polyadcirc.pyADCIRC.html#module-polyadcirc.pyADCIRC.fort15_management" title="polyadcirc.pyADCIRC.fort15_management"><tt class="xref py py-mod docutils literal"><span class="pre">fort15_management</span></tt></a>,
-<a class="reference internal" href="polyadcirc.pyADCIRC.html#module-polyadcirc.pyADCIRC.fort1920_management" title="polyadcirc.pyADCIRC.fort1920_management"><tt class="xref py py-mod docutils literal"><span class="pre">fort1920_management</span></tt></a>, a set of methods for
-manipulation and reading of <strong class="program">ADCIRC</strong> <tt class="docutils literal"><span class="pre">fort.##</span></tt> files for use by
+<li>the class <a class="reference internal" href="polyadcirc.pyADCIRC.html#polyadcirc.pyADCIRC.basic.pickleable" title="polyadcirc.pyADCIRC.basic.pickleable"><code class="xref py py-class docutils literal"><span class="pre">pickleable</span></code></a>;</li>
+<li>the module <a class="reference internal" href="polyadcirc.pyADCIRC.html#module-polyadcirc.pyADCIRC.basic" title="polyadcirc.pyADCIRC.basic"><code class="xref py py-mod docutils literal"><span class="pre">basic</span></code></a> a set of classes for container
+objectd used by the <a class="reference internal" href="polyadcirc.run_framework.html#module-polyadcirc.run_framework" title="polyadcirc.run_framework"><code class="xref py py-mod docutils literal"><span class="pre">run_framework</span></code></a>;</li>
+<li>the modules <a class="reference internal" href="polyadcirc.pyADCIRC.html#module-polyadcirc.pyADCIRC.fort13_management" title="polyadcirc.pyADCIRC.fort13_management"><code class="xref py py-mod docutils literal"><span class="pre">fort13_management</span></code></a>, 
+<a class="reference internal" href="polyadcirc.pyADCIRC.html#module-polyadcirc.pyADCIRC.fort14_management" title="polyadcirc.pyADCIRC.fort14_management"><code class="xref py py-mod docutils literal"><span class="pre">fort14_management</span></code></a>, and 
+<a class="reference internal" href="polyadcirc.pyADCIRC.html#module-polyadcirc.pyADCIRC.fort15_management" title="polyadcirc.pyADCIRC.fort15_management"><code class="xref py py-mod docutils literal"><span class="pre">fort15_management</span></code></a>,
+<a class="reference internal" href="polyadcirc.pyADCIRC.html#module-polyadcirc.pyADCIRC.fort1920_management" title="polyadcirc.pyADCIRC.fort1920_management"><code class="xref py py-mod docutils literal"><span class="pre">fort1920_management</span></code></a>, a set of methods for
+manipulation and reading of <strong class="program">ADCIRC</strong> <code class="docutils literal"><span class="pre">fort.##</span></code> files for use by
 the 
-<a class="reference internal" href="#module-polyadcirc.run_framework" title="polyadcirc.run_framework"><tt class="xref py py-mod docutils literal"><span class="pre">run_framework</span></tt></a> and <a class="reference internal" href="#module-polyadcirc.pyGriddata" title="polyadcirc.pyGriddata"><tt class="xref py py-mod docutils literal"><span class="pre">pyGriddata</span></tt></a> modules;</li>
-<li>the module <a class="reference internal" href="polyadcirc.pyADCIRC.html#module-polyadcirc.pyADCIRC.prep_management" title="polyadcirc.pyADCIRC.prep_management"><tt class="xref py py-mod docutils literal"><span class="pre">prep_management</span></tt></a> is used to generate
+<a class="reference internal" href="polyadcirc.run_framework.html#module-polyadcirc.run_framework" title="polyadcirc.run_framework"><code class="xref py py-mod docutils literal"><span class="pre">run_framework</span></code></a> and <a class="reference internal" href="polyadcirc.pyGriddata.html#module-polyadcirc.pyGriddata" title="polyadcirc.pyGriddata"><code class="xref py py-mod docutils literal"><span class="pre">pyGriddata</span></code></a> modules;</li>
+<li>the module <a class="reference internal" href="polyadcirc.pyADCIRC.html#module-polyadcirc.pyADCIRC.prep_management" title="polyadcirc.pyADCIRC.prep_management"><code class="xref py py-mod docutils literal"><span class="pre">prep_management</span></code></a> is used to generate
 input files to <strong class="program">ADCPREP</strong>.</li>
-<li><a class="reference internal" href="polyadcirc.pyADCIRC.html#module-polyadcirc.pyADCIRC.plotADCIRC" title="polyadcirc.pyADCIRC.plotADCIRC"><tt class="xref py py-mod docutils literal"><span class="pre">plotADCIRC</span></tt></a> a set of functions for plotting
+<li><a class="reference internal" href="polyadcirc.pyADCIRC.html#module-polyadcirc.pyADCIRC.plotADCIRC" title="polyadcirc.pyADCIRC.plotADCIRC"><code class="xref py py-mod docutils literal"><span class="pre">plotADCIRC</span></code></a> a set of functions for plotting
 simulation outputs</li>
+<li><a class="reference internal" href="polyadcirc.pyADCIRC.html#module-polyadcirc.pyADCIRC.post_management" title="polyadcirc.pyADCIRC.post_management"><code class="xref py py-mod docutils literal"><span class="pre">post_management</span></code></a> is used the generate input
+files to <strong class="program">ADCPOST</strong>.</li>
 </ul>
 </div>
 <div class="section" id="module-polyadcirc.run_framework">
-<span id="run-framework-package"></span><h3><tt class="xref py py-mod docutils literal"><span class="pre">run_framework</span></tt> Package<a class="headerlink" href="#module-polyadcirc.run_framework" title="Permalink to this headline">¶</a></h3>
+<span id="run-framework-package"></span><h3><code class="xref py py-mod docutils literal"><span class="pre">run_framework</span></code> Package<a class="headerlink" href="#module-polyadcirc.run_framework" title="Permalink to this headline">¶</a></h3>
 <p>This subpackage contains</p>
 <ul class="simple">
-<li><a class="reference internal" href="polyadcirc.run_framework.html#module-polyadcirc.run_framework.domain" title="polyadcirc.run_framework.domain"><tt class="xref py py-class docutils literal"><span class="pre">domain</span></tt></a> a container object for a data specific to a particular
+<li><a class="reference internal" href="polyadcirc.run_framework.html#module-polyadcirc.run_framework.domain" title="polyadcirc.run_framework.domain"><code class="xref py py-class docutils literal"><span class="pre">domain</span></code></a> a container object for a data specific to a particular
 mesh(es), grid(s)</li>
-<li><a class="reference internal" href="polyadcirc.run_framework.html#module-polyadcirc.run_framework.random_manningsn" title="polyadcirc.run_framework.random_manningsn"><tt class="xref py py-mod docutils literal"><span class="pre">random_manningsn</span></tt></a> a class and associated set
+<li><a class="reference internal" href="polyadcirc.run_framework.html#module-polyadcirc.run_framework.random_manningsn" title="polyadcirc.run_framework.random_manningsn"><code class="xref py py-mod docutils literal"><span class="pre">random_manningsn</span></code></a> a class and associated set
 of methods to run a set of ADCIRC simulations with varying parameters</li>
 </ul>
 </div>
 <div class="section" id="module-polyadcirc.pyGriddata">
-<span id="pygriddata-package"></span><h3><tt class="xref py py-mod docutils literal"><span class="pre">pyGriddata</span></tt> Package<a class="headerlink" href="#module-polyadcirc.pyGriddata" title="Permalink to this headline">¶</a></h3>
+<span id="pygriddata-package"></span><h3><code class="xref py py-mod docutils literal"><span class="pre">pyGriddata</span></code> Package<a class="headerlink" href="#module-polyadcirc.pyGriddata" title="Permalink to this headline">¶</a></h3>
 <p>This package contains a set of modules mainly for the mapping of nodal data to
 an <strong class="program">ADCIRC</strong> mesh using landuse data and the <strong class="program">Fortran90</strong>
 program <strong class="program">Griddata_v1.32.F90</strong>. <strong class="program">GridData</strong> is a
@@ -149,16 +253,16 @@ C.H.Lab., University of Notre Dame.</p>
 <p>This package contains the modules</p>
 <blockquote>
 <div><ul class="simple">
-<li><a class="reference internal" href="polyadcirc.pyGriddata.html#module-polyadcirc.pyGriddata.file_management" title="polyadcirc.pyGriddata.file_management"><tt class="xref py py-mod docutils literal"><span class="pre">file_management</span></tt></a></li>
-<li><a class="reference internal" href="polyadcirc.pyGriddata.html#module-polyadcirc.pyGriddata.table_management" title="polyadcirc.pyGriddata.table_management"><tt class="xref py py-mod docutils literal"><span class="pre">table_management</span></tt></a></li>
-<li><a class="reference internal" href="polyadcirc.pyGriddata.html#module-polyadcirc.pyGriddata.table_to_mesh_map" title="polyadcirc.pyGriddata.table_to_mesh_map"><tt class="xref py py-mod docutils literal"><span class="pre">table_to_mesh_map</span></tt></a></li>
-<li><a class="reference internal" href="polyadcirc.pyGriddata.html#module-polyadcirc.pyGriddata.grid_management" title="polyadcirc.pyGriddata.grid_management"><tt class="xref py py-mod docutils literal"><span class="pre">grid_management</span></tt></a></li>
-<li><a class="reference internal" href="polyadcirc.pyGriddata.html#module-polyadcirc.pyGriddata.manufacture_gap" title="polyadcirc.pyGriddata.manufacture_gap"><tt class="xref py py-mod docutils literal"><span class="pre">manufacture_gap</span></tt></a></li>
-<li><tt class="xref py py-mod docutils literal"><span class="pre">sbatch_management</span></tt></li>
+<li><a class="reference internal" href="polyadcirc.pyGriddata.html#module-polyadcirc.pyGriddata.file_management" title="polyadcirc.pyGriddata.file_management"><code class="xref py py-mod docutils literal"><span class="pre">file_management</span></code></a></li>
+<li><a class="reference internal" href="polyadcirc.pyGriddata.html#module-polyadcirc.pyGriddata.table_management" title="polyadcirc.pyGriddata.table_management"><code class="xref py py-mod docutils literal"><span class="pre">table_management</span></code></a></li>
+<li><a class="reference internal" href="polyadcirc.pyGriddata.html#module-polyadcirc.pyGriddata.table_to_mesh_map" title="polyadcirc.pyGriddata.table_to_mesh_map"><code class="xref py py-mod docutils literal"><span class="pre">table_to_mesh_map</span></code></a></li>
+<li><a class="reference internal" href="polyadcirc.pyGriddata.html#module-polyadcirc.pyGriddata.grid_management" title="polyadcirc.pyGriddata.grid_management"><code class="xref py py-mod docutils literal"><span class="pre">grid_management</span></code></a></li>
+<li><a class="reference internal" href="polyadcirc.pyGriddata.html#module-polyadcirc.pyGriddata.manufacture_gap" title="polyadcirc.pyGriddata.manufacture_gap"><code class="xref py py-mod docutils literal"><span class="pre">manufacture_gap</span></code></a></li>
+<li><code class="xref py py-mod docutils literal"><span class="pre">sbatch_management</span></code></li>
 </ul>
 </div></blockquote>
-<p><a class="reference internal" href="polyadcirc.pyGriddata.html#module-polyadcirc.pyGriddata.grid_management" title="polyadcirc.pyGriddata.grid_management"><tt class="xref py py-mod docutils literal"><span class="pre">grid_management</span></tt></a> prepares <tt class="docutils literal"><span class="pre">*.table</span> <span class="pre">and</span>
-<span class="pre">*.13</span></tt> files needed for <a class="reference internal" href="polyadcirc.pyGriddata.html#module-polyadcirc.pyGriddata.table_to_mesh_map" title="polyadcirc.pyGriddata.table_to_mesh_map"><tt class="xref py py-mod docutils literal"><span class="pre">table_to_mesh_map</span></tt></a> and
+<p><a class="reference internal" href="polyadcirc.pyGriddata.html#module-polyadcirc.pyGriddata.grid_management" title="polyadcirc.pyGriddata.grid_management"><code class="xref py py-mod docutils literal"><span class="pre">grid_management</span></code></a> prepares <code class="docutils literal"><span class="pre">*.table</span> <span class="pre">and</span>
+<span class="pre">*.13</span></code> files needed for <a class="reference internal" href="polyadcirc.pyGriddata.html#module-polyadcirc.pyGriddata.table_to_mesh_map" title="polyadcirc.pyGriddata.table_to_mesh_map"><code class="xref py py-mod docutils literal"><span class="pre">table_to_mesh_map</span></code></a> and
 creates the n x m matrix of multiplier factors where n = # nodes, and m = #
 land classification values, assuming there are no surprises with the spatial
 averaging.</p>
@@ -167,83 +271,69 @@ averaging.</p>
 <dd><ul class="first last simple">
 <li>compiled version of <strong class="program">Gridata_v1.32.F90</strong> named
 <strong class="program">Griddata_parallel.out</strong></li>
-<li><tt class="docutils literal"><span class="pre">.asc</span></tt> files</li>
-<li><tt class="docutils literal"><span class="pre">*.14</span> <span class="pre">files</span></tt></li>
+<li><code class="docutils literal"><span class="pre">.asc</span></code> files</li>
+<li><code class="docutils literal"><span class="pre">*.14</span> <span class="pre">files</span></code></li>
 <li><cite>fort.13`</cite> file to use as a template for
-<tt class="xref py py-meth docutils literal"><span class="pre">convert()</span></tt></li>
+<code class="xref py py-meth docutils literal"><span class="pre">convert()</span></code></li>
 </ul>
 </dd>
 </dl>
-<p><a class="reference internal" href="polyadcirc.pyGriddata.html#module-polyadcirc.pyGriddata.table_to_mesh_map" title="polyadcirc.pyGriddata.table_to_mesh_map"><tt class="xref py py-mod docutils literal"><span class="pre">table_to_mesh_map</span></tt></a> given a <tt class="docutils literal"><span class="pre">**_manning.table</span></tt>
-(and data file(s) from above) produces a <tt class="docutils literal"><span class="pre">fort.13</span></tt> ready for use by
+<p><a class="reference internal" href="polyadcirc.pyGriddata.html#module-polyadcirc.pyGriddata.table_to_mesh_map" title="polyadcirc.pyGriddata.table_to_mesh_map"><code class="xref py py-mod docutils literal"><span class="pre">table_to_mesh_map</span></code></a> given a <code class="docutils literal"><span class="pre">**_manning.table</span></code>
+(and data file(s) from above) produces a <code class="docutils literal"><span class="pre">fort.13</span></code> ready for use by
 <strong class="program">ADCIRC</strong></p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">This module requires a modified version of
-<strong class="program">Griddatat_v1.32.F90</strong> that takes <tt class="docutils literal"><span class="pre">*.in</span></tt> files</p>
-</div>
-<div class="admonition-todo admonition" id="index-0">
-<p class="first admonition-title">Todo</p>
-<p class="last">update so that this works similarly to how I have things working on
-lonestar and so that there is also a version that runs on a workstation</p>
+<strong class="program">Griddatat_v1.32.F90</strong> that takes <code class="docutils literal"><span class="pre">*.in</span></code> files</p>
 </div>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
-<p class="last"><a class="reference internal" href="py-modindex.html"><em>Module Index</em></a> for detailed documentation of modules, classes, etc.</p>
+<p class="last"><a class="reference internal" href="py-modindex.html"><span>Module Index</span></a> for detailed documentation of modules, classes, etc.</p>
 </div>
 </div>
 </div>
 <div class="section" id="internal-dependencies">
 <h2>Internal dependencies<a class="headerlink" href="#internal-dependencies" title="Permalink to this headline">¶</a></h2>
-<p>Dependencies via <tt class="docutils literal"><span class="pre">import</span></tt> statements:</p>
-<div class="highlight-python"><div class="highlight"><pre>polyadcirc
-      \-pyADCIRC
-      | \-basic (polyadcirc.pyGriddata.grid_management,
-            polyadcirc.pyGriddata.table_management,
-            polyadcirc.pyADCIRC.fort15_management,
+<p>Dependencies via <code class="docutils literal"><span class="pre">import</span></code> statements:</p>
+<div class="highlight-python"><div class="highlight"><pre>polyadcirc/
+    pyADCIRC/
+        \-prep_management (polyadcirc.run_framework.domain,
+            polyadcirc.run_framework.random_manningsn)
+        \-plotADCIRC(polyadcirc.run_framework.domain,
             polyadcirc.run_framework.random_manningsn,
-            polyadcirc.pyADCIRC.fort14_management,
-            polyadcirc.run_framework.domain)
-      | \-convert_fort14_to_fort13 (polyadcirc.pyGriddata.grid_management)
-      | \-flag_fort14 (polyadcirc.pyADCIRC.fort14_management)
-      | \-fort13_management (polyadcirc.pyGriddata.grid_management,
-            polyadcirc.pyADCIRC.convert_fort14_to_fort13,
-            polyadcirc.run_framework.random_manningsn,
+            polyadcirc.run_framework.random_wall)
+        \-fort13_management (polyadcirc.pyGriddata.prep_mesh,
             polyadcirc.pyGriddata.table_to_mesh_map,
-            polyadcirc.run_framework.random_wall_Q,
+            polyadcirc.run_framework.domain,
+            polyadcirc.run_framework.random_manningsn,
+            polyadcirc.run_framework.random_wall)
+        \-fort15_management (polyadcirc.pyADCIRC.plotADCIRC,
+            polyadcirc.run_framework.domain,
+            polyadcirc.run_framework.random_manningsn,
+            polyadcirc.run_framework.subdomain)
+        \-fort14_management (polyadcirc.pyGriddata.prep_mesh,
+            polyadcirc.pyGriddata.file_management,
             polyadcirc.run_framework.domain,
             polyadcirc.run_framework.random_wall)
-      | \-fort14_management (polyadcirc.run_framework.random_wall_Q,
-            polyadcirc.run_framework.domain,
-            polyadcirc.run_framework.random_wall,
-            polyadcirc.pyGriddata.grid_management)
-      | \-fort15_management (polyadcirc.pyADCIRC.plotADCIRC,
-            polyadcirc.run_framework.domain,
-            polyadcirc.run_framework.random_manningsn)
-      | \-output (polyadcirc.run_framework.random_wall_Q,
-            polyadcirc.run_framework.random_wall,
-            polyadcirc.run_framework.random_manningsn)
-      | \-plotADCIRC (polyadcirc.run_framework.domain,
-            polyadcirc.run_framework.random_wall,
+        \-basic (polyadcirc.pyADCIRC.fort14_management,
+            polyadcirc.pyADCIRC.fort15_management)
+        \-output (polyadcirc.run_framework.random_wall,
             polyadcirc.run_framework.random_manningsn,
-            polyadcirc.pyGriddata.grid_management)
-      | \-prep_management (polyadcirc.run_framework.domain,
-            polyadcirc.run_framework.random_manningsn)
-      \-pyGriddata
-      | \-file_management (polyadcirc.pyADCIRC.plotADCIRC,
+            polyadcirc.run_framework.subdomain)
+        \-convert_fort14_to_fort13 (polyadcirc.pyGriddata.gridObject)
+        \-flag_fort14 (polyadcirc.pyADCIRC.fort14_management)
+    run_framework/
+        \-random_manningsn (polyadcirc.run_framework.random_wall,
+            polyadcirc.run_framework.subdomain)
+        \-domain (polyadcirc.run_framework.fulldomain,
             polyadcirc.run_framework.random_manningsn,
-            polyadcirc.pyGriddata.grid_management)
-      | \-table_management (polyadcirc.pyGriddata.grid_management)
-      | \-table_to_mesh_map (polyadcirc.run_framework.random_wall_Q,
-            polyadcirc.run_framework.random_wall,
-          polyadcirc.run_framework.random_manningsn,
-          polyadcirc.pyGriddata.grid_management)
-      \-run_framework
-        \-domain (polyadcirc.run_framework.random_manningsn,
-                  polyadcirc.pyGriddata.grid_management)
-        \-random_manningsn (polyadcirc.run_framework.random_wall_Q,
-                            polyadcirc.run_framework.random_wall)
-        \-random_wall (polyadcirc.run_framework.random_wall_Q)
+            polyadcirc.run_framework.subdomain)
+    pyGriddata/
+        \-file_management (polyadcirc.pyADCIRC.plotADCIRC,
+            polyadcirc.pyGriddata.prep_mesh)
+        \-table_to_mesh_map (polyadcirc.pyGriddata.prep_mesh,
+            polyadcirc.run_framework.random_manningsn,
+            polyadcirc.run_framework.subdomain)
 </pre></div>
 </div>
 </div>
@@ -251,29 +341,18 @@ lonestar and so that there is also a version that runs on a workstation</p>
 <h2>External dependencies<a class="headerlink" href="#external-dependencies" title="Permalink to this headline">¶</a></h2>
 <p>This pacakge requires <a class="reference external" href="http://http://matplotlib.org">matplotlib</a>, <a class="reference external" href="scipy.org">scipy</a>, mpl_toolkit, and <a class="reference external" href="http://http://www.numpy.org">numpy</a>. This package is written in <a class="reference external" href="http://http://docs.python.org/2">Python</a>.</p>
 <div class="highlight-python"><div class="highlight"><pre>matplotlib
-    \-collections (polyadcirc.pyADCIRC.plotADCIRC)
+    \-collections
+    | \-LineCollection (polyadcirc.pyADCIRC.plotADCIRC)
     \-pyplot (polyadcirc.pyADCIRC.plotADCIRC)
     \-tri (polyadcirc.pyADCIRC.plotADCIRC)
-mpl_toolkits
-    \-axes_grid1 (polyadcirc.pyADCIRC.plotADCIRC)
-numpy (polyadcirc.pyADCIRC.plotADCIRC,
-       polyadcirc.run_framework.random_manningsn,
-       polyadcirc.pyADCIRC.fort15_management, polyadcirc.pyADCIRC.output,
-       polyadcirc.pyADCIRC.convert_fort14_to_fort13,
-       polyadcirc.pyGriddata.manufacture_gap,
-       polyadcirc.pyADCIRC.fort1920_management,
-       polyadcirc.run_framework.random_wall_Q, polyadcirc.run_framework.domain,
-       polyadcirc.pyGriddata.grid_management,
-       polyadcirc.pyGriddata.table_to_mesh_map,
-       polyadcirc.pyADCIRC.fort14_management,
-       polyadcirc.pyADCIRC.fort13_management,
-       polyadcirc.run_framework.random_wall, polyadcirc.pyADCIRC.volume)
-scipy
-    \-interpolate (polyadcirc.run_framework.random_wall_Q,
-                   polyadcirc.run_framework.domain)
-    \-io (polyadcirc.run_framework.random_wall_Q,
-          polyadcirc.run_framework.random_wall,
-          polyadcirc.run_framework.random_manningsn)
+  mpl_toolkits
+    \-axes_grid1
+      \-make_axes_locatable (polyadcirc.pyADCIRC.plotADCIRC)
+  numpy (polyadcirc.pyADCIRC.volume,polyadcirc.run_framework.random_manningsn,polyadcirc.pyADCIRC.fort15_management,polyadcirc.run_framework.domain,polyadcirc.pyGriddata.manufacture_gap,polyadcirc.run_framework.random_wall,polyadcirc.pyGriddata.prep_mesh,polyadcirc.run_framework.subdomain,polyadcirc.pyGriddata.table_to_mesh_map,polyadcirc.pyADCIRC.plotADCIRC,polyadcirc.pyADCIRC.fort14_management,polyadcirc.pyADCIRC.fort13_management,polyadcirc.pyADCIRC.fort1920_management,polyadcirc.pyADCIRC.convert_fort14_to_fort13,polyadcirc.pyADCIRC.output)
+  scipy
+    \-interpolate
+    | \-griddata (polyadcirc.run_framework.domain)
+    \-io (polyadcirc.run_framework.subdomain,polyadcirc.run_framework.random_wall,polyadcirc.run_framework.random_manningsn)
 </pre></div>
 </div>
 </div>
@@ -281,76 +360,70 @@ scipy
 
 
           </div>
-        </div>
-      </div>
-      <div class="sphinxsidebar">
-        <div class="sphinxsidebarwrapper">
-  <h3><a href="index.html">Table Of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">Overview</a><ul>
-<li><a class="reference internal" href="#installation">Installation</a></li>
-<li><a class="reference internal" href="#package-layout">Package Layout</a></li>
-<li><a class="reference internal" href="#code-overview">Code Overview</a><ul>
-<li><a class="reference internal" href="#module-polyadcirc.pyADCIRC"><tt class="docutils literal"><span class="pre">pyADCIRC</span></tt> Package</a></li>
-<li><a class="reference internal" href="#module-polyadcirc.run_framework"><tt class="docutils literal"><span class="pre">run_framework</span></tt> Package</a></li>
-<li><a class="reference internal" href="#module-polyadcirc.pyGriddata"><tt class="docutils literal"><span class="pre">pyGriddata</span></tt> Package</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#internal-dependencies">Internal dependencies</a></li>
-<li><a class="reference internal" href="#external-dependencies">External dependencies</a></li>
-</ul>
-</li>
-</ul>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="running_on_lonestar.html" class="btn btn-neutral float-right" title="Running on TACC">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral" title="Welcome to PolyADCIRC’s documentation!"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
 
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="index.html"
-                        title="previous chapter">Welcome to PolyADCIRC&#8217;s documentation!</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="running_on_TACC.html"
-                        title="next chapter">Running on TACC</a></p>
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="_sources/overview.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
-<div id="searchbox" style="display: none">
-  <h3>Quick search</h3>
-    <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2013, Lindley Graham.
+      Last updated on Aug 31, 2015.
     </p>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+  </div>
+
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  
+</footer>
         </div>
       </div>
-      <div class="clearer"></div>
-    </div>
-    <div class="related">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             >index</a></li>
-        <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
-          <a href="running_on_TACC.html" title="Running on TACC"
-             >next</a> |</li>
-        <li class="right" >
-          <a href="index.html" title="Welcome to PolyADCIRC’s documentation!"
-             >previous</a> |</li>
-        <li><a href="index.html">PolySim 0.1 documentation</a> &raquo;</li> 
-      </ul>
-    </div>
-    <div class="footer">
-        &copy; Copyright 2013, Lindley Graham.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
-    </div>
-  </body>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.2.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
 </html>

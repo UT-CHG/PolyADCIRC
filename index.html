@@ -1,53 +1,141 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>Welcome to PolyADCIRC’s documentation! &mdash; PolySim 0.1 documentation</title>
-    
-    <link rel="stylesheet" href="_static/default.css" type="text/css" />
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    './',
-        VERSION:     '0.1',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
-      };
-    </script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="PolySim 0.1 documentation" href="#" />
-    <link rel="next" title="Overview" href="overview.html" /> 
-  </head>
-  <body>
-    <div class="related">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             accesskey="I">index</a></li>
-        <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
-          <a href="overview.html" title="Overview"
-             accesskey="N">next</a> |</li>
-        <li><a href="#">PolySim 0.1 documentation</a> &raquo;</li> 
-      </ul>
-    </div>  
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Welcome to PolyADCIRC’s documentation! &mdash; PolyADCIRC 0.2.0 documentation</title>
+  
 
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
-          <div class="body">
+  
+  
+
+  
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic|Roboto+Slab:400,700|Inconsolata:400,700&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="PolyADCIRC 0.2.0 documentation" href="#"/>
+        <link rel="next" title="Overview" href="overview.html"/> 
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+          <a href="#" class="fa fa-home"> PolyADCIRC</a>
+        
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#package-layout">Package Layout</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#code-overview">Code Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#internal-dependencies">Internal dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#external-dependencies">External dependencies</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="running_on_lonestar.html">Running on Lonestar</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="running_on_lonestar.html#file-system-setup">File System Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="running_on_lonestar.html#python-scripts">Python Scripts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="running_on_lonestar.html#job-submission-script">Job Submission Script</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="submerged_wall.html">Limited Variable Bathymetry</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="submerged_wall.html#few-walls">few_walls</a></li>
+<li class="toctree-l2"><a class="reference internal" href="submerged_wall.html#load-few-walls">load_few_walls</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="large_jobs.html">Large Jobs</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="large_jobs.html#concatenation-2">concatenation_2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="large_jobs.html#concatenate-many">concatenate_many</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="landuse_stuff.html">All about mapping landuse data to the mesh</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="landuse_stuff.html#preparing-basis-vector-files-from-gap-nlcd-data">Preparing basis vector files from GAP/NLCD data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="landuse_stuff.html#comparing-the-python-vs-griddata-v1-32-f90-reconstructions">Comparing the Python vs. <strong class="program">Griddata_v1.32.F90</strong> Reconstructions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="landuse_stuff.html#manufacturing-gap-data">Manufacturing GAP data</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="subdomain.html">Running with Subdomain ADCIRC</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="subdomain.html#getting-the-subdomain-adcirc-code">Getting the Subdomain ADCIRC Code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="subdomain.html#setting-up-the-subdomain-grid-dir">Setting up the Subdomain <code class="docutils literal"><span class="pre">grid_dir</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="subdomain.html#setting-up-your-landuse-folders">Setting up your <code class="docutils literal"><span class="pre">landuse_##</span></code> folders</a></li>
+<li class="toctree-l2"><a class="reference internal" href="subdomain.html#running-polyadcirc-with-subdomains">Running PolyADCIRC with Subdomains</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="references.html">Some References and Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="todo_list.html">Todo List</a></li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="#">PolyADCIRC</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="#">Docs</a> &raquo;</li>
+      
+    <li>Welcome to PolyADCIRC&#8217;s documentation!</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          <a href="_sources/index.txt" rel="nofollow"> View page source</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document">
             
   <div class="section" id="welcome-to-polyadcirc-s-documentation">
 <h1>Welcome to PolyADCIRC&#8217;s documentation!<a class="headerlink" href="#welcome-to-polyadcirc-s-documentation" title="Permalink to this headline">¶</a></h1>
@@ -57,11 +145,18 @@ bathymetry, etc). Includes documentation for a Python interface to a slightly
 modified verion of <strong class="program">GridData</strong> (Griddata_v1.32.F90).
 <strong class="program">GridData</strong> is a <strong class="program">FORTRAN</strong> program originally developed by
 Seizo Tanaka (ST3) and C.H.Lab., University of Notre Dame.</p>
+<p>This code also extends the <strong class="program">PolyADCIRC</strong> framework to interface with a slightly
+modifed version of <strong class="program">Subdomain ADCIRC v.50</strong>. <strong class="program">Subdomain ADCIRC
+v.50</strong> was developed by Alper Altuntas and Jason Simon under the direction of
+John Baugh; Department of Civil, Construction, and Enviromental Engineering
+North Carolina State University (NCSU), Raleigh, NC 27695.</p>
 <p>All code documented here is written for Linux with a bash shell. It can be
 modified for other shells. This code requires <a class="reference external" href="http://www.gnu.org/software/parallel/">GNU Parallel</a> to be installed in order to run
 properly.</p>
-<p>Useful scripts are contained in <tt class="docutils literal"><span class="pre">examples/</span></tt>
-Python source code for this package is contained in <tt class="docutils literal"><span class="pre">polyadcirc/</span></tt></p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If you plan on making ANY changes to the repos make a NEW branch!</p>
+</div>
 <p>Contents:</p>
 <div class="toctree-wrapper compound">
 <ul>
@@ -73,28 +168,36 @@ Python source code for this package is contained in <tt class="docutils literal"
 <li class="toctree-l2"><a class="reference internal" href="overview.html#external-dependencies">External dependencies</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="running_on_TACC.html">Running on TACC</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="running_on_TACC.html#file-system-setup">File System Setup</a></li>
-<li class="toctree-l2"><a class="reference internal" href="running_on_TACC.html#python-scripts">Python Scripts</a></li>
-<li class="toctree-l2"><a class="reference internal" href="running_on_TACC.html#job-submission-script">Job Submission Script</a></li>
+<li class="toctree-l1"><a class="reference internal" href="running_on_lonestar.html">Running on Lonestar</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="running_on_lonestar.html#file-system-setup">File System Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="running_on_lonestar.html#python-scripts">Python Scripts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="running_on_lonestar.html#job-submission-script">Job Submission Script</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="submerged_wall.html">Limited Variable Bathymetry</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="submerged_wall.html#random-wall">random_wall</a></li>
-<li class="toctree-l2"><a class="reference internal" href="submerged_wall.html#load-random-wall">load_random_wall</a></li>
+<li class="toctree-l2"><a class="reference internal" href="submerged_wall.html#few-walls">few_walls</a></li>
+<li class="toctree-l2"><a class="reference internal" href="submerged_wall.html#load-few-walls">load_few_walls</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="large_jobs.html">Large Jobs</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="large_jobs.html#concatenate-pair">concatenate_pair</a></li>
+<li class="toctree-l2"><a class="reference internal" href="large_jobs.html#concatenation-2">concatenation_2</a></li>
 <li class="toctree-l2"><a class="reference internal" href="large_jobs.html#concatenate-many">concatenate_many</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="landuse_stuff.html">All about mapping landuse data to the mesh</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="landuse_stuff.html#preparing-basis-vector-files-from-gap-nlcd-data">Preparing basis vector files from GAP/NLCD data</a></li>
-<li class="toctree-l2"><a class="reference internal" href="landuse_stuff.html#bathymetry-based-landuse-classifications">Bathymetry based landuse classifications</a></li>
+<li class="toctree-l2"><a class="reference internal" href="landuse_stuff.html#comparing-the-python-vs-griddata-v1-32-f90-reconstructions">Comparing the Python vs. <strong class="program">Griddata_v1.32.F90</strong> Reconstructions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="landuse_stuff.html#manufacturing-gap-data">Manufacturing GAP data</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="subdomain.html">Running with Subdomain ADCIRC</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="subdomain.html#getting-the-subdomain-adcirc-code">Getting the Subdomain ADCIRC Code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="subdomain.html#setting-up-the-subdomain-grid-dir">Setting up the Subdomain <code class="docutils literal"><span class="pre">grid_dir</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="subdomain.html#setting-up-your-landuse-folders">Setting up your <code class="docutils literal"><span class="pre">landuse_##</span></code> folders</a></li>
+<li class="toctree-l2"><a class="reference internal" href="subdomain.html#running-polyadcirc-with-subdomains">Running PolyADCIRC with Subdomains</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="references.html">Some References and Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="todo_list.html">Todo List</a></li>
 </ul>
 </div>
@@ -106,13 +209,12 @@ Python source code for this package is contained in <tt class="docutils literal"
 <div class="section" id="indices-and-tables">
 <h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
 <ul class="simple">
-<li><a class="reference internal" href="genindex.html"><em>Index</em></a></li>
-<li><a class="reference internal" href="py-modindex.html"><em>Module Index</em></a></li>
-<li><a class="reference internal" href="search.html"><em>Search Page</em></a></li>
+<li><a class="reference internal" href="genindex.html"><span>Index</span></a></li>
+<li><a class="reference internal" href="py-modindex.html"><span>Module Index</span></a></li>
+<li><a class="reference internal" href="search.html"><span>Search Page</span></a></li>
 </ul>
-</div>
 <div class="section" id="disclaimer">
-<h1>Disclaimer<a class="headerlink" href="#disclaimer" title="Permalink to this headline">¶</a></h1>
+<h2>Disclaimer<a class="headerlink" href="#disclaimer" title="Permalink to this headline">¶</a></h2>
 <p>This code was originally developed for research purposes use at your own risk.
 Hopefully, the documentation is clear. You might find bugs I have overlooked.
 If you find something amiss please report this problem to me through GitHub or
@@ -123,63 +225,72 @@ findings, and conclusions or recommendations expressed in this material are
 those of the authors(s) and do not necessarily reflect the views of the
 National Science Foundation.</p>
 </div>
+</div>
 
 
           </div>
-        </div>
-      </div>
-      <div class="sphinxsidebar">
-        <div class="sphinxsidebarwrapper">
-  <h3><a href="#">Table Of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">Welcome to PolyADCIRC&#8217;s documentation!</a></li>
-<li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
-<li><a class="reference internal" href="#disclaimer">Disclaimer</a></li>
-</ul>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="overview.html" class="btn btn-neutral float-right" title="Overview">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+    </div>
+  
 
-  <h4>Next topic</h4>
-  <p class="topless"><a href="overview.html"
-                        title="next chapter">Overview</a></p>
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="_sources/index.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
-<div id="searchbox" style="display: none">
-  <h3>Quick search</h3>
-    <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2013, Lindley Graham.
+      Last updated on Aug 31, 2015.
     </p>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+  </div>
+
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  
+</footer>
         </div>
       </div>
-      <div class="clearer"></div>
-    </div>
-    <div class="related">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             >index</a></li>
-        <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
-          <a href="overview.html" title="Overview"
-             >next</a> |</li>
-        <li><a href="#">PolySim 0.1 documentation</a> &raquo;</li> 
-      </ul>
-    </div>
-    <div class="footer">
-        &copy; Copyright 2013, Lindley Graham.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
-    </div>
-  </body>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.2.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
 </html>
