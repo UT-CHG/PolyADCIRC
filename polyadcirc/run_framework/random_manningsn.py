@@ -618,7 +618,7 @@ class runSet(pickleable):
             f.write('wait\n')
         curr_stat = os.stat(os.path.join(self.base_dir, self.script_name))
         os.chmod(os.path.join(self.base_dir, self.script_name),
-                 curr_stat.st_mode | stat.S_IXUS)
+                 curr_stat.st_mode | stat.S_IXUSR)
         return self.script_name
 
     def write_prep_script(self, n, screenout=False):
