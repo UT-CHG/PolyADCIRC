@@ -23,16 +23,17 @@ need to be cloned into your ``$WORK`` directory using the
     $ git clone --separate-git-dir=$HOME/v50_subdomain ices-workstation:/org/groups/chg/lgraham/v50_subdomain
 
 If you would like a copy of :program:`Subdomain ADCIRC` it is availiable at
-`SUbdomain Modeling in ADCIRC<http://www4.ncsu.edu/~jwb/subdomain/>`_. They
+`Subdomain Modeling in ADCIRC<http://www4.ncsu.edu/~jwb/subdomain/>`_. They
 have a great graphical interface for the `ADCIRC Subdomain Modeling
 Tool<https://github.com/atdyer/SMT>`_.
 
-Make sure you are in the ``subdomain`` branch of the ``PolyADCIRC`` repo::
+Modifying Subdomain ADCIRC
+---------------------------
 
-    $ git checkout --track origin/subdomain
-
-If you are using the ``ADCIRC_landuse`` repo as well make sure to checkout and
-switch to the subdomain branch.
+You will need to modify :program:`Subdomain ADCIRC` by making the ``py``
+directory in the :program:`Subdomain ADCIRC` directory into an importable
+python package. This requires adding a ``__init__.py`` file and then either
+installing it as a Python package or adding it to your Python path.
 
 Setting up the Subdomain ``grid_dir``
 -------------------------------------
