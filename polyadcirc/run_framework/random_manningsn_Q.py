@@ -169,7 +169,7 @@ class runSet(rmn.runSet):
         default = data.read_default(path=self.save_dir)
 
         for k in xrange(0, num_points, self.num_of_parallel_runs):
-            if k+self.num_of_parallel_runs >= num_points-1:
+            if k+self.num_of_parallel_runs >= num_points:
                 stop = num_points
                 step = stop-k
             else:
