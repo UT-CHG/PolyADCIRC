@@ -99,7 +99,7 @@ class runSet(rmw.runSet):
             
     def run_nobatch_q(self, data, wall_points, mann_points, save_file, 
                       num_procs=12, procs_pnode=12, stations=None,
-                      screenout=True, num_writers=None, TpN=12):
+                      screenout=True, num_writers=None, TpN=None):
         """
         Runs :program:`ADCIRC` for all of the configurations specified by
         ``wall_points`` and ``mann_points`` and returns a dictonary of arrays
@@ -142,6 +142,8 @@ class runSet(rmw.runSet):
                   (``fort.67``, ``fort.68``)
 
         """
+        if TpN is None:
+            TpN = procs_pnode
         # setup and save to shelf
         # set up saving
         if glob.glob(os.path.join(self.save_dir, save_file)):

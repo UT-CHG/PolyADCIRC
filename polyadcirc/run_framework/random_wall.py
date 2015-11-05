@@ -87,7 +87,7 @@ class runSet(rmn.runSet):
     def run_points(self, data, wall_points, mann_points, save_file, 
                    num_procs=12, procs_pnode=12, ts_names=["fort.61"],
                    nts_names=["maxele.63"], screenout=True, s_p_wall=
-                   None, num_writers=None, TpN=12):
+                   None, num_writers=None, TpN=None):
         """
         Runs :program:`ADCIRC` for all of the configurations specified by
         ``wall_points`` and ``mann_points`` and returns a dictonary of arrays
@@ -131,6 +131,8 @@ class runSet(rmn.runSet):
                   (``fort.67``, ``fort.68``)
 
         """
+        if TpN is None:
+            TpN = procs_pnode
         # setup and save to shelf
         # set up saving
         if glob.glob(os.path.join(self.save_dir, save_file)):
@@ -251,7 +253,7 @@ class runSet(rmn.runSet):
     def run_nobatch(self, data, wall_points, mann_points, save_file, 
                     num_procs=12, procs_pnode=12, ts_names=["fort.61"],
                     nts_names=["maxele.63"], screenout=True,
-                    num_writers=None, TpN=12):
+                    num_writers=None, TpN=None):
         """
         Runs :program:`ADCIRC` for all of the configurations specified by
         ``wall_points`` and ``mann_points`` and returns a dictonary of arrays
@@ -293,6 +295,8 @@ class runSet(rmn.runSet):
                   (``fort.67``, ``fort.68``)
 
         """
+        if TpN is None:
+            TpN = procs_pnode
         # setup and save to shelf
         # set up saving
         if glob.glob(os.path.join(self.save_dir, save_file)):
