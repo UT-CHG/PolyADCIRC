@@ -8,7 +8,7 @@ reading/writing of ``fort.15`` formatted files.
 import numpy as np
 import os, re, math
 import polyadcirc.pyADCIRC.basic as basic
-import bet.util as util
+import polyadcirc.util as util
 
 filetype = {'fort61':(True, 1), 'fort62':(True, 2), 'fort63':(False, 1),
             'tinun63':(False, 1), 'maxele63':(False, 1), 
