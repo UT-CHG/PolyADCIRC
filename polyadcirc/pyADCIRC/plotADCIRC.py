@@ -141,8 +141,8 @@ def station_locations(domain, path=None, bathy = False, save=True,
     
     #plt.title('station locations')
     add_2d_axes_labels(ics=ics)    
-    plt.legend(bbox_to_anchor=(0., 1.02, 1., .102), loc=3,
-               ncol=2, mode="expand", borderaxespad=0.)
+    #plt.legend(bbox_to_anchor=(0., 1.02, 1., .102), loc=3,
+    #           ncol=2, mode="expand", borderaxespad=0.)
     save_show(os.path.join(path, 'figs', 'station_locations'), save, show, ext)
 
 def field(domain, z, title, clim = None,  path=None, save=True, show =

@@ -2,7 +2,11 @@
 
 # Copyright (C) 2013 Lindley Graham
 
-from distutils.core import setup
+
+try:
+  from setuptools import setup
+except ImportError:
+    from distutils.core import setup
 
 setup(name='PolyADCIRC',
       version='0.2.0',
