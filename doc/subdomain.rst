@@ -1,3 +1,5 @@
+.. _subdomain:
+
 =============================
 Running with Subdomain ADCIRC
 =============================

@@ -10,6 +10,18 @@ Subpackages
     polyadcirc.pyGriddata
     polyadcirc.run_framework
 
+Submodules
+----------
+
+polyadcirc.util module
+----------------------
+
+.. automodule:: polyadcirc.util
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
 Module contents
 ---------------
 

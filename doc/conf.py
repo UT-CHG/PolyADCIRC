@@ -18,6 +18,9 @@ import sys, os
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #sys.path.insert(0, os.path.abspath('.'))
 
+
+
+
 # -- General configuration -----------------------------------------------------
 
 # If your documentation needs a minimal Sphinx version, state it here.
@@ -25,7 +28,19 @@ import sys, os
 
 # Add any Sphinx extension module names here, as strings. They can be extensions
 # coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
-extensions = ['sphinx.ext.autodoc', 'sphinx.ext.todo', 'sphinx.ext.coverage', 'sphinx.ext.mathjax']
+extensions = ['sphinx.ext.autodoc', 'sphinx.ext.todo', 'sphinx.ext.coverage', 'sphinx.ext.mathjax', 'sphinx.ext.intersphinx']
+
+intersphinx_cache_limit = 10 #days to keep cached inventories
+intersphinx_mapping = {'python': ('https://docs.python.org/2.7', None),
+                'polyadcirc' : ('http://ut-chg.github.io/PolyADCIRC', None),
+                         'matplotlib':('http://matplotlib.sourceforge.net',
+                             None),
+                         'numpy':('http://docs.scipy.org/doc/numpy',None),
+                         'np':('http://docs.scipy.org/doc/numpy',None),
+                         'scipy':('http://docs.scipy.org/doc/scipy',None)
+                                                                               }
+
+todo_include_todos = True
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
