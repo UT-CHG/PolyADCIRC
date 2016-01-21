@@ -4,7 +4,7 @@
    contain the root `toctree` directive.
 
 Welcome to PolyADCIRC's documentation!
-===================================
+======================================
 
 Python-based framework for running batches of parallel `ADCIRC <adcirc.org>`_
 simulations with varying parameters (Manning's *n* and limited variable
@@ -38,6 +38,7 @@ Contents:
    All about mapping landuse data to the mesh <landuse_stuff>
    subdomain
    references
+   modules
    todo_list
 
 .. todo:: Add pictures and comment examples.

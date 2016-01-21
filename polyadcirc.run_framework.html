@@ -30,7 +30,10 @@
   
 
   
-    <link rel="top" title="PolyADCIRC 0.2.0 documentation" href="index.html"/> 
+    <link rel="top" title="PolyADCIRC 0.2.0 documentation" href="index.html"/>
+        <link rel="up" title="polyadcirc package" href="polyadcirc.html"/>
+        <link rel="next" title="Todo List" href="todo_list.html"/>
+        <link rel="prev" title="polyadcirc.pyGriddata package" href="polyadcirc.pyGriddata.html"/> 
 
   
   <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
@@ -61,7 +64,7 @@
         
           
           
-              <ul>
+              <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="overview.html#installation">Installation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="overview.html#package-layout">Package Layout</a></li>
@@ -94,9 +97,15 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="subdomain.html">Running with Subdomain ADCIRC</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="subdomain.html#getting-the-subdomain-adcirc-code">Getting the Subdomain ADCIRC Code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="subdomain.html#modifying-subdomain-adcirc">Modifying Subdomain ADCIRC</a></li>
 <li class="toctree-l2"><a class="reference internal" href="subdomain.html#setting-up-the-subdomain-grid-dir">Setting up the Subdomain <code class="docutils literal"><span class="pre">grid_dir</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="subdomain.html#setting-up-your-landuse-folders">Setting up your <code class="docutils literal"><span class="pre">landuse_##</span></code> folders</a></li>
 <li class="toctree-l2"><a class="reference internal" href="subdomain.html#running-polyadcirc-with-subdomains">Running PolyADCIRC with Subdomains</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="references.html">Some References and Examples</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">polyadcirc</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="polyadcirc.html">polyadcirc package</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="todo_list.html">Todo List</a></li>
@@ -123,6 +132,10 @@
           <div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
     <li><a href="index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="modules.html">polyadcirc</a> &raquo;</li>
+      
+          <li><a href="polyadcirc.html">polyadcirc package</a> &raquo;</li>
       
     <li>polyadcirc.run_framework package</li>
       <li class="wy-breadcrumbs-aside">
@@ -151,13 +164,13 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>x</strong> (<em>float</em>) &#8211; current x value</li>
-<li><strong>x_lims</strong> (<em>float</em>) &#8211; box of x values to adjust</li>
-<li><strong>b_lims</strong> (<em>float</em>) &#8211; bathy adj at x_lims</li>
+<li><strong>x</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; current x value</li>
+<li><strong>x_lims</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; box of x values to adjust</li>
+<li><strong>b_lims</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; bathy adj at x_lims</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">float</p>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><a class="reference external" href="https://docs.python.org/2.7/library/functions.html#float" title="(in Python v2.7)">float</a></p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">b = bathy adjustment</p>
@@ -195,24 +208,24 @@ particular mesh(s) or grid(s)</dd>
 <dt>time</dt>
 <dd>instance of <a class="reference internal" href="polyadcirc.pyADCIRC.html#polyadcirc.pyADCIRC.basic.time" title="polyadcirc.pyADCIRC.basic.time"><code class="xref py py-class docutils literal"><span class="pre">time</span></code></a> class</dd>
 <dt>make_domain_map</dt>
-<dd>(boolean) whether or not a domain map has been created</dd>
+<dd>(bool) whether or not a domain map has been created</dd>
 </dl>
 <dl class="method">
 <dt id="polyadcirc.run_framework.domain.domain.add_wall">
 <code class="descname">add_wall</code><span class="sig-paren">(</span><em>box_limits</em>, <em>wall_height=-2</em>, <em>path=None</em>, <em>plotb=False</em>, <em>save=False</em>, <em>show=False</em><span class="sig-paren">)</span><a class="headerlink" href="#polyadcirc.run_framework.domain.domain.add_wall" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
+<dd><p>Adds a land wall of default 2 m in area defined by <code class="docutils literal"><span class="pre">box_limits</span></code></p>
+<table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>path</strong> (<em>string or None</em>) &#8211; directory containing the <code class="docutils literal"><span class="pre">fort.14</span></code> to be adjusted</li>
-<li><strong>box_limits</strong> &#8211; [xmin, xmax, ymin, ymax]</li>
+<li><strong>box_limits</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#list" title="(in Python v2.7)"><em>list</em></a>) &#8211; [xmin, xmax, ymin, ymax]</li>
 </ul>
 </td>
 </tr>
 </tbody>
 </table>
-<p>adds a land wall of default 2 m in area defined by box_limits</p>
 </dd></dl>
 
 <dl class="method">
@@ -225,8 +238,8 @@ bathymetry linearly interpolated between <code class="docutils literal"><span cl
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>x_lims</strong> (<em>list()</em>) &#8211; [x_min, x_max]</li>
-<li><strong>b_lims</strong> (<em>list()</em>) &#8211; [b_min, b_max]</li>
+<li><strong>x_lims</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#list" title="(in Python v2.7)"><em>list</em></a>) &#8211; [x_min, x_max]</li>
+<li><strong>b_lims</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#list" title="(in Python v2.7)"><em>list</em></a>) &#8211; [b_min, b_max]</li>
 <li><strong>path</strong> (<em>string or None</em>) &#8211; directory containing the <code class="docutils literal"><span class="pre">fort.14</span></code> to be adjusted</li>
 </ul>
 </td>
@@ -242,13 +255,13 @@ bathymetry linearly interpolated between <code class="docutils literal"><span cl
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><code class="xref py py-class docutils literal"><span class="pre">np.array</span></code> of size(1, node_num)</td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.10)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a> of size(1, node_num)</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">array containing the bathymetry at all nodes in numerical</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">array containing the bathymetry at all nodes in numerical
+order</td>
 </tr>
 </tbody>
 </table>
-<p>order</p>
 </dd></dl>
 
 <dl class="method">
@@ -258,7 +271,7 @@ bathymetry linearly interpolated between <code class="docutils literal"><span cl
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><code class="xref py py-class docutils literal"><span class="pre">np.array</span></code> of size(1, node_num)</td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.10)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a> of size(1, node_num)</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">array of containing the Manning&#8217;s <em>n</em> value at all nodes in
 numerical order</td>
@@ -274,7 +287,7 @@ numerical order</td>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><code class="xref py py-class docutils literal"><span class="pre">np.array</span></code> of size(1, node_num)</td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.10)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a> of size(1, node_num)</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">array containing the x locations at all nodes in numerical
 order</td>
@@ -290,7 +303,7 @@ order</td>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><code class="xref py py-class docutils literal"><span class="pre">np.array</span></code> of size(1, node_num)</td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.10)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a> of size(1, node_num)</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">array containing the y locations at all nodes in numerical
 order</td>
@@ -306,7 +319,7 @@ order</td>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><code class="xref py py-class docutils literal"><span class="pre">dict</span></code></td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2.7/library/stdtypes.html#dict" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">dict</span></code></a></td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><code class="docutils literal"><span class="pre">key</span></code> &#8211; node number, <code class="docutils literal"><span class="pre">value</span></code> &#8211; bathymetry</td>
 </tr>
@@ -321,24 +334,12 @@ order</td>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><code class="xref py py-class docutils literal"><span class="pre">dict</span></code></td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2.7/library/stdtypes.html#dict" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">dict</span></code></a></td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><code class="docutils literal"><span class="pre">key</span></code> &#8211; node number, <code class="docutils literal"><span class="pre">value</span></code> &#8211; manningsn</td>
 </tr>
 </tbody>
 </table>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="polyadcirc.run_framework.domain.domain.element">
-<code class="descname">element</code><em class="property"> = None</em><a class="headerlink" href="#polyadcirc.run_framework.domain.domain.element" title="Permalink to this definition">¶</a></dt>
-<dd><p>list(), list of elements where each element is a list of nodes</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="polyadcirc.run_framework.domain.domain.element_num">
-<code class="descname">element_num</code><em class="property"> = None</em><a class="headerlink" href="#polyadcirc.run_framework.domain.domain.element_num" title="Permalink to this definition">¶</a></dt>
-<dd><p>int, number of elements</p>
 </dd></dl>
 
 <dl class="method">
@@ -356,9 +357,9 @@ order</td>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>path</strong> (<em>string</em>) &#8211; directory containing <code class="docutils literal"><span class="pre">figs/</span></code> folder</li>
-<li><strong>save</strong> (<em>boolean</em>) &#8211; flag</li>
-<li><strong>show</strong> (<em>boolean</em>) &#8211; flag</li>
+<li><strong>path</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; directory containing <code class="docutils literal"><span class="pre">figs/</span></code> folder</li>
+<li><strong>save</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; flag</li>
+<li><strong>show</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; flag</li>
 </ul>
 </td>
 </tr>
@@ -369,34 +370,10 @@ order</td>
 </table>
 </dd></dl>
 
-<dl class="attribute">
-<dt id="polyadcirc.run_framework.domain.domain.make_domain_map">
-<code class="descname">make_domain_map</code><em class="property"> = None</em><a class="headerlink" href="#polyadcirc.run_framework.domain.domain.make_domain_map" title="Permalink to this definition">¶</a></dt>
-<dd><p>boolean, whether or not a domain map has been created</p>
-</dd></dl>
-
 <dl class="method">
 <dt id="polyadcirc.run_framework.domain.domain.make_node_to_element_map">
 <code class="descname">make_node_to_element_map</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#polyadcirc.run_framework.domain.domain.make_node_to_element_map" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create the node to element map</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="polyadcirc.run_framework.domain.domain.node">
-<code class="descname">node</code><em class="property"> = None</em><a class="headerlink" href="#polyadcirc.run_framework.domain.domain.node" title="Permalink to this definition">¶</a></dt>
-<dd><p>list(), list of nodes</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="polyadcirc.run_framework.domain.domain.node_num">
-<code class="descname">node_num</code><em class="property"> = None</em><a class="headerlink" href="#polyadcirc.run_framework.domain.domain.node_num" title="Permalink to this definition">¶</a></dt>
-<dd><p>int, number of nodes</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="polyadcirc.run_framework.domain.domain.path">
-<code class="descname">path</code><em class="property"> = None</em><a class="headerlink" href="#polyadcirc.run_framework.domain.domain.path" title="Permalink to this definition">¶</a></dt>
-<dd><p>string, full path to the dir containing the <code class="docutils literal"><span class="pre">fort.##</span></code> files</p>
 </dd></dl>
 
 <dl class="method">
@@ -407,9 +384,9 @@ order</td>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>path</strong> (<em>string</em>) &#8211; directory containing <code class="docutils literal"><span class="pre">figs/</span></code> folder</li>
-<li><strong>save</strong> (<em>boolean</em>) &#8211; flag</li>
-<li><strong>show</strong> (<em>boolean</em>) &#8211; flag</li>
+<li><strong>path</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; directory containing <code class="docutils literal"><span class="pre">figs/</span></code> folder</li>
+<li><strong>save</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; flag</li>
+<li><strong>show</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; flag</li>
 </ul>
 </td>
 </tr>
@@ -428,11 +405,11 @@ order</td>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>path</strong> (<em>string</em>) &#8211; directory containing <code class="docutils literal"><span class="pre">figs/</span></code> folder</li>
-<li><strong>bathymetry</strong> (<em>boolean</em>) &#8211; flag whether or not to plot bathymetry in the
+<li><strong>path</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; directory containing <code class="docutils literal"><span class="pre">figs/</span></code> folder</li>
+<li><strong>bathymetry</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; flag whether or not to plot bathymetry in the
 background</li>
-<li><strong>save</strong> (<em>boolean</em>) &#8211; flag</li>
-<li><strong>show</strong> (<em>boolean</em>) &#8211; flag</li>
+<li><strong>save</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; flag</li>
+<li><strong>show</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; flag</li>
 </ul>
 </td>
 </tr>
@@ -453,7 +430,7 @@ background</li>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>path</strong> (<em>string or None</em>) &#8211; directory containing <code class="docutils literal"><span class="pre">fort.13</span></code> formatted file</li>
-<li><strong>file_name</strong> (<em>string</em>) &#8211; <code class="docutils literal"><span class="pre">fort.13</span></code> formatted file name</li>
+<li><strong>file_name</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; <code class="docutils literal"><span class="pre">fort.13</span></code> formatted file name</li>
 </ul>
 </td>
 </tr>
@@ -476,7 +453,7 @@ attributes).</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>path</strong> (<em>string or None</em>) &#8211; directory containing <code class="docutils literal"><span class="pre">fort.13</span></code> formatted file</li>
-<li><strong>file_name</strong> (<em>string</em>) &#8211; <code class="docutils literal"><span class="pre">fort.13</span></code> formatted file name</li>
+<li><strong>file_name</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; <code class="docutils literal"><span class="pre">fort.13</span></code> formatted file name</li>
 </ul>
 </td>
 </tr>
@@ -514,23 +491,22 @@ attributes).</p>
 <dd><p>Preprocess and run ADCIRC on this domain</p>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
-<p class="last"><a href="#id1"><span class="problematic" id="id2">`</span></a>Generic ADCIRC Command Line</p>
+<p class="last"><a class="reference external" href="http://adcirc.org/home/documentation/generic-adcirc-command-line-options/">Generic ADCIRC Command Line Options</a></p>
 </div>
-<p>Options&lt;<a class="reference external" href="http://adcirc.org/home/documentation/generic-adcirc-command-line-options/">http://adcirc.org/home/documentation/generic-adcirc-command-line-options/</a>&gt;`_</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>num_procs</strong> (<em>int</em>) &#8211; number of processors for this ADCIRC run</li>
-<li><strong>base_dir</strong> (<em>string</em>) &#8211; directory containing the padcirc executables</li>
-<li><strong>input_dir</strong> (<em>string</em>) &#8211; directory containing the input files</li>
-<li><strong>global_dir</strong> (<em>string</em>) &#8211; directory to write fulldomain output files to</li>
-<li><strong>write_option</strong> (<em>string</em>) &#8211; (optional) specifiy <code class="docutils literal"><span class="pre">W</span></code> or <code class="docutils literal"><span class="pre">Ws</span></code> flag</li>
-<li><strong>num_writers</strong> (<em>int</em>) &#8211; number of MPI process to dedicate soley to the
+<li><strong>num_procs</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; number of processors for this ADCIRC run</li>
+<li><strong>base_dir</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; directory containing the padcirc executables</li>
+<li><strong>input_dir</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; directory containing the input files</li>
+<li><strong>global_dir</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; directory to write fulldomain output files to</li>
+<li><strong>write_option</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; (optional) specifiy <code class="docutils literal"><span class="pre">W</span></code> or <code class="docutils literal"><span class="pre">Ws</span></code> flag</li>
+<li><strong>num_writers</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; number of MPI process to dedicate soley to the
 task of writing ascii files</li>
-<li><strong>LorS</strong> (<em>string</em>) &#8211; (optional) specify <code class="docutils literal"><span class="pre">L</span></code> or <code class="docutils literal"><span class="pre">S</span></code> flag</li>
-<li><strong>R</strong> (<em>string</em>) &#8211; (optional) specify <code class="docutils literal"><span class="pre">R</span></code> flag</li>
+<li><strong>LorS</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; (optional) specify <code class="docutils literal"><span class="pre">L</span></code> or <code class="docutils literal"><span class="pre">S</span></code> flag</li>
+<li><strong>R</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; (optional) specify <code class="docutils literal"><span class="pre">R</span></code> flag</li>
 </ul>
 </td>
 </tr>
@@ -548,8 +524,8 @@ locations</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>key</strong> (<em>string</em>) &#8211; key for domain.stations[key]</li>
-<li><strong>method</strong> (<em>string</em>) &#8211; linear interpolation method see
+<li><strong>key</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; key for domain.stations[key]</li>
+<li><strong>method</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; linear interpolation method see
 <code class="xref py py-meth docutils literal"><span class="pre">scipy.interpolate.griddata()</span></code></li>
 </ul>
 </td>
@@ -585,10 +561,10 @@ See <a class="reference internal" href="polyadcirc.pyADCIRC.html#polyadcirc.pyAD
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>data</strong> (<code class="xref py py-class docutils literal"><span class="pre">np.array</span></code> or <code class="xref py py-class docutils literal"><span class="pre">dict</span></code>) &#8211; containing the nodal attribute information</li>
+<li><strong>data</strong> (<a class="reference external" href="http://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.10)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a> or <a class="reference external" href="https://docs.python.org/2.7/library/stdtypes.html#dict" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">dict</span></code></a>) &#8211; containing the nodal attribute information</li>
 <li><strong>path</strong> (<em>string or None</em>) &#8211; the directory to which the fort.13 file will be written</li>
 <li><strong>default</strong> (<em>None or float</em>) &#8211; default value</li>
-<li><strong>file_name</strong> (<em>string</em>) &#8211; the name of the <code class="docutils literal"><span class="pre">fort.13</span></code> formatted file</li>
+<li><strong>file_name</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; the name of the <code class="docutils literal"><span class="pre">fort.13</span></code> formatted file</li>
 </ul>
 </td>
 </tr>
@@ -648,7 +624,7 @@ are also contained in an instantiation of this class.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">boolean</td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2.7/library/functions.html#bool" title="(in Python v2.7)">bool</a></td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">False if the <code class="docutils literal"><span class="pre">fort.06*</span></code> files don&#8217;t exist</td>
 </tr>
@@ -664,7 +640,7 @@ are also contained in an instantiation of this class.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">boolean</td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2.7/library/functions.html#bool" title="(in Python v2.7)">bool</a></td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">False if <code class="docutils literal"><span class="pre">fort.019</span></code> is missing from at least one of the
 subdomains</td>
@@ -683,19 +659,19 @@ presence of the output files from a fulldomain run, <code class="docutils litera
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>forcing_freq</strong> (<em>list()</em>) &#8211; number of timesteps at which infomration
+<li><strong>forcing_freq</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#list" title="(in Python v2.7)"><em>list</em></a>) &#8211; number of timesteps at which infomration
 is written to a boudnary conditions file (<code class="docutils literal"><span class="pre">fort.019</span></code>)</li>
-<li><strong>dt</strong> (<em>list()</em>) &#8211; One timestep in seconds</li>
-<li><strong>nspoolgs</strong> (<em>list()</em>) &#8211; the number of timesteps at which information is
+<li><strong>dt</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#list" title="(in Python v2.7)"><em>list</em></a>) &#8211; One timestep in seconds</li>
+<li><strong>nspoolgs</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#list" title="(in Python v2.7)"><em>list</em></a>) &#8211; the number of timesteps at which information is
 written to the new output files <code class="docutils literal"><span class="pre">fort.06*</span></code></li>
-<li><strong>h0</strong> (<em>list()</em>) &#8211; minimum water depth for a node to be wet</li>
-<li><strong>L</strong> (<em>boolean</em>) &#8211; flag whether or not <strong class="program">PADCIRC</strong> was run with
+<li><strong>h0</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#list" title="(in Python v2.7)"><em>list</em></a>) &#8211; minimum water depth for a node to be wet</li>
+<li><strong>L</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; flag whether or not <strong class="program">PADCIRC</strong> was run with
 <code class="docutils literal"><span class="pre">-L</span></code> flag and if local files need to be post-processed into
 global files</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">list()</p>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><a class="reference external" href="https://docs.python.org/2.7/library/functions.html#list" title="(in Python v2.7)">list</a></p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">command lines for invoking genbcs.py</p>
@@ -715,14 +691,14 @@ global files</li>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>noutgs</strong> (<em>int</em>) &#8211; flag controlling whether or not <code class="docutils literal"><span class="pre">fort.06*</span></code> will be
+<li><strong>noutgs</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; flag controlling whether or not <code class="docutils literal"><span class="pre">fort.06*</span></code> will be
 written out</li>
-<li><strong>nspoolgs</strong> (<em>int</em>) &#8211; the number of timesteps at which information is
+<li><strong>nspoolgs</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; the number of timesteps at which information is
 written to the new output files <code class="docutils literal"><span class="pre">fort.06*</span></code></li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">string</p>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><a class="reference external" href="https://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)">string</a></p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">command line for invoking genfull.py</p>
@@ -744,16 +720,16 @@ DATA i.e files that are fort.*3 or fort.*4</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>ts_names</strong> (<em>list()</em>) &#8211; names of ADCIRC timeseries
+<li><strong>ts_names</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#list" title="(in Python v2.7)"><em>list</em></a>) &#8211; names of ADCIRC timeseries
 output files to be recorded from each run</li>
-<li><strong>nts_names</strong> (<em>list()</em>) &#8211; names of ADCIRC non timeseries
+<li><strong>nts_names</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#list" title="(in Python v2.7)"><em>list</em></a>) &#8211; names of ADCIRC non timeseries
 output files to be recorded from each run</li>
-<li><strong>save_file</strong> (<em>string</em>) &#8211; name of file to save comparision matricies to</li>
-<li><strong>timesteps</strong> (<em>int</em>) &#8211; number of timesteps to read from file</li>
+<li><strong>save_file</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; name of file to save comparision matricies to</li>
+<li><strong>timesteps</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; number of timesteps to read from file</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">dict()</p>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><a class="reference external" href="https://docs.python.org/2.7/library/stdtypes.html#dict" title="(in Python v2.7)">dict</a></p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">full_dict</p>
@@ -786,7 +762,7 @@ command.</p>
 <dl class="class">
 <dt id="polyadcirc.run_framework.no_ibrun.random_manningsn">
 <em class="property">class </em><code class="descclassname">polyadcirc.run_framework.no_ibrun.</code><code class="descname">random_manningsn</code><span class="sig-paren">(</span><em>script_name</em>, <em>fdir</em><span class="sig-paren">)</span><a class="headerlink" href="#polyadcirc.run_framework.no_ibrun.random_manningsn" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2.7/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
 <p>This class is an implementation of
 <a class="reference internal" href="#module-polyadcirc.run_framework.random_manningsn" title="polyadcirc.run_framework.random_manningsn"><code class="xref py py-class docutils literal"><span class="pre">polyadcirc.run_framework.random_manningsn</span></code></a> that provides a
 <code class="docutils literal"><span class="pre">mpirun</span></code> based work-around for clusters that do not have ibrun. It is
@@ -802,18 +778,18 @@ non-interacting parallel programs in parallel.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>num_procs</strong> (<em>int</em>) &#8211; number of processes per job</li>
-<li><strong>num_jobs</strong> (<em>int</em>) &#8211; number of jobs to run</li>
-<li><strong>procs_pnode</strong> (<em>int</em>) &#8211; number of processors per node</li>
-<li><strong>screenout</strong> (<em>boolean</em>) &#8211; flag (True &#8211;  write <code class="docutils literal"><span class="pre">ADCIRC</span></code> output to
+<li><strong>num_procs</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; number of processes per job</li>
+<li><strong>num_jobs</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; number of jobs to run</li>
+<li><strong>procs_pnode</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; number of processors per node</li>
+<li><strong>screenout</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; flag (True &#8211;  write <code class="docutils literal"><span class="pre">ADCIRC</span></code> output to
 screen, False &#8211; write <code class="docutils literal"><span class="pre">ADCIRC</span></code> output to temp file)</li>
-<li><strong>num_writers</strong> (<em>int</em>) &#8211; number of MPI processes to dedicate soley to
+<li><strong>num_writers</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; number of MPI processes to dedicate soley to
 the task of writing ascii files</li>
-<li><strong>TpN</strong> (<em>int</em>) &#8211; number of tasks (processors to use) per node (wayness)</li>
+<li><strong>TpN</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; number of tasks (processors to use) per node (wayness)</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">string</p>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><a class="reference external" href="https://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)">string</a></p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">name of bash script for running a batch of jobs within our
@@ -839,13 +815,13 @@ of processors allocated by the submission script</p>
 <a class="reference internal" href="#polyadcirc.run_framework.random_manningsn.runSet" title="polyadcirc.run_framework.random_manningsn.runSet"><code class="xref py py-class docutils literal"><span class="pre">runSet</span></code></a> with another
 <a class="reference internal" href="#polyadcirc.run_framework.random_manningsn.runSet" title="polyadcirc.run_framework.random_manningsn.runSet"><code class="xref py py-class docutils literal"><span class="pre">runSet</span></code></a> (<code class="docutils literal"><span class="pre">other_run</span></code>)
 and points from both runs</p>
-<dl class="docutils">
-<dt>To combine several <a href="#id3"><span class="problematic" id="id4">``</span></a>run_data``s use::</dt>
-<dd>run_list = [run1, run2, run3]
-points_list = [points1, points2, points3]
-run_data_list = zip(run_list, points_list)
-reduce(concatenate, run_data_list)</dd>
-</dl>
+<p>To combine several <code class="docutils literal"><span class="pre">run_data</span></code> use:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">run_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">run1</span><span class="p">,</span> <span class="n">run2</span><span class="p">,</span> <span class="n">run3</span><span class="p">]</span>
+<span class="n">points_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">points1</span><span class="p">,</span> <span class="n">points2</span><span class="p">,</span> <span class="n">points3</span><span class="p">]</span>
+<span class="n">run_data_list</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span><span class="n">run_list</span><span class="p">,</span> <span class="n">points_list</span><span class="p">)</span>
+<span class="nb">reduce</span><span class="p">(</span><span class="n">concatenate</span><span class="p">,</span> <span class="n">run_data_list</span><span class="p">)</span>
+</pre></div>
+</div>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -859,7 +835,7 @@ reduce(concatenate, run_data_list)</dd>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">(run_data, points)</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">tuple</p>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/2.7/library/functions.html#tuple" title="(in Python v2.7)">tuple</a></p>
 </td>
 </tr>
 </tbody>
@@ -876,7 +852,7 @@ reduce(concatenate, run_data_list)</dd>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>time_obs</strong> &#8211; observation times in seconds</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">dict()</td>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2.7/library/stdtypes.html#dict" title="(in Python v2.7)">dict</a></td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">time_obs</td>
 </tr>
@@ -894,7 +870,7 @@ reduce(concatenate, run_data_list)</dd>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>time_obs</strong> &#8211; observation times in seconds</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">dict()</td>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2.7/library/stdtypes.html#dict" title="(in Python v2.7)">dict</a></td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">time_obs</td>
 </tr>
@@ -916,7 +892,7 @@ reduce(concatenate, run_data_list)</dd>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">dict()</p>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><a class="reference external" href="https://docs.python.org/2.7/library/stdtypes.html#dict" title="(in Python v2.7)">dict</a></p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">nts_data</p>
@@ -940,7 +916,7 @@ reduce(concatenate, run_data_list)</dd>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">dict()</p>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><a class="reference external" href="https://docs.python.org/2.7/library/stdtypes.html#dict" title="(in Python v2.7)">dict</a></p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">ts_data</p>
@@ -964,7 +940,7 @@ reduce(concatenate, run_data_list)</dd>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">dict()</p>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><a class="reference external" href="https://docs.python.org/2.7/library/stdtypes.html#dict" title="(in Python v2.7)">dict</a></p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">ts_data</p>
@@ -988,7 +964,7 @@ reduce(concatenate, run_data_list)</dd>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">dict()</p>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><a class="reference external" href="https://docs.python.org/2.7/library/stdtypes.html#dict" title="(in Python v2.7)">dict</a></p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">nts_data</p>
@@ -1010,13 +986,13 @@ Fixes dry data if it was recorded.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>save_file</strong> (<em>string</em>) &#8211; local file name</li>
-<li><strong>grid_dir</strong> (<em>string</em>) &#8211; directory containing <code class="docutils literal"><span class="pre">fort.14</span></code>, <code class="docutils literal"><span class="pre">fort.15</span></code>, and
+<li><strong>save_file</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; local file name</li>
+<li><strong>grid_dir</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; directory containing <code class="docutils literal"><span class="pre">fort.14</span></code>, <code class="docutils literal"><span class="pre">fort.15</span></code>, and
 <code class="docutils literal"><span class="pre">fort.22</span></code></li>
-<li><strong>save_dir</strong> (<em>string</em>) &#8211; directory where <code class="docutils literal"><span class="pre">RF_directory_*</span></code> are
+<li><strong>save_dir</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; directory where <code class="docutils literal"><span class="pre">RF_directory_*</span></code> are
 saved, and where fort.13 is located</li>
-<li><strong>basis_dir</strong> (<em>string</em>) &#8211; directory where <code class="docutils literal"><span class="pre">landuse_*</span></code> folders are located</li>
-<li><strong>base_dir</strong> (<em>string</em>) &#8211; directory that contains ADCIRC executables, and
+<li><strong>basis_dir</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; directory where <code class="docutils literal"><span class="pre">landuse_*</span></code> folders are located</li>
+<li><strong>base_dir</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; directory that contains ADCIRC executables, and
 machine specific <code class="docutils literal"><span class="pre">in.prep#</span></code> files</li>
 </ul>
 </td>
@@ -1051,30 +1027,15 @@ located</dd>
 specific <code class="docutils literal"><span class="pre">in.prep#</span></code> files</dd>
 <dt>num_of_parallel_runs</dt>
 <dd>size of batch of jobs to be submitted to queue</dd>
-</dl>
-<p>script_name
-nts_data</p>
-<blockquote>
-<div>non timeseries data</div></blockquote>
-<dl class="docutils">
+<dt>script_name</dt>
+<dd>name of the bash script</dd>
+<dt>nts_data</dt>
+<dd>non timeseries data</dd>
 <dt>ts_data</dt>
 <dd>timeseries data</dd>
 <dt>time_obs</dt>
 <dd>observation times for timeseries data</dd>
 </dl>
-<dl class="attribute">
-<dt id="polyadcirc.run_framework.random_manningsn.runSet.base_dir">
-<code class="descname">base_dir</code><em class="property"> = None</em><a class="headerlink" href="#polyadcirc.run_framework.random_manningsn.runSet.base_dir" title="Permalink to this definition">¶</a></dt>
-<dd><p>directory that contains ADCIRC executables, and machine
-specific <code class="docutils literal"><span class="pre">in.prep#</span></code> files</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="polyadcirc.run_framework.random_manningsn.runSet.basis_dir">
-<code class="descname">basis_dir</code><em class="property"> = None</em><a class="headerlink" href="#polyadcirc.run_framework.random_manningsn.runSet.basis_dir" title="Permalink to this definition">¶</a></dt>
-<dd><p>string, directory where <code class="docutils literal"><span class="pre">landuse_*</span></code> folders are located</p>
-</dd></dl>
-
 <dl class="method">
 <dt id="polyadcirc.run_framework.random_manningsn.runSet.concatenate">
 <code class="descname">concatenate</code><span class="sig-paren">(</span><em>other_run</em>, <em>points1</em>, <em>points2</em><span class="sig-paren">)</span><a class="headerlink" href="#polyadcirc.run_framework.random_manningsn.runSet.concatenate" title="Permalink to this definition">¶</a></dt>
@@ -1090,15 +1051,15 @@ specific <code class="docutils literal"><span class="pre">in.prep#</span></code>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>points1</strong> (<em>np.array</em>) &#8211; sample points for <code class="docutils literal"><span class="pre">self</span></code></li>
+<li><strong>points1</strong> (<code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray`</span></code>) &#8211; sample points for <code class="docutils literal"><span class="pre">self</span></code></li>
 <li><strong>points1</strong> &#8211; sample points for <code class="docutils literal"><span class="pre">other_run</span></code></li>
 </ul>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">(self, points)</p>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><a class="reference external" href="https://docs.python.org/2.7/library/functions.html#tuple" title="(in Python v2.7)">tuple</a></p>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">tuple</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">(self, points)</p>
 </td>
 </tr>
 </tbody>
@@ -1173,12 +1134,6 @@ specific <code class="docutils literal"><span class="pre">in.prep#</span></code>
 </table>
 </dd></dl>
 
-<dl class="attribute">
-<dt id="polyadcirc.run_framework.random_manningsn.runSet.grid_dir">
-<code class="descname">grid_dir</code><em class="property"> = None</em><a class="headerlink" href="#polyadcirc.run_framework.random_manningsn.runSet.grid_dir" title="Permalink to this definition">¶</a></dt>
-<dd><p>string, directory containing <code class="docutils literal"><span class="pre">fort.14</span></code>, <code class="docutils literal"><span class="pre">fort.15</span></code>, and</p>
-</dd></dl>
-
 <dl class="method">
 <dt id="polyadcirc.run_framework.random_manningsn.runSet.initialize_random_field_directories">
 <code class="descname">initialize_random_field_directories</code><span class="sig-paren">(</span><em>num_procs=12</em>, <em>prepRF=True</em><span class="sig-paren">)</span><a class="headerlink" href="#polyadcirc.run_framework.random_manningsn.runSet.initialize_random_field_directories" title="Permalink to this definition">¶</a></dt>
@@ -1188,12 +1143,12 @@ specific <code class="docutils literal"><span class="pre">in.prep#</span></code>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>num_procs</strong> (<em>int</em>) &#8211; number of processes per padcirc run</li>
-<li><strong>prep</strong> (<em>bool</em>) &#8211; flag wether or not to run adcprep</li>
+<li><strong>num_procs</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; number of processes per padcirc run</li>
+<li><strong>prep</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; flag wether or not to run adcprep</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">list()</p>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><a class="reference external" href="https://docs.python.org/2.7/library/functions.html#list" title="(in Python v2.7)">list</a></p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">list of paths to <code class="docutils literal"><span class="pre">RF_directory_*</span></code></p>
@@ -1215,7 +1170,7 @@ over the <code class="docutils literal"><span class="pre">fort.13</span></code> 
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>num_procs</strong> (<em>int</em>) &#8211; number of processes per padcirc run</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>num_procs</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; number of processes per padcirc run</td>
 </tr>
 </tbody>
 </table>
@@ -1229,22 +1184,10 @@ over the <code class="docutils literal"><span class="pre">fort.13</span></code> 
 save in save_dir/figs</p>
 </dd></dl>
 
-<dl class="attribute">
-<dt id="polyadcirc.run_framework.random_manningsn.runSet.nts_data">
-<code class="descname">nts_data</code><em class="property"> = None</em><a class="headerlink" href="#polyadcirc.run_framework.random_manningsn.runSet.nts_data" title="Permalink to this definition">¶</a></dt>
-<dd><p>dict() of <code class="xref py py-class docutils literal"><span class="pre">np.ndarray</span></code>, non-timeseries data</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="polyadcirc.run_framework.random_manningsn.runSet.num_of_parallel_runs">
-<code class="descname">num_of_parallel_runs</code><em class="property"> = None</em><a class="headerlink" href="#polyadcirc.run_framework.random_manningsn.runSet.num_of_parallel_runs" title="Permalink to this definition">¶</a></dt>
-<dd><p>int, size of batch of jobs to be submitted to queue</p>
-</dd></dl>
-
 <dl class="method">
 <dt id="polyadcirc.run_framework.random_manningsn.runSet.plot_basis_functions">
 <code class="descname">plot_basis_functions</code><span class="sig-paren">(</span><em>domain</em>, <em>bv_dict</em>, <em>save=True</em>, <em>show=False</em>, <em>ext='.eps'</em>, <em>ics=2</em><span class="sig-paren">)</span><a class="headerlink" href="#polyadcirc.run_framework.random_manningsn.runSet.plot_basis_functions" title="Permalink to this definition">¶</a></dt>
-<dd><p>See :meth:<a href="#id5"><span class="problematic" id="id6">``</span></a>~polsim.pyADCIRC.plotADCIRC.basis_functions`</p>
+<dd><p>See <code class="xref py py-meth docutils literal"><span class="pre">basis_functions()</span></code></p>
 </dd></dl>
 
 <dl class="method">
@@ -1271,49 +1214,43 @@ save in save_dir/figs</p>
 <dd><p>Remove directories for parallel funs of random fields</p>
 </dd></dl>
 
-<dl class="attribute">
-<dt id="polyadcirc.run_framework.random_manningsn.runSet.rf_dirs">
-<code class="descname">rf_dirs</code><em class="property"> = None</em><a class="headerlink" href="#polyadcirc.run_framework.random_manningsn.runSet.rf_dirs" title="Permalink to this definition">¶</a></dt>
-<dd><p>list(), list of <code class="docutils literal"><span class="pre">RF_directory_*/</span></code> names</p>
-</dd></dl>
-
 <dl class="method">
 <dt id="polyadcirc.run_framework.random_manningsn.runSet.run_points">
-<code class="descname">run_points</code><span class="sig-paren">(</span><em>data, points, save_file, num_procs=12, procs_pnode=12, ts_names=['fort.61'], nts_names=['maxele.63'], screenout=True, cleanup_dirs=True, num_writers=None, TpN=12</em><span class="sig-paren">)</span><a class="headerlink" href="#polyadcirc.run_framework.random_manningsn.runSet.run_points" title="Permalink to this definition">¶</a></dt>
+<code class="descname">run_points</code><span class="sig-paren">(</span><em>data, points, save_file, num_procs=12, procs_pnode=12, ts_names=['fort.61'], nts_names=['maxele.63'], screenout=True, cleanup_dirs=True, num_writers=None, TpN=None</em><span class="sig-paren">)</span><a class="headerlink" href="#polyadcirc.run_framework.random_manningsn.runSet.run_points" title="Permalink to this definition">¶</a></dt>
 <dd><p>Runs <strong class="program">ADCIRC</strong> for all of the configurations specified by
 <code class="docutils literal"><span class="pre">points</span></code> and returns a dictonary of arrays containing data from
 output files</p>
-<blockquote>
-<div>Reads in a default Manning&#8217;s <em>n</em> value from self.save_dir and stores
-it in data.manningsn_default</div></blockquote>
+<p>Reads in a default Manning&#8217;s <em>n</em> value from <code class="docutils literal"><span class="pre">self.save_dir</span></code> and
+stores it in <code class="docutils literal"><span class="pre">data.manningsn_default</span></code></p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>data</strong> &#8211; <a class="reference internal" href="#module-polyadcirc.run_framework.domain" title="polyadcirc.run_framework.domain"><code class="xref py py-class docutils literal"><span class="pre">domain</span></code></a></li>
-<li><strong>points</strong> (<code class="xref py py-class docutils literal"><span class="pre">np.array</span></code> of size (<code class="docutils literal"><span class="pre">num_of_basis_vec</span></code>,
+<li><strong>points</strong> (<a class="reference external" href="http://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.10)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a> of size (<code class="docutils literal"><span class="pre">num_of_basis_vec</span></code>,
 <code class="docutils literal"><span class="pre">num_of_random_fields</span></code>)) &#8211; containts the weights to be used for each run</li>
-<li><strong>save_file</strong> (<em>string</em>) &#8211; name of file to save <code class="docutils literal"><span class="pre">station_data</span></code> to</li>
+<li><strong>save_file</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; name of file to save <code class="docutils literal"><span class="pre">station_data</span></code> to</li>
 <li><strong>num_procs</strong> (<em>int or 12</em>) &#8211; number of processors per <strong class="program">ADCIRC</strong>
 simulation</li>
-<li><strong>procs_pnode</strong> (<em>int</em>) &#8211; number of processors per node, 12 on lonestar,
+<li><strong>procs_pnode</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; number of processors per node, 12 on lonestar,
 and 16 on stampede</li>
-<li><strong>ts_names</strong> (<em>list()</em>) &#8211; names of ADCIRC timeseries
+<li><strong>ts_names</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#list" title="(in Python v2.7)"><em>list</em></a>) &#8211; names of ADCIRC timeseries
 output files to be recorded from each run</li>
-<li><strong>nts_names</strong> (<em>list()</em>) &#8211; names of ADCIRC non timeseries
+<li><strong>nts_names</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#list" title="(in Python v2.7)"><em>list</em></a>) &#8211; names of ADCIRC non timeseries
 output files to be recorded from each run</li>
-<li><strong>screenout</strong> (<em>boolean</em>) &#8211; flag (True &#8211;  write <code class="docutils literal"><span class="pre">ADCIRC</span></code> output to
+<li><strong>screenout</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; flag (True &#8211;  write <code class="docutils literal"><span class="pre">ADCIRC</span></code> output to
 screen, False &#8211; write <code class="docutils literal"><span class="pre">ADCIRC</span></code> output to temp file</li>
-<li><strong>cleanup_dirs</strong> (<em>boolean</em>) &#8211; flag to delete all RF_dirs after run (True
+<li><strong>cleanup_dirs</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; flag to delete all RF_dirs after run (True
 &#8211; yes, False &#8211; no)</li>
-<li><strong>num_writers</strong> (<em>int</em>) &#8211; number of MPI processes to dedicate soley to
+<li><strong>num_writers</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; number of MPI processes to dedicate soley to
 the task of writing ascii files. This MUST be &lt; num_procs</li>
-<li><strong>TpN</strong> (<em>int</em>) &#8211; number of tasks (cores to use) per node (wayness)</li>
+<li><strong>TpN</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; number of tasks (cores to use) per node (wayness)</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">(<code class="xref py py-class docutils literal"><span class="pre">np.array</span></code>, <code class="xref py py-class docutils literal"><span class="pre">np.ndarray</span></code>, <code class="xref py py-class docutils literal"><span class="pre">np.ndarray</span></code>)</p>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">(<a class="reference external" href="http://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.10)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a>, <a class="reference external" href="http://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.10)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a>,
+<a class="reference external" href="http://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.10)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a>)</p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">(<code class="docutils literal"><span class="pre">time_obs</span></code>, <code class="docutils literal"><span class="pre">ts_data</span></code>, <code class="docutils literal"><span class="pre">nts_data</span></code>)</p>
@@ -1339,57 +1276,32 @@ the task of writing ascii files. This MUST be &lt; num_procs</li>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>mdict</strong> (<em>dict()</em>) &#8211; dictonary of run data</li>
-<li><strong>save_file</strong> (<em>string</em>) &#8211; file name</li>
+<li><strong>mdict</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/stdtypes.html#dict" title="(in Python v2.7)"><em>dict</em></a>) &#8211; dictonary of run data</li>
+<li><strong>save_file</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; file name</li>
 </ul>
 </td>
 </tr>
 </tbody>
 </table>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="polyadcirc.run_framework.random_manningsn.runSet.save_dir">
-<code class="descname">save_dir</code><em class="property"> = None</em><a class="headerlink" href="#polyadcirc.run_framework.random_manningsn.runSet.save_dir" title="Permalink to this definition">¶</a></dt>
-<dd><p>string, directory where <code class="docutils literal"><span class="pre">RF_directory_*</span></code> are saved, and
-where <code class="docutils literal"><span class="pre">fort.13</span></code> is located</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="polyadcirc.run_framework.random_manningsn.runSet.script_name">
-<code class="descname">script_name</code><em class="property"> = None</em><a class="headerlink" href="#polyadcirc.run_framework.random_manningsn.runSet.script_name" title="Permalink to this definition">¶</a></dt>
-<dd><p>string, name of the batch bash script</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="polyadcirc.run_framework.random_manningsn.runSet.setup_rfdir">
 <code class="descname">setup_rfdir</code><span class="sig-paren">(</span><em>path</em>, <em>num_procs</em><span class="sig-paren">)</span><a class="headerlink" href="#polyadcirc.run_framework.random_manningsn.runSet.setup_rfdir" title="Permalink to this definition">¶</a></dt>
 <dd><p>Creates the directory path and copies required files from
-<code class="docutils literal"><span class="pre">self.base_dir</span></code> into path:type path: string</p>
+<code class="docutils literal"><span class="pre">self.base_dir</span></code> into</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>path</strong> &#8211; folder_name</li>
-<li><strong>num_procs</strong> &#8211; number of processors per <strong class="program">ADCIRC</strong> run</li>
+<li><strong>path</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; folder_name</li>
+<li><strong>num_procs</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; number of processors per <strong class="program">ADCIRC</strong> run</li>
 </ul>
 </td>
 </tr>
 </tbody>
 </table>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="polyadcirc.run_framework.random_manningsn.runSet.time_obs">
-<code class="descname">time_obs</code><em class="property"> = None</em><a class="headerlink" href="#polyadcirc.run_framework.random_manningsn.runSet.time_obs" title="Permalink to this definition">¶</a></dt>
-<dd><p>dict() of <code class="xref py py-class docutils literal"><span class="pre">np.array</span></code>, time in (s) of observations</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="polyadcirc.run_framework.random_manningsn.runSet.ts_data">
-<code class="descname">ts_data</code><em class="property"> = None</em><a class="headerlink" href="#polyadcirc.run_framework.random_manningsn.runSet.ts_data" title="Permalink to this definition">¶</a></dt>
-<dd><p>dict() of <code class="xref py py-class docutils literal"><span class="pre">np.ndarray</span></code>, timeseries data</p>
 </dd></dl>
 
 <dl class="method">
@@ -1400,7 +1312,7 @@ where <code class="docutils literal"><span class="pre">fort.13</span></code> is 
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>num_dirs</strong> (<em>int</em>) &#8211; number of RF_dirs to put in <code class="docutils literal"><span class="pre">dir_list</span></code></td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>num_dirs</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; number of RF_dirs to put in <code class="docutils literal"><span class="pre">dir_list</span></code></td>
 </tr>
 </tbody>
 </table>
@@ -1414,7 +1326,7 @@ where <code class="docutils literal"><span class="pre">fort.13</span></code> is 
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>mdict</strong> (<em>dict()</em>) &#8211; dictonary of run data</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>mdict</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/stdtypes.html#dict" title="(in Python v2.7)"><em>dict</em></a>) &#8211; dictonary of run data</td>
 </tr>
 </tbody>
 </table>
@@ -1429,14 +1341,14 @@ where <code class="docutils literal"><span class="pre">fort.13</span></code> is 
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>n</strong> (<em>int</em>) &#8211; n for <code class="docutils literal"><span class="pre">in.prepn</span></code> input to ADCPREP</li>
-<li><strong>num_jobs</strong> (<em>int</em>) &#8211; number of jobs to run</li>
-<li><strong>screenout</strong> (<em>boolean</em>) &#8211; flag (True &#8211;  write <code class="docutils literal"><span class="pre">ADCPREP</span></code> output to
+<li><strong>n</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; n for <code class="docutils literal"><span class="pre">in.prepn</span></code> input to ADCPREP</li>
+<li><strong>num_jobs</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; number of jobs to run</li>
+<li><strong>screenout</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; flag (True &#8211;  write <code class="docutils literal"><span class="pre">ADCPREP</span></code> output to
 screen, False &#8211; write <code class="docutils literal"><span class="pre">ADCPREP</span></code> output to <code class="docutils literal"><span class="pre">prep_o.txt</span></code> file)</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">string</p>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><a class="reference external" href="https://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)">string</a></p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">name of bash script for prepping a batch of jobs within our
@@ -1456,18 +1368,18 @@ processor allotment</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>num_procs</strong> (<em>int</em>) &#8211; number of processors per job</li>
-<li><strong>num_jobs</strong> (<em>int</em>) &#8211; number of jobs to run</li>
-<li><strong>procs_pnode</strong> (<em>int</em>) &#8211; number of processors per node</li>
-<li><strong>screenout</strong> (<em>boolean</em>) &#8211; flag (True &#8211;  write <code class="docutils literal"><span class="pre">ADCIRC</span></code> output to
+<li><strong>num_procs</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; number of processors per job</li>
+<li><strong>num_jobs</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; number of jobs to run</li>
+<li><strong>procs_pnode</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; number of processors per node</li>
+<li><strong>screenout</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; flag (True &#8211;  write <code class="docutils literal"><span class="pre">ADCIRC</span></code> output to
 screen, False &#8211; write <code class="docutils literal"><span class="pre">ADCIRC</span></code> output to temp file)</li>
-<li><strong>num_writers</strong> (<em>int</em>) &#8211; number of MPI processes to dedicate soley to
+<li><strong>num_writers</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; number of MPI processes to dedicate soley to
 the task of writing ascii files</li>
-<li><strong>TpN</strong> (<em>int</em>) &#8211; number of tasks (cores to use) per node (wayness)</li>
+<li><strong>TpN</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; number of tasks (cores to use) per node (wayness)</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">string</p>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><a class="reference external" href="https://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)">string</a></p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">name of bash script for running a batch of jobs within our
@@ -1487,18 +1399,18 @@ processor allotment</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>num_procs</strong> (<em>int</em>) &#8211; number of processors per job</li>
-<li><strong>num_jobs</strong> (<em>int</em>) &#8211; number of jobs to run</li>
-<li><strong>procs_pnode</strong> (<em>int</em>) &#8211; number of processors per node</li>
-<li><strong>screenout</strong> (<em>boolean</em>) &#8211; flag (True &#8211;  write <code class="docutils literal"><span class="pre">ADCIRC</span></code> output to
+<li><strong>num_procs</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; number of processors per job</li>
+<li><strong>num_jobs</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; number of jobs to run</li>
+<li><strong>procs_pnode</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; number of processors per node</li>
+<li><strong>screenout</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; flag (True &#8211;  write <code class="docutils literal"><span class="pre">ADCIRC</span></code> output to
 screen, False &#8211; write <code class="docutils literal"><span class="pre">ADCIRC</span></code> output to temp file)</li>
-<li><strong>num_writers</strong> (<em>int</em>) &#8211; number of MPI processes to dedicate soley to
+<li><strong>num_writers</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; number of MPI processes to dedicate soley to
 the task of writing ascii files</li>
-<li><strong>TpN</strong> (<em>int</em>) &#8211; number of tasks (cores to use) per node (wayness)</li>
+<li><strong>TpN</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; number of tasks (cores to use) per node (wayness)</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">string</p>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><a class="reference external" href="https://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)">string</a></p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">name of bash script for running a batch of jobs within our
@@ -1521,18 +1433,18 @@ non-interacting parallel programs in parallel.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>num_procs</strong> (<em>int</em>) &#8211; number of processes per job</li>
-<li><strong>num_jobs</strong> (<em>int</em>) &#8211; number of jobs to run</li>
-<li><strong>procs_pnode</strong> (<em>int</em>) &#8211; number of processors per node</li>
-<li><strong>screenout</strong> (<em>boolean</em>) &#8211; flag (True &#8211;  write <code class="docutils literal"><span class="pre">ADCIRC</span></code> output to
+<li><strong>num_procs</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; number of processes per job</li>
+<li><strong>num_jobs</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; number of jobs to run</li>
+<li><strong>procs_pnode</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; number of processors per node</li>
+<li><strong>screenout</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; flag (True &#8211;  write <code class="docutils literal"><span class="pre">ADCIRC</span></code> output to
 screen, False &#8211; write <code class="docutils literal"><span class="pre">ADCIRC</span></code> output to temp file)</li>
-<li><strong>num_writers</strong> (<em>int</em>) &#8211; number of MPI processes to dedicate soley to
+<li><strong>num_writers</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; number of MPI processes to dedicate soley to
 the task of writing ascii files</li>
-<li><strong>TpN</strong> (<em>int</em>) &#8211; number of tasks (processors to use) per node (wayness)</li>
+<li><strong>TpN</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; number of tasks (processors to use) per node (wayness)</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">string</p>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><a class="reference external" href="https://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)">str</a></p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">name of bash script for running a batch of jobs within our
@@ -1554,18 +1466,18 @@ non-interacting parallel programs in parallel.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>num_procs</strong> (<em>int</em>) &#8211; number of processes per job</li>
-<li><strong>num_jobs</strong> (<em>int</em>) &#8211; number of jobs to run</li>
-<li><strong>procs_pnode</strong> (<em>int</em>) &#8211; number of processors per node</li>
-<li><strong>screenout</strong> (<em>boolean</em>) &#8211; flag (True &#8211;  write <code class="docutils literal"><span class="pre">ADCIRC</span></code> output to
+<li><strong>num_procs</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; number of processes per job</li>
+<li><strong>num_jobs</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; number of jobs to run</li>
+<li><strong>procs_pnode</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; number of processors per node</li>
+<li><strong>screenout</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; flag (True &#8211;  write <code class="docutils literal"><span class="pre">ADCIRC</span></code> output to
 screen, False &#8211; write <code class="docutils literal"><span class="pre">ADCIRC</span></code> output to temp file)</li>
-<li><strong>num_writers</strong> (<em>int</em>) &#8211; number of MPI processes to dedicate soley to
+<li><strong>num_writers</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; number of MPI processes to dedicate soley to
 the task of writing ascii files</li>
-<li><strong>TpN</strong> (<em>int</em>) &#8211; number of tasks (processors to use) per node (wayness)</li>
+<li><strong>TpN</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; number of tasks (processors to use) per node (wayness)</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">string</p>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><a class="reference external" href="https://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)">string</a></p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">name of bash script for running a batch of jobs within our
@@ -1596,13 +1508,13 @@ Fixes dry data if it was recorded.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>save_file</strong> (<em>string</em>) &#8211; local file name</li>
-<li><strong>grid_dir</strong> (<em>string</em>) &#8211; directory containing <code class="docutils literal"><span class="pre">fort.14</span></code>, <code class="docutils literal"><span class="pre">fort.15</span></code>, and
+<li><strong>save_file</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; local file name</li>
+<li><strong>grid_dir</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; directory containing <code class="docutils literal"><span class="pre">fort.14</span></code>, <code class="docutils literal"><span class="pre">fort.15</span></code>, and
 <code class="docutils literal"><span class="pre">fort.22</span></code></li>
-<li><strong>save_dir</strong> (<em>string</em>) &#8211; directory where <code class="docutils literal"><span class="pre">RF_directory_*</span></code> are
+<li><strong>save_dir</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; directory where <code class="docutils literal"><span class="pre">RF_directory_*</span></code> are
 saved, and where fort.13 is located</li>
-<li><strong>basis_dir</strong> (<em>string</em>) &#8211; directory where <code class="docutils literal"><span class="pre">landuse_*</span></code> folders are located</li>
-<li><strong>base_dir</strong> (<em>string</em>) &#8211; directory that contains ADCIRC executables, and
+<li><strong>basis_dir</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; directory where <code class="docutils literal"><span class="pre">landuse_*</span></code> folders are located</li>
+<li><strong>base_dir</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; directory that contains ADCIRC executables, and
 machine specific <code class="docutils literal"><span class="pre">in.prep#</span></code> files</li>
 </ul>
 </td>
@@ -1610,7 +1522,7 @@ machine specific <code class="docutils literal"><span class="pre">in.prep#</span
 <tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">tuple of
 <a class="reference internal" href="#polyadcirc.run_framework.random_manningsn_Q.runSet" title="polyadcirc.run_framework.random_manningsn_Q.runSet"><code class="xref py py-class docutils literal"><span class="pre">runSet</span></code></a>,
 <code class="xref py py-class docutils literal"><span class="pre">domain</span></code> objects, and
-two :class:<a href="#id7"><span class="problematic" id="id8">`</span></a>numpy.array`s</p>
+two <a class="reference external" href="http://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.10)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a></p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">(main_run, domain, mann_pts, Q)</p>
@@ -1630,21 +1542,17 @@ allocated by the submission script</p>
 <dt>grid_dir</dt>
 <dd>directory containing <code class="docutils literal"><span class="pre">fort.14</span></code>, <code class="docutils literal"><span class="pre">fort.15</span></code>, and <code class="docutils literal"><span class="pre">fort.22</span></code></dd>
 <dt>save_dir</dt>
-<dd>directory where <code class="docutils literal"><span class="pre">RF_directory_*</span></code> are saved, and where fort.13 is
-located</dd>
+<dd>directory where <code class="docutils literal"><span class="pre">RF_directory_*</span></code> are saved, and where <code class="docutils literal"><span class="pre">fort.13</span></code> is located</dd>
 <dt>basis_dir </dt>
 <dd>directory where <code class="docutils literal"><span class="pre">landuse_*</span></code> folders are located</dd>
 <dt>base_dir</dt>
-<dd>directory that contains ADCIRC executables, and machine
-specific <code class="docutils literal"><span class="pre">in.prep#</span></code> files</dd>
+<dd>directory that contains ADCIRC executables, and machine specific <code class="docutils literal"><span class="pre">in.prep#</span></code> files</dd>
 <dt>num_of_parallel_runs</dt>
 <dd>size of batch of jobs to be submitted to queue</dd>
-</dl>
-<p>script_name
-nts_data</p>
-<blockquote>
-<div>non timeseries data</div></blockquote>
-<dl class="docutils">
+<dt>script_name</dt>
+<dd>bash script name</dd>
+<dt>nts_data</dt>
+<dd>non timeseries data</dd>
 <dt>ts_data </dt>
 <dd>timeseries data</dd>
 <dt>time_obs</dt>
@@ -1652,40 +1560,45 @@ nts_data</p>
 </dl>
 <dl class="method">
 <dt id="polyadcirc.run_framework.random_manningsn_Q.runSet.run_nobatch_q">
-<code class="descname">run_nobatch_q</code><span class="sig-paren">(</span><em>data</em>, <em>mann_points</em>, <em>save_file</em>, <em>num_procs=12</em>, <em>procs_pnode=12</em>, <em>stations=None</em>, <em>screenout=True</em>, <em>num_writers=None</em>, <em>TpN=12</em><span class="sig-paren">)</span><a class="headerlink" href="#polyadcirc.run_framework.random_manningsn_Q.runSet.run_nobatch_q" title="Permalink to this definition">¶</a></dt>
+<code class="descname">run_nobatch_q</code><span class="sig-paren">(</span><em>data</em>, <em>mann_points</em>, <em>save_file</em>, <em>num_procs=12</em>, <em>procs_pnode=12</em>, <em>stations=None</em>, <em>screenout=True</em>, <em>num_writers=None</em>, <em>TpN=None</em><span class="sig-paren">)</span><a class="headerlink" href="#polyadcirc.run_framework.random_manningsn_Q.runSet.run_nobatch_q" title="Permalink to this definition">¶</a></dt>
 <dd><p>Runs <strong class="program">ADCIRC</strong> for all of the configurations specified by
 <code class="docutils literal"><span class="pre">mann_points</span></code> and returns a dictonary of arrays containing data from
 output files. Runs batches of <strong class="program">PADCIRC</strong> as a single for loop
-and preps both the <code class="docutils literal"><span class="pre">fort.13</span></code> and fort.14`` in the same step.</p>
+and preps both the <code class="docutils literal"><span class="pre">fort.13</span></code> and <code class="docutils literal"><span class="pre">fort.14</span></code> in the same step.</p>
 <p>Stores only the QoI at the stations defined in <cite>stations`</cite>. In this
 case the QoI is the <code class="docutils literal"><span class="pre">maxele63</span></code> at the designated station.</p>
-<p>Reads in a default Manning&#8217;s <em>n</em> value from self.save_dir and stores
-it in data.manningsn_default                                                                   
-:param data: <a class="reference internal" href="#module-polyadcirc.run_framework.domain" title="polyadcirc.run_framework.domain"><code class="xref py py-class docutils literal"><span class="pre">domain</span></code></a>
-:type mann_points: <code class="xref py py-class docutils literal"><span class="pre">np.array</span></code> of size (<code class="docutils literal"><span class="pre">num_of_basis_vec</span></code>,</p>
-<blockquote>
-<div><code class="docutils literal"><span class="pre">num_of_random_fields</span></code>), <code class="docutils literal"><span class="pre">num_of_random_fields</span></code></div></blockquote>
+<p>Reads in a default Manning&#8217;s <em>n</em> value from <code class="docutils literal"><span class="pre">self.save_dir</span></code> and
+stores it in <code class="docutils literal"><span class="pre">data.manningsn_default</span></code></p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Currently supports ADCIRC output files <code class="docutils literal"><span class="pre">fort.6*</span></code>,
+<code class="docutils literal"><span class="pre">*.63</span></code>, <code class="docutils literal"><span class="pre">fort.7*</span></code>, but NOT Hot Start Output
+(<code class="docutils literal"><span class="pre">fort.67</span></code>, <code class="docutils literal"><span class="pre">fort.68</span></code>)</p>
+</div>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>mann_points</strong> &#8211; containts the weights to be used for each run</li>
-<li><strong>save_file</strong> (<em>string</em>) &#8211; name of file to save mdict to</li>
+<li><strong>data</strong> &#8211; <a class="reference internal" href="#module-polyadcirc.run_framework.domain" title="polyadcirc.run_framework.domain"><code class="xref py py-class docutils literal"><span class="pre">domain</span></code></a></li>
+<li><strong>mann_points</strong> (<a class="reference external" href="http://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.10)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a> of size (<code class="docutils literal"><span class="pre">num_of_basis_vec</span></code>,
+<code class="docutils literal"><span class="pre">num_of_random_fields</span></code>), <code class="docutils literal"><span class="pre">num_of_random_fields</span></code>) &#8211; containts the weights to be used for each run</li>
+<li><strong>save_file</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; name of file to save mdict to</li>
 <li><strong>num_procs</strong> (<em>int or 12</em>) &#8211; number of processors per <strong class="program">ADCIRC</strong>
 simulation, 12 on lonestar, and 16 on stamped</li>
-<li><strong>procs_pnode</strong> (<em>int</em>) &#8211; number of processors per node</li>
-<li><strong>stations</strong> (<em>list()</em>) &#8211; list of stations to gather QoI from. If
+<li><strong>procs_pnode</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; number of processors per node</li>
+<li><strong>stations</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#list" title="(in Python v2.7)"><em>list</em></a>) &#8211; list of stations to gather QoI from. If
 <code class="docutils literal"><span class="pre">None</span></code> uses the stations defined in <code class="docutils literal"><span class="pre">data</span></code></li>
-<li><strong>screenout</strong> (<em>boolean</em>) &#8211; flag (True &#8211;  write <code class="docutils literal"><span class="pre">ADCIRC</span></code> output to
+<li><strong>screenout</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; flag (True &#8211;  write <code class="docutils literal"><span class="pre">ADCIRC</span></code> output to
 screen, False &#8211; write <code class="docutils literal"><span class="pre">ADCIRC</span></code> output to temp file</li>
-<li><strong>num_writers</strong> (<em>int</em>) &#8211; number of MPI processes to dedicate soley to
-the task of writing ascii files. This MUST be &lt; num_procs</li>
-<li><strong>TpN</strong> (<em>int</em>) &#8211; number of tasks (cores to use) per node (wayness)</li>
+<li><strong>num_writers</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; number of MPI processes to dedicate soley to
+the task of writing ascii files. This MUST be less than
+<code class="docutils literal"><span class="pre">num_procs</span></code></li>
+<li><strong>TpN</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; number of tasks (cores to use) per node (wayness)</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">(<code class="xref py py-class docutils literal"><span class="pre">np.array</span></code>, <code class="xref py py-class docutils literal"><span class="pre">np.ndarray</span></code>, <code class="xref py py-class docutils literal"><span class="pre">np.ndarray</span></code>)</p>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">(<a class="reference external" href="http://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.10)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a>, <a class="reference external" href="http://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.10)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a>, <a class="reference external" href="http://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.10)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a>)</p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">(<code class="docutils literal"><span class="pre">time_obs</span></code>, <code class="docutils literal"><span class="pre">ts_data</span></code>, <code class="docutils literal"><span class="pre">nts_data</span></code>)</p>
@@ -1693,12 +1606,6 @@ the task of writing ascii files. This MUST be &lt; num_procs</li>
 </tr>
 </tbody>
 </table>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">Currently supports ADCIRC output files <code class="docutils literal"><span class="pre">fort.6*</span></code>,
-<code class="docutils literal"><span class="pre">*.63</span></code>, <code class="docutils literal"><span class="pre">fort.7*</span></code>, but NOT Hot Start Output
-(<code class="docutils literal"><span class="pre">fort.67</span></code>, <code class="docutils literal"><span class="pre">fort.68</span></code>)</p>
-</div>
 </dd></dl>
 
 <dl class="method">
@@ -1709,7 +1616,7 @@ the task of writing ascii files. This MUST be &lt; num_procs</li>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>mdict</strong> (<em>dict()</em>) &#8211; dictionary of run data</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>mdict</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/stdtypes.html#dict" title="(in Python v2.7)"><em>dict</em></a>) &#8211; dictionary of run data</td>
 </tr>
 </tbody>
 </table>
@@ -1735,20 +1642,20 @@ Fixes dry data if it was recorded.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>save_file</strong> (<em>string</em>) &#8211; local file name</li>
-<li><strong>grid_dir</strong> (<em>string</em>) &#8211; directory containing <code class="docutils literal"><span class="pre">fort.14</span></code>, <code class="docutils literal"><span class="pre">fort.15</span></code>, and
+<li><strong>save_file</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; local file name</li>
+<li><strong>grid_dir</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; directory containing <code class="docutils literal"><span class="pre">fort.14</span></code>, <code class="docutils literal"><span class="pre">fort.15</span></code>, and
 <code class="docutils literal"><span class="pre">fort.22</span></code></li>
-<li><strong>save_dir</strong> (<em>string</em>) &#8211; directory where <code class="docutils literal"><span class="pre">RF_directory_*</span></code> are
+<li><strong>save_dir</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; directory where <code class="docutils literal"><span class="pre">RF_directory_*</span></code> are
 saved, and where fort.13 is located</li>
-<li><strong>basis_dir</strong> (<em>string</em>) &#8211; directory where <code class="docutils literal"><span class="pre">landuse_*</span></code> folders are located</li>
-<li><strong>base_dir</strong> (<em>string</em>) &#8211; directory that contains ADCIRC executables, and
+<li><strong>basis_dir</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; directory where <code class="docutils literal"><span class="pre">landuse_*</span></code> folders are located</li>
+<li><strong>base_dir</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; directory that contains ADCIRC executables, and
 machine specific <code class="docutils literal"><span class="pre">in.prep#</span></code> files</li>
 </ul>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">tuple of <a class="reference internal" href="#polyadcirc.run_framework.random_wall.runSet" title="polyadcirc.run_framework.random_wall.runSet"><code class="xref py py-class docutils literal"><span class="pre">runSet</span></code></a>,
 <code class="xref py py-class docutils literal"><span class="pre">domain</span></code> objects, and
-two :class:<a href="#id9"><span class="problematic" id="id10">`</span></a>numpy.array`s</p>
+two <a class="reference external" href="http://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.10)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a></p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">(main_run, domain, mann_pts, wall_pts)</p>
@@ -1769,10 +1676,10 @@ the plots in <code class="docutils literal"><span class="pre">self.save_dir</spa
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>domain</strong> &#8211; <a class="reference internal" href="#module-polyadcirc.run_framework.domain" title="polyadcirc.run_framework.domain"><code class="xref py py-class docutils literal"><span class="pre">domain</span></code></a></li>
-<li><strong>wall_points</strong> (<code class="xref py py-class docutils literal"><span class="pre">np.array</span></code> of size (5, <code class="docutils literal"><span class="pre">num_of_walls</span></code>)) &#8211; containts the box_limits, and wall_height for each
+<li><strong>wall_points</strong> (<a class="reference external" href="http://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.10)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a> of size (5, <code class="docutils literal"><span class="pre">num_of_walls</span></code>)) &#8211; containts the box_limits, and wall_height for each
 wall [ximin, xmax, ymin, ymax, wall_height]</li>
-<li><strong>save</strong> (<em>boolean</em>) &#8211; flag for whether or not to save plots</li>
-<li><strong>show</strong> (<em>boolean</em>) &#8211; flag for whether or not to show plots</li>
+<li><strong>save</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; flag for whether or not to save plots</li>
+<li><strong>show</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; flag for whether or not to show plots</li>
 </ul>
 </td>
 </tr>
@@ -1799,12 +1706,10 @@ located</dd>
 specific <code class="docutils literal"><span class="pre">in.prep#</span></code> files</dd>
 <dt>num_of_parallel_runs</dt>
 <dd>size of batch of jobs to be submitted to queue</dd>
-</dl>
-<p>script_name
-nts_data</p>
-<blockquote>
-<div>non timeseries data</div></blockquote>
-<dl class="docutils">
+<dt>script_name</dt>
+<dd>name of the bash script</dd>
+<dt>nts_data</dt>
+<dd>non timeseries data</dd>
 <dt>ts_data </dt>
 <dd>timeseries data</dd>
 <dt>time_obs</dt>
@@ -1834,10 +1739,10 @@ the plots in <code class="docutils literal"><span class="pre">self.save_dir</spa
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>domain</strong> &#8211; <a class="reference internal" href="#module-polyadcirc.run_framework.domain" title="polyadcirc.run_framework.domain"><code class="xref py py-class docutils literal"><span class="pre">domain</span></code></a></li>
-<li><strong>wall_points</strong> (<code class="xref py py-class docutils literal"><span class="pre">np.array</span></code> of size (5, <code class="docutils literal"><span class="pre">num_of_walls</span></code>)) &#8211; containts the box_limits, and wall_height for each
+<li><strong>wall_points</strong> (<a class="reference external" href="http://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.10)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a> of size (5, <code class="docutils literal"><span class="pre">num_of_walls</span></code>)) &#8211; containts the box_limits, and wall_height for each
 wall [ximin, xmax, ymin, ymax, wall_height]</li>
-<li><strong>save</strong> (<em>boolean</em>) &#8211; flag for whether or not to save plots</li>
-<li><strong>show</strong> (<em>boolean</em>) &#8211; flag for whether or not to show plots</li>
+<li><strong>save</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; flag for whether or not to save plots</li>
+<li><strong>show</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; flag for whether or not to show plots</li>
 </ul>
 </td>
 </tr>
@@ -1847,44 +1752,49 @@ wall [ximin, xmax, ymin, ymax, wall_height]</li>
 
 <dl class="method">
 <dt id="polyadcirc.run_framework.random_wall.runSet.run_nobatch">
-<code class="descname">run_nobatch</code><span class="sig-paren">(</span><em>data, wall_points, mann_points, save_file, num_procs=12, procs_pnode=12, ts_names=['fort.61'], nts_names=['maxele.63'], screenout=True, num_writers=None, TpN=12</em><span class="sig-paren">)</span><a class="headerlink" href="#polyadcirc.run_framework.random_wall.runSet.run_nobatch" title="Permalink to this definition">¶</a></dt>
+<code class="descname">run_nobatch</code><span class="sig-paren">(</span><em>data, wall_points, mann_points, save_file, num_procs=12, procs_pnode=12, ts_names=['fort.61'], nts_names=['maxele.63'], screenout=True, num_writers=None, TpN=None</em><span class="sig-paren">)</span><a class="headerlink" href="#polyadcirc.run_framework.random_wall.runSet.run_nobatch" title="Permalink to this definition">¶</a></dt>
 <dd><p>Runs <strong class="program">ADCIRC</strong> for all of the configurations specified by
 <code class="docutils literal"><span class="pre">wall_points</span></code> and <code class="docutils literal"><span class="pre">mann_points</span></code> and returns a dictonary of arrays
 containing data from output files. Runs batches of <strong class="program">PADCIRC</strong>
-as a single for loop and preps both the <code class="docutils literal"><span class="pre">fort.13</span></code> and fort.14`` in
+as a single for loop and preps both the <code class="docutils literal"><span class="pre">fort.13</span></code> and <code class="docutils literal"><span class="pre">fort.14</span></code> in
 the same step.</p>
-<blockquote>
-<div>Reads in a default Manning&#8217;s <em>n</em> value from self.save_dir and stores
-it in data.manningsn_default</div></blockquote>
+<p>Reads in a default Manning&#8217;s <em>n</em> value from <code class="docutils literal"><span class="pre">self.save_dir</span></code> and
+stores it in <code class="docutils literal"><span class="pre">data.manningsn_default</span></code></p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Currently supports ADCIRC output files <code class="docutils literal"><span class="pre">fort.6*</span></code>,
+<code class="docutils literal"><span class="pre">*.63</span></code>, <code class="docutils literal"><span class="pre">fort.7*</span></code>, but NOT Hot Start Output
+(<code class="docutils literal"><span class="pre">fort.67</span></code>, <code class="docutils literal"><span class="pre">fort.68</span></code>)</p>
+</div>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>data</strong> &#8211; <a class="reference internal" href="#module-polyadcirc.run_framework.domain" title="polyadcirc.run_framework.domain"><code class="xref py py-class docutils literal"><span class="pre">domain</span></code></a></li>
-<li><strong>wall_points</strong> (<code class="xref py py-class docutils literal"><span class="pre">np.array</span></code> of size (5, <code class="docutils literal"><span class="pre">num_of_walls</span></code>)) &#8211; containts the box_limits, and wall_height for each
+<li><strong>wall_points</strong> (<a class="reference external" href="http://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.10)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a> of size (5, <code class="docutils literal"><span class="pre">num_of_walls</span></code>)) &#8211; containts the box_limits, and wall_height for each
 wall [ximin, xmax, ymin, ymax, wall_height]</li>
-<li><strong>mann_points</strong> (<code class="xref py py-class docutils literal"><span class="pre">np.array</span></code> of size (<code class="docutils literal"><span class="pre">num_of_basis_vec</span></code>,
+<li><strong>mann_points</strong> (<a class="reference external" href="http://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.10)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a> of size (<code class="docutils literal"><span class="pre">num_of_basis_vec</span></code>,
 <code class="docutils literal"><span class="pre">num_of_random_fields</span></code>), <code class="docutils literal"><span class="pre">num_of_random_fields</span></code> MUST be the
 same as <code class="docutils literal"><span class="pre">num_of_walls</span></code>. The ith wall will be associated with
 the ith field specifed by mann_points) &#8211; containts the weights to be used for each run</li>
-<li><strong>save_file</strong> (<em>string</em>) &#8211; name of file to save mdict to</li>
+<li><strong>save_file</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; name of file to save mdict to</li>
 <li><strong>num_procs</strong> (<em>int or 12</em>) &#8211; number of processors per <strong class="program">ADCIRC</strong>
 simulation, 12 on lonestar, and 16 on stamped</li>
-<li><strong>procs_pnode</strong> (<em>int</em>) &#8211; number of processors per node</li>
-<li><strong>ts_names</strong> (<em>list()</em>) &#8211; names of ADCIRC timeseries
+<li><strong>procs_pnode</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; number of processors per node</li>
+<li><strong>ts_names</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#list" title="(in Python v2.7)"><em>list</em></a>) &#8211; names of ADCIRC timeseries
 output files to be recorded from each run</li>
-<li><strong>nts_names</strong> (<em>list()</em>) &#8211; names of ADCIRC non timeseries
+<li><strong>nts_names</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#list" title="(in Python v2.7)"><em>list</em></a>) &#8211; names of ADCIRC non timeseries
 output files to be recorded from each run</li>
-<li><strong>screenout</strong> (<em>boolean</em>) &#8211; flag (True &#8211;  write <code class="docutils literal"><span class="pre">ADCIRC</span></code> output to
+<li><strong>screenout</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; flag (True &#8211;  write <code class="docutils literal"><span class="pre">ADCIRC</span></code> output to
 screen, False &#8211; write <code class="docutils literal"><span class="pre">ADCIRC</span></code> output to temp file</li>
-<li><strong>num_writers</strong> (<em>int</em>) &#8211; number of MPI processes to dedicate soley to
-the task of writing ascii files. This MUST be &lt; num_procs</li>
-<li><strong>TpN</strong> (<em>int</em>) &#8211; number of tasks (cores to use) per node (wayness)</li>
+<li><strong>num_writers</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; number of MPI processes to dedicate soley to
+the task of writing ascii files. This MUST be less than num_procs</li>
+<li><strong>TpN</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; number of tasks (cores to use) per node (wayness)</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">(<code class="xref py py-class docutils literal"><span class="pre">np.array</span></code>, <code class="xref py py-class docutils literal"><span class="pre">np.ndarray</span></code>, <code class="xref py py-class docutils literal"><span class="pre">np.ndarray</span></code>)</p>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">(<a class="reference external" href="http://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.10)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a>, <a class="reference external" href="http://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.10)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a>, <a class="reference external" href="http://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.10)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a>)</p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">(<code class="docutils literal"><span class="pre">time_obs</span></code>, <code class="docutils literal"><span class="pre">ts_data</span></code>, <code class="docutils literal"><span class="pre">nts_data</span></code>)</p>
@@ -1892,17 +1802,11 @@ the task of writing ascii files. This MUST be &lt; num_procs</li>
 </tr>
 </tbody>
 </table>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">Currently supports ADCIRC output files <code class="docutils literal"><span class="pre">fort.6*</span></code>,
-<code class="docutils literal"><span class="pre">*.63</span></code>, <code class="docutils literal"><span class="pre">fort.7*</span></code>, but NOT Hot Start Output
-(<code class="docutils literal"><span class="pre">fort.67</span></code>, <code class="docutils literal"><span class="pre">fort.68</span></code>)</p>
-</div>
 </dd></dl>
 
 <dl class="method">
 <dt id="polyadcirc.run_framework.random_wall.runSet.run_points">
-<code class="descname">run_points</code><span class="sig-paren">(</span><em>data, wall_points, mann_points, save_file, num_procs=12, procs_pnode=12, ts_names=['fort.61'], nts_names=['maxele.63'], screenout=True, s_p_wall=None, num_writers=None, TpN=12</em><span class="sig-paren">)</span><a class="headerlink" href="#polyadcirc.run_framework.random_wall.runSet.run_points" title="Permalink to this definition">¶</a></dt>
+<code class="descname">run_points</code><span class="sig-paren">(</span><em>data, wall_points, mann_points, save_file, num_procs=12, procs_pnode=12, ts_names=['fort.61'], nts_names=['maxele.63'], screenout=True, s_p_wall=None, num_writers=None, TpN=None</em><span class="sig-paren">)</span><a class="headerlink" href="#polyadcirc.run_framework.random_wall.runSet.run_points" title="Permalink to this definition">¶</a></dt>
 <dd><p>Runs <strong class="program">ADCIRC</strong> for all of the configurations specified by
 <code class="docutils literal"><span class="pre">wall_points</span></code> and <code class="docutils literal"><span class="pre">mann_points</span></code> and returns a dictonary of arrays
 containing data from output files. Assumes that the number of
@@ -1910,38 +1814,44 @@ containing data from output files. Assumes that the number of
 batches of <strong class="program">PADCIRC</strong> as a double for loop with the
 <strong class="program">ADCPREP</strong> prepping the <code class="docutils literal"><span class="pre">fort.14</span></code> file on the exterior loop
 and the <code class="docutils literal"><span class="pre">fort.13</span></code> file on the interior loop.</p>
-<blockquote>
-<div>Reads in a default Manning&#8217;s <em>n</em> value from self.save_dir and stores
-it in data.manningsn_default</div></blockquote>
+<p>Reads in a default Manning&#8217;s <em>n</em> value from <code class="docutils literal"><span class="pre">self.save_dir</span></code> and
+stores it in <code class="docutils literal"><span class="pre">data.manningsn_default</span></code></p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Currently supports ADCIRC output files <code class="docutils literal"><span class="pre">fort.6*</span></code>,
+<code class="docutils literal"><span class="pre">*.63</span></code>, <code class="docutils literal"><span class="pre">fort.7*</span></code>, but NOT Hot Start Output
+(<code class="docutils literal"><span class="pre">fort.67</span></code>, <code class="docutils literal"><span class="pre">fort.68</span></code>)</p>
+</div>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>data</strong> &#8211; <a class="reference internal" href="#module-polyadcirc.run_framework.domain" title="polyadcirc.run_framework.domain"><code class="xref py py-class docutils literal"><span class="pre">domain</span></code></a></li>
-<li><strong>wall_points</strong> (<code class="xref py py-class docutils literal"><span class="pre">np.array</span></code> of size (5, <code class="docutils literal"><span class="pre">num_of_walls</span></code>)) &#8211; containts the box_limits, and wall_height for each
-wall [ximin, xmax, ymin, ymax, wall_height]</li>
-<li><strong>mann_points</strong> (<code class="xref py py-class docutils literal"><span class="pre">np.array</span></code> of size (<code class="docutils literal"><span class="pre">num_of_basis_vec</span></code>,
+<li><strong>wall_points</strong> (<a class="reference external" href="http://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.10)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a> of size (5, <code class="docutils literal"><span class="pre">num_of_walls</span></code>)) &#8211; containts the box_limits, and wall_height for each
+wall <code class="docutils literal"><span class="pre">[xmin,</span> <span class="pre">xmax,</span> <span class="pre">ymin,</span> <span class="pre">ymax,</span> <span class="pre">wall_height]</span></code></li>
+<li><strong>mann_points</strong> (<a class="reference external" href="http://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.10)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a> of size (<code class="docutils literal"><span class="pre">num_of_basis_vec</span></code>,
 <code class="docutils literal"><span class="pre">num_of_random_fields</span></code>), <code class="docutils literal"><span class="pre">num_of_random_fields</span></code> MUST be a
 multiple of <code class="docutils literal"><span class="pre">num_of_walls</span></code>. The ith wall will be associated with
 the ith set of i*(num_of_random_fields/num_of_walls) mann_points) &#8211; containts the weights to be used for each run</li>
-<li><strong>save_file</strong> (<em>string</em>) &#8211; name of file to save mdict to</li>
+<li><strong>save_file</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; name of file to save mdict to</li>
 <li><strong>num_procs</strong> (<em>int or 12</em>) &#8211; number of processors per <strong class="program">ADCIRC</strong>
 simulation, 12 on lonestar, and 16 on stamped</li>
-<li><strong>procs_pnode</strong> (<em>int</em>) &#8211; number of processors per node</li>
-<li><strong>ts_names</strong> (<em>list()</em>) &#8211; names of ADCIRC timeseries
+<li><strong>procs_pnode</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; number of processors per node</li>
+<li><strong>ts_names</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#list" title="(in Python v2.7)"><em>list</em></a>) &#8211; names of ADCIRC timeseries
 output files to be recorded from each run</li>
-<li><strong>nts_names</strong> (<em>list()</em>) &#8211; names of ADCIRC non timeseries
+<li><strong>nts_names</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#list" title="(in Python v2.7)"><em>list</em></a>) &#8211; names of ADCIRC non timeseries
 output files to be recorded from each run</li>
-<li><strong>screenout</strong> (<em>boolean</em>) &#8211; flag (True &#8211;  write <code class="docutils literal"><span class="pre">ADCIRC</span></code> output to
+<li><strong>screenout</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; flag (True &#8211;  write <code class="docutils literal"><span class="pre">ADCIRC</span></code> output to
 screen, False &#8211; write <code class="docutils literal"><span class="pre">ADCIRC</span></code> output to temp file</li>
-<li><strong>num_writers</strong> (<em>int</em>) &#8211; number of MPI processes to dedicate soley to
-the task of writing ascii files. This MUST be &lt; num_procs</li>
-<li><strong>TpN</strong> (<em>int</em>) &#8211; number of tasks (cores to use) per node (wayness)</li>
+<li><strong>num_writers</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; number of MPI processes to dedicate soley to
+the task of writing ascii files. This MUST be less than num_procs.</li>
+<li><strong>TpN</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; number of tasks (cores to use) per node (wayness)</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">(<code class="xref py py-class docutils literal"><span class="pre">np.array</span></code>, <code class="xref py py-class docutils literal"><span class="pre">np.ndarray</span></code>, <code class="xref py py-class docutils literal"><span class="pre">np.ndarray</span></code>)</p>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">(<a class="reference external" href="http://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.10)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a>, <a class="reference external" href="http://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.10)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a>,
+<a class="reference external" href="http://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.10)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a>)</p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">(<code class="docutils literal"><span class="pre">time_obs</span></code>, <code class="docutils literal"><span class="pre">ts_data</span></code>, <code class="docutils literal"><span class="pre">nts_data</span></code>)</p>
@@ -1949,12 +1859,6 @@ the task of writing ascii files. This MUST be &lt; num_procs</li>
 </tr>
 </tbody>
 </table>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">Currently supports ADCIRC output files <code class="docutils literal"><span class="pre">fort.6*</span></code>,
-<code class="docutils literal"><span class="pre">*.63</span></code>, <code class="docutils literal"><span class="pre">fort.7*</span></code>, but NOT Hot Start Output
-(<code class="docutils literal"><span class="pre">fort.67</span></code>, <code class="docutils literal"><span class="pre">fort.68</span></code>)</p>
-</div>
 </dd></dl>
 
 </dd></dl>
@@ -1977,20 +1881,20 @@ Fixes dry data if it was recorded.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>save_file</strong> (<em>string</em>) &#8211; local file name</li>
-<li><strong>grid_dir</strong> (<em>string</em>) &#8211; directory containing <code class="docutils literal"><span class="pre">fort.14</span></code>, <code class="docutils literal"><span class="pre">fort.15</span></code>, and
+<li><strong>save_file</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; local file name</li>
+<li><strong>grid_dir</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; directory containing <code class="docutils literal"><span class="pre">fort.14</span></code>, <code class="docutils literal"><span class="pre">fort.15</span></code>, and
 <code class="docutils literal"><span class="pre">fort.22</span></code></li>
-<li><strong>save_dir</strong> (<em>string</em>) &#8211; directory where <code class="docutils literal"><span class="pre">RF_directory_*</span></code> are
+<li><strong>save_dir</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; directory where <code class="docutils literal"><span class="pre">RF_directory_*</span></code> are
 saved, and where fort.13 is located</li>
-<li><strong>basis_dir</strong> (<em>string</em>) &#8211; directory where <code class="docutils literal"><span class="pre">landuse_*</span></code> folders are located</li>
-<li><strong>base_dir</strong> (<em>string</em>) &#8211; directory that contains ADCIRC executables, and
+<li><strong>basis_dir</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; directory where <code class="docutils literal"><span class="pre">landuse_*</span></code> folders are located</li>
+<li><strong>base_dir</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; directory that contains ADCIRC executables, and
 machine specific <code class="docutils literal"><span class="pre">in.prep#</span></code> files</li>
 </ul>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">tuple of <a class="reference internal" href="#polyadcirc.run_framework.random_wall.runSet" title="polyadcirc.run_framework.random_wall.runSet"><code class="xref py py-class docutils literal"><span class="pre">runSet</span></code></a>,
 <code class="xref py py-class docutils literal"><span class="pre">domain</span></code> objects, and
-two :class:<a href="#id11"><span class="problematic" id="id12">`</span></a>numpy.array`s</p>
+two <a class="reference external" href="http://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.10)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a></p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">(main_run, domain, mann_pts, wall_pts)</p>
@@ -2010,21 +1914,17 @@ allocated by the submission script</p>
 <dt>grid_dir</dt>
 <dd>directory containing <code class="docutils literal"><span class="pre">fort.14</span></code>, <code class="docutils literal"><span class="pre">fort.15</span></code>, and <code class="docutils literal"><span class="pre">fort.22</span></code></dd>
 <dt>save_dir</dt>
-<dd>directory where <code class="docutils literal"><span class="pre">RF_directory_*</span></code> are saved, and where fort.13 is
-located</dd>
+<dd>directory where <code class="docutils literal"><span class="pre">RF_directory_*</span></code> are saved, and where fort.13 is located</dd>
 <dt>basis_dir </dt>
 <dd>directory where <code class="docutils literal"><span class="pre">landuse_*</span></code> folders are located</dd>
 <dt>base_dir</dt>
-<dd>directory that contains ADCIRC executables, and machine
-specific <code class="docutils literal"><span class="pre">in.prep#</span></code> files</dd>
+<dd>directory that contains ADCIRC executables, and machine specific <code class="docutils literal"><span class="pre">in.prep#</span></code> files</dd>
 <dt>num_of_parallel_runs</dt>
 <dd>size of batch of jobs to be submitted to queue</dd>
-</dl>
-<p>script_name
-nts_data</p>
-<blockquote>
-<div>non timeseries data</div></blockquote>
-<dl class="docutils">
+<dt>script_name</dt>
+<dd>name of the bash script to create</dd>
+<dt>nts_data</dt>
+<dd>non timeseries data</dd>
 <dt>ts_data </dt>
 <dd>timeseries data</dd>
 <dt>time_obs</dt>
@@ -2032,45 +1932,49 @@ nts_data</p>
 </dl>
 <dl class="method">
 <dt id="polyadcirc.run_framework.random_wall_Q.runSet.run_nobatch_q">
-<code class="descname">run_nobatch_q</code><span class="sig-paren">(</span><em>data</em>, <em>wall_points</em>, <em>mann_points</em>, <em>save_file</em>, <em>num_procs=12</em>, <em>procs_pnode=12</em>, <em>stations=None</em>, <em>screenout=True</em>, <em>num_writers=None</em>, <em>TpN=12</em><span class="sig-paren">)</span><a class="headerlink" href="#polyadcirc.run_framework.random_wall_Q.runSet.run_nobatch_q" title="Permalink to this definition">¶</a></dt>
+<code class="descname">run_nobatch_q</code><span class="sig-paren">(</span><em>data</em>, <em>wall_points</em>, <em>mann_points</em>, <em>save_file</em>, <em>num_procs=12</em>, <em>procs_pnode=12</em>, <em>stations=None</em>, <em>screenout=True</em>, <em>num_writers=None</em>, <em>TpN=None</em><span class="sig-paren">)</span><a class="headerlink" href="#polyadcirc.run_framework.random_wall_Q.runSet.run_nobatch_q" title="Permalink to this definition">¶</a></dt>
 <dd><p>Runs <strong class="program">ADCIRC</strong> for all of the configurations specified by
 <code class="docutils literal"><span class="pre">wall_points</span></code> and <code class="docutils literal"><span class="pre">mann_points</span></code> and returns a dictonary of arrays
 containing data from output files. Runs batches of <strong class="program">PADCIRC</strong>
-as a single for loop and preps both the <code class="docutils literal"><span class="pre">fort.13</span></code> and fort.14`` in
+as a single for loop and preps both the <code class="docutils literal"><span class="pre">fort.13</span></code> and <code class="docutils literal"><span class="pre">fort.14</span></code> in
 the same step.</p>
 <p>Stores only the QoI at the stations defined in <cite>stations`</cite>. In this
 case the QoI is the <code class="docutils literal"><span class="pre">maxele63</span></code> at the designated station.</p>
-<p>Reads in a default Manning&#8217;s <em>n</em> value from self.save_dir and stores
-it in data.manningsn_default                                                                   
-:param data: <a class="reference internal" href="#module-polyadcirc.run_framework.domain" title="polyadcirc.run_framework.domain"><code class="xref py py-class docutils literal"><span class="pre">domain</span></code></a>
-:type wall_points: <code class="xref py py-class docutils literal"><span class="pre">np.array</span></code> of size (5, <code class="docutils literal"><span class="pre">num_of_walls</span></code>)
-:param wall_points: containts the box_limits, and wall_height for each</p>
-<blockquote>
-<div>wall [ximin, xmax, ymin, ymax, wall_height]</div></blockquote>
+<p>Reads in a default Manning&#8217;s <em>n</em> value from <code class="docutils literal"><span class="pre">self.save_dir</span></code> and
+stores it in <code class="docutils literal"><span class="pre">data.manningsn_default</span></code></p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Currently supports ADCIRC output files <code class="docutils literal"><span class="pre">fort.6*</span></code>,
+<code class="docutils literal"><span class="pre">*.63</span></code>, <code class="docutils literal"><span class="pre">fort.7*</span></code>, but NOT Hot Start Output
+(<code class="docutils literal"><span class="pre">fort.67</span></code>, <code class="docutils literal"><span class="pre">fort.68</span></code>)</p>
+</div>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>mann_points</strong> (<code class="xref py py-class docutils literal"><span class="pre">np.array</span></code> of size (<code class="docutils literal"><span class="pre">num_of_basis_vec</span></code>,
+<li><strong>data</strong> &#8211; <a class="reference internal" href="#module-polyadcirc.run_framework.domain" title="polyadcirc.run_framework.domain"><code class="xref py py-class docutils literal"><span class="pre">domain</span></code></a></li>
+<li><strong>wall_points</strong> (<a class="reference external" href="http://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.10)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a> of size (5, <code class="docutils literal"><span class="pre">num_of_walls</span></code>)) &#8211; containts the box_limits, and wall_height for each
+wall <code class="docutils literal"><span class="pre">[xmin,</span> <span class="pre">xmax,</span> <span class="pre">ymin,</span> <span class="pre">ymax,</span> <span class="pre">wall_height]</span></code></li>
+<li><strong>mann_points</strong> (<a class="reference external" href="http://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.10)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a> of size (<code class="docutils literal"><span class="pre">num_of_basis_vec</span></code>,
 <code class="docutils literal"><span class="pre">num_of_random_fields</span></code>), <code class="docutils literal"><span class="pre">num_of_random_fields</span></code> MUST be the
 same as <code class="docutils literal"><span class="pre">num_of_walls</span></code>. The ith wall will be associated with
 the ith field specifed by mann_points) &#8211; containts the weights to be used for each run</li>
-<li><strong>save_file</strong> (<em>string</em>) &#8211; name of file to save mdict to</li>
+<li><strong>save_file</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; name of file to save mdict to</li>
 <li><strong>num_procs</strong> (<em>int or 12</em>) &#8211; number of processors per <strong class="program">ADCIRC</strong>
 simulation, 12 on lonestar, and 16 on stamped</li>
-<li><strong>procs_pnode</strong> (<em>int</em>) &#8211; number of processors per node</li>
-<li><strong>stations</strong> (<em>list()</em>) &#8211; list of stations to gather QoI from. If
+<li><strong>procs_pnode</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; number of processors per node</li>
+<li><strong>stations</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#list" title="(in Python v2.7)"><em>list</em></a>) &#8211; list of stations to gather QoI from. If
 <code class="docutils literal"><span class="pre">None</span></code> uses the stations defined in <code class="docutils literal"><span class="pre">data</span></code></li>
-<li><strong>screenout</strong> (<em>boolean</em>) &#8211; flag (True &#8211;  write <code class="docutils literal"><span class="pre">ADCIRC</span></code> output to
+<li><strong>screenout</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; flag (True &#8211;  write <code class="docutils literal"><span class="pre">ADCIRC</span></code> output to
 screen, False &#8211; write <code class="docutils literal"><span class="pre">ADCIRC</span></code> output to temp file</li>
-<li><strong>num_writers</strong> (<em>int</em>) &#8211; number of MPI processes to dedicate soley to
-the task of writing ascii files. This MUST be &lt; num_procs</li>
-<li><strong>TpN</strong> (<em>int</em>) &#8211; number of tasks (cores to use) per node (wayness)</li>
+<li><strong>num_writers</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; number of MPI processes to dedicate soley to
+the task of writing ascii files. This MUST be less than num_procs</li>
+<li><strong>TpN</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; number of tasks (cores to use) per node (wayness)</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">(<code class="xref py py-class docutils literal"><span class="pre">np.array</span></code>, <code class="xref py py-class docutils literal"><span class="pre">np.ndarray</span></code>, <code class="xref py py-class docutils literal"><span class="pre">np.ndarray</span></code>)</p>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">(<a class="reference external" href="http://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.10)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a>, <a class="reference external" href="http://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.10)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a>, <a class="reference external" href="http://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.10)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a>)</p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">(<code class="docutils literal"><span class="pre">time_obs</span></code>, <code class="docutils literal"><span class="pre">ts_data</span></code>, <code class="docutils literal"><span class="pre">nts_data</span></code>)</p>
@@ -2078,12 +1982,6 @@ the task of writing ascii files. This MUST be &lt; num_procs</li>
 </tr>
 </tbody>
 </table>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">Currently supports ADCIRC output files <code class="docutils literal"><span class="pre">fort.6*</span></code>,
-<code class="docutils literal"><span class="pre">*.63</span></code>, <code class="docutils literal"><span class="pre">fort.7*</span></code>, but NOT Hot Start Output
-(<code class="docutils literal"><span class="pre">fort.67</span></code>, <code class="docutils literal"><span class="pre">fort.68</span></code>)</p>
-</div>
 </dd></dl>
 
 <dl class="method">
@@ -2094,7 +1992,7 @@ the task of writing ascii files. This MUST be &lt; num_procs</li>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>mdict</strong> (<em>dict()</em>) &#8211; dictionary of run data</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>mdict</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/stdtypes.html#dict" title="(in Python v2.7)"><em>dict</em></a>) &#8211; dictionary of run data</td>
 </tr>
 </tbody>
 </table>
@@ -2145,13 +2043,13 @@ Reconstructs <code class="xref py py-class docutils literal"><span class="pre">s
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>save_file</strong> (<em>string</em>) &#8211; local file name</li>
-<li><strong>grid_dir</strong> (<em>string</em>) &#8211; directory containing <code class="docutils literal"><span class="pre">fort.14</span></code>, <code class="docutils literal"><span class="pre">fort.15</span></code>, and
+<li><strong>save_file</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; local file name</li>
+<li><strong>grid_dir</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; directory containing <code class="docutils literal"><span class="pre">fort.14</span></code>, <code class="docutils literal"><span class="pre">fort.15</span></code>, and
 <code class="docutils literal"><span class="pre">fort.22</span></code></li>
-<li><strong>save_dir</strong> (<em>string</em>) &#8211; directory where <code class="docutils literal"><span class="pre">RF_directory_*</span></code> are
+<li><strong>save_dir</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; directory where <code class="docutils literal"><span class="pre">RF_directory_*</span></code> are
 saved, and where fort.13 is located</li>
-<li><strong>basis_dir</strong> (<em>string</em>) &#8211; directory where <code class="docutils literal"><span class="pre">landuse_*</span></code> folders are located</li>
-<li><strong>base_dir</strong> (<em>string</em>) &#8211; directory that contains ADCIRC executables, and
+<li><strong>basis_dir</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; directory where <code class="docutils literal"><span class="pre">landuse_*</span></code> folders are located</li>
+<li><strong>base_dir</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; directory that contains ADCIRC executables, and
 machine specific <code class="docutils literal"><span class="pre">in.prep#</span></code> files</li>
 </ul>
 </td>
@@ -2183,7 +2081,7 @@ are also contained in an instantiation of this class.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">boolean</td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2.7/library/functions.html#bool" title="(in Python v2.7)">bool</a></td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">False the <code class="docutils literal"><span class="pre">fort.019</span></code> doesn&#8217;t exist</td>
 </tr>
@@ -2199,7 +2097,7 @@ are also contained in an instantiation of this class.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">boolean</td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2.7/library/functions.html#bool" title="(in Python v2.7)">bool</a></td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">False if the <code class="docutils literal"><span class="pre">fort.06*</span></code> files don&#8217;t exist</td>
 </tr>
@@ -2216,13 +2114,13 @@ are also contained in an instantiation of this class.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>x</strong> (<em>float</em>) &#8211; x coordinate of circle center</li>
-<li><strong>y</strong> (<em>float</em>) &#8211; y coordinate of circle center</li>
-<li><strong>r</strong> (<em>float</em>) &#8211; radius of circle</li>
+<li><strong>x</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; x coordinate of circle center</li>
+<li><strong>y</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; y coordinate of circle center</li>
+<li><strong>r</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; radius of circle</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">int</p>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><a class="reference external" href="https://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)">int</a></p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">flag for <code class="xref py py-meth docutils literal"><span class="pre">py.gensub()</span></code></p>
@@ -2245,17 +2143,17 @@ DATA i.e files that are fort.*3 or fort.*4</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>ts_data</strong> (<em>list()</em>) &#8211; (ts_data_subdomain, ts_data_fulldomain)</li>
-<li><strong>nts_data</strong> (<em>list()</em>) &#8211; (nts_data_subdomain, nts_data_fulldomain)</li>
-<li><strong>ts_names</strong> (<em>list()</em>) &#8211; names of ADCIRC timeseries
+<li><strong>ts_data</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#list" title="(in Python v2.7)"><em>list</em></a>) &#8211; (ts_data_subdomain, ts_data_fulldomain)</li>
+<li><strong>nts_data</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#list" title="(in Python v2.7)"><em>list</em></a>) &#8211; (nts_data_subdomain, nts_data_fulldomain)</li>
+<li><strong>ts_names</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#list" title="(in Python v2.7)"><em>list</em></a>) &#8211; names of ADCIRC timeseries
 output files to be recorded from each run</li>
-<li><strong>nts_names</strong> (<em>list()</em>) &#8211; names of ADCIRC non timeseries
+<li><strong>nts_names</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#list" title="(in Python v2.7)"><em>list</em></a>) &#8211; names of ADCIRC non timeseries
 output files to be recorded from each run</li>
-<li><strong>save_file</strong> (<em>string</em>) &#8211; name of file to save comparision matricies to</li>
+<li><strong>save_file</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; name of file to save comparision matricies to</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">tuple</p>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><a class="reference external" href="https://docs.python.org/2.7/library/functions.html#tuple" title="(in Python v2.7)">tuple</a></p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">(ts_error, nts_error)</p>
@@ -2279,16 +2177,16 @@ DATA i.e files that are fort.*3 or fort.*4</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>ts_names</strong> (<em>list()</em>) &#8211; names of ADCIRC timeseries
+<li><strong>ts_names</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#list" title="(in Python v2.7)"><em>list</em></a>) &#8211; names of ADCIRC timeseries
 output files to be recorded from each run</li>
-<li><strong>nts_names</strong> (<em>list()</em>) &#8211; names of ADCIRC non timeseries
+<li><strong>nts_names</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#list" title="(in Python v2.7)"><em>list</em></a>) &#8211; names of ADCIRC non timeseries
 output files to be recorded from each run</li>
-<li><strong>save_file</strong> (<em>string</em>) &#8211; name of file to save comparision matricies to</li>
-<li><strong>timesteps</strong> (<em>int</em>) &#8211; number of timesteps to read from file</li>
+<li><strong>save_file</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; name of file to save comparision matricies to</li>
+<li><strong>timesteps</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; number of timesteps to read from file</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">tuple</p>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><a class="reference external" href="https://docs.python.org/2.7/library/functions.html#tuple" title="(in Python v2.7)">tuple</a></p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">(ts_error, nts_error, time_obs, ts_data, nts_data)</p>
@@ -2318,13 +2216,13 @@ modify for a subdomain run.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>x</strong> (<em>list()</em>) &#8211; x coordinates of the first and second focal points</li>
-<li><strong>y</strong> (<em>list()</em>) &#8211; y coordinates of the first and second focal points</li>
-<li><strong>w</strong> (<em>float</em>) &#8211; width of ellipse</li>
+<li><strong>x</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#list" title="(in Python v2.7)"><em>list</em></a>) &#8211; x coordinates of the first and second focal points</li>
+<li><strong>y</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#list" title="(in Python v2.7)"><em>list</em></a>) &#8211; y coordinates of the first and second focal points</li>
+<li><strong>w</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; width of ellipse</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">int</p>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><a class="reference external" href="https://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)">int</a></p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">flag for <code class="xref py py-meth docutils literal"><span class="pre">py.gensub()</span></code></p>
@@ -2361,12 +2259,6 @@ the x-axis.</p>
 </table>
 </dd></dl>
 
-<dl class="attribute">
-<dt id="polyadcirc.run_framework.subdomain.subdomain.flag">
-<code class="descname">flag</code><em class="property"> = None</em><a class="headerlink" href="#polyadcirc.run_framework.subdomain.subdomain.flag" title="Permalink to this definition">¶</a></dt>
-<dd><p>flag for shape of subdomain (0 ellipse, 1 circle)</p>
-</dd></dl>
-
 <dl class="method">
 <dt id="polyadcirc.run_framework.subdomain.subdomain.genbcs">
 <code class="descname">genbcs</code><span class="sig-paren">(</span><em>forcing_freq=1</em>, <em>dt=None</em>, <em>nspoolgs=1</em>, <em>h0=None</em>, <em>L=False</em><span class="sig-paren">)</span><a class="headerlink" href="#polyadcirc.run_framework.subdomain.subdomain.genbcs" title="Permalink to this definition">¶</a></dt>
@@ -2378,20 +2270,20 @@ the output files from a fulldomain run, <code class="docutils literal"><span cla
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>forcing_freq</strong> (<em>int</em>) &#8211; number of timesteps at which infomration
+<li><strong>forcing_freq</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; number of timesteps at which infomration
 is written to a boudnary conditions file (<code class="docutils literal"><span class="pre">fort.019</span></code>) THIS MUST
 BE A MULTIPLE OF NSPOOLGS</li>
-<li><strong>dt</strong> (<em>float</em>) &#8211; One timestep in seconds</li>
-<li><strong>nspoolgs</strong> (<em>int</em>) &#8211; the number of timesteps at which information is
+<li><strong>dt</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; One timestep in seconds</li>
+<li><strong>nspoolgs</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; the number of timesteps at which information is
 written to the new output files <code class="docutils literal"><span class="pre">fort.06*</span></code></li>
-<li><strong>h0</strong> (<em>float</em>) &#8211; minimum water depth for a node to be wet</li>
-<li><strong>L</strong> (<em>boolean</em>) &#8211; flag whether or not <strong class="program">PADCIRC</strong> was run with
+<li><strong>h0</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; minimum water depth for a node to be wet</li>
+<li><strong>L</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; flag whether or not <strong class="program">PADCIRC</strong> was run with
 <code class="docutils literal"><span class="pre">-L</span></code> flag and if local files need to be post-processed into
 global files</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">string</p>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><a class="reference external" href="https://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)">string</a></p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">command line for invoking genbcs.py</p>
@@ -2411,14 +2303,14 @@ global files</li>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>noutgs</strong> (<em>int</em>) &#8211; flag controlling whether or not <code class="docutils literal"><span class="pre">fort.06*</span></code> will be
+<li><strong>noutgs</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; flag controlling whether or not <code class="docutils literal"><span class="pre">fort.06*</span></code> will be
 written out</li>
-<li><strong>nspoolgs</strong> (<em>int</em>) &#8211; the number of timesteps at which information is
+<li><strong>nspoolgs</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; the number of timesteps at which information is
 written to the new output files <code class="docutils literal"><span class="pre">fort.06*</span></code></li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">string</p>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><a class="reference external" href="https://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)">string</a></p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">command line for invoking genfull.py</p>
@@ -2441,19 +2333,19 @@ creates symbolic links to meterological forcing files (<code class="docutils lit
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>bound_ele</strong> (<em>int</em>) &#8211; a flag determining whether surface elevations of
+<li><strong>bound_ele</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; a flag determining whether surface elevations of
 the boundary nodes of a subdomain are enforced using a boundary
 condition file.</li>
-<li><strong>bound_vel</strong> (<em>int</em>) &#8211; a flag determining whether velocities of
+<li><strong>bound_vel</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; a flag determining whether velocities of
 the boundary nodes of a subdomain are enforced using a boundary
 condition file.</li>
-<li><strong>bound_wd</strong> (<em>int</em>) &#8211; a flag determining whether wet/dry status of
+<li><strong>bound_wd</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; a flag determining whether wet/dry status of
 the boundary nodes of a subdomain are enforced using a boundary
 condition file.</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">string</p>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><a class="reference external" href="https://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)">string</a></p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">command line for invoking gensub.py</p>
@@ -2486,7 +2378,7 @@ list.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">list()</td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2.7/library/functions.html#list" title="(in Python v2.7)">list</a></td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">list of boundary nodes</td>
 </tr>
@@ -2503,7 +2395,7 @@ store them as <code class="docutils literal"><span class="pre">self.x</span></co
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">tuple</td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2.7/library/functions.html#tuple" title="(in Python v2.7)">tuple</a></td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">(x, y, r)</td>
 </tr>
@@ -2520,7 +2412,7 @@ store them as <code class="docutils literal"><span class="pre">self.x</span></co
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">tuple</td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2.7/library/functions.html#tuple" title="(in Python v2.7)">tuple</a></td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">(x, y, w)</td>
 </tr>
@@ -2559,9 +2451,9 @@ fulldomain.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>mann_data</strong> (<code class="xref py py-class docutils literal"><span class="pre">np.array</span></code> or <code class="xref py py-class docutils literal"><span class="pre">dict</span></code>) &#8211; containing the nodal attribute information</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>mann_data</strong> (<a class="reference external" href="http://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.10)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a> or <a class="reference external" href="https://docs.python.org/2.7/library/stdtypes.html#dict" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">dict</span></code></a>) &#8211; containing the nodal attribute information</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><code class="xref py py-class docutils literal"><span class="pre">np.array</span></code> or <code class="xref py py-class docutils literal"><span class="pre">dict</span></code></td>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.10)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a> or <a class="reference external" href="https://docs.python.org/2.7/library/stdtypes.html#dict" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">dict</span></code></a></td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">dictionary or array of nodal values</td>
 </tr>
@@ -2597,21 +2489,21 @@ creates symbolic links to meterological forcing files (<code class="docutils lit
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>flag</strong> (<em>int</em>) &#8211; flag determining whether or not the subdomain is an
+<li><strong>flag</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; flag determining whether or not the subdomain is an
 ellipse (0) or a circle (1)</li>
-<li><strong>bound_ele</strong> (<em>int</em>) &#8211; a flag determining whether surface elevations of
+<li><strong>bound_ele</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; a flag determining whether surface elevations of
 the boundary nodes of a subdomain are enforced using a boundary
 condition file.</li>
-<li><strong>bound_vel</strong> (<em>int</em>) &#8211; a flag determining whether velocities of
+<li><strong>bound_vel</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; a flag determining whether velocities of
 the boundary nodes of a subdomain are enforced using a boundary
 condition file.</li>
-<li><strong>bound_wd</strong> (<em>int</em>) &#8211; a flag determining whether wet/dry status of
+<li><strong>bound_wd</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; a flag determining whether wet/dry status of
 the boundary nodes of a subdomain are enforced using a boundary
 condition file.</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">string</p>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><a class="reference external" href="https://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)">string</a></p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">command line for invoking gensub.py</p>
@@ -2631,9 +2523,9 @@ condition file.</li>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>old_fort13</strong> (<em>string</em>) &#8211; path to the old <code class="docutils literal"><span class="pre">fort.13</span></code> file to be
+<li><strong>old_fort13</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; path to the old <code class="docutils literal"><span class="pre">fort.13</span></code> file to be
 trimmed</li>
-<li><strong>new_fort13</strong> (<em>string</em>) &#8211; path to save the new <code class="docutils literal"><span class="pre">fort.13</span></code> file</li>
+<li><strong>new_fort13</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; path to save the new <code class="docutils literal"><span class="pre">fort.13</span></code> file</li>
 </ul>
 </td>
 </tr>
@@ -2651,9 +2543,9 @@ trimmed</li>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>old_fort13</strong> (<em>string</em>) &#8211; path to the old <code class="docutils literal"><span class="pre">fort.13</span></code> file to be
+<li><strong>old_fort13</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; path to the old <code class="docutils literal"><span class="pre">fort.13</span></code> file to be
 trimmed</li>
-<li><strong>new_fort13</strong> (<em>string</em>) &#8211; path to save the new <code class="docutils literal"><span class="pre">fort.13</span></code> file</li>
+<li><strong>new_fort13</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; path to save the new <code class="docutils literal"><span class="pre">fort.13</span></code> file</li>
 </ul>
 </td>
 </tr>
@@ -2670,10 +2562,10 @@ trimmed</li>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>data</strong> (<code class="xref py py-class docutils literal"><span class="pre">np.array</span></code> or <code class="xref py py-class docutils literal"><span class="pre">dict</span></code>) &#8211; containing the nodal attribute information</li>
+<li><strong>data</strong> (<a class="reference external" href="http://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.10)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a> or <a class="reference external" href="https://docs.python.org/2.7/library/stdtypes.html#dict" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">dict</span></code></a>) &#8211; containing the nodal attribute information</li>
 <li><strong>path</strong> (<em>string or None</em>) &#8211; the directory to which the fort.13 file will be written</li>
 <li><strong>default</strong> (<em>None or float</em>) &#8211; default value</li>
-<li><strong>file_name</strong> (<em>string</em>) &#8211; the name of the <code class="docutils literal"><span class="pre">fort.13</span></code> formatted file</li>
+<li><strong>file_name</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; the name of the <code class="docutils literal"><span class="pre">fort.13</span></code> formatted file</li>
 </ul>
 </td>
 </tr>
@@ -2699,9 +2591,9 @@ trimmed</li>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>old_fort13</strong> (<em>string</em>) &#8211; path to the old <code class="docutils literal"><span class="pre">fort.13</span></code> file to be
+<li><strong>old_fort13</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; path to the old <code class="docutils literal"><span class="pre">fort.13</span></code> file to be
 trimmed</li>
-<li><strong>new_fort13</strong> (<em>string</em>) &#8211; path to save the new <code class="docutils literal"><span class="pre">fort.13</span></code> file</li>
+<li><strong>new_fort13</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; path to save the new <code class="docutils literal"><span class="pre">fort.13</span></code> file</li>
 </ul>
 </td>
 </tr>
@@ -2719,9 +2611,9 @@ trimmed</li>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>old_fort13</strong> (<em>string</em>) &#8211; path to the old <code class="docutils literal"><span class="pre">fort.13</span></code> file to be
+<li><strong>old_fort13</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; path to the old <code class="docutils literal"><span class="pre">fort.13</span></code> file to be
 trimmed</li>
-<li><strong>new_fort13</strong> (<em>string</em>) &#8211; path to save the new <code class="docutils literal"><span class="pre">fort.13</span></code> file</li>
+<li><strong>new_fort13</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; path to save the new <code class="docutils literal"><span class="pre">fort.13</span></code> file</li>
 </ul>
 </td>
 </tr>
@@ -2746,13 +2638,22 @@ of methods to run a set of ADCIRC simulations with varying parameters</li>
           </div>
           <footer>
   
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="todo_list.html" class="btn btn-neutral float-right" title="Todo List">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="polyadcirc.pyGriddata.html" class="btn btn-neutral" title="polyadcirc.pyGriddata package"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
 
   <hr/>
 
   <div role="contentinfo">
     <p>
         &copy; Copyright 2013, Lindley Graham.
-      Last updated on Aug 31, 2015.
+      Last updated on Jan 21, 2016.
     </p>
   </div>
 

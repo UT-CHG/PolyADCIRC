@@ -8,7 +8,7 @@ Installation
 ------------
 
 The code currently resides at `GitHub <https://github.com/UT-CHG/PolyADCIRC>`_.
-If you have a `.zip<https://github.com/UT-CHG/PolyADCIRC/archive/master.zip>`_
+If you have a `.zip <https://github.com/UT-CHG/PolyADCIRC/archive/master.zip>`_
 file you can install PolyADCIRC using::
 
     python setup.py install

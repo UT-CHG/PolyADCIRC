@@ -30,7 +30,10 @@
   
 
   
-    <link rel="top" title="PolyADCIRC 0.2.0 documentation" href="index.html"/> 
+    <link rel="top" title="PolyADCIRC 0.2.0 documentation" href="index.html"/>
+        <link rel="up" title="polyadcirc" href="modules.html"/>
+        <link rel="next" title="polyadcirc.pyADCIRC package" href="polyadcirc.pyADCIRC.html"/>
+        <link rel="prev" title="polyadcirc" href="modules.html"/> 
 
   
   <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
@@ -61,7 +64,7 @@
         
           
           
-              <ul>
+              <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="overview.html#installation">Installation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="overview.html#package-layout">Package Layout</a></li>
@@ -94,9 +97,15 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="subdomain.html">Running with Subdomain ADCIRC</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="subdomain.html#getting-the-subdomain-adcirc-code">Getting the Subdomain ADCIRC Code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="subdomain.html#modifying-subdomain-adcirc">Modifying Subdomain ADCIRC</a></li>
 <li class="toctree-l2"><a class="reference internal" href="subdomain.html#setting-up-the-subdomain-grid-dir">Setting up the Subdomain <code class="docutils literal"><span class="pre">grid_dir</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="subdomain.html#setting-up-your-landuse-folders">Setting up your <code class="docutils literal"><span class="pre">landuse_##</span></code> folders</a></li>
 <li class="toctree-l2"><a class="reference internal" href="subdomain.html#running-polyadcirc-with-subdomains">Running PolyADCIRC with Subdomains</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="references.html">Some References and Examples</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">polyadcirc</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="">polyadcirc package</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="todo_list.html">Todo List</a></li>
@@ -123,6 +132,8 @@
           <div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
     <li><a href="index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="modules.html">polyadcirc</a> &raquo;</li>
       
     <li>polyadcirc package</li>
       <li class="wy-breadcrumbs-aside">
@@ -165,7 +176,7 @@
 <li class="toctree-l2"><a class="reference internal" href="polyadcirc.pyGriddata.html#module-polyadcirc.pyGriddata.manufacture_gap">polyadcirc.pyGriddata.manufacture_gap module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="polyadcirc.pyGriddata.html#module-polyadcirc.pyGriddata.table_management">polyadcirc.pyGriddata.table_management module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="polyadcirc.pyGriddata.html#module-polyadcirc.pyGriddata.table_to_mesh_map">polyadcirc.pyGriddata.table_to_mesh_map module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polyadcirc.pyGriddata.html#module-contents">Module contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="polyadcirc.pyGriddata.html#module-polyadcirc.pyGriddata">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="polyadcirc.run_framework.html">polyadcirc.run_framework package</a><ul>
@@ -183,6 +194,35 @@
 </li>
 </ul>
 </div>
+</div>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-polyadcirc.util">
+<span id="polyadcirc-util-module"></span><h2>polyadcirc.util module<a class="headerlink" href="#module-polyadcirc.util" title="Permalink to this headline">¶</a></h2>
+<p>The module contains general tools for PolyADCIRC.</p>
+<dl class="function">
+<dt id="polyadcirc.util.meshgrid_ndim">
+<code class="descclassname">polyadcirc.util.</code><code class="descname">meshgrid_ndim</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="headerlink" href="#polyadcirc.util.meshgrid_ndim" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return coordinate matrix from two or more coordinate vectors.
+Handles a maximum of 10 vectors.</p>
+<p>Make N-D coordinate arrays for vectorized evaluations of
+N-D scalar/vector fields over N-D grids, given
+one-dimensional coordinate arrays (x1, x2,..., xn).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>X</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#tuple" title="(in Python v2.7)"><em>tuple</em></a>) &#8211; A tuple containing the 1d coordinate arrays</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.10)"><code class="xref py py-class docutils literal"><span class="pre">ndarray</span></code></a> of shape (num_grid_points,n)</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">X_new</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 </div>
 <div class="section" id="module-polyadcirc">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-polyadcirc" title="Permalink to this headline">¶</a></h2>
@@ -211,13 +251,22 @@ create sets of nodal data for use by <strong class="program">PADCIRC</strong></l
           </div>
           <footer>
   
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="polyadcirc.pyADCIRC.html" class="btn btn-neutral float-right" title="polyadcirc.pyADCIRC package">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="modules.html" class="btn btn-neutral" title="polyadcirc"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
 
   <hr/>
 
   <div role="contentinfo">
     <p>
         &copy; Copyright 2013, Lindley Graham.
-      Last updated on Aug 31, 2015.
+      Last updated on Jan 21, 2016.
     </p>
   </div>
 

@@ -30,7 +30,10 @@
   
 
   
-    <link rel="top" title="PolyADCIRC 0.2.0 documentation" href="index.html"/> 
+    <link rel="top" title="PolyADCIRC 0.2.0 documentation" href="index.html"/>
+        <link rel="up" title="polyadcirc package" href="polyadcirc.html"/>
+        <link rel="next" title="polyadcirc.run_framework package" href="polyadcirc.run_framework.html"/>
+        <link rel="prev" title="polyadcirc.pyADCIRC package" href="polyadcirc.pyADCIRC.html"/> 
 
   
   <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
@@ -61,7 +64,7 @@
         
           
           
-              <ul>
+              <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="overview.html#installation">Installation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="overview.html#package-layout">Package Layout</a></li>
@@ -94,9 +97,15 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="subdomain.html">Running with Subdomain ADCIRC</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="subdomain.html#getting-the-subdomain-adcirc-code">Getting the Subdomain ADCIRC Code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="subdomain.html#modifying-subdomain-adcirc">Modifying Subdomain ADCIRC</a></li>
 <li class="toctree-l2"><a class="reference internal" href="subdomain.html#setting-up-the-subdomain-grid-dir">Setting up the Subdomain <code class="docutils literal"><span class="pre">grid_dir</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="subdomain.html#setting-up-your-landuse-folders">Setting up your <code class="docutils literal"><span class="pre">landuse_##</span></code> folders</a></li>
 <li class="toctree-l2"><a class="reference internal" href="subdomain.html#running-polyadcirc-with-subdomains">Running PolyADCIRC with Subdomains</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="references.html">Some References and Examples</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">polyadcirc</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="polyadcirc.html">polyadcirc package</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="todo_list.html">Todo List</a></li>
@@ -123,6 +132,10 @@
           <div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
     <li><a href="index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="modules.html">polyadcirc</a> &raquo;</li>
+      
+          <li><a href="polyadcirc.html">polyadcirc package</a> &raquo;</li>
       
     <li>polyadcirc.pyGriddata package</li>
       <li class="wy-breadcrumbs-aside">
@@ -154,8 +167,8 @@ has been run in each of the folders.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>src</strong> (<em>string</em>) &#8211; source file name</li>
-<li><strong>dst</strong> (<em>string</em>) &#8211; destination file name</li>
+<li><strong>src</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; source file name</li>
+<li><strong>dst</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; destination file name</li>
 </ul>
 </td>
 </tr>
@@ -171,7 +184,7 @@ has been run in each of the folders.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>path</strong> (<em>string</em>) &#8211; path of directory to create</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>path</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; path of directory to create</td>
 </tr>
 </tbody>
 </table>
@@ -185,7 +198,7 @@ has been run in each of the folders.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>files</strong> (<em>string</em>) &#8211; Path of files or directories to remove</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>files</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; Path of files or directories to remove</td>
 </tr>
 </tbody>
 </table>
@@ -201,7 +214,7 @@ has been run in each of the folders.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>dirs</strong> (<em>list()</em>) &#8211; list of directory names</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>dirs</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#list" title="(in Python v2.7)"><em>list</em></a>) &#8211; list of directory names</td>
 </tr>
 </tbody>
 </table>
@@ -217,8 +230,8 @@ links by default.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>src</strong> (<em>string</em>) &#8211; source</li>
-<li><strong>dst</strong> (<em>string</em>) &#8211; destination</li>
+<li><strong>src</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; source</li>
+<li><strong>dst</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; destination</li>
 <li><strong>overwrite</strong> (<em>binary</em>) &#8211; 0 - do not overwrite, 1 - overwrite links, 2 - 
 overwrite files and links, 3 - overwrite directories, files and links</li>
 </ul>
@@ -242,9 +255,9 @@ overwrite files and links, 3 - overwrite directories, files and links</li>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>basis_dir</strong> (<em>string</em>) &#8211; directory containing the test folder and landuse
+<li><strong>basis_dir</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; directory containing the test folder and landuse
 folders</li>
-<li><strong>default</strong> (<em>float</em>) &#8211; default Manning&#8217;s <em>n</em></li>
+<li><strong>default</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; default Manning&#8217;s <em>n</em></li>
 </ul>
 </td>
 </tr>
@@ -258,12 +271,6 @@ folders</li>
 <dd><p>Bases: <a class="reference internal" href="polyadcirc.pyADCIRC.html#polyadcirc.pyADCIRC.basic.pickleable" title="polyadcirc.pyADCIRC.basic.pickleable"><code class="xref py py-class docutils literal"><span class="pre">polyadcirc.pyADCIRC.basic.pickleable</span></code></a></p>
 <p>This class contains references to the <code class="docutils literal"><span class="pre">fort.14</span></code>, <code class="docutils literal"><span class="pre">*.asc</span></code>, and
 <code class="docutils literal"><span class="pre">*.table</span></code> files specific to a particular grid.</p>
-<dl class="attribute">
-<dt id="polyadcirc.pyGriddata.grid_management.gridInfo.basis_dir">
-<code class="descname">basis_dir</code><em class="property"> = None</em><a class="headerlink" href="#polyadcirc.pyGriddata.grid_management.gridInfo.basis_dir" title="Permalink to this definition">¶</a></dt>
-<dd><p>path for the dir to create <a href="#id12"><span class="problematic" id="id13">landuse_</span></a> in</p>
-</dd></dl>
-
 <dl class="method">
 <dt id="polyadcirc.pyGriddata.grid_management.gridInfo.cleanup_landuse_folder">
 <code class="descname">cleanup_landuse_folder</code><span class="sig-paren">(</span><em>folder_name=None</em><span class="sig-paren">)</span><a class="headerlink" href="#polyadcirc.pyGriddata.grid_management.gridInfo.cleanup_landuse_folder" title="Permalink to this definition">¶</a></dt>
@@ -273,7 +280,7 @@ and the most recent ``</em>.14``.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>folder_name</strong> (<em>string</em>) &#8211; path to folder to clean up relative to
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>folder_name</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; path to folder to clean up relative to
 <code class="docutils literal"><span class="pre">self.base_dir</span></code></td>
 </tr>
 </tbody>
@@ -297,7 +304,7 @@ associated with <code class="docutils literal"><span class="pre">self</span></co
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>folder_name</strong> (<em>string</em>) &#8211; name of the folder containing the <code class="docutils literal"><span class="pre">*.14</span></code>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>folder_name</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; name of the folder containing the <code class="docutils literal"><span class="pre">*.14</span></code>
 to be converted</td>
 </tr>
 </tbody>
@@ -315,7 +322,7 @@ to be converted</td>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>folder_name</strong> (<em>string</em>) &#8211; folder for which to create bash scripts</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>folder_name</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; folder for which to create bash scripts</td>
 </tr>
 </tbody>
 </table>
@@ -330,28 +337,10 @@ by <strong class="program">./Griddata_parallel -I griddata_##.in</strong></p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>folder_name</strong> (<em>string</em>) &#8211; folder for which to create input files</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>folder_name</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; folder for which to create input files</td>
 </tr>
 </tbody>
 </table>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="polyadcirc.pyGriddata.grid_management.gridInfo.file_name">
-<code class="descname">file_name</code><em class="property"> = None</em><a class="headerlink" href="#polyadcirc.pyGriddata.grid_management.gridInfo.file_name" title="Permalink to this definition">¶</a></dt>
-<dd><p>Name of grid file, <code class="docutils literal"><span class="pre">*.14</span></code></p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="polyadcirc.pyGriddata.grid_management.gridInfo.flag">
-<code class="descname">flag</code><em class="property"> = None</em><a class="headerlink" href="#polyadcirc.pyGriddata.grid_management.gridInfo.flag" title="Permalink to this definition">¶</a></dt>
-<dd><p>averaging scheme flag</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="polyadcirc.pyGriddata.grid_management.gridInfo.gap_data_files">
-<code class="descname">gap_data_files</code><em class="property"> = None</em><a class="headerlink" href="#polyadcirc.pyGriddata.grid_management.gridInfo.gap_data_files" title="Permalink to this definition">¶</a></dt>
-<dd><p>a list of gapInfo objects</p>
 </dd></dl>
 
 <dl class="method">
@@ -361,7 +350,7 @@ by <strong class="program">./Griddata_parallel -I griddata_##.in</strong></p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><code class="xref py py-class docutils literal"><span class="pre">dict</span></code></td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2.7/library/stdtypes.html#dict" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">dict</span></code></a></td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a dict of all the unqiue <code class="docutils literal"><span class="pre">*.table</span></code> files required by
 <code class="docutils literal"><span class="pre">grid_all_*.sh</span></code> where unique_tables.keys() = <code class="docutils literal"><span class="pre">table_file_name</span></code>,
@@ -379,18 +368,12 @@ and unique_tables.values() =
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><code class="xref py py-class docutils literal"><span class="pre">list</span></code></td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2.7/library/functions.html#list" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">list</span></code></a></td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">landclasses[i] = (class_num, table_file_name)</td>
 </tr>
 </tbody>
 </table>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="polyadcirc.pyGriddata.grid_management.gridInfo.grid_dir">
-<code class="descname">grid_dir</code><em class="property"> = None</em><a class="headerlink" href="#polyadcirc.pyGriddata.grid_management.gridInfo.grid_dir" title="Permalink to this definition">¶</a></dt>
-<dd><p>path for the dir of the grid file</p>
 </dd></dl>
 
 <dl class="method">
@@ -416,10 +399,10 @@ remaining folders at once.</p>
 landuse folders.</li>
 <li><strong>removeBinarues</strong> (<em>binary</em>) &#8211; Flag whether or not to remove
 <code class="docutils literal"><span class="pre">*.asc.binary</span></code> files when completed.</li>
-<li><strong>class_nums</strong> (<em>list</em>) &#8211; List of integers indicating which classes to
+<li><strong>class_nums</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#list" title="(in Python v2.7)"><em>list</em></a>) &#8211; List of integers indicating which classes to
 prep. This assumes all the <code class="docutils literal"><span class="pre">*.asc.binary</span></code> files are already in
 existence.</li>
-<li><strong>condense</strong> (<em>boolean</em>) &#8211; Flag whether or not to condense <code class="docutils literal"><span class="pre">fort.13</span></code> to
+<li><strong>condense</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; Flag whether or not to condense <code class="docutils literal"><span class="pre">fort.13</span></code> to
 only non-zero values within a tolerance.</li>
 <li><strong>TOL</strong> (<em>double</em>) &#8211; Tolerance below which to consider a Manning&#8217;s n
 value to be zero if <code class="docutils literal"><span class="pre">condense</span> <span class="pre">==</span> <span class="pre">True</span></code></li>
@@ -454,9 +437,9 @@ first. Prepares a fort.13 file for testing purposes.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>folder_name</strong> (<em>string</em>) &#8211; folder name relative to <code class="docutils literal"><span class="pre">self.base_dir</span></code></td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>folder_name</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; folder name relative to <code class="docutils literal"><span class="pre">self.base_dir</span></code></td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">string</td>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)">string</a></td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">file name of bash script for this land class</td>
 </tr>
@@ -473,14 +456,14 @@ first. Prepares a fort.13 file for testing purposes.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>class_num</strong> (<em>int</em>) &#8211; land classification number for this folder</li>
-<li><strong>manningsn_value</strong> (<em>int</em>) &#8211; Manning&#8217;s <em>n</em> value for this land
+<li><strong>class_num</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; land classification number for this folder</li>
+<li><strong>manningsn_value</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; Manning&#8217;s <em>n</em> value for this land
 classification</li>
-<li><strong>folder_name</strong> (<em>string</em>) &#8211; folder name relative to <code class="docutils literal"><span class="pre">self.base_dir</span></code></li>
+<li><strong>folder_name</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; folder name relative to <code class="docutils literal"><span class="pre">self.base_dir</span></code></li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">string</p>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><a class="reference external" href="https://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)">string</a></p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">file name of bash script for this land class</p>
@@ -502,9 +485,9 @@ Else sets up num_landuse-1 folders.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>create_all</strong> (<em>boolean</em>) &#8211; flag to not skip first folder</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>create_all</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; flag to not skip first folder</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">list()</td>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2.7/library/functions.html#list" title="(in Python v2.7)">list</a></td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">list of file names of bash scripts for each land class</td>
 </tr>
@@ -521,7 +504,7 @@ file required by <code class="docutils literal"><span class="pre">grid_all_*.sh<
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>folder_name</strong> (<em>string</em>) &#8211; name of the folder to create table in</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>folder_name</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; name of the folder to create table in</td>
 </tr>
 </tbody>
 </table>
@@ -539,20 +522,14 @@ classifications are assigned a <code class="docutils literal"><span class="pre">
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>class_num</strong> (<em>int</em>) &#8211; land classification number</li>
-<li><strong>manningsn_value</strong> (<em>float</em>) &#8211; Manning&#8217;s <em>n</em> value</li>
-<li><strong>folder_name</strong> (<em>string</em>) &#8211; name of the folder to create table in</li>
+<li><strong>class_num</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; land classification number</li>
+<li><strong>manningsn_value</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; Manning&#8217;s <em>n</em> value</li>
+<li><strong>folder_name</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; name of the folder to create table in</li>
 </ul>
 </td>
 </tr>
 </tbody>
 </table>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="polyadcirc.pyGriddata.grid_management.gridInfo.table_folder">
-<code class="descname">table_folder</code><em class="property"> = None</em><a class="headerlink" href="#polyadcirc.pyGriddata.grid_management.gridInfo.table_folder" title="Permalink to this definition">¶</a></dt>
-<dd><p>list() of <code class="xref py py-class docutils literal"><span class="pre">gapInfo</span></code> objects</p>
 </dd></dl>
 
 </dd></dl>
@@ -581,19 +558,19 @@ where the land classification numbers are chosen from landclasses.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>xl</strong> (<em>float</em>) &#8211; leftmost value in meters</li>
-<li><strong>xr</strong> (<em>float</em>) &#8211; rightmost value in meters</li>
-<li><strong>yl</strong> (<em>float</em>) &#8211; lower value in meters</li>
-<li><strong>yu</strong> (<em>float</em>) &#8211; upper value in meters</li>
+<li><strong>xl</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; leftmost value in meters</li>
+<li><strong>xr</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; rightmost value in meters</li>
+<li><strong>yl</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; lower value in meters</li>
+<li><strong>yu</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; upper value in meters</li>
 <li><strong>landclasses</strong> (<em>1D array-like or int</em>) &#8211; list of land classification numbers</li>
-<li><strong>cellsize</strong> (<em>int</em>) &#8211; size of the cell in meters</li>
+<li><strong>cellsize</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; size of the cell in meters</li>
 <li><strong>p</strong> (<em>1D array-like of size num_land_classes</em>) &#8211; probabilities associated with each land classification</li>
-<li><strong>path</strong> (<em>string</em>) &#8211; folder to write out probability structure to as
+<li><strong>path</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; folder to write out probability structure to as
 p_struct.txt</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">int or <code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></p>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">int or <a class="reference external" href="http://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.10)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a></p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">See <code class="xref py py-class docutils literal"><span class="pre">numpy.random.choice</span></code></p>
@@ -619,18 +596,18 @@ where the land classification numbers are chosen from landclasses.</p>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>y_points</strong> (<em>ordered 1D array-like must be of size num_sections+1</em>) &#8211; y values in meters that divde the grid into vertical
 intervals (y_min, ...., y_max)</li>
-<li><strong>xl</strong> (<em>float</em>) &#8211; lower value in meters</li>
-<li><strong>xr</strong> (<em>float</em>) &#8211; upper value in meters</li>
+<li><strong>xl</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; lower value in meters</li>
+<li><strong>xr</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; upper value in meters</li>
 <li><strong>landclasses</strong> (<em>1D array-like or int</em>) &#8211; list of land classification numbers</li>
-<li><strong>cellsize</strong> (<em>int</em>) &#8211; size of the cell in meters</li>
-<li><strong>p_sections</strong> (<em>list() of size num_sections of 1D array-like or int</em>) &#8211; list of probabilities for each section associated with
+<li><strong>cellsize</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; size of the cell in meters</li>
+<li><strong>p_sections</strong> (<em>list of size num_sections of 1D array-like or int</em>) &#8211; list of probabilities for each section associated with
 each land classification</li>
-<li><strong>path</strong> (<em>string</em>) &#8211; folder to write out probability structure to as
+<li><strong>path</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; folder to write out probability structure to as
 p_struct.txt</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">int or <code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></p>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">int or <a class="reference external" href="http://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.10)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a></p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">See <code class="xref py py-class docutils literal"><span class="pre">numpy.random.choice</span></code></p>
@@ -659,16 +636,16 @@ intervals (x_min, ...., x_max)</li>
 <li><strong>y_points</strong> (<em>ordered 1D array-like must be of size num_sections+1</em>) &#8211; y values in meters that divde the grid into vertical
 intervals (y_min, ...., y_max)</li>
 <li><strong>landclasses</strong> (<em>1D array-like or int</em>) &#8211; list of land classification numbers</li>
-<li><strong>cellsize</strong> (<em>int</em>) &#8211; size of the cell in meters</li>
-<li><strong>p_sections</strong> (<em>list() of size num_sections of 1D array-like or int</em>) &#8211; list of probabilities for each section associated with
+<li><strong>cellsize</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; size of the cell in meters</li>
+<li><strong>p_sections</strong> (<em>list of size num_sections of 1D array-like or int</em>) &#8211; list of probabilities for each section associated with
 each land classification sections are numbered n = j + n_x_sections * i
 where i and j are the ith and jth x and y section respectively</li>
-<li><strong>path</strong> (<em>string</em>) &#8211; folder to write out probability structure to as
+<li><strong>path</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; folder to write out probability structure to as
 p_struct.txt</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">int or <code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></p>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">int or <a class="reference external" href="http://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.10)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a></p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">See <code class="xref py py-class docutils literal"><span class="pre">numpy.random.choice</span></code></p>
@@ -694,18 +671,18 @@ yu where the land classification numbers are chosen from landclasses.</p>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>x_points</strong> (<em>ordered 1D array-like must be of size num_sections+1</em>) &#8211; x values in meters that divde the grid into vertical
 intervals (x_min, ...., x_max)</li>
-<li><strong>yl</strong> (<em>float</em>) &#8211; lower value in meters</li>
-<li><strong>yu</strong> (<em>float</em>) &#8211; upper value in meters</li>
+<li><strong>yl</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; lower value in meters</li>
+<li><strong>yu</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; upper value in meters</li>
 <li><strong>landclasses</strong> (<em>1D array-like or int</em>) &#8211; list of land classification numbers</li>
-<li><strong>cellsize</strong> (<em>int</em>) &#8211; size of the cell in meters</li>
-<li><strong>p_sections</strong> (<em>list() of size num_sections of 1D array-like or int</em>) &#8211; list of probabilities for each section associated with
+<li><strong>cellsize</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; size of the cell in meters</li>
+<li><strong>p_sections</strong> (<em>list of size num_sections of 1D array-like or int</em>) &#8211; list of probabilities for each section associated with
 each land classification</li>
-<li><strong>path</strong> (<em>string</em>) &#8211; folder to write out probability structure to as
+<li><strong>path</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; folder to write out probability structure to as
 p_struct.txt</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">int or <code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></p>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">int or <a class="reference external" href="http://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.10)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a></p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">See <code class="xref py py-class docutils literal"><span class="pre">numpy.random.choice</span></code></p>
@@ -724,12 +701,12 @@ p_struct.txt</li>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>file_name</strong> (<em>string</em>) &#8211; full path to file_name</li>
-<li><strong>gap_data</strong> (<code class="xref py py-class docutils literal"><span class="pre">np.array</span></code>) &#8211; nrows by ncols 2D array</li>
-<li><strong>xllcorner</strong> (<em>float</em>) &#8211; x UTM coordinate of lower left corner (SW) in meters</li>
-<li><strong>yllcorner</strong> (<em>float</em>) &#8211; y UTM coordinate of lower left corner (SW) in meters</li>
+<li><strong>file_name</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; full path to file_name</li>
+<li><strong>gap_data</strong> (<a class="reference external" href="http://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.10)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a>) &#8211; nrows by ncols 2D array</li>
+<li><strong>xllcorner</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; x UTM coordinate of lower left corner (SW) in meters</li>
+<li><strong>yllcorner</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; y UTM coordinate of lower left corner (SW) in meters</li>
 <li><strong>cellsize</strong> (<em>int or 30</em>) &#8211; size of cells(square grid) in meters, pixel resolution</li>
-<li><strong>NODATA_value</strong> (<em>int</em>) &#8211; land classification number for no data</li>
+<li><strong>NODATA_value</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; land classification number for no data</li>
 </ul>
 </td>
 </tr>
@@ -750,9 +727,9 @@ objects from a list of files.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>gap_files</strong> (<em>list</em>) &#8211; file names of gap formatted files</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>gap_files</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#list" title="(in Python v2.7)"><em>list</em></a>) &#8211; file names of gap formatted files</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">list()</td>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2.7/library/functions.html#list" title="(in Python v2.7)">list</a></td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">list of <a class="reference internal" href="#polyadcirc.pyGriddata.table_management.gapInfo" title="polyadcirc.pyGriddata.table_management.gapInfo"><code class="xref py py-class docutils literal"><span class="pre">gapInfo</span></code></a>
 objects</td>
@@ -770,9 +747,9 @@ objects from the files in folder.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>folder_name</strong> (<em>string</em>) &#8211; folder containing gap formatted files</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>folder_name</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; folder containing gap formatted files</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">list()</td>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2.7/library/functions.html#list" title="(in Python v2.7)">list</a></td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">list of <a class="reference internal" href="#polyadcirc.pyGriddata.table_management.gapInfo" title="polyadcirc.pyGriddata.table_management.gapInfo"><code class="xref py py-class docutils literal"><span class="pre">gapInfo</span></code></a>
 objects</td>
@@ -793,7 +770,7 @@ classification numbered <code class="docutils literal"><span class="pre">landuse
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>landuse_table</strong> (<a class="reference internal" href="#polyadcirc.pyGriddata.table_management.tableInfo" title="polyadcirc.pyGriddata.table_management.tableInfo"><code class="xref py py-class docutils literal"><span class="pre">tableInfo</span></code></a>) &#8211; table to create</li>
-<li><strong>folder_name</strong> (<em>string</em>) &#8211; folder to create the table in</li>
+<li><strong>folder_name</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; folder to create the table in</li>
 </ul>
 </td>
 </tr>
@@ -812,10 +789,10 @@ landuse classifications are assigned a manningsn_value of 0</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>class_num</strong> (<em>int</em>) &#8211; land classification number</li>
+<li><strong>class_num</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; land classification number</li>
 <li><strong>landuse_table</strong> (<a class="reference internal" href="#polyadcirc.pyGriddata.table_management.tableInfo" title="polyadcirc.pyGriddata.table_management.tableInfo"><code class="xref py py-class docutils literal"><span class="pre">tableInfo</span></code></a>) &#8211; table to base the single value table off of</li>
-<li><strong>manningsn_value</strong> (<em>float</em>) &#8211; Manningn&#8217;s <em>n</em> value for <code class="docutils literal"><span class="pre">class_num</span></code></li>
-<li><strong>folder_name</strong> (<em>string</em>) &#8211; folder to create the table in</li>
+<li><strong>manningsn_value</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; Manningn&#8217;s <em>n</em> value for <code class="docutils literal"><span class="pre">class_num</span></code></li>
+<li><strong>folder_name</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; folder to create the table in</li>
 </ul>
 </td>
 </tr>
@@ -830,12 +807,6 @@ landuse classifications are assigned a manningsn_value of 0</p>
 <p>This object stores information specific to a GAP dataset, methods for
 creating it&#8217;s portion of the <code class="docutils literal"><span class="pre">*.in</span></code> file, and methods for creating the
 table(s) needed for this GAP dataset.</p>
-<dl class="attribute">
-<dt id="polyadcirc.pyGriddata.table_management.gapInfo.UTM_zone">
-<code class="descname">UTM_zone</code><em class="property"> = None</em><a class="headerlink" href="#polyadcirc.pyGriddata.table_management.gapInfo.UTM_zone" title="Permalink to this definition">¶</a></dt>
-<dd><p>UTM Zone number of GAP/NLCD data.</p>
-</dd></dl>
-
 <dl class="method">
 <dt id="polyadcirc.pyGriddata.table_management.gapInfo.create_table">
 <code class="descname">create_table</code><span class="sig-paren">(</span><em>folder_name=None</em><span class="sig-paren">)</span><a class="headerlink" href="#polyadcirc.pyGriddata.table_management.gapInfo.create_table" title="Permalink to this definition">¶</a></dt>
@@ -846,7 +817,7 @@ classification numbered <code class="docutils literal"><span class="pre">landuse
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>folder_name</strong> (<em>string</em>) &#8211; folder to create the table in</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>folder_name</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; folder to create the table in</td>
 </tr>
 </tbody>
 </table>
@@ -863,26 +834,14 @@ other landuse classifications are assigned a <code class="docutils literal"><spa
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>class_num</strong> (<em>int</em>) &#8211; land classification number</li>
-<li><strong>manningsn_value</strong> (<em>float</em>) &#8211; Manningn&#8217;s <em>n</em> value for <cite>class_num</cite></li>
-<li><strong>folder_name</strong> (<em>string</em>) &#8211; folder to create the table in</li>
+<li><strong>class_num</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; land classification number</li>
+<li><strong>manningsn_value</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; Manningn&#8217;s <em>n</em> value for <cite>class_num</cite></li>
+<li><strong>folder_name</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; folder to create the table in</li>
 </ul>
 </td>
 </tr>
 </tbody>
 </table>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="polyadcirc.pyGriddata.table_management.gapInfo.file_name">
-<code class="descname">file_name</code><em class="property"> = None</em><a class="headerlink" href="#polyadcirc.pyGriddata.table_management.gapInfo.file_name" title="Permalink to this definition">¶</a></dt>
-<dd><p>Name of GAP/NLCD data file, <code class="docutils literal"><span class="pre">*.asc</span></code></p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="polyadcirc.pyGriddata.table_management.gapInfo.horizontal_sys">
-<code class="descname">horizontal_sys</code><em class="property"> = None</em><a class="headerlink" href="#polyadcirc.pyGriddata.table_management.gapInfo.horizontal_sys" title="Permalink to this definition">¶</a></dt>
-<dd><p>Horizontal system: (1) GRS80, (2) NAD83/WGS84, (3) WGS72</p>
 </dd></dl>
 
 <dl class="method">
@@ -893,13 +852,13 @@ other landuse classifications are assigned a <code class="docutils literal"><spa
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>basis_dir</strong> (<em>string</em>) &#8211; the folder containing the <a href="#id4"><span class="problematic" id="id5">*</span></a>.asc files and the
-directory folder_name</li>
-<li><strong>folder_name</strong> (<em>string</em>) &#8211; name of folder to create <code class="docutils literal"><span class="pre">*.in</span></code> for</li>
+<li><strong>basis_dir</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; the folder containing the <code class="docutils literal"><span class="pre">*.asc</span></code> files and
+the directory folder_name</li>
+<li><strong>folder_name</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; name of folder to create <code class="docutils literal"><span class="pre">*.in</span></code> for</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">string</p>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><a class="reference external" href="https://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)">string</a></p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">text that matches relevant lines of <code class="docutils literal"><span class="pre">*.in</span></code> file and uses
@@ -918,7 +877,7 @@ basis_dir for <code class="docutils literal"><span class="pre">*.asc</span></cod
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>folder_name</strong> (<em>string</em>) &#8211; folder to read the table from</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>folder_name</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; folder to read the table from</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#polyadcirc.pyGriddata.table_management.tableInfo" title="polyadcirc.pyGriddata.table_management.tableInfo"><code class="xref py py-class docutils literal"><span class="pre">tableInfo</span></code></a></td>
 </tr>
@@ -926,12 +885,6 @@ basis_dir for <code class="docutils literal"><span class="pre">*.asc</span></cod
 </tr>
 </tbody>
 </table>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="polyadcirc.pyGriddata.table_management.gapInfo.table">
-<code class="descname">table</code><em class="property"> = None</em><a class="headerlink" href="#polyadcirc.pyGriddata.table_management.gapInfo.table" title="Permalink to this definition">¶</a></dt>
-<dd><p><a class="reference internal" href="#polyadcirc.pyGriddata.table_management.tableInfo" title="polyadcirc.pyGriddata.table_management.tableInfo"><code class="xref py py-class docutils literal"><span class="pre">tableInfo</span></code></a> object</p>
 </dd></dl>
 
 </dd></dl>
@@ -945,8 +898,8 @@ basis_dir for <code class="docutils literal"><span class="pre">*.asc</span></cod
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>table_file_name</strong> (<em>string</em>) &#8211; local file name of table</li>
-<li><strong>folder_name</strong> (<em>string</em>) &#8211; folder to read the table from</li>
+<li><strong>table_file_name</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; local file name of table</li>
+<li><strong>folder_name</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; folder to read the table from</li>
 </ul>
 </td>
 </tr>
@@ -963,13 +916,13 @@ basis_dir for <code class="docutils literal"><span class="pre">*.asc</span></cod
 <dl class="function">
 <dt id="polyadcirc.pyGriddata.table_management.read_tables">
 <code class="descclassname">polyadcirc.pyGriddata.table_management.</code><code class="descname">read_tables</code><span class="sig-paren">(</span><em>folder_name=None</em><span class="sig-paren">)</span><a class="headerlink" href="#polyadcirc.pyGriddata.table_management.read_tables" title="Permalink to this definition">¶</a></dt>
-<dd><p>Read in all <a href="#id6"><span class="problematic" id="id7">*</span></a>.table files in folder_name and return a list of tableInfo
+<dd><p>Read in all <code class="docutils literal"><span class="pre">*.table</span></code> files in folder_name and return a list of tableInfo
 objects</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>folder_name</strong> (<em>string</em>) &#8211; folder to read the table(s) from</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>folder_name</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; folder to read the table(s) from</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">list of <a class="reference internal" href="#polyadcirc.pyGriddata.table_management.tableInfo" title="polyadcirc.pyGriddata.table_management.tableInfo"><code class="xref py py-class docutils literal"><span class="pre">tableInfo</span></code></a></td>
 </tr>
@@ -995,7 +948,7 @@ classification numbered <code class="docutils literal"><span class="pre">landuse
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>folder_name</strong> (<em>string</em>) &#8211; folder to create the table in</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>folder_name</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; folder to create the table in</td>
 </tr>
 </tbody>
 </table>
@@ -1013,20 +966,14 @@ a manningsn_value of 0.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>class_num</strong> (<em>int</em>) &#8211; land classification number</li>
-<li><strong>manningsn_value</strong> (<em>float</em>) &#8211; Manningn&#8217;s <em>n</em> value for <cite>class_num</cite></li>
-<li><strong>folder_name</strong> (<em>string</em>) &#8211; folder to create the table in</li>
+<li><strong>class_num</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; land classification number</li>
+<li><strong>manningsn_value</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; Manningn&#8217;s <em>n</em> value for <cite>class_num</cite></li>
+<li><strong>folder_name</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; folder to create the table in</li>
 </ul>
 </td>
 </tr>
 </tbody>
 </table>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="polyadcirc.pyGriddata.table_management.tableInfo.file_name">
-<code class="descname">file_name</code><em class="property"> = None</em><a class="headerlink" href="#polyadcirc.pyGriddata.table_management.tableInfo.file_name" title="Permalink to this definition">¶</a></dt>
-<dd><p>Name of classified value table, <code class="docutils literal"><span class="pre">*.table</span></code></p>
 </dd></dl>
 
 <dl class="method">
@@ -1036,7 +983,7 @@ a manningsn_value of 0.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">list()</td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2.7/library/functions.html#list" title="(in Python v2.7)">list</a></td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">list of land_classes (integers)</td>
 </tr>
@@ -1059,13 +1006,6 @@ a manningsn_value of 0.</p>
 </table>
 </dd></dl>
 
-<dl class="attribute">
-<dt id="polyadcirc.pyGriddata.table_management.tableInfo.land_classes">
-<code class="descname">land_classes</code><em class="property"> = None</em><a class="headerlink" href="#polyadcirc.pyGriddata.table_management.tableInfo.land_classes" title="Permalink to this definition">¶</a></dt>
-<dd><p>dict of land classification numbers and associated mannings_n
-values</p>
-</dd></dl>
-
 <dl class="method">
 <dt id="polyadcirc.pyGriddata.table_management.tableInfo.read_table">
 <code class="descname">read_table</code><span class="sig-paren">(</span><em>folder_name=None</em><span class="sig-paren">)</span><a class="headerlink" href="#polyadcirc.pyGriddata.table_management.tableInfo.read_table" title="Permalink to this definition">¶</a></dt>
@@ -1074,7 +1014,7 @@ values</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>folder_name</strong> (<em>string</em>) &#8211; folder to read the table from</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>folder_name</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; folder to read the table from</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#polyadcirc.pyGriddata.table_management.tableInfo" title="polyadcirc.pyGriddata.table_management.tableInfo"><code class="xref py py-class docutils literal"><span class="pre">tableInfo</span></code></a></td>
 </tr>
@@ -1095,7 +1035,7 @@ values for that <code class="docutils literal"><span class="pre">*.table</span><
 <dl class="exception">
 <dt id="polyadcirc.pyGriddata.table_to_mesh_map.Error">
 <em class="property">exception </em><code class="descclassname">polyadcirc.pyGriddata.table_to_mesh_map.</code><code class="descname">Error</code><a class="headerlink" href="#polyadcirc.pyGriddata.table_to_mesh_map.Error" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">exceptions.Exception</span></code></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2.7/library/exceptions.html#exceptions.Exception" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">exceptions.Exception</span></code></a></p>
 <p>Base class for exceptions in this module.</p>
 </dd></dl>
 
@@ -1104,40 +1044,26 @@ values for that <code class="docutils literal"><span class="pre">*.table</span><
 <em class="property">exception </em><code class="descclassname">polyadcirc.pyGriddata.table_to_mesh_map.</code><code class="descname">LenError</code><span class="sig-paren">(</span><em>expr</em>, <em>msg</em><span class="sig-paren">)</span><a class="headerlink" href="#polyadcirc.pyGriddata.table_to_mesh_map.LenError" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#polyadcirc.pyGriddata.table_to_mesh_map.Error" title="polyadcirc.pyGriddata.table_to_mesh_map.Error"><code class="xref py py-class docutils literal"><span class="pre">polyadcirc.pyGriddata.table_to_mesh_map.Error</span></code></a></p>
 <p>Exception raised for errors in dimension or length.</p>
-<dl class="attribute">
-<dt id="polyadcirc.pyGriddata.table_to_mesh_map.LenError.expr">
-<code class="descname">expr</code><em class="property"> = None</em><a class="headerlink" href="#polyadcirc.pyGriddata.table_to_mesh_map.LenError.expr" title="Permalink to this definition">¶</a></dt>
-<dd><p>input expression in wich the error occured</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="polyadcirc.pyGriddata.table_to_mesh_map.LenError.msg">
-<code class="descname">msg</code><em class="property"> = None</em><a class="headerlink" href="#polyadcirc.pyGriddata.table_to_mesh_map.LenError.msg" title="Permalink to this definition">¶</a></dt>
-<dd><blockquote>
-<div>explanation of the error</div></blockquote>
-</dd></dl>
-
 </dd></dl>
 
 <dl class="function">
 <dt id="polyadcirc.pyGriddata.table_to_mesh_map.add_dict">
 <code class="descclassname">polyadcirc.pyGriddata.table_to_mesh_map.</code><code class="descname">add_dict</code><span class="sig-paren">(</span><em>dict_list</em>, <em>weights</em><span class="sig-paren">)</span><a class="headerlink" href="#polyadcirc.pyGriddata.table_to_mesh_map.add_dict" title="Permalink to this definition">¶</a></dt>
-<dd><p>Adds a list of <a href="#id8"><span class="problematic" id="id9">``</span></a>dict``s together.</p>
+<dd><p>Adds a list of <code class="docutils literal"><span class="pre">dict</span></code> together.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>dict_list</strong> &#8211; list of dicts</li>
-<li><strong>weights</strong> (<em>list()</em>) &#8211; list of weights</li>
+<li><strong>weights</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#list" title="(in Python v2.7)"><em>list</em></a>) &#8211; list of weights</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">dict</p>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><a class="reference external" href="https://docs.python.org/2.7/library/stdtypes.html#dict" title="(in Python v2.7)">dict</a></p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">a dict[k] = weights[0]*dict_list[0] + ... +
-weights[-1]*dict_list[-1]</p>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">a <code class="docutils literal"><span class="pre">dict[k]</span> <span class="pre">=</span> <span class="pre">weights[0]*dict_list[0]</span> <span class="pre">+</span> <span class="pre">...</span> <span class="pre">+</span> <span class="pre">weights[-1]*dict_list[-1]</span></code></p>
 </td>
 </tr>
 </tbody>
@@ -1147,21 +1073,21 @@ weights[-1]*dict_list[-1]</p>
 <dl class="function">
 <dt id="polyadcirc.pyGriddata.table_to_mesh_map.add_dict_pair">
 <code class="descclassname">polyadcirc.pyGriddata.table_to_mesh_map.</code><code class="descname">add_dict_pair</code><span class="sig-paren">(</span><em>dict1</em>, <em>dict2</em><span class="sig-paren">)</span><a class="headerlink" href="#polyadcirc.pyGriddata.table_to_mesh_map.add_dict_pair" title="Permalink to this definition">¶</a></dt>
-<dd><p>Adds two <a href="#id10"><span class="problematic" id="id11">``</span></a>dict``s together.</p>
+<dd><p>Adds two <code class="docutils literal"><span class="pre">dict</span></code> together.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>dict1</strong> (<em>dict</em>) &#8211; first dict</li>
-<li><strong>dict2</strong> (<em>dict</em>) &#8211; second dict</li>
+<li><strong>dict1</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/stdtypes.html#dict" title="(in Python v2.7)"><em>dict</em></a>) &#8211; first dict</li>
+<li><strong>dict2</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/stdtypes.html#dict" title="(in Python v2.7)"><em>dict</em></a>) &#8211; second dict</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">dict</p>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><a class="reference external" href="https://docs.python.org/2.7/library/stdtypes.html#dict" title="(in Python v2.7)">dict</a></p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">a dict[k] = dict1[k] + dict2[k]</p>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">a <code class="docutils literal"><span class="pre">dict[k]</span> <span class="pre">=</span> <span class="pre">dict1[k]</span> <span class="pre">+</span> <span class="pre">dict2[k]</span></code></p>
 </td>
 </tr>
 </tbody>
@@ -1179,8 +1105,8 @@ are set to the <code class="docutils literal"><span class="pre">default_value</s
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>weights</strong> (<code class="xref py py-class docutils literal"><span class="pre">numpy.array</span></code>) &#8211; array of size (num_of_basis_vec, 1)</li>
-<li><strong>vectors</strong> (list of dicts OR <code class="xref py py-class docutils literal"><span class="pre">numpy.array</span></code> of size (node_num,
+<li><strong>weights</strong> (<a class="reference external" href="http://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.10)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a>) &#8211; array of size (num_of_basis_vec, 1)</li>
+<li><strong>vectors</strong> (list of dicts OR <a class="reference external" href="http://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.10)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a> of size (node_num,
 num_of_basis_vec)) &#8211; basis vectors</li>
 </ul>
 </td>
@@ -1203,8 +1129,8 @@ each basis vector array.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>weights</strong> (<code class="xref py py-class docutils literal"><span class="pre">numpy.array</span></code>) &#8211; array of size (num_of_basis_vec, 1)</li>
-<li><strong>array</strong> (<code class="xref py py-class docutils literal"><span class="pre">numpy.array</span></code> of size (node_num, num_of_basis_vec)) &#8211; array of basis vectors</li>
+<li><strong>weights</strong> (<a class="reference external" href="http://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.10)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a>) &#8211; array of size (num_of_basis_vec, 1)</li>
+<li><strong>array</strong> (<a class="reference external" href="http://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.10)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a> of size (node_num, num_of_basis_vec)) &#8211; array of basis vectors</li>
 </ul>
 </td>
 </tr>
@@ -1226,13 +1152,13 @@ that are below <code class="docutils literal"><span class="pre">TOL</span></code
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>mann_dict</strong> (<em>dict</em>) &#8211; a dictionary created from a <code class="docutils literal"><span class="pre">fort.13</span></code> formatted
+<li><strong>mann_dict</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/stdtypes.html#dict" title="(in Python v2.7)"><em>dict</em></a>) &#8211; a dictionary created from a <code class="docutils literal"><span class="pre">fort.13</span></code> formatted
 file or a dictionary of Manning&#8217;s n values</li>
 <li><strong>TOL</strong> (<em>double</em>) &#8211; Tolerance close to zero, default is 1e-7</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">dict()</p>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><a class="reference external" href="https://docs.python.org/2.7/library/stdtypes.html#dict" title="(in Python v2.7)">dict</a></p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">basis vector of values</p>
@@ -1253,7 +1179,7 @@ file or a dictionary of Manning&#8217;s n values</li>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>basis_dir</strong> (<em>string</em>) &#8211; the path to directory containing the
+<li><strong>basis_dir</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; the path to directory containing the
 <code class="docutils literal"><span class="pre">landuse_##</span></code> folders</li>
 <li><strong>TOL</strong> (<em>double</em>) &#8211; Tolerance close to zero, default is 1e-7</li>
 </ul>
@@ -1276,13 +1202,13 @@ default node.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>domain</strong> (<a class="reference internal" href="polyadcirc.run_framework.html#module-polyadcirc.run_framework.domain" title="polyadcirc.run_framework.domain"><code class="xref py py-class docutils literal"><span class="pre">domain</span></code></a>) &#8211; a computational domain for a physical domain</li>
-<li><strong>mann_dict</strong> (<em>dict</em>) &#8211; a dictionary created from a <code class="docutils literal"><span class="pre">fort.13</span></code> formatted
+<li><strong>mann_dict</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/stdtypes.html#dict" title="(in Python v2.7)"><em>dict</em></a>) &#8211; a dictionary created from a <code class="docutils literal"><span class="pre">fort.13</span></code> formatted
 file or a dictionary of Manning&#8217;s n values</li>
-<li><strong>vectors</strong> (<em>dict()</em>) &#8211; basis vectors</li>
+<li><strong>vectors</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/stdtypes.html#dict" title="(in Python v2.7)"><em>dict</em></a>) &#8211; basis vectors</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">dict()</p>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><a class="reference external" href="https://docs.python.org/2.7/library/stdtypes.html#dict" title="(in Python v2.7)">dict</a></p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">basis vector of values</p>
@@ -1305,13 +1231,13 @@ default nodes are untouched. This basis vector can now be used to create a
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>domain</strong> (<a class="reference internal" href="polyadcirc.run_framework.html#module-polyadcirc.run_framework.domain" title="polyadcirc.run_framework.domain"><code class="xref py py-class docutils literal"><span class="pre">domain</span></code></a>) &#8211; a computational domain for a physical domain</li>
-<li><strong>shelf_bathymetry</strong> (<code class="xref py py-class docutils literal"><span class="pre">numpy.array</span></code>) &#8211; the bathymetric limits of the continental shelf
+<li><strong>shelf_bathymetry</strong> (<a class="reference external" href="http://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.10)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a>) &#8211; the bathymetric limits of the continental shelf
 [min, max]</li>
-<li><strong>vectors</strong> (<em>dict()</em>) &#8211; basis vectors</li>
+<li><strong>vectors</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/stdtypes.html#dict" title="(in Python v2.7)"><em>dict</em></a>) &#8211; basis vectors</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">dict()</p>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><a class="reference external" href="https://docs.python.org/2.7/library/stdtypes.html#dict" title="(in Python v2.7)">dict</a></p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">basis vector that represents the continental shelf</p>
@@ -1332,11 +1258,11 @@ and the corresponding percentages of those land classification types.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>domain</strong> (<a class="reference internal" href="polyadcirc.run_framework.html#module-polyadcirc.run_framework.domain" title="polyadcirc.run_framework.domain"><code class="xref py py-class docutils literal"><span class="pre">domain</span></code></a>) &#8211; a computational domain for a physical domain</li>
-<li><strong>vectors</strong> (<em>list</em>) &#8211; basis vectors</li>
+<li><strong>vectors</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#list" title="(in Python v2.7)"><em>list</em></a>) &#8211; basis vectors</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></p>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><a class="reference external" href="http://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.10)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a></p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">sorted list of ranking, land classification number, and
@@ -1351,7 +1277,7 @@ percentage of land classification type present as a (len, 3) array</p>
 <dt id="polyadcirc.pyGriddata.table_to_mesh_map.dict_to_array">
 <code class="descclassname">polyadcirc.pyGriddata.table_to_mesh_map.</code><code class="descname">dict_to_array</code><span class="sig-paren">(</span><em>data</em>, <em>default_value</em>, <em>node_num</em><span class="sig-paren">)</span><a class="headerlink" href="#polyadcirc.pyGriddata.table_to_mesh_map.dict_to_array" title="Permalink to this definition">¶</a></dt>
 <dd><p>Given a dictonary, default_value, and number of nodes converts a dictornary
-to an array of size(node_num, 1) and fills in the missing entires with the
+to an array of size (node_num, 1) and fills in the missing entires with the
 default_value.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -1359,12 +1285,12 @@ default_value.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>data</strong> &#8211; dict</li>
-<li><strong>default_value</strong> (<em>float</em>) &#8211; default</li>
-<li><strong>node_num</strong> (<em>int</em>) &#8211; total number of nodes in the mesh</li>
+<li><strong>default_value</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; default</li>
+<li><strong>node_num</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; total number of nodes in the mesh</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><code class="xref py py-class docutils literal"><span class="pre">numpy.array</span></code></p>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><a class="reference external" href="http://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.10)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a></p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">array version of the dict</p>
@@ -1384,12 +1310,12 @@ this will need to be updated later..</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>path</strong> (<em>string</em>) &#8211; folder containing the landuse folders</li>
-<li><strong>node_num</strong> (<em>int</em>) &#8211; number of nodes in the mesh</li>
+<li><strong>path</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; folder containing the landuse folders</li>
+<li><strong>node_num</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; number of nodes in the mesh</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></p>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><a class="reference external" href="http://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.10)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a></p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">an array of size(node_num, num_basis_vec)</p>
@@ -1411,9 +1337,9 @@ currently assumes only 1 folder per landuse classification with the name
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>path</strong> (<em>string</em>) &#8211; folder containing the landuse folders</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>path</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; folder containing the landuse folders</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">list</td>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2.7/library/functions.html#list" title="(in Python v2.7)">list</a></td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">list of dicts for each landuse classification.</td>
 </tr>
@@ -1431,11 +1357,11 @@ currently assumes only 1 folder per landuse classification with the name
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>domain</strong> (<a class="reference internal" href="polyadcirc.run_framework.html#module-polyadcirc.run_framework.domain" title="polyadcirc.run_framework.domain"><code class="xref py py-class docutils literal"><span class="pre">domain</span></code></a>) &#8211; a computational domain for a physical domain</li>
-<li><strong>vectors</strong> (<em>dict()</em>) &#8211; basis vectors</li>
+<li><strong>vectors</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/stdtypes.html#dict" title="(in Python v2.7)"><em>dict</em></a>) &#8211; basis vectors</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">list()</p>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><a class="reference external" href="https://docs.python.org/2.7/library/functions.html#list" title="(in Python v2.7)">list</a></p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">list of default nodes</p>
@@ -1463,16 +1389,16 @@ a new list of land classification vectors with:</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>mann_dict</strong> (<em>dict</em>) &#8211; a dictionary created from a <code class="docutils literal"><span class="pre">fort.13</span></code> formatted
+<li><strong>mann_dict</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/stdtypes.html#dict" title="(in Python v2.7)"><em>dict</em></a>) &#8211; a dictionary created from a <code class="docutils literal"><span class="pre">fort.13</span></code> formatted
 file or a dictionary of Manning&#8217;s n values</li>
-<li><strong>factor</strong> (<em>float</em>) &#8211; the factor by which to divide the values in
+<li><strong>factor</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; the factor by which to divide the values in
 <code class="docutils literal"><span class="pre">mann_dict</span></code></li>
-<li><strong>land_class_num</strong> (<em>int</em>) &#8211; land classification to split and merge</li>
-<li><strong>vectors</strong> (<em>list</em>) &#8211; basis vectors</li>
+<li><strong>land_class_num</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; land classification to split and merge</li>
+<li><strong>vectors</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#list" title="(in Python v2.7)"><em>list</em></a>) &#8211; basis vectors</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">list</p>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><a class="reference external" href="https://docs.python.org/2.7/library/functions.html#list" title="(in Python v2.7)">list</a></p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">modified list of basis vectors</p>
@@ -1498,12 +1424,12 @@ classification. Returns a new list of land classification vectors with:</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>land_class_num</strong> (<em>int</em>) &#8211; land classification to split</li>
-<li><strong>vectors</strong> (<em>list</em>) &#8211; basis vectors</li>
+<li><strong>land_class_num</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; land classification to split</li>
+<li><strong>vectors</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#list" title="(in Python v2.7)"><em>list</em></a>) &#8211; basis vectors</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">list</p>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><a class="reference external" href="https://docs.python.org/2.7/library/functions.html#list" title="(in Python v2.7)">list</a></p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">modified list of basis vectors</p>
@@ -1514,9 +1440,9 @@ classification. Returns a new list of land classification vectors with:</p>
 </dd></dl>
 
 </div>
-<div class="section" id="module-contents">
-<h2>Module contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h2>
-<span class="target" id="module-polyadcirc.pyGriddata"></span><p>This package contains a set of modules mainly for the mapping of nodal data to
+<div class="section" id="module-polyadcirc.pyGriddata">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-polyadcirc.pyGriddata" title="Permalink to this headline">¶</a></h2>
+<p>This package contains a set of modules mainly for the mapping of nodal data to
 an <strong class="program">ADCIRC</strong> mesh using landuse data and the <strong class="program">Fortran90</strong>
 program <strong class="program">Griddata_v1.32.F90</strong>. <strong class="program">GridData</strong> is a
 <strong class="program">FORTRAN</strong> program originally developed by Seizo Tanaka (ST3) and
@@ -1529,7 +1455,6 @@ C.H.Lab., University of Notre Dame.</p>
 <li><a class="reference internal" href="#module-polyadcirc.pyGriddata.table_to_mesh_map" title="polyadcirc.pyGriddata.table_to_mesh_map"><code class="xref py py-mod docutils literal"><span class="pre">table_to_mesh_map</span></code></a></li>
 <li><a class="reference internal" href="#module-polyadcirc.pyGriddata.grid_management" title="polyadcirc.pyGriddata.grid_management"><code class="xref py py-mod docutils literal"><span class="pre">grid_management</span></code></a></li>
 <li><a class="reference internal" href="#module-polyadcirc.pyGriddata.manufacture_gap" title="polyadcirc.pyGriddata.manufacture_gap"><code class="xref py py-mod docutils literal"><span class="pre">manufacture_gap</span></code></a></li>
-<li><code class="xref py py-mod docutils literal"><span class="pre">sbatch_management</span></code></li>
 </ul>
 </div></blockquote>
 <p><a class="reference internal" href="#module-polyadcirc.pyGriddata.grid_management" title="polyadcirc.pyGriddata.grid_management"><code class="xref py py-mod docutils literal"><span class="pre">grid_management</span></code></a> prepares <code class="docutils literal"><span class="pre">*.table</span> <span class="pre">and</span>
@@ -1544,7 +1469,7 @@ averaging.</p>
 <strong class="program">Griddata_parallel.out</strong></li>
 <li><code class="docutils literal"><span class="pre">.asc</span></code> files</li>
 <li><code class="docutils literal"><span class="pre">*.14</span> <span class="pre">files</span></code></li>
-<li><cite>fort.13`</cite> file to use as a template for
+<li><code class="docutils literal"><span class="pre">fort.13</span></code> file to use as a template for
 <code class="xref py py-meth docutils literal"><span class="pre">convert()</span></code></li>
 </ul>
 </dd>
@@ -1564,13 +1489,22 @@ averaging.</p>
           </div>
           <footer>
   
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="polyadcirc.run_framework.html" class="btn btn-neutral float-right" title="polyadcirc.run_framework package">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="polyadcirc.pyADCIRC.html" class="btn btn-neutral" title="polyadcirc.pyADCIRC package"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
 
   <hr/>
 
   <div role="contentinfo">
     <p>
         &copy; Copyright 2013, Lindley Graham.
-      Last updated on Aug 31, 2015.
+      Last updated on Jan 21, 2016.
     </p>
   </div>
 

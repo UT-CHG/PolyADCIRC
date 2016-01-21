@@ -31,7 +31,7 @@
 
   
     <link rel="top" title="PolyADCIRC 0.2.0 documentation" href="index.html"/>
-        <link rel="next" title="Todo List" href="todo_list.html"/>
+        <link rel="next" title="Some References and Examples" href="references.html"/>
         <link rel="prev" title="“All” about land use and land classifications" href="landuse_stuff.html"/> 
 
   
@@ -96,9 +96,15 @@
 </li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Running with Subdomain ADCIRC</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#getting-the-subdomain-adcirc-code">Getting the Subdomain ADCIRC Code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#modifying-subdomain-adcirc">Modifying Subdomain ADCIRC</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#setting-up-the-subdomain-grid-dir">Setting up the Subdomain <code class="docutils literal"><span class="pre">grid_dir</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#setting-up-your-landuse-folders">Setting up your <code class="docutils literal"><span class="pre">landuse_##</span></code> folders</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#running-polyadcirc-with-subdomains">Running PolyADCIRC with Subdomains</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="references.html">Some References and Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">polyadcirc</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="polyadcirc.html">polyadcirc package</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="todo_list.html">Todo List</a></li>
@@ -138,7 +144,7 @@
           <div role="main" class="document">
             
   <div class="section" id="running-with-subdomain-adcirc">
-<h1>Running with Subdomain ADCIRC<a class="headerlink" href="#running-with-subdomain-adcirc" title="Permalink to this headline">¶</a></h1>
+<span id="subdomain"></span><h1>Running with Subdomain ADCIRC<a class="headerlink" href="#running-with-subdomain-adcirc" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="getting-the-subdomain-adcirc-code">
 <h2>Getting the Subdomain ADCIRC Code<a class="headerlink" href="#getting-the-subdomain-adcirc-code" title="Permalink to this headline">¶</a></h2>
 <p>This code extends the <strong class="program">PolyADCIRC</strong> framework to work with <strong class="program">Subdomain
@@ -158,15 +164,16 @@ need to be cloned into your <code class="docutils literal"><span class="pre">$WO
 </pre></div>
 </div>
 <p>If you would like a copy of <strong class="program">Subdomain ADCIRC</strong> it is availiable at
-<a href="#id1"><span class="problematic" id="id2">`SUbdomain Modeling in ADCIRC&lt;http://www4.ncsu.edu/~jwb/subdomain/&gt;`_</span></a>. They
-have a great graphical interface for the <a href="#id3"><span class="problematic" id="id4">`ADCIRC Subdomain Modeling
-Tool&lt;https://github.com/atdyer/SMT&gt;`_</span></a>.</p>
-<p>Make sure you are in the <code class="docutils literal"><span class="pre">subdomain</span></code> branch of the <code class="docutils literal"><span class="pre">PolyADCIRC</span></code> repo:</p>
-<div class="highlight-python"><div class="highlight"><pre>$ git checkout --track origin/subdomain
-</pre></div>
+<a class="reference external" href="http://www4.ncsu.edu/~jwb/subdomain/">Subdomain Modeling in ADCIRC</a>. They
+have a great graphical interface for the <a class="reference external" href="https://github.com/atdyer/SMT">ADCIRC Subdomain Modeling
+Tool</a>.</p>
 </div>
-<p>If you are using the <code class="docutils literal"><span class="pre">ADCIRC_landuse</span></code> repo as well make sure to checkout and
-switch to the subdomain branch.</p>
+<div class="section" id="modifying-subdomain-adcirc">
+<h2>Modifying Subdomain ADCIRC<a class="headerlink" href="#modifying-subdomain-adcirc" title="Permalink to this headline">¶</a></h2>
+<p>You will need to modify <strong class="program">Subdomain ADCIRC</strong> by making the <code class="docutils literal"><span class="pre">py</span></code>
+directory in the <strong class="program">Subdomain ADCIRC</strong> directory into an importable
+python package. This requires adding a <code class="docutils literal"><span class="pre">__init__.py</span></code> file and then either
+installing it as a Python package or adding it to your Python path.</p>
 </div>
 <div class="section" id="setting-up-the-subdomain-grid-dir">
 <h2>Setting up the Subdomain <code class="docutils literal"><span class="pre">grid_dir</span></code><a class="headerlink" href="#setting-up-the-subdomain-grid-dir" title="Permalink to this headline">¶</a></h2>
@@ -272,7 +279,7 @@ folders will need to be moved to the <code class="docutils literal"><span class=
 </div>
 <div class="section" id="running-polyadcirc-with-subdomains">
 <h2>Running PolyADCIRC with Subdomains<a class="headerlink" href="#running-polyadcirc-with-subdomains" title="Permalink to this headline">¶</a></h2>
-<p>Finally, update the directory paths in a copy of <span class="xref std std-ref">run-lonestar-test</span>. This
+<p>Finally, update the directory paths in a copy of <code class="docutils literal"><span class="pre">run-lonestar-test</span></code>. This
 file may be run with no other changes as all the necessary files for
 <strong class="program">Subdomain ADCIRC</strong> are now located in the <code class="docutils literal"><span class="pre">grid_dir</span></code>.</p>
 </div>
@@ -284,7 +291,7 @@ file may be run with no other changes as all the necessary files for
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="todo_list.html" class="btn btn-neutral float-right" title="Todo List">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="references.html" class="btn btn-neutral float-right" title="Some References and Examples">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="landuse_stuff.html" class="btn btn-neutral" title="“All” about land use and land classifications"><span class="fa fa-arrow-circle-left"></span> Previous</a>
@@ -297,7 +304,7 @@ file may be run with no other changes as all the necessary files for
   <div role="contentinfo">
     <p>
         &copy; Copyright 2013, Lindley Graham.
-      Last updated on Aug 31, 2015.
+      Last updated on Jan 21, 2016.
     </p>
   </div>
 
