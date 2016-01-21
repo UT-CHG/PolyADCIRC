@@ -9,7 +9,7 @@ except ImportError:
     from distutils.core import setup
 
 setup(name='PolyADCIRC',
-      version='0.2.0',
+      version='0.3.0',
       description='Parallel ADCIRC Multi-Simulation Framework',
       author='Lindley Graham',
       author_email='lichgraham@gmail.com',
