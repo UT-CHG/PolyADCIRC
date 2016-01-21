@@ -1,12 +1,14 @@
-# Lindley Graham 4/10/2013
+# Copyright (C) 2013 Lindley Graham
+
 """
 This module contains functions to pull data from a ``fort.61`` and the
 :class:`runSet` which controls the running of ADCIRC simulations within a set
 of processors allocated by the submission script
 """
+import glob, os, stat, subprocess, shutil 
+from distutils.spawn import find_executable
+import scipy.io as sio
 import numpy as np
-import glob, os, stat, subprocess, shutil
-import polyadcirc.pyADCIRC.fort13_management as f13
 import polyadcirc.pyADCIRC.fort15_management as f15
 from polyadcirc.pyADCIRC.basic import pickleable
 import polyadcirc.pyGriddata.table_to_mesh_map as tmm
@@ -15,7 +17,6 @@ import polyadcirc.pyADCIRC.plotADCIRC as plot
 import polyadcirc.pyADCIRC.prep_management as prep
 import polyadcirc.pyADCIRC.output as output
 import polyadcirc.run_framework.domain as dom
-import scipy.io as sio
 
 def loadmat(save_file, base_dir, grid_dir, save_dir, basis_dir):
     """
@@ -53,7 +54,7 @@ def loadmat(save_file, base_dir, grid_dir, save_dir, basis_dir):
     main_run.nts_data = {}
 
     # load the data from at *.mat file
-    mdat = sio.loadmat(save_dir+'/'+save_file)
+    mdat = sio.loadmat(os.path.join(save_dir, save_file))
     if mdat.has_key('mann_pts'):
         mann_pts = mdat['mann_pts']
     else:
@@ -89,7 +90,7 @@ def fix_dry_data(ts_data, data):
 
     :param ts_data: time series data
     :param data: :class:`~polyadcirc.run_framework.domain`
-    :rtype: dict()
+    :rtype: dict
     :returns: ts_data
 
     """
@@ -107,7 +108,8 @@ def fix_dry_nodes(ts_data, data):
 
     :param ts_data: time series data
     :param data: :class:`~polyadcirc.run_framework.domain`
-    :rtype: dict()
+    
+    :rtype: dict
     :returns: ts_data
 
     """
@@ -125,7 +127,8 @@ def fix_dry_nodes_nts(nts_data, data):
 
     :param nts_data: non time series data
     :param data: :class:`~polyadcirc.run_framework.domain`
-    :rtype: dict()
+    
+    :rtype: dict
     :returns: nts_data
 
     """
@@ -142,7 +145,8 @@ def convert_to_hours(time_obs):
     Converts ``time_obs`` from seconds to hours
 
     :param time_obs: observation times in seconds
-    :rtype: dict()
+    
+    :rtype: dict
     :returns: time_obs
 
     """
@@ -155,7 +159,8 @@ def convert_to_days(time_obs):
     Converts ``time_obs`` from seconds to days
 
     :param time_obs: observation times in seconds
-    :rtype: dict()
+    
+    :rtype: dict
     :returns: time_obs
 
     """
@@ -169,11 +174,13 @@ def convert_to_percent(nts_data, data):
 
     :param nts_data: non-time-series data
     :param data: :class:`~polyadcirc.run_framework.domain`
-    :rtype: dict()
+    
+    :rtype: dict
     :returns: nts_data
 
     """
-    nts_data['tinun63'] = nts_data['tinun63'] / (60.0 * 60.0 * 24.0 * data.time.rnday)
+    nts_data['tinun63'] = nts_data['tinun63'] / (60.0 * 60.0 * 24.0 * \
+            data.time.rnday)
 
 def concatenate(run_data1, run_data2):
     """
@@ -182,7 +189,8 @@ def concatenate(run_data1, run_data2):
     :class:`~polyadcirc.run_framework.random_manningsn.runSet` (``other_run``)
     and points from both runs
 
-    To combine several ``run_data``s use::
+    To combine several ``run_data`` use::
+        
         run_list = [run1, run2, run3]
         points_list = [points1, points2, points3]
         run_data_list = zip(run_list, points_list)
@@ -190,10 +198,11 @@ def concatenate(run_data1, run_data2):
 
     :param run_data1: (runSet for run1, sample points for run1)
     :type tuple: (:class:`~polyadcirc.run_framework.random_manningsn.runSet`,
-        np.array)
+        :class:`numpy.ndarray`)
     :param run_data2: (runSet for run2, sample points for run2)
     :type tuple: (:class:`~polyadcirc.run_framework.random_manningsn.runSet`,
-        np.array)
+        :class:`numpy.ndarray`)
+    
     :returns: (run_data, points)
     :rtype: tuple
 
@@ -237,6 +246,7 @@ class runSet(pickleable):
     num_of_parallel_runs
         size of batch of jobs to be submitted to queue
     script_name
+        name of the bash script
     nts_data
         non timeseries data
     ts_data
@@ -250,19 +260,19 @@ class runSet(pickleable):
         """
         Initialization
         """
-        #: string, directory containing ``fort.14``, ``fort.15``, and
+        #: str, directory containing ``fort.14``, ``fort.15``, and
         #  ``fort.22*`` 
         self.grid_dir = grid_dir
         self.save_dir = save_dir
         """
-        string, directory where ``RF_directory_*`` are saved, and
+        str, directory where ``RF_directory_*`` are saved, and
         where ``fort.13`` is located
         """
         if os.path.exists(save_dir) == False:
             os.mkdir(save_dir)
-            fort13_file = save_dir.rpartition('/')[0]+'/fort.13'
+            fort13_file = os.path.join(save_dir.rpartition('/')[0], 'fort.13')
             copy(fort13_file, save_dir)
-        #: string, directory where ``landuse_*`` folders are located
+        #: str, directory where ``landuse_*`` folders are located
         self.basis_dir = basis_dir
         if base_dir:
             self.base_dir = base_dir
@@ -275,31 +285,34 @@ class runSet(pickleable):
         self.prep_dir = basis_dir.rpartition('/')[0]
         #: int, size of batch of jobs to be submitted to queue
         self.num_of_parallel_runs = num_of_parallel_runs
-        #: dict() of :class:`np.ndarray`, timeseries data
+        #: dict of :class:`numpy.ndarray`, timeseries data
         self.ts_data = None
-        #: dict() of :class:`np.ndarray`, non-timeseries data
+        #: dict of :class:`numpy.ndarray`, non-timeseries data
         self.nts_data = None
-        #: list(), list of ``RF_directory_*/`` names
+        #: list, list of ``RF_directory_*/`` names
         self.rf_dirs = None
-        #: dict() of :class:`np.array`, time in (s) of observations
+        #: dict of :class:`numpy.ndarray`, time in (s) of observations
         self.time_obs = None
         if script_name:
-            #: string, name of the batch bash script
+            #: str, name of the batch bash script
             self.script_name = script_name
         else:
             self.script_name = "run_job_batch.sh"
         super(runSet, self).__init__()
 
-    def initialize_random_field_directories(self, num_procs=12):
+    def initialize_random_field_directories(self, num_procs=12, prepRF=True):
         """
         Make directories for parallel funs of random fields
-
-        :rtype: list()
+        
+        :param int num_procs: number of processes per padcirc run
+        :param bool prep: flag wether or not to run adcprep
+        
+        :rtype: list
         :returns: list of paths to ``RF_directory_*``
 
         """
         # Check to see if some of the directories already exist
-        rf_dirs = glob.glob(self.save_dir+'/RF_directory_*')
+        rf_dirs = glob.glob(os.path.join(self.save_dir, 'RF_directory_*'))
         num_dir = len(rf_dirs)
         # set up all rf_dirs
         if num_dir >= self.num_of_parallel_runs:
@@ -307,7 +320,8 @@ class runSet(pickleable):
                 self.setup_rfdir(path, num_procs)
         elif num_dir < self.num_of_parallel_runs:
             for i in xrange(num_dir, self.num_of_parallel_runs):
-                rf_dirs.append(self.save_dir+'/RF_directory_'+str(i+1))
+                rf_dirs.append(os.path.join(self.save_dir, 
+                                            'RF_directory_'+str(i+1)))
                 self.setup_rfdir(rf_dirs[i], num_procs)
         self.rf_dirs = rf_dirs
         #PARALLEL: create file containing the list of rf_dirs
@@ -315,9 +329,58 @@ class runSet(pickleable):
         self.write_prep_script(1)
         self.write_prep_script(2)
         self.write_prep_script(5)
-        subprocess.call(['./prep_1.sh'], cwd=self.save_dir)
-        subprocess.call(['./prep_2.sh'], cwd=self.save_dir)
+        if prepRF:
+            subprocess.call(['./prep_1.sh'], cwd=self.save_dir)
+            subprocess.call(['./prep_2.sh'], cwd=self.save_dir)
+        else:
+            self.link_random_field_directories()
         return rf_dirs
+
+    def link_random_field_directories(self):
+        """
+        Assumes that the pre-preped ``RF_directory`` is ``RF_directory_1``.
+        In each of the ``RF_directory_*`` create the ``PE****`` folders copy
+        over the ``fort.13`` and then link the ``fort.019``, ``fort.18``,
+        ``fort.15``, fort.14`` into the ``PE****`` folder. Also link
+        ``metis_graph.txt`` and ``partmesh.txt`` into the ``RF_directory``.
+        
+        :param int num_procs: number of processes per padcirc run
+        """
+        # get a list of all RF_dirs
+        rf_dirs = glob.glob(os.path.join(self.save_dir, 'RF_directory_*'))
+        link_rf_files = ['metis_graph.txt', 'partmesh.txt']
+        # remove the first RF_dir from the list and save the name as a vairbale
+        prime_rf_dir = os.path.join(self.save_dir, 'RF_directory_1')
+        rf_dirs.remove(prime_rf_dir)
+        # create lists of PE directories and files to link
+        PE_dirs = glob.glob(os.path.join(prime_rf_dir, 'PE*'))
+        link_inputs = ['fort.019', 'fort.18', 'fort.15', 'fort.14']
+        if not os.path.exists(os.path.join(prime_rf_dir, 'fort.019')):
+            link_inputs.remove('fort.019')
+
+        for rf_dir in rf_dirs:
+            # link rf files
+            for rf_file in link_rf_files:
+                if os.path.exists(os.path.join(rf_dir, rf_file)):
+                    os.remove(os.path.join(rf_dir, rf_file))
+                os.symlink(os.path.join(prime_rf_dir, rf_file),
+                           os.path.join(rf_dir, rf_file))
+            for PE_dir in PE_dirs:
+                # create the PE* directories
+                my_PE_dir = os.path.join(rf_dir, os.path.basename(PE_dir))
+                if not os.path.exists(my_PE_dir):
+                    mkdir(my_PE_dir)
+                # link files into the PE* directories
+                for l_input in link_inputs:
+                    if os.path.exists(os.path.join(my_PE_dir, l_input)):
+                        os.remove(os.path.join(my_PE_dir, l_input))
+                    os.symlink(os.path.join(PE_dir, l_input),
+                               os.path.join(my_PE_dir, l_input))
+                # copy fort.13 into the PE* directories
+                if os.path.exists(os.path.join(my_PE_dir, 'fort.13')):
+                    os.remove(os.path.join(my_PE_dir, 'fort.13'))
+                shutil.copy(os.path.join(PE_dir, 'fort.13'),
+                            os.path.join(my_PE_dir, 'fort.13'))
 
     def remove_random_field_directories(self):
         """
@@ -325,7 +388,7 @@ class runSet(pickleable):
 
         """
         # Check to see if some of the directories already exist
-        rf_dirs = glob.glob(self.save_dir+'/RF_directory_*')
+        rf_dirs = glob.glob(os.path.join(self.save_dir, 'RF_directory_*'))
         # remove all rf_dirs
         for rf_dir in rf_dirs:
             shutil.rmtree(rf_dir)
@@ -333,31 +396,42 @@ class runSet(pickleable):
     def setup_rfdir(self, path, num_procs):
         """
         Creates the directory path and copies required files from
-        ``self.base_dir`` into path:type path: string
-
-        :param path: folder_name
-        :param num_procs: number of processors per :program:`ADCIRC` run
+        ``self.base_dir`` into 
+        
+        :param string path: folder_name
+        :param int num_procs: number of processors per :program:`ADCIRC` run
 
         """
         mkdir(path)
-        copy(self.save_dir+'/fort.13', path)
+        copy(os.path.join(self.save_dir, 'fort.13'), path)
         # crete sybolic links from fort.* files to path
-        inputs1 = glob.glob(self.grid_dir+'/fort.1*')
-        inputs2 = glob.glob(self.grid_dir+'/fort.2*')
-        inputs0 = glob.glob(self.grid_dir+'/fort.01*')
+        inputs1 = glob.glob(os.path.join(self.grid_dir, 'fort.1*'))
+        inputs2 = glob.glob(os.path.join(self.grid_dir, 'fort.2*'))
+        inputs0 = glob.glob(os.path.join(self.grid_dir, 'fort.01*'))
         inputs = inputs0 + inputs1 + inputs2
-        if self.grid_dir+'/fort.13' in inputs:
-            inputs.remove(self.grid_dir+'/fort.13')
-        if not self.grid_dir+'/fort.019' in inputs:
-            if self.grid_dir+'/fort.015' in inputs:
-                inputs.remove(self.grid_dir+'/fort.015')
+        if os.path.join(self.grid_dir, 'fort.13') in inputs:
+            inputs.remove(os.path.join(self.grid_dir, 'fort.13'))
+        if not os.path.join(self.grid_dir, 'fort.019') in inputs:
+            if os.path.join(self.grid_dir, 'fort.015') in inputs:
+                inputs.remove(os.path.join(self.grid_dir, 'fort.015'))
+        else:
+            sub_files = ['bv.nodes', 'py.140', 'py.141']
+            sub_files = [os.path.join(self.grid_dir, sf) for sf in sub_files]
+            inputs.extend(sub_files)
         for fid in inputs:
-            if os.path.exists(path+'/'+fid.rpartition('/')[-1]):
-                os.remove(path+'/'+fid.rpartition('/')[-1])
-            os.symlink(fid, path+'/'+fid.rpartition('/')[-1])
-            #copy(fid, path+'/'+fid.rpartition('/')[-1])
-        if not os.path.exists(path+'/adcprep'):
-            os.symlink(self.base_dir+'/adcprep', path+'/adcprep')
+            rf_fid = os.path.join(path, fid.rpartition('/')[-1])
+            if os.path.exists(rf_fid):
+                if os.path.islink(rf_fid):
+                    os.unlink(rf_fid)
+                else:
+                    os.remove(rf_fid)
+            os.symlink(fid, rf_fid)
+        if not os.path.exists(os.path.join(path, 'padcirc')):
+            os.symlink(os.path.join(self.base_dir, 'padcirc'), 
+                       os.path.join(path, 'padcirc'))       
+        if not os.path.exists(os.path.join(path, 'adcprep')):
+            os.symlink(os.path.join(self.base_dir, 'adcprep'),
+                       os.path.join(path, 'adcprep'))
         prep.write_1(path, num_procs)
         prep.write_2(path, num_procs)
         prep.write_5(path, num_procs)
@@ -365,31 +439,76 @@ class runSet(pickleable):
     def write_run_script(self, num_procs, num_jobs, procs_pnode, TpN,
                          screenout=True, num_writers=None):
         """
-        Creats a bash script called run_job_batch.sh
+        Creates a bash script called ``self.script_name`` in ``self.base_dir``
 
         :type num_procs: int
         :param num_procs: number of processors per job
         :type num_jobs: int
         :param num_jobs: number of jobs to run
         :param int procs_pnode: number of processors per node
-        :param boolean screenout: flag (True --  write ``ADCIRC`` output to
+        :param bool screenout: flag (True --  write ``ADCIRC`` output to
             screen, False -- write ``ADCIRC`` output to temp file)
         :param int num_writers: number of MPI processes to dedicate soley to
             the task of writing ascii files
         :param int TpN: number of tasks (cores to use) per node (wayness)
-        :rtype: string
+        
+        :rtype: string 
+        :returns: name of bash script for running a batch of jobs within our
+            processor allotment
+
+        """
+        if find_executable('ibrun'):
+            return self.write_run_script_ibrun(num_procs, num_jobs,
+                                               procs_pnode, TpN, screenout,
+                                               num_writers) 
+        else:
+            return self.write_run_script_noibrun(num_procs, num_jobs,
+                                                 procs_pnode, TpN, screenout,
+                                                 num_writers)
+
+    def write_run_script_noibrun(self, num_procs, num_jobs, procs_pnode, TpN,
+                                 screenout=True, num_writers=None):
+        """
+        MPI VERSION 1.4.1 for EUCLID with the modules needed to run ADCIRC
+
+        Creates a bash script called ``self.script_name`` in ``self.base_dir``
+        and a set of rankfiles named ``rankfile_n`` to run multiple
+        non-interacting parallel programs in parallel.
+
+        :type num_procs: int
+        :param num_procs: number of processes per job
+        :type num_jobs: int
+        :param num_jobs: number of jobs to run
+        :param int procs_pnode: number of processors per node
+        :param bool screenout: flag (True --  write ``ADCIRC`` output to
+            screen, False -- write ``ADCIRC`` output to temp file)
+        :param int num_writers: number of MPI processes to dedicate soley to
+            the task of writing ascii files
+        :param int TpN: number of tasks (processors to use) per node (wayness)
+        
+        :rtype: str
         :returns: name of bash script for running a batch of jobs within our
             processor allotment
 
         """
         tmp_file = self.script_name.partition('.')[0]+'.tmp'
-        with open(self.base_dir+'/'+self.script_name, 'w') as f:
-            f.write('#!/bin/bash\n')
+        #num_nodes = int(math.ceil(num_procs*num_jobs/float(TpN)))
+        with open(os.path.join(self.base_dir, self.script_name), 'w') as f:
+            #f.write('#!/bin/bash\n')
             # change i to 2*i or something like that to no use all of the
             # processors on a node?
             for i in xrange(num_jobs):
-                line = 'ibrun -n {:d} -o {:d} '.format(num_procs,
-                        num_procs*i*(procs_pnode/TpN))
+                # write the bash file containing mpi commands
+                #line = 'ibrun -n {:d} -o {:d} '.format(num_procs,
+                #        num_procs*i*(procs_pnode/TpN))
+                line = 'mpirun -f $TMP/machines -binding user:'
+                # comma separated list of ranks w/o spaces
+                for j in xrange(num_procs-1):
+                    line += str(j+i*num_procs)+','
+                line += str((i+1)*num_procs-1)+' '
+                if TpN != procs_pnode:
+                    line += '-ranks-per-proc {:d} '.format(TpN)
+                line += '-np {:d} '.format(num_procs)
                 line += './padcirc -I {0} -O {0} '.format(self.rf_dirs[i])
                 if num_writers:
                     line += '-W '+str(num_writers)+' '
@@ -398,8 +517,120 @@ class runSet(pickleable):
                 line += ' &\n'
                 f.write(line)
             f.write('wait\n')
-        curr_stat = os.stat(self.base_dir+'/'+self.script_name)
-        os.chmod(self.base_dir+'/'+self.script_name,
+        curr_stat = os.stat(os.path.join(self.base_dir, self.script_name))
+        os.chmod(os.path.join(self.base_dir, self.script_name),
+                 curr_stat.st_mode | stat.S_IXUSR)
+        return self.script_name
+
+    def write_run_script_noibrun_MPI19(self, num_procs, num_jobs, procs_pnode,
+                                       TpN, screenout=True, num_writers=None):
+        """
+        Creates a bash script called ``self.script_name`` in ``self.base_dir``
+        and a set of rankfiles named ``rankfile_n`` to run multiple
+        non-interacting parallel programs in parallel.
+
+        :type num_procs: int
+        :param num_procs: number of processes per job
+        :type num_jobs: int
+        :param num_jobs: number of jobs to run
+        :param int procs_pnode: number of processors per node
+        :param bool screenout: flag (True --  write ``ADCIRC`` output to
+            screen, False -- write ``ADCIRC`` output to temp file)
+        :param int num_writers: number of MPI processes to dedicate soley to
+            the task of writing ascii files
+        :param int TpN: number of tasks (processors to use) per node (wayness)
+        
+        :rtype: string 
+        :returns: name of bash script for running a batch of jobs within our
+            processor allotment
+
+        """
+        tmp_file = self.script_name.partition('.')[0]+'.tmp'
+        #num_nodes = int(math.ceil(num_procs*num_jobs/float(TpN)))
+        with open(os.path.join(self.base_dir, self.script_name), 'w') as f:
+            #f.write('#!/bin/bash\n')
+            # change i to 2*i or something like that to no use all of the
+            # processors on a node?
+            for i in xrange(num_jobs):
+                # write the bash file containing mpi commands
+                #line = 'ibrun -n {:d} -o {:d} '.format(num_procs,
+                #        num_procs*i*(procs_pnode/TpN))
+                rankfile = '{}rankfile{:d}'.format(self.script_name.partition\
+                        ('.')[0], i)
+                line = 'mpirun -machinefile $TMP/machines -rf '
+                line += rankfile+' -np {:d} '.format(num_procs)
+                line += './padcirc -I {0} -O {0} '.format(self.rf_dirs[i])
+                if num_writers:
+                    line += '-W '+str(num_writers)+' '
+                if not screenout:
+                    line += '> '+tmp_file
+                line += ' &\n'
+                f.write(line)
+                # write the rankfile containing the bindings
+                with open(os.path.join(self.base_dir, rankfile), 'w') as frank:
+                    for j in xrange(num_procs):
+                        # rank, node_num, slot_nums
+                        if TpN == procs_pnode:
+                            line = 'rank {:d}=n+{:d} slot={:d}'.format(j,\
+                                    (i*num_procs+j)/procs_pnode,\
+                                    (i*num_procs+j)%procs_pnode)
+                        else:
+                            processors_per_process = procs_pnode/TpN
+                            line = 'rank {:d}=n+{:d} slot={:d}-{:d}'.format(j,\
+                                    (i*num_procs+j)/TpN,\
+                                    ((i*num_procs+j)*processors_per_process)\
+                                    %procs_pnode,\
+                                    ((i*num_procs+j)*processors_per_process)\
+                                    %procs_pnode+processors_per_process-1)
+                        if j < num_procs-1:
+                            line += '\n'
+                        frank.write(line)
+            f.write('wait\n')
+        curr_stat = os.stat(os.path.join(self.base_dir, self.script_name))
+        os.chmod(os.path.join(self.base_dir, self.script_name),
+                 curr_stat.st_mode | stat.S_IXUSR)
+        return self.script_name
+
+    
+    def write_run_script_ibrun(self, num_procs, num_jobs, procs_pnode, TpN,
+                               screenout=True, num_writers=None):
+        """
+        Creates a bash script called ``self.script_name`` in ``self.base_dir``
+
+        :type num_procs: int
+        :param num_procs: number of processors per job
+        :type num_jobs: int
+        :param num_jobs: number of jobs to run
+        :param int procs_pnode: number of processors per node
+        :param bool screenout: flag (True --  write ``ADCIRC`` output to
+            screen, False -- write ``ADCIRC`` output to temp file)
+        :param int num_writers: number of MPI processes to dedicate soley to
+            the task of writing ascii files
+        :param int TpN: number of tasks (cores to use) per node (wayness)
+        
+        :rtype: string 
+        :returns: name of bash script for running a batch of jobs within our
+            processor allotment
+
+        """
+        tmp_file = self.script_name.partition('.')[0]+'.tmp'
+        with open(os.path.join(self.base_dir, self.script_name), 'w') as f:
+            f.write('#!/bin/bash\n')
+            # change i to 2*i or something like that to no use all of the
+            # processors on a node?
+            for i in xrange(num_jobs):
+                line = 'ibrun -n {:d} -o {:d} '.format(num_procs,\
+                       num_procs*i*(procs_pnode/TpN))
+                line += './padcirc -I {0} -O {0} '.format(self.rf_dirs[i])
+                if num_writers:
+                    line += '-W '+str(num_writers)+' '
+                if not screenout:
+                    line += '> '+tmp_file
+                line += ' &\n'
+                f.write(line)
+            f.write('wait\n')
+        curr_stat = os.stat(os.path.join(self.base_dir, self.script_name))
+        os.chmod(os.path.join(self.base_dir, self.script_name),
                  curr_stat.st_mode | stat.S_IXUSR)
         return self.script_name
 
@@ -409,14 +640,15 @@ class runSet(pickleable):
 
         :param int n: n for ``in.prepn`` input to ADCPREP
         :param int num_jobs: number of jobs to run
-        :param boolean screenout: flag (True --  write ``ADCPREP`` output to
+        :param bool screenout: flag (True --  write ``ADCPREP`` output to
             screen, False -- write ``ADCPREP`` output to ``prep_o.txt`` file)
-        :rtype: string
+        
+        :rtype: string 
         :returns: name of bash script for prepping a batch of jobs within our
             processor allotment
 
         """
-        with open(self.save_dir+'/prep_'+str(n)+'.sh', 'w') as f:
+        with open(os.path.join(self.save_dir, 'prep_'+str(n)+'.sh'), 'w') as f:
             f.write('#!/bin/bash\n')
             line = "parallel '(cd {} && ./adcprep < in.prep"+str(n)
             if not screenout:
@@ -424,10 +656,10 @@ class runSet(pickleable):
             line += ")' :::: dir_list\n"
             f.write(line)
             f.write("wait\n")
-        curr_stat = os.stat(self.save_dir+'/prep_'+str(n)+'.sh')
-        os.chmod(self.save_dir+'/prep_'+str(n)+'.sh',
+        curr_stat = os.stat(os.path.join(self.save_dir, 'prep_'+str(n)+'.sh'))
+        os.chmod(os.path.join(self.save_dir, 'prep_'+str(n)+'.sh'),
                  curr_stat.st_mode | stat.S_IXUSR)
-        return self.save_dir+'/prep_'+str(n)+'.sh'
+        return os.path.join(self.save_dir, 'prep_'+str(n)+'.sh')
 
     def update_dir_file(self, num_dirs):
         """
@@ -437,7 +669,7 @@ class runSet(pickleable):
         :param int num_dirs: number of RF_dirs to put in ``dir_list``
 
         """
-        with open(self.save_dir+'/dir_list', 'w') as f:
+        with open(os.path.join(self.save_dir, 'dir_list'), 'w') as f:
             for i in xrange(num_dirs-1):
                 f.write(self.rf_dirs[i]+'\n')
             f.write(self.rf_dirs[num_dirs-1])
@@ -447,17 +679,18 @@ class runSet(pickleable):
         Save matrices to a ``*.mat`` file for use by ``MATLAB BET`` code and
         :meth:`~polyadcirc.run_framework.random_manningsn.loadmat`
 
-        :param dict() mdict: dictonary of run data
+        :param dict mdict: dictonary of run data
         :param string save_file: file name
 
         """
-        sio.savemat(self.save_dir+'/'+save_file, mdict, do_compression=True)
+        sio.savemat(os.path.join(self.save_dir, save_file), mdict,
+                    do_compression=True)
 
     def update_mdict(self, mdict):
         """
         Set up references for ``mdict``
 
-        :param dict() mdict: dictonary of run data
+        :param dict mdict: dictonary of run data
 
         """
 
@@ -484,9 +717,10 @@ class runSet(pickleable):
         :param points1: sample points for ``self``
         :type points1: np.array
         :param points1: sample points for ``other_run``
-        :type points1: np.array
-        :returns: (self, points)
+        :type points1: :class:`numpy.ndarray``
+        
         :rtype: tuple
+        :returns: (self, points)
 
         """
 
@@ -495,37 +729,40 @@ class runSet(pickleable):
     def run_points(self, data, points, save_file, num_procs=12, procs_pnode=12,
                    ts_names=["fort.61"], nts_names=["maxele.63"],
                    screenout=True, cleanup_dirs=True, num_writers=None,
-                   TpN=12):
+                   TpN=None):
         """
         Runs :program:`ADCIRC` for all of the configurations specified by
         ``points`` and returns a dictonary of arrays containing data from
         output files
 
-         Reads in a default Manning's *n* value from self.save_dir and stores
-         it in data.manningsn_default
+        Reads in a default Manning's *n* value from ``self.save_dir`` and
+        stores it in ``data.manningsn_default``
+        
         :param data: :class:`~polyadcirc.run_framework.domain`
-        :type points: :class:`np.array` of size (``num_of_basis_vec``,
+        :type points: :class:`numpy.ndarray` of size (``num_of_basis_vec``,
             ``num_of_random_fields``)
         :param points: containts the weights to be used for each run
-        :type save_file: string
+        :type save_file: string 
         :param save_file: name of file to save ``station_data`` to
         :type num_procs: int or 12
         :param num_procs: number of processors per :program:`ADCIRC`
             simulation
         :param int procs_pnode: number of processors per node, 12 on lonestar,
             and 16 on stampede
-        :param list() ts_names: names of ADCIRC timeseries
+        :param list ts_names: names of ADCIRC timeseries
             output files to be recorded from each run
-        :param list() nts_names: names of ADCIRC non timeseries
+        :param list nts_names: names of ADCIRC non timeseries
             output files to be recorded from each run
-        :param boolean screenout: flag (True --  write ``ADCIRC`` output to
+        :param bool screenout: flag (True --  write ``ADCIRC`` output to
             screen, False -- write ``ADCIRC`` output to temp file
-        :param boolean cleanup_dirs: flag to delete all RF_dirs after run (True
+        :param bool cleanup_dirs: flag to delete all RF_dirs after run (True
             -- yes, False -- no)
         :param int num_writers: number of MPI processes to dedicate soley to
             the task of writing ascii files. This MUST be < num_procs
         :param int TpN: number of tasks (cores to use) per node (wayness)
-        :rtype: (:class:`np.array`, :class:`np.ndarray`, :class:`np.ndarray`)
+        
+        :rtype: (:class:`numpy.ndarray`, :class:`numpy.ndarray`,
+            :class:`numpy.ndarray`) 
         :returns: (``time_obs``, ``ts_data``, ``nts_data``)
 
         .. note:: Currently supports ADCIRC output files ``fort.6*``,
@@ -533,17 +770,22 @@ class runSet(pickleable):
                   (``fort.67``, ``fort.68``)
 
         """
+        if TpN is None:
+            TpN = procs_pnode
         # setup and save to shelf
         # set up saving
-        if glob.glob(self.save_dir+'/'+save_file):
-            os.remove(self.save_dir+'/'+save_file)
+        if glob.glob(os.path.join(self.save_dir, save_file)):
+            old_files = glob.glob(os.path.join(self.save_dir, 
+                                               "*"+save_file)) 
+            shutil.move(os.path.join(self.save_dir, save_file),
+                        os.path.join(self.save_dir, 
+                                     str(len(old_files))+save_file))
 
         # Save matricies to *.mat file for use by MATLAB or Python
         mdict = dict()
         mdict['mann_pts'] = points
         self.save(mdict, save_file)
 
-        #bv_array = tmm.get_basis_vec_array(self.basis_dir)
         bv_dict = tmm.get_basis_vectors(self.basis_dir)
 
         # Pre-allocate arrays for various data files
@@ -576,7 +818,7 @@ class runSet(pickleable):
         default = data.read_default(path=self.save_dir)
 
         for k in xrange(0, num_points, self.num_of_parallel_runs):
-            if k+self.num_of_parallel_runs >= num_points-1:
+            if k+self.num_of_parallel_runs >= num_points:
                 stop = num_points
                 step = stop-k
             else:
@@ -613,6 +855,11 @@ class runSet(pickleable):
             # Update and save
             self.update_mdict(mdict)
             self.save(mdict, save_file)
+            if num_points <= self.num_of_parallel_runs:
+                pass
+            elif (k+1)%(num_points/self.num_of_parallel_runs) == 0:
+                msg = str(k+1)+" of "+str(num_points)
+                print msg+" runs have been completed."
 
         # save data
         self.update_mdict(mdict)
@@ -624,59 +871,60 @@ class runSet(pickleable):
         return time_obs, ts_data, nts_data
 
     def make_plots(self, points, domain, save=True, show=False,
-                   bathymetry=False):
+                   bathymetry=False, ext='.eps', ics=2):
         """
         Plots ``mesh``, ``station_locations``, ``basis_functions``,
         ``random_fields``, ``mean_field``, ``station_data``, and
         save in save_dir/figs
 
-        .. todo:: this uses bv_array everywhere. I might want to change this
-                  later when I go to the nested mesh approach
+        """
+        mkdir(os.path.join(self.save_dir, 'figs'))
+        domain.get_Triangulation(self.save_dir, save, show, ext, ics)
+        domain.plot_bathymetry(self.save_dir, save, show, ext, ics)
+        domain.plot_station_locations(self.save_dir, bathymetry, save, show,
+                                      ext, ics)
+        bv_dict = tmm.get_basis_vectors(self.basis_dir)
+        self.plot_basis_functions(domain,
+                                  tmm.get_basis_vec_array(self.basis_dir), 
+                                  save, show, ext, ics)
+        self.plot_random_fields(domain, points, bv_dict, save, show, ext, ics)
+        self.plot_mean_field(domain, points, bv_dict, save, show, ext, ics)
+        self.plot_station_data(save, show, ext)
+
+    def plot_basis_functions(self, domain, bv_dict, save=True, show=False,
+                             ext='.eps', ics=2): 
+        """
+        See :meth:`~polsim.pyADCIRC.plotADCIRC.basis_functions`
 
         """
-        mkdir(self.save_dir+'/figs')
-        domain.get_Triangulation(self.save_dir, save, show)
-        domain.plot_bathymetry(self.save_dir, save, show)
-        domain.plot_station_locations(self.save_dir, bathymetry, save, show)
+        plot.basis_functions(domain, bv_dict, self.save_dir, save, show,
+                             ext=ext, ics=ics)
 
-        bv_array = tmm.get_basis_vec_array(self.basis_dir)
-
-        self.plot_basis_functions(domain, bv_array, save, show)
-        self.plot_random_fields(domain, points, bv_array, save, show)
-
-        self.plot_mean_field(domain, points, bv_array, save, show)
-        self.plot_station_data(save, show)
-
-    def plot_basis_functions(self, domain, bv_array, save=True, show=False):
-        """
-        See :meth:``~polsim.pyADCIRC.plotADCIRC.basis_functions`
-
-        """
-        plot.basis_functions(domain, bv_array, self.save_dir, save, show)
-
-    def plot_random_fields(self, domain, points, bv_array, save=True, show=
-                           False):
+    def plot_random_fields(self, domain, points, bv_dict, save=True, show=
+                           False, ext='.eps', ics=2):
         """
         See :meth:`~polsim.rnu_framework.plotADCIRC.random_fields`
 
         """
-        plot.random_fields(domain, points, bv_array, self.save_dir, save, show)
+        plot.random_fields(domain, points, bv_dict, self.save_dir, save, show,
+                           ext=ext, ics=ics)
 
-    def plot_mean_field(self, domain, points, bv_array, save=True, show=
-                        False):
+    def plot_mean_field(self, domain, points, bv_dict, save=True, show=
+                        False, ext='.eps', ics=2):
         """
         See :meth:`~polsim.rnu_framework.plotADCIRC.mean_field`
 
         """
-        plot.mean_field(domain, points, bv_array, self.save_dir, save, show)
+        plot.mean_field(domain, points, bv_dict, self.save_dir, save, show,
+                        ext=ext, ics=ics)
 
-    def plot_station_data(self, save=True, show=False):
+    def plot_station_data(self, save=True, show=False, ext='.eps'):
         """
         See :meth:`~polsim.rnu_framework.plotADCIRC.station_data`
 
         """
         plot.station_data(self.ts_data, self.time_obs, None, self.save_dir,
-                          save, show)
+                          save, show, ext=ext)
 
     def fix_dry_data(self, data):
         """

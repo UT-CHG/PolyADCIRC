@@ -1,3 +1,5 @@
+# Copyright (C) 2013 Lindley Graham
+
 """
 This package is a Python-based framework for running batches of parallel ADCIRC
 simulations with varying parameters (Manning's n and limited variable
@@ -21,4 +23,4 @@ This package contaings three subpackages
   
 
 """
-__all__ = ['pyADCIRC', 'run_framework', 'pyGriddata']
+__all__ = ['util', 'pyADCIRC', 'run_framework', 'pyGriddata']

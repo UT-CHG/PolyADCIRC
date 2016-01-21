@@ -1,15 +1,22 @@
 #!/usr/bin/env python
 
-from distutils.core import setup
+# Copyright (C) 2013 Lindley Graham
+
+
+try:
+  from setuptools import setup
+except ImportError:
+    from distutils.core import setup
 
 setup(name='PolyADCIRC',
-      version='0.1dev',
+      version='0.3.0',
       description='Parallel ADCIRC Multi-Simulation Framework',
       author='Lindley Graham',
-      author_email='lgraham@ices.utexas.edy',
-      url='https://github.com/lcgraham/PolyADCIRC',
+      author_email='lichgraham@gmail.com',
+      url='https://github.com/UT-CHG/PolyADCIRC',
       packages=['polyadcirc', 'polyadcirc.run_framework', 'polyadcirc.pyADCIRC',
       'polyadcirc.pyGriddata'],
-      license='Revised BSD License'
+      license='Revised BSD License',
+      install_requires=['matplotlib', 'scipy', 'numpy']
       )
 

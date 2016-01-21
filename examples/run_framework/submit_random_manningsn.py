@@ -11,4 +11,4 @@
 #$ -m be
 #$ -l h_rt=00:05:00
 
-python random_manningsn.py
+python run_lonestar_test.py

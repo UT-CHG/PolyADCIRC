@@ -1,10 +1,12 @@
-# Lindley Graham 4/3/2013
+# Copyright (C) 2013 Lindley Graham
+
 """
-fort14_management handles the reading/writing of fort.14 formatted files
+This module, :mod:`~polyadcirc.pyADCIRC.fort14_management` handles the
+reading/writing of ``fort.14`` formatted files.
 """
 
-import numpy as np
 import glob, os
+import numpy as np
 import polyadcirc.pyADCIRC.flag_fort14 as flag_fort14
 import polyadcirc.pyADCIRC.basic as basic
 
@@ -15,16 +17,17 @@ def clean(grid_object, folder_name=None):
 
     :param grid_object: :class:`~polyadcirc.pyGriddata.gridObject.gridInfo`
     :param string folder_name: folder to clean
-    :rtype: list()
-    :return: list of fort.14 files in ``folder_name``
+    :rtype: list
+    :return: list of ``fort.14`` files in ``folder_name``
 
     """
-    if folder_name == None:
+    if folder_name is None:
         folder_name = ''
         print 'Removing extra *.14 files in current directory...'
     else:
         print 'Removing extra *.14 files in '+folder_name+'...'
-    fort_14_files = glob.glob(folder_name+'/*'+grid_object.file_name[:-3]+'*.14')
+    fort_14_files = glob.glob(os.path.join(folder_name,\
+                    '*'+grid_object.file_name[:-3]+'*.14'))
     fort_14_files.sort()
     fort_14_files.reverse()
     for fid in fort_14_files[1:]:
@@ -61,15 +64,12 @@ def flag_go(grid, avg_scheme=2):
 def is_flagged(grid):
     """
     :param grid: :class:`gridInfo`
-    :rtype: boolean
+    :rtype: bool
     :returns: true if flagged_grid_file_name exists and false if it doesn't
         exist
 
     """
-    if glob.glob(grid.file_name):
-        return True
-    else:
-        return False
+    return bool(glob.glob(grid.file_name))
 
 def read_spatial_grid(data, path=None, make_domain_map=False):
     """ 
@@ -79,16 +79,16 @@ def read_spatial_grid(data, path=None, make_domain_map=False):
     :param data: python object to save the ``fort.14`` data to
     :type path: string or None
     :param path: path to the``fort.14`` fortmatted file
-    :type make_domain_map: boolean
+    :type make_domain_map: bool
     :param make_domain_map: flag for whether or not to make a node to element
                             map
     :returns: reference to data
 
     """
-    if path == None:
+    if path is None:
         path = os.getcwd()
 
-    file_name = path+'/fort.14'
+    file_name = os.path.join(path, 'fort.14')
 
     with open(file_name, 'r') as f:
         f.readline()
@@ -130,10 +130,10 @@ def read_spatial_grid_header(data, path=None):
     :returns: reference to data
 
     """
-    if path == None:
+    if path is None:
         path = os.getcwd()
 
-    file_name = path+'/fort.14'
+    file_name = os.path.join(path, 'fort.14')
 
     with open(file_name, 'r') as f:
         f.readline()
@@ -159,15 +159,15 @@ def update(data, bathymetry=None, path=None, file_name='fort.14'):
     :param string  file_name: file name
 
     """
-    if path == None:
+    if path is None:
         path = os.getcwd()
 
-    file_name = path+'/'+file_name
-    tmp = path+'/temp.14'
+    file_name = os.path.join(path, file_name)
+    tmp = os.path.join(path, 'temp.14')
 
     # this currrently uses the present fort.14 as a template for formatting
     # purposes
-    if bathymetry == None:
+    if bathymetry is None:
         bathymetry = data.array_bathymetry()
     
     # pylint: disable=C0103
@@ -177,7 +177,7 @@ def update(data, bathymetry=None, path=None, file_name='fort.14'):
         for i, v in data.node.iteritems():
             # pylint: disable=C0103
             fw.write('{:<7d} {:9.8E} {:9.8E} {:7.2f}\n'.format(i, v.x, v.y,
-                     bathymetry[i-1]))
+                                                               bathymetry[i-1]))
             f.readline()
         for line in f:
             fw.write(line)

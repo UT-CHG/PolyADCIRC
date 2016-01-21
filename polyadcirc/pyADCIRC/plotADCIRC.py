@@ -1,34 +1,40 @@
+# Copyright (C) 2013 Lindley Graham
+
 #pylint: disable=E1101, C0324
 """
 A set of functions for plotting data from :class:`runSet`
 """
 # import necessary modules
-import numpy as np
 import os
-import polyadcirc.pyGriddata.file_management as fm
-import polyadcirc.pyADCIRC.fort15_management as f15
+import numpy as np
 # import plotting modules
 import matplotlib.pyplot as plt
+plt.rc('text', usetex=True)
+plt.rc('font', family='serif')
 import matplotlib.tri as tri
 from matplotlib.collections import LineCollection
 from mpl_toolkits.axes_grid1 import make_axes_locatable
+import polyadcirc.pyGriddata.file_management as fm
+import polyadcirc.pyADCIRC.fort15_management as f15
+import polyadcirc.pyGriddata.table_to_mesh_map as tmm
 
 _stationmarkers = {'fort61':'bo', 'fort62':'go', 'fort71':'ro', 'fort72':'co',
                    'fort81':'yo', 'fort91':'ko'}
 
 def get_Triangulation(domain, path=None, save=True, show=False, ics=1,
-                      ext='.png'):
+                      ext='.png', title=False):
     """
     :param domain: :class:`~polyadcirc.run_framework.domain`
     :type path: string or None
     :param path: directory to store plots
-    :type save: boolean
+    :type save: bool
     :param save: flag for whether or not to save plots
-    :type show: boolean
+    :type show: bool
     :param show: flag for whether or not to show plots
     :param int ics: coordinate system (1 cartisian, 2 polar)
     :param string ext: file extesion
-    :returns: :class:`matplotlib.tri.Triangulation`
+    :rtype: :class:`matplotlib.tri.Triangulation`
+    :returns: triangulation of ``domain``
 
     """
 
@@ -37,41 +43,46 @@ def get_Triangulation(domain, path=None, save=True, show=False, ics=1,
     triangles = np.array([e-1 for e in domain.element.itervalues()])
     triangulation = tri.Triangulation(x, y, triangles)
     plt.figure()
-    if path == None:
+    if path is None:
         path = os.getcwd()
-    if not os.path.exists(path+'/figs'):
-        fm.mkdir(path+'/figs')
+    fig_folder = os.path.join(path, 'figs')
+    if not os.path.exists(fig_folder):
+        fm.mkdir(fig_folder)
     if save or show:
         plt.triplot(triangulation, 'g-')
-        plt.title('grid')
+        if title:
+            plt.title('grid')
         plt.gca().set_aspect('equal')
-        add_2d_axes_labels(ics)    
-        save_show(path+'/figs/grid', save, show, ext)
+        add_2d_axes_labels(ics=ics)    
+        save_show(os.path.join(fig_folder,'grid'), save, show, ext)
     domain.triangulation = triangulation
     return triangulation
 
 def bathymetry(domain, path=None, save=True, show=False, mesh = False,
-               contour = False, ics=1, ext='.png'):
+               contour = False, ics=1, ext='.png', title=False):
     """
     Given a domain, plot the bathymetry
 
     :param domain: :class:`~polyadcirc.run_framework.domain`
     :type path: string or None
     :param path: directory to store plots
-    :type save: boolean
+    :type save: bool
     :param save: flag for whether or not to save plots
-    :type show: boolean
+    :type show: bool
     :param show: flag for whether or not to show plots
-    :type mesh: boolean
+    :type mesh: bool
     :param mesh: flag for whether or not to show mesh
-    :param boolean contour: use :meth:`~np.pyplot.tripcolor` or
+    :param bool contour: use :meth:`~np.pyplot.tripcolor` or
         :meth:`~np.pyplot.tricontour`
     :param int ics: coordinate system (1 cartisian, 2 polar)
     :param string ext: file extesion
 
     """
     z = domain.array_bathymetry()
-    if path == None:
+    vmax = np.max(z)
+    vmin = np.min(z)
+    clim = (vmin, vmax)
+    if path is None:
         path = os.getcwd()
     plt.figure()
     if mesh:
@@ -81,52 +92,58 @@ def bathymetry(domain, path=None, save=True, show=False, mesh = False,
                       cmap=plt.cm.ocean)
     else:
         plt.tricontourf(domain.triangulation, z, cmap=plt.cm.ocean)
-    colorbar()
-    plt.title('bathymetry')
     plt.gca().set_aspect('equal')
-    add_2d_axes_labels(ics)    
-    save_show(path+'/figs/bathymetry', save, show, ext)
+    add_2d_axes_labels(ics=ics)    
+    if clim:
+        plt.clim(clim[0], clim[1])
+    if title:
+        plt.title('bathymetry')
+    colorbar()
+    save_show(os.path.join(path, 'figs', 'bathymetry'), save, show, ext)
 
 def station_locations(domain, path=None, bathy = False, save=True, 
-                      show=False, ics=1, ext='.png'):
+                      show=False, ics=1, ext='.png', station_markers=None):
     """
     Given a domain, plot the observation stations 
    
     :param domain: :class:`~polyadcirc.run_framework.domain`
     :type path: string or None
     :param path: directory to store plots
-    :type bathy: boolean
+    :type bathy: bool
     :param bathy: flat for whether or not to show bathymetry
-    :type save: boolean
+    :type save: bool
     :param save: flag for whether or not to save plots
-    :type show: boolean
+    :type show: bool
     :param show: flag for whether or not to show plots
     :param int ics: coordinate system (1 cartisian, 2 polar)
     :param string ext: file extesion
  
     """
     plt.figure()
-    if path == None:
+    if path is None:
         path = os.getcwd()
     if bathy:
-        z = np.array([n.bathy for n in domain.node.itervalues()])
+        z = np.array([n.bathymetry for n in domain.node.itervalues()])
         plt.tripcolor(domain.triangulation, z, shading='gouraud',
                       cmap=plt.cm.ocean)
         plt.gca().set_aspect('equal')
     else:
         plt.triplot(domain.triangulation, 'k-')
         plt.gca().set_aspect('equal')
+
+    if station_markers is None:
+        station_markers = _stationmarkers
     
     for k, v in domain.stations.iteritems():
         x = np.array([e.x for e in v])
         y = np.array([e.y for e in v])
-        plt.plot(x, y, _stationmarkers[k], label = k)
+        plt.plot(x, y, station_markers[k], label = k)
     
-    plt.title('station locations')
-    add_2d_axes_labels(ics)    
-    plt.legend(bbox_to_anchor=(0., 1.02, 1., .102), loc=3,
-               ncol=2, mode="expand", borderaxespad=0.)
-    save_show(path+'/figs/station_locations', save, show, ext)
+    #plt.title('station locations')
+    add_2d_axes_labels(ics=ics)    
+    #plt.legend(bbox_to_anchor=(0., 1.02, 1., .102), loc=3,
+    #           ncol=2, mode="expand", borderaxespad=0.)
+    save_show(os.path.join(path, 'figs', 'station_locations'), save, show, ext)
 
 def field(domain, z, title, clim = None,  path=None, save=True, show =
           False, ics=1, ext='.png', cmap=plt.cm.jet):
@@ -134,21 +151,21 @@ def field(domain, z, title, clim = None,  path=None, save=True, show =
     Given a domain, plot the nodal value z
    
     :param domain: :class:`~polyadcirc.run_framework.domain`
-    :param z: :class:`np.array`
+    :param z: :class:`numpy.ndarray`
     :param string title: plot title
-    :param clim: :class:`np.clim`
+    :param clim: :class:`numpy.clim`
     :type path: string or None
     :param path: directory to store plots
-    :type save: boolean
+    :type save: bool
     :param save: flag for whether or not to save plots
-    :type show: boolean
+    :type show: bool
     :param show: flag for whether or not to show plots
     :param int ics:  polar coordinate option (1 = cart coords, 2 = polar
         coords)
     :param string ext: file extension
 
     """
-    if path == None:
+    if path is None:
         path = os.getcwd()
     plt.figure()
     plt.tripcolor(domain.triangulation, z, shading='gouraud',
@@ -157,10 +174,10 @@ def field(domain, z, title, clim = None,  path=None, save=True, show =
     plt.autoscale(tight=True)
     if clim:
         plt.clim(clim[0], clim[1])
-    add_2d_axes_labels(ics)    
+    add_2d_axes_labels(ics=ics)    
     colorbar()
     #plt.title(title)
-    save_show(path+'/figs/'+title, save, show, ext)
+    save_show(os.path.join(path, 'figs', title), save, show, ext)
 
 def basis_functions(domain, bv_array, path=None, save=True, show=False,
                     ics=1, ext='.png', cmap = plt.cm.jet):
@@ -172,9 +189,9 @@ def basis_functions(domain, bv_array, path=None, save=True, show=False,
     :param bv_array: array of basis vectors based on land classification
     :type path: string or None
     :param path: directory to store plots
-    :type save: boolean
+    :type save: bool
     :param save: flag for whether or not to save plots
-    :type show: boolean
+    :type show: bool
     :param show: flag for whether or not to show plots
     :param string ext: file extension
 
@@ -184,23 +201,23 @@ def basis_functions(domain, bv_array, path=None, save=True, show=False,
         field(domain, z, 'basis_function_'+str(i), (0.0,1.0) , path, save,
               show, ics, ext, cmap)
 
-def random_fields(domain, points, bv_array, path=None, save=True, show =
+def random_fields(domain, points, bv_dict, path=None, save=True, show =
                   False, ics=1, ext='.png', cmap = plt.cm.jet):
     """
-    Given a ``bv_array`` a set of random points, plot the ``r_fields``
+    Given a ``bv_dict`` a set of random points, plot the ``r_fields``
     generated in
     :meth:`~polyadcirc.run_framework.random_manningsn.runSet.run_points`
    
     :param domain: :class:`~polyadcirc.run_framework.domain`
-    :type points: :class:`np.array`
+    :type points: :class:`numpy.ndarray`
     :param points: weights for points at which the random domain was sampled
-    :type bv_array: :class:`np.array`
-    :param bv_array: array of basis vectors based on land classification
+    :type bv_dict: list of ``dict``
+    :param bv_dict: list of basis vectors based on land classification
     :type path: string or None
     :param path: directory to store plots
-    :type save: boolean
+    :type save: bool
     :param save: flag for whether or not to save plots
-    :type show: boolean
+    :type show: bool
     :param show: flag for whether or not to show plots
     :param int ics:  polar coordinate option (1 = cart coords, 2 = polar
         coords)
@@ -208,29 +225,33 @@ def random_fields(domain, points, bv_array, path=None, save=True, show =
 
     """
     vmax = np.max(points)
+    if vmax == 1.0:
+        vmax = np.max(points[range(points.shape[0]-1), :])
     vmin = np.min(points)
     clim = (vmin, vmax)
+    default = domain.read_default()
     for i in xrange(points.shape[1]):
-        z = np.dot(bv_array, points[..., i])
+        z = tmm.combine_basis_vectors(points[..., i], bv_dict, default,
+                                      domain.node_num)
         field(domain, z, 'random_field_'+str(i), clim, path, save, show, ics,
               ext, cmap)
 
-def mean_field(domain, points, bv_array, path=None, save=True, show =
+def mean_field(domain, points, bv_dict, path=None, save=True, show =
                False, ics=1, ext='.png'): 
     """
-    Given a bv_array a set of random points, plot the r_fields generated in
+    Given a bv_dict a set of random points, plot the r_fields generated in
     random_manningsn.runSet.run_points
    
     :param domain: :class:`~polyadcirc.run_framework.domain`
-    :type points: :class:`np.array`
+    :type points: :class:`numpy.ndarray`
     :param points: weights for points at which the random domain was sampled
-    :type bv_array: :class:`np.array`
-    :param bv_array: array of basis vectors based on land classification
+    :type bv_dict: list of ``dict``
+    :param bv_dict: list of basis vectors based on land classification    
     :type path: string or None
     :param path: directory to store plots
-    :type save: boolean
+    :type save: bool
     :param save: flag for whether or not to save plots
-    :type show: boolean
+    :type show: bool
     :param show: flag for whether or not to show plots
     :param int ics:  polar coordinate option (1 = cart coords, 2 = polar
         coords)
@@ -238,9 +259,13 @@ def mean_field(domain, points, bv_array, path=None, save=True, show =
 
     """
     vmax = np.max(points)
+    if vmax == 1.0:
+        vmax = np.max(points[range(points.shape[0]-1), :])
     vmin = np.min(points)
     clim = (vmin, vmax)
-    z = np.dot(bv_array, np.mean(points, 1)) 
+    default = domain.read_default()
+    z = tmm.combine_basis_vectors(np.mean(points, 1), bv_dict, default,
+                                  domain.node_num)
     field(domain, z, 'mean_field', clim, path, save, show, ics,  ext)
 
 def station_data(ts_data, time_obs, keys=None, stations = None, path=None,
@@ -256,23 +281,23 @@ def station_data(ts_data, time_obs, keys=None, stations = None, path=None,
     :type time_obs: :class:`dict`
     :param time_obs: ``time_obs`` from
         :class:`~polyadcirc.run_framework.random_manningsn.runSet`
-    :param list() keys: list of types of ADCIRC output data to plot 
+    :param list keys: list of types of ADCIRC output data to plot 
     :param dict stations: dictonary of lists of stations to plot
     :type path: string or None
     :param path: directory to store plots
-    :type save: boolean
+    :type save: bool
     :param save: flag for whether or not to save plots
-    :type show: boolean
+    :type show: bool
     :param show: flag for whether or not to show plots
     :param string ext: file extension
     
     """
-    if path == None:
+    if path is None:
         path = os.getcwd()
     
 
 
-    if keys == None:
+    if keys is None:
         keys = ts_data.keys()
     s_keys = list()
     for k in keys:
@@ -281,8 +306,8 @@ def station_data(ts_data, time_obs, keys=None, stations = None, path=None,
     keys = s_keys
 
     for k in keys:
-        fm.mkdir(path+'/figs/'+k)
-        if stations[k] == None:
+        fm.mkdir(os.path.join(path, 'figs', k))
+        if stations[k] is None:
             stations = xrange(ts_data[k].shape[0]) 
         for i in stations:
             fig = plt.figure()
@@ -333,7 +358,8 @@ def station_data(ts_data, time_obs, keys=None, stations = None, path=None,
                 ax2.set_ylabel('v (m/s)')
                 colorbar(line_segs2)
 
-            save_show(path+'/figs/'+k+'/station'+str(i), save, show, ext)
+            save_show(os.path.join(path, 'figs', k, 'station'+str(i)), save,
+                      show, ext)
 
 def nts_line_data(nts_data, keys=None, path=None, save=True, show=False, 
                   ext='.png'): 
@@ -347,20 +373,20 @@ def nts_line_data(nts_data, keys=None, path=None, save=True, show=False,
     :type nts_data: :class:`dict`
     :param nts_data: ``nts_data`` from
         :class:`~polyadcirc.run_framework.random_manningsn.runSet`
-    :param list() keys: list of types of ADCIRC output data to plot 
+    :param list keys: list of types of ADCIRC output data to plot 
     :type path: string or None
     :param path: directory to store plots
-    :type save: boolean
+    :type save: bool
     :param save: flag for whether or not to save plots
-    :type show: boolean
+    :type show: bool
     :param show: flag for whether or not to show plots
     :param string ext: file extension
     
     """
-    if path == None:
+    if path is None:
         path = os.getcwd()
 
-    if keys == None:
+    if keys is None:
         keys = nts_data.keys()
     s_keys = list()
     for k in keys:
@@ -368,7 +394,7 @@ def nts_line_data(nts_data, keys=None, path=None, save=True, show=False,
             s_keys.append(k)
     keys = s_keys
 
-    fm.mkdir(path+'/figs/nts')
+    fm.mkdir(os.path.join(path, 'figs', 'nts'))
 
     for k in keys:
         fig = plt.figure()
@@ -389,7 +415,7 @@ def nts_line_data(nts_data, keys=None, path=None, save=True, show=False,
         colorbar(line_segs)
         fig.title(k)
         fig.xlabel('node number')
-        save_show(path+'/figs/nts/'+k, save, show, ext)
+        save_show(os.path.join(path, 'figs', 'nts', k), save, show, ext)
 
 def nts_pcolor(nts_data, domain, keys=None, points=None, path=None, 
                save=True, show=False, ics=1, ext='.png'): 
@@ -404,22 +430,22 @@ def nts_pcolor(nts_data, domain, keys=None, points=None, path=None,
     :param nts_data: ``nts_data`` from
         :class:``~polyadcirc.run_framework.random_manningsn.runSet``
     :param domain: :class:`~polyadcirc.run_framework.domain`
-    :param list() keys: list of types of ADCIRC output data to plot 
-    :param list() points: list of runs to plot
+    :param list keys: list of types of ADCIRC output data to plot 
+    :param list points: list of runs to plot
     :type path: string or None
     :param path: directory to store plots
-    :type save: boolean
+    :type save: bool
     :param save: flag for whether or not to save plots
-    :type show: boolean
+    :type show: bool
     :param show: flag for whether or not to show plots
     :param int ics:  polar coordinate option (1 = cart coords, 2 = polar
     :param string ext: file extension
 
     """
-    if path == None:
+    if path is None:
         path = os.getcwd()
 
-    if keys == None:
+    if keys is None:
         keys = nts_data.keys()
     s_keys = list()
     for k in keys:
@@ -429,10 +455,11 @@ def nts_pcolor(nts_data, domain, keys=None, points=None, path=None,
             s_keys.append(k)
     keys = s_keys
 
-    if points == None:
+    if points is None:
         points = (0, nts_data[keys[0]].shape[-1]-1)
 
-    fm.mkdir(path+'/figs/nts')
+    if not os.path.exists(os.path.join(path, 'figs', 'nts')):
+        fm.mkdir(os.path.join(path, 'figs', 'nts'))
 
     for k in keys:
         
@@ -444,10 +471,10 @@ def nts_pcolor(nts_data, domain, keys=None, points=None, path=None,
             plt.gca().set_aspect('equal')
             plt.clim(clim[0], clim[1])
             colorbar()
-            add_2d_axes_labels(ics)    
+            add_2d_axes_labels(ics=ics)    
             plt.title(k+'_'+str(j))
-            save_show(path+'/figs/nts/'+k+'_'+str(j)+'_contour', save, show,
-                      ext)
+            save_show(os.path.join(path, 'figs',
+                      'nts',k+'_'+str(j)+'_contour'), save, show, ext)
 
         if len(points) == 2:
             plt.figure(figsize=(6,9))
@@ -457,7 +484,7 @@ def nts_pcolor(nts_data, domain, keys=None, points=None, path=None,
             plt.gca().set_aspect('equal')
             plt.clim(clim[0], clim[1])
             cb = colorbar()
-            #add_2d_axes_labels(ics)    
+            #add_2d_axes_labels(ics=ics)    
             cb.set_label(k+'_'+str(points[0]))
             
             plt.subplot(312)
@@ -466,7 +493,7 @@ def nts_pcolor(nts_data, domain, keys=None, points=None, path=None,
             plt.gca().set_aspect('equal')
             plt.clim(clim[0], clim[1])
             cb = colorbar()
-            #add_2d_axes_labels(ics)    
+            #add_2d_axes_labels(ics=ics)    
             cb.set_label(k+'_'+str(points[-1]))
 
             plt.subplot(313)
@@ -475,9 +502,10 @@ def nts_pcolor(nts_data, domain, keys=None, points=None, path=None,
                           cmap=plt.cm.jet)
             plt.gca().set_aspect('equal')
             cb = colorbar()
-            add_2d_axes_labels(ics)    
-            cb.set_label(k+'_'+'diff')
-            save_show(path+'/figs/nts/'+k+'_diff_contour', save, show, ext)
+            add_2d_axes_labels(ics=ics)    
+            cb.set_label(k+'_'+'diff_{0}_{0}'.format(points))
+            save_show(os.path.join(path, 'figs', 'nts', k+'_diff_contour'),
+                      save, show, ext)
 
 def ts_pcolor(ts_data, time_obs, domain, keys=None, points=None, 
               path=None, save=True, show=False, ics=1, ext='.png'): 
@@ -495,22 +523,22 @@ def ts_pcolor(ts_data, time_obs, domain, keys=None, points=None,
     :param time_obs: ``time_obs`` from
         :class:`~polyadcirc.run_framework.random_manningsn.runSet`
     :param domain: :class:`~polyadcirc.run_framework.domain`
-    :param list() keys: list of types of ADCIRC output data to plot 
-    :param list() points: list of runs or points to plot
+    :param list keys: list of types of ADCIRC output data to plot 
+    :param list points: list of runs or points to plot
     :type path: string or None
     :param path: directory to store plots
-    :type save: boolean
+    :type save: bool
     :param save: flag for whether or not to save plots
-    :type show: boolean
+    :type show: bool
     :param show: flag for whether or not to show plots
     :param int ics:  polar coordinate option (1 = cart coords, 2 = polar)
     :param string ext: file extension
     
     """
-    if path == None:
+    if path is None:
         path = os.getcwd()
 
-    if keys == None:
+    if keys is None:
         keys = ts_data.keys()
     s_keys = list()
     for k in keys:
@@ -518,65 +546,67 @@ def ts_pcolor(ts_data, time_obs, domain, keys=None, points=None,
             s_keys.append(k)
     keys = s_keys
 
-    if points == None:
+    if points is None:
         points = (0, ts_data[keys[0]].shape[-1]-1)
 
-    fm.mkdir(path+'/figs/ts')
-
+    fm.mkdir(os.path.join(path, 'figs', 'ts'))
+    
     for k in keys:
-        fm.mkdir(path+'/figs/ts/'+k)        
+        fig_folder = os.path.join(path, 'figs', 'ts', k)
+        fm.mkdir(fig_folder)
         clim = (np.min(ts_data[k]),np.max(ts_data[k]))
         for j in points:
-            fm.mkdir(path+'/figs/ts/'+k+'/run'+str(j))        
+            subfig_folder = os.path.join(fig_folder, 'run'+str(j))
+            fm.mkdir(subfig_folder)        
             for i, t in enumerate(time_obs[k]):
                 plt.figure()
-                add_2d_axes_labels(ics)    
+                add_2d_axes_labels(ics=ics)    
                 plt.tripcolor(domain.triangulation, ts_data[k][:,i,j],
                               shading='gouraud', cmap=plt.cm.jet)
                 plt.gca().set_aspect('equal')
                 plt.clim(clim[0], clim[1])
                 colorbar()
                 plt.title('time = '+str(t))
-                save_show(path+'/figs/ts/'+k+'/run'+str(j)+'/'+str(i),
-                          save, show, ext)
+                save_show(os.path.join(subfig_folder, str(i)), save, show, ext)
 
         if len(points) == 2:
-            fm.mkdir(path+'/figs/ts/'+k+'/diff')
+            fm.mkdir(os.path.join(path, 'figs', 'ts', k, 'diff'))
             
             diff = ts_data[k][:,:,points[-1]] - ts_data[k][:,:,points[0]]
             cdiff = (np.min(diff), np.max(diff))
 
             for i, t in enumerate(time_obs[k]):
                 plt.figure(figsize=(6,9))
-                ax1 = plt.subplot(311)
+                plt.subplot(311)
                 plt.tripcolor(domain.triangulation, ts_data[k][:,i,points[0]],
                               shading='gouraud', cmap=plt.cm.jet)
                 plt.gca().set_aspect('equal')
                 plt.clim(clim[0], clim[1])
                 cb = colorbar()
-                #add_2d_axes_labels(ics)    
+                #add_2d_axes_labels(ics=ics)    
                 cb.set_label(k+'_'+str(points[0]))
                 
-                ax2 = plt.subplot(312)
+                plt.subplot(312)
                 plt.tripcolor(domain.triangulation, ts_data[k][:,i,points[-1]],
                               shading='gouraud', cmap=plt.cm.jet)
                 plt.gca().set_aspect('equal')
                 plt.clim(clim[0], clim[1])
                 cb = colorbar()
-                #add_2d_axes_labels(ics)    
+                #add_2d_axes_labels(ics=ics)    
                 cb.set_label(k+'_'+str(points[-1]))
 
-                ax3 = plt.subplot(313)
+                plt.subplot(313)
                 plt.tripcolor(domain.triangulation, diff[:,i] ,
                               shading='gouraud', cmap=plt.cm.jet)
                 plt.gca().set_aspect('equal')
                 plt.clim(cdiff[0], cdiff[1])
                 cb = colorbar()
-                add_2d_axes_labels(ics)    
+                add_2d_axes_labels(ics=ics)    
                 cb.set_label(k+'_'+'diff')
                 plt.tight_layout()
                 plt.suptitle('time = '+str(t))
-                save_show(path+'/figs/ts/'+k+'/diff/'+str(i), save, show, ext)
+                save_show(os.path.join(path, 'figs', 'ts', k, 'diff', str(i)),
+                          save, show, ext)
  
 def ts_quiver(ts_data, time_obs, domain, keys=None, points=None, 
               path=None, save=True, show=False, ics=1, ext='.png'): 
@@ -594,25 +624,25 @@ def ts_quiver(ts_data, time_obs, domain, keys=None, points=None,
     :param time_obs: ``time_obs`` from
         :class:`~polyadcirc.run_framework.random_manningsn.runSet`
     :param domain: :class:`~polyadcirc.run_framework.domain`
-    :param list() keys: list of types of ADCIRC output data to plot 
-    :param list() points: list of runs or points to plot
+    :param list keys: list of types of ADCIRC output data to plot 
+    :param list points: list of runs or points to plot
     :type path: string or None
     :param path: directory to store plots
-    :type save: boolean
+    :type save: bool
     :param save: flag for whether or not to save plots
-    :type show: boolean
+    :type show: bool
     :param show: flag for whether or not to show plots
     :param int ics:  polar coordinate option (1 = cart coords, 2 = polar
-   
-
+    :param string ext: file extension
+ 
     .. todo:: maybe add plt.streamplot, but this requires a regularly spaced
         grid and is therefore more expenseive to do
 
     """
-    if path == None:
+    if path is None:
         path = os.getcwd()
 
-    if keys == None:
+    if keys is None:
         keys = ts_data.keys()
     s_keys = list()
     for k in keys:
@@ -620,34 +650,34 @@ def ts_quiver(ts_data, time_obs, domain, keys=None, points=None,
             s_keys.append(k)
     keys = s_keys
 
-    if points == None:
+    if points is None:
         points = (0, ts_data[keys[0]].shape[-1]-1)
-
-    fm.mkdir(path+'/figs/ts_quiver')
+    fig_folder = os.path.join(path, 'figs', 'ts_quiver')
+    fm.mkdir(fig_folder)
 
     x = domain.array_x()
     y = domain.array_y()
 
     for k in keys:
-        fm.mkdir(path+'/figs/ts_quiver/'+k)        
+        fm.mkdir(os.path.join(fig_folder, k))
         mag = np.sqrt(pow(ts_data[k][:,:,0,:],2)+pow(ts_data[k][:,:,1,:],2))
         clim = (np.min(mag),np.max(mag))
         for j in points:
-            fm.mkdir(path+'/figs/ts_quiver/'+k+'/run'+str(j))        
+            fm.mkdir(os.path.join(fig_folder, k, 'run'+str(j)))
             for i, t in enumerate(time_obs[k]):
                 plt.figure()
-                add_2d_axes_labels(ics)    
+                add_2d_axes_labels(ics=ics)    
                 plt.quiver(x, y, ts_data[k][:,i,0,j], ts_data[k][:,i,1,j],
                            mag[:,i,j])
                 plt.gca().set_aspect('equal')
                 plt.clim(clim[0], clim[1])
                 colorbar()
                 plt.title('time = '+str(t))
-                save_show(path+'/figs/ts_quiver/'+k+'/run'+str(j)+'/'+str(i),
+                save_show(os.path.join(fig_folder, k, 'run'+str(j), str(i)),
                           save, show, ext)
 
         if len(points) == 2:
-            fm.mkdir(path+'/figs/ts_quiver/'+k+'/diff')
+            fm.mkdir(os.path.join(fig_folder, 'diff'))
             
             diff = ts_data[k][:,:,:,points[-1]] - ts_data[k][:,:,:,points[0]]
             mag_diff = np.sqrt(pow(diff[:,:,0],2)+pow(diff[:,:,1],2))
@@ -661,7 +691,7 @@ def ts_quiver(ts_data, time_obs, domain, keys=None, points=None,
                 plt.gca().set_aspect('equal')
                 plt.clim(clim[0], clim[1])
                 cb = colorbar()
-                #add_2d_axes_labels(ics)    
+                #add_2d_axes_labels(ics=ics)    
                 cb.set_label(k+'_'+str(points[0]))
                 
                 ax2 = plt.subplot(312)
@@ -670,7 +700,7 @@ def ts_quiver(ts_data, time_obs, domain, keys=None, points=None,
                 plt.gca().set_aspect('equal')
                 plt.clim(clim[0], clim[1])
                 cb = colorbar()
-                #add_2d_axes_labels(ics)    
+                #add_2d_axes_labels(ics=ics)    
                 cb.set_label(k+'_'+str(points[-1]))
 
                 ax3 = plt.subplot(313)
@@ -678,12 +708,12 @@ def ts_quiver(ts_data, time_obs, domain, keys=None, points=None,
                 plt.gca().set_aspect('equal')
                 plt.clim(cdiff[0], cdiff[1])
                 cb = colorbar()
-                add_2d_axes_labels(ics)    
+                add_2d_axes_labels(ics=ics)    
                 cb.set_label(k+'_'+'diff')
                 plt.tight_layout()
                 plt.suptitle('time = '+str(t))
-                save_show(path+'/figs/ts_quiver/'+k+'/diff/'+str(i), save,
-                          show, ext) 
+                save_show(os.path.join(fig_folder, 'diff', str(i)), save, show,
+                          ext) 
 
 def add_2d_axes_labels(fig = None , ics=1):
     """
@@ -693,7 +723,7 @@ def add_2d_axes_labels(fig = None , ics=1):
     :param int ics:  polar coordinate option (1 = cart coords, 2 = polar)
     
     """
-    if fig == None:
+    if fig is None:
         fig = plt.gcf()
     if ics == 1:
         plt.xlabel('x (m)')
@@ -707,15 +737,15 @@ def save_show(full_name, save, show, ext):
     Save or show the current figure
 
     :param string full_name: path to save the figure
-    :param boolean save: flag for whether or not to save plots
-    :param boolean show: flag for whether or not to show plots
+    :param bool save: flag for whether or not to save plots
+    :param bool show: flag for whether or not to show plots
     :param string ext: file extension
 
     """
     plt.tight_layout()
     if save:
         plt.savefig(full_name+ext, bbox_inches='tight', transparent=True,
-                    pad_inches=0)
+                    pad_inches=0.1)
     if show:
         plt.show()
     else:
@@ -726,7 +756,6 @@ def colorbar(mappable = None):
     Add a colorbar to the current figure/plot/subfigure/axes
 
     :param mappable: See `matplotlib <matplotlib.org>`_
-    :param figure fig: Figure to add the colorbar to
     
     """
     ax = plt.gca()
@@ -753,22 +782,22 @@ def nts_contour(nts_data, domain, keys=None, points=None, path=None,
     :param nts_data: ``nts_data`` from
         :class:`~polyadcirc.run_framework.random_manningsn.runSet`
     :param domain: :class:`~polyadcirc.run_framework.domain`
-    :param list() keys: list of types of ADCIRC output data to plot 
-    :param list() points: list of runs to plot
+    :param list keys: list of types of ADCIRC output data to plot 
+    :param list points: list of runs to plot
     :type path: string or None
     :param path: directory to store plots
-    :type save: boolean
+    :type save: bool
     :param save: flag for whether or not to save plots
-    :type show: boolean
+    :type show: bool
     :param show: flag for whether or not to show plots
     :param int ics:  polar coordinate option (1 = cart coords, 2 = polar
     :param string ext: file extension
     
     """
-    if path == None:
+    if path is None:
         path = os.getcwd()
 
-    if keys == None:
+    if keys is None:
         keys = nts_data.keys()
     s_keys = list()
     for k in keys:
@@ -776,10 +805,11 @@ def nts_contour(nts_data, domain, keys=None, points=None, path=None,
             s_keys.append(k)
     keys = s_keys
 
-    if points == None:
+    if points is None:
         points = (0, nts_data[keys[0]].shape[-1]-1)
 
-    fm.mkdir(path+'/figs/nts_contour')
+    fig_folder = os.path.join(path, 'figs', 'nts_contour')
+    fm.mkdir(fig_folder)
 
     for k in keys:
         
@@ -789,9 +819,9 @@ def nts_contour(nts_data, domain, keys=None, points=None, path=None,
                            shading='gouraud', cmap=plt.cm.jet)
             plt.gca().set_aspect('equal')
             colorbar()
-            add_2d_axes_labels(ics)    
+            add_2d_axes_labels(ics=ics)    
             plt.title(k+'_'+str(j))
-            save_show(path+'/figs/nts_contour/'+k+'_'+str(j)+'_contour', save,
+            save_show(os.path.join(fig_folder, k+'_'+str(j)+'_contour'), save,
                       show, ext)
 
         if len(points) == 2:
@@ -801,7 +831,7 @@ def nts_contour(nts_data, domain, keys=None, points=None, path=None,
                            shading='gouraud', cmap=plt.cm.jet)
             plt.gca().set_aspect('equal')
             cb = colorbar()
-            #add_2d_axes_labels(ics)    
+            #add_2d_axes_labels(ics=ics)    
             cb.set_label(k+'_'+str(points[0]))
             
             plt.subplot(312)
@@ -809,7 +839,7 @@ def nts_contour(nts_data, domain, keys=None, points=None, path=None,
                            shading='gouraud', cmap=plt.cm.jet)
             plt.gca().set_aspect('equal')
             cb = colorbar()
-            #add_2d_axes_labels(ics)    
+            #add_2d_axes_labels(ics=ics)    
             cb.set_label(k+'_'+str(points[-1]))
 
             plt.subplot(313)
@@ -818,8 +848,8 @@ def nts_contour(nts_data, domain, keys=None, points=None, path=None,
                            cmap=plt.cm.jet)
             plt.gca().set_aspect('equal')
             cb = colorbar()
-            add_2d_axes_labels(ics)    
+            add_2d_axes_labels(ics=ics)    
             cb.set_label(k+'_'+'diff')
-            save_show(path+'/figs/nts_contour/'+k+'_diff_contour', save, show,
+            save_show(os.path.join(fig_folder, k+'_diff_contour'), save, show,
                       ext)
 

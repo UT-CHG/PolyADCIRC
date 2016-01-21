@@ -1,3 +1,5 @@
+# Copyright (C) 2013 Lindley Graham
+
 """
 This module contains a set of simple classes for use by
 
@@ -8,41 +10,53 @@ This module contains a set of simple classes for use by
 * :py:mod:`polyadcirc.pyGriddata.gridObject`
 """
 
-class comm_for_no_mpi4py:
+class comm_for_no_mpi4py(object):
     """
     A set of stand ins for when mpi4py is not installed
     """
     def __init__(self):
         pass
+
     def Get_size(self):
         """
         :rtype: int
         :returns: 1
         """
         return 1
+
     def Get_rank(self):
         """
         :rtype: int
         :returns: 0
         """
         return 0 
+
     def allgather(self, val):
         """
-        :returns: val
-        """
-        return val
-    def allreduce(self, val1, val2, op=None):
-        """
-        :returns: val1
-        """
-        return val1
-    def bcast(self, val, root=0):
-        """
+        :param object val: object to allgather
+        :rtype: object
         :returns: val
         """
         return val
 
-class MPI_for_no_mpi4py:
+    def allreduce(self, val1, op=None):
+        """
+        :param object val1: object to allreduce
+        :param op: operation
+        :rtype: object
+        :returns: val1
+        """
+        return val1
+
+    def bcast(self, val, root=0):
+        """
+        :param object val: object to broadcast
+        :rtype: object
+        :returns: val
+        """
+        return val
+
+class MPI_for_no_mpi4py(object):
     """
     A stand in class for when mpi4py is not installed
     """

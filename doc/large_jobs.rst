@@ -14,27 +14,23 @@ which are run using the :meth:`subprocess.POpen` command. Once the batch size
 
     tail: write error: Broken pipe
 
-The current work around is to reduce your batch size and break your job up into
-multiple jobs. These jobs may then be submitted to the queue and either run
-independently or sequentially. When doing so make sure that the run scripts
-specify a different ``save_dir``, ``save_file``, and ``script_name`` for each
-job. After your jobs complete the data may be concatenated into a single file.
-This file will have the same structure as if a single job was run. You might
-also want to create a ``crontab`` to periodically clear our your ``.sge``
-directory.
+We are currently working to eliminate this problem. The current work around is
+to reduce your batch size and break your job up into multiple jobs. These jobs
+may then be submitted to the queue and either run independently or
+sequentially. When doing so make sure that the run scripts specify a different
+``save_dir``, ``save_file``, and ``script_name`` for each job. After your jobs
+complete the data may be concatenated into a single file. This file will have
+the same structure as if a single job was run. You might also want to create a
+``crontab`` to periodically clear our your ``.sge`` directory.
 
-An example of this is in the ``examples/poly_walls/`` folder. The
-``poly_wallsn.py`` files break a job into 7 parts and ``concatenate_many.py``
-stiches the data from all 7 runs into a single file.
-
-concatenate_pair
-~~~~~~~~~~~~~~~~~
+concatenation_2
+~~~~~~~~~~~~~~~
 
 This file demonstrates concatenating data from two separate jobs.
 
 Import necessary modules::
 
-    import numpy as np
+    import polyadcirc.run_framework.domain as dom
     import polyadcirc.run_framework.random_wall as rmw
 
 Specifiy directories for the jobs that were run::
@@ -51,7 +47,7 @@ Specify the save file::
 
 Load the data from both runs:: 
 
-    main_run, domain, mann_pts1, wall_pts1, points1 = rmw.loadmat(save_file, base_dir,
+    main_run, domain, mann_pts, wall_pts, points = rmw.loadmat(save_file, base_dir,
         grid_dir, save_dir1, basis_dir)
     other_run, domain, mann_pts2, wall_pts2, points2 = rmw.loadmat(save_file,
         base_dir, grid_dir, save_dir2, basis_dir)
@@ -59,7 +55,7 @@ Load the data from both runs::
 Concatenate the data from both runs and save to a
 :class:`~polyadcirc.run_framework.random_wall.runSet` object::
 
-    cated = main_run.concatenate(other_run, points1, points2)
+    cated = main_run.concatenate(other_run, points, points2)
 
 Store the concatenated version of ``points`` in a dictonary object::
 
@@ -85,6 +81,7 @@ This file demonstrates concatenating data from seven different jobs.
 
 Import necessary modules::
 
+    import polyadcirc.run_framework.domain as dom
     import polyadcirc.run_framework.random_wall as rmw
 
 Specify the directories for the jobs and the base string for the ``save_dir``

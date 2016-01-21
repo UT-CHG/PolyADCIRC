@@ -1,6 +1,11 @@
+# Copyright (C) 2013 Lindley Graham
+
 """
 This module contains methods used in calculating the volume of water present in
-an ADCIRC simulation
+an ADCIRC simulation.
+
+.. todo:: Some of these routines could be parallelized.
+
 """
 
 import numpy as np
@@ -26,8 +31,8 @@ def total_volume(domain, elevation):
 
 def sub_volume(domain, elevation, elements):
     """
-    Calculates the total volume of water contained in an ADCIRC simulation with
-    sea surface height given by elevation.
+    Calculates the total volume of water contained in an ADCIRC simulation for
+    a given set of elements with sea surface height given by elevation.
 
     :param domain: :class:`~polyadcirc.run_framework.domain`
     :param elevation: eta, sea surface height (NOT WATER COLUMN HEIGHT)
@@ -76,7 +81,7 @@ def triangle(domain, element, z, norm_dir=1.0):
     :type element: array_like  
     :param z: z-coordinate relative to the geiod, z = eta OR z = -h 
     :param double norm_dir: 1.0 up, -1.0 down, direction of the normal vector 
-    :type z: :class:`np.array`
+    :type z: :class:`numpy.ndarray`
     :rtype: double
     :returns: dot(x, n*A)
 
@@ -104,7 +109,7 @@ def side(domain, element, side_num, elevation):
     :param element: list of nodes defining an element 
     :type element: array_like  
     :param elevation: eta, sea surface height (NOT WATER COLUMN HEIGHT)
-    :type z: :class:`np.array` 
+    :type z: :class:`numpy.ndarray` 
     :rtype: double
     :returns: dot(x, n*A)
 

@@ -1,15 +1,17 @@
+# Copyright (C) 2013 Lindley Graham
+
 """
 This module contains the class definition for
 :class:`~polyadcirc.mesh_mapping.grid_mamangement`.
 """
 
 import os, stat, glob, sys, re, subprocess
+import numpy as np
 from polyadcirc.pyADCIRC.basic import pickleable
 import polyadcirc.pyADCIRC.convert_fort14_to_fort13 as c13
 import polyadcirc.pyADCIRC.fort14_management as f14
 import polyadcirc.pyADCIRC.fort13_management as f13
 import polyadcirc.pyADCIRC.plotADCIRC as plt
-import numpy as np
 import polyadcirc.pyGriddata.table_management as tm
 import polyadcirc.pyGriddata.table_to_mesh_map as tmm
 import polyadcirc.pyGriddata.file_management as fm
@@ -45,7 +47,7 @@ class gridInfo(pickleable):
             here to use as a template
         :param gap_data_list: a list() of
             :class:`~polyadcirc.pyGriddata.table_management.gapInfo` objects
-        :type gap_data_list: list()
+        :type gap_data_list: list
         :param int flag: flag to choose which averaging scheme to use ..see::
             :meth:`~polyadcirc.pyADCIRC.flag_fort14.flag_fort14`
         :param string file_name: the name of the ``fort.14`` formatted file in
@@ -66,7 +68,7 @@ class gridInfo(pickleable):
         self.__landclasses = [] 
         self.__unique_tables = {} 
         for gap in self.gap_data_files:
-            #: dict() of unique ``*.table`` files used
+            #: dict of unique ``*.table`` files used
             self.__unique_tables[gap.table.file_name] = gap.table
         for k, v in self.__unique_tables.iteritems():
             for x in v.get_landclasses():
@@ -77,21 +79,25 @@ class gridInfo(pickleable):
         if rank == 0:
             # Look for ``fort.14`` formatted file in grid_dir and place a link
             # to it in basis_dir
-            fm.symlink(grid_dir+'/'+file_name, basis_dir+'/'+file_name)
+            fm.symlink(os.path.join(grid_dir, file_name),
+                       os.path.join(basis_dir, file_name))
             flagged_file_name = f14.flag_go(self, flag)
             self.file_name = os.path.basename(flagged_file_name)
 
             # check to see if Griddata is here
-            if executable_dir == None:
+            if executable_dir is None:
                 executable_dir = sys.path
             else:
                 executable_dir = [executable_dir]
-            if len(glob.glob(self.basis_dir+'/Griddata_*.out')) == 0:
+            if len(glob.glob(os.path.join(self.basis_dir, 
+                                          'Griddata_*.out'))) == 0:
                 # check to see if Griddata is compiled and on the python path
                 compiled_prog = None
                 for p in executable_dir:
-                    locations1 = glob.glob(p+"/*Griddata_*.out")
-                    locations2 = glob.glob(p+"/polyadcirc/pyGriddata/Griddata_*.out")
+                    locations1 = glob.glob(os.path.join(p, "*Griddata_*.out"))
+                    locations2 = glob.glob(os.path.join(p, "polyadcirc",
+                                                        "pyGriddata", 
+                                                        "Griddata_*.out"))
                     if locations1:
                         compiled_prog = locations1[0]
                     elif locations2:
@@ -111,17 +117,18 @@ class gridInfo(pickleable):
             # objects
             for gap in self.gap_data_files:
                 local_file_name = os.path.basename(gap.file_name)
-                fm.symlink(gap.file_name, basis_dir+'/'+local_file_name)
+                fm.symlink(gap.file_name, os.path.join(basis_dir,
+                                                       local_file_name))
                 if os.path.exists(gap.file_name+'.binary'):
                     fm.symlink(gap.file_name+'.binary',
-                        basis_dir+'/'+local_file_name+'.binary')
+                               os.path.join(basis_dir, 
+                                            local_file_name+'.binary'))
                 gap.file_name = local_file_name
         self.file_name = comm.bcast(self.file_name, root=0)
-        
         super(gridInfo, self).__init__()
  
     def prep_all(self, removeBinaries=False, class_nums=None, condense=True,
-            TOL=None):
+                 TOL=None):
         """
         Assumes that all the necessary input files are in ``self.basis_dir``.
         This function generates a ``landuse_##`` folder in ``self.basis_dir``
@@ -141,13 +148,13 @@ class gridInfo(pickleable):
         :param list class_nums: List of integers indicating which classes to
             prep. This assumes all the ``*.asc.binary`` files are already in
             existence.
-        :param boolean condense: Flag whether or not to condense ``fort.13`` to
+        :param bool condense: Flag whether or not to condense ``fort.13`` to
             only non-zero values within a tolerance.
         :param double TOL: Tolerance below which to consider a Manning's n
             value to be zero if ``condense == True``
         
         """
-        if class_nums == None:
+        if class_nums is None:
             class_nums = range(len(self.__landclasses))
         if rank > class_nums:
             print "There are more MPI TASKS than land classes."
@@ -156,7 +163,7 @@ class gridInfo(pickleable):
             return
 
         # Are there any binary files?
-        binaries = glob.glob(self.basis_dir+'/*.asc.binary')
+        binaries = glob.glob(os.path.join(self.basis_dir, '*.asc.binary'))
         # If not create them
         if not(binaries) and rank == 0:
             # set up first landuse folder
@@ -166,9 +173,20 @@ class gridInfo(pickleable):
             # run grid_all_data in this folder 
             subprocess.call(['./'+first_script], cwd=self.basis_dir)
             class_nums.remove(0)
+            landuse_folder = 'landuse_00'
             self.cleanup_landuse_folder(os.path.join(self.basis_dir,
-                'landuse_00'))
-            fm.rename13(['landuse_00'], self.basis_dir)
+                                                     landuse_folder))
+            fm.rename13([landuse_folder], self.basis_dir)
+            if condense:
+                print "Removing values below TOL"
+                landuse_folder_path = os.path.join(self.basis_dir,
+                                                   landuse_folder)
+                # read fort.13 file
+                mann_dict = f13.read_nodal_attr_dict(landuse_folder_path)
+                # condense fort.13 file
+                condensed_bv = tmm.condense_bv_dict(mann_dict, TOL)
+                # write new file
+                f13.update_mann(condensed_bv, landuse_folder_path)
         elif rank == 0:
             script_list = self.setup_landuse_folders()
         else:
@@ -189,13 +207,13 @@ class gridInfo(pickleable):
             match_string = r"grid_all_(.*)_"+self.file_name[:-3]+r"\.sh"
             landuse_folder = re.match(match_string, script_list[i]).groups()[0]
             self.cleanup_landuse_folder(os.path.join(self.basis_dir,
-                landuse_folder))
+                                                     landuse_folder))
             # rename fort.13 file
             fm.rename13([landuse_folder], self.basis_dir) 
             if condense:
                 print "Removing values below TOL"
                 landuse_folder_path = os.path.join(self.basis_dir,
-                        landuse_folder)
+                                                   landuse_folder)
                 # read fort.13 file
                 mann_dict = f13.read_nodal_attr_dict(landuse_folder_path)
                 # condense fort.13 file
@@ -205,7 +223,7 @@ class gridInfo(pickleable):
         print "Done"
         # remove unnecessary files
         if removeBinaries and rank == 0:
-            binaries = glob.glob(self.basis_dir+'/*.asc.binary')
+            binaries = glob.glob(os.path.join(self.basis_dir, '*.asc.binary'))
             for f in binaries:
                 os.remove(f)
  
@@ -220,13 +238,13 @@ class gridInfo(pickleable):
         """
         subprocess.call(['./'+self.setup_folder('test')], cwd=
                         self.basis_dir)
-        self.convert(self.basis_dir+'/'+'test')
+        self.convert(os.path.join(self.basis_dir, 'test'))
         # remove unnecessary files
         if removeBinaries:
-            binaries = glob.glob(self.basis_dir+'/*.asc.binary')
+            binaries = glob.glob(os.path.join(self.basis_dir, '*.asc.binary'))
             for f in binaries:
                 os.remove(f)
-        self.cleanup_landuse_folder(self.basis_dir+'/test')
+        self.cleanup_landuse_folder(os.path.join(self.basis_dir, 'test'))
         fm.rename13(['test'], self.basis_dir)  
 
     def __str__(self):
@@ -297,7 +315,8 @@ class gridInfo(pickleable):
 
         """
         for i, x in enumerate(self.gap_data_files):
-            file_name = self.basis_dir+'/'+folder_name+'/griddata_'+str(i)+'.in'
+            file_name = os.path.join(self.basis_dir, folder_name,
+                                     'griddata_'+str(i)+'.in')
             with open(file_name, 'w') as f:
                 f.write(self.__iter_string(i, folder_name))
                 f.write(x.local_str(self.basis_dir, folder_name))
@@ -311,14 +330,14 @@ class gridInfo(pickleable):
         :param string folder_name: folder for which to create bash scripts
 
         """
-        file_name = folder_name +'/'
-        script_name = self.basis_dir+'/grid_all_'+folder_name+'_'
+        script_name = os.path.join(self.basis_dir, 'grid_all_'+folder_name+'_')
         script_name += self.file_name[:-2]+'sh'
         with open(script_name, 'w') as f:
             f.write('#!/bin/bash\n')
             f.write('# This script runs Griddata on several input files\n')
             for i in xrange(len(self.gap_data_files)):
-                input_name = file_name + 'griddata_'+str(i)+'.in'
+                input_name = os.path.join(folder_name, self.file_name +\
+                                          'griddata_'+str(i)+'.in')
                 f.write('./Griddata_parallel.out -I '+input_name+'\n')
             f.write('\n\n')
         curr_stat = os.stat(script_name)
@@ -382,21 +401,22 @@ class gridInfo(pickleable):
         :returns: file name of bash script for this land class
 
         """
-        if folder_name == None:
+        if folder_name is None:
             folder_name = 'landuse_'+'{:=02d}'.format(class_num)
         print 'Setting up folder -- '+folder_name+'...'
         # create a folder for this land-use classification
-        fm.mkdir(self.basis_dir+'/'+folder_name)
+        fm.mkdir(os.path.join(self.basis_dir, folder_name))
         # cp self.file_name folder_name
-        fm.copy(self.basis_dir+'/'+self.file_name,
-                self.basis_dir+'/'+folder_name)
+        fm.copy(os.path.join(self.basis_dir, self.file_name),
+                os.path.join(self.basis_dir, folder_name))
         # create *.in files
         self.create_griddata_input_files(folder_name)
         # create *.sh files
         script_name = self.create_bash_script(folder_name)
         # create the *.table file needed for grid_all_data
         self.setup_tables_single_value(class_num, manningsn_value,
-                                       self.basis_dir+'/'+folder_name)
+                                       os.path.join(self.basis_dir,
+                                                    folder_name))
         return script_name
 
     def setup_landuse_folders(self, create_all=True):
@@ -408,8 +428,8 @@ class gridInfo(pickleable):
         If create_all is True then sets up num_landuse folders.
         Else sets up num_landuse-1 folders.
 
-        :param boolean create_all: flag to not skip first folder
-        :rtype: list()
+        :param bool create_all: flag to not skip first folder
+        :rtype: list
         :returns: list of file names of bash scripts for each land class
 
         """
@@ -436,36 +456,36 @@ class gridInfo(pickleable):
         """
         print 'Setting up folder -- '+folder_name+'...'
         # create a folder for this land-use classification
-        fm.mkdir(self.basis_dir+'/'+folder_name)
+        fm.mkdir(os.path.join(self.basis_dir, folder_name))
         # cp self.file_name folder_name
-        fm.copy(self.basis_dir+'/'+self.file_name,
-                self.basis_dir+'/'+folder_name)
+        fm.copy(os.path.join(self.basis_dir, self.file_name),
+                os.path.join(self.basis_dir, folder_name))
         # create *.in files
         self.create_griddata_input_files(folder_name)
         # create *.sh files
         script_name = self.create_bash_script(folder_name)        
         # create the *.table file needed for grid_all_data
-        self.setup_tables(self.basis_dir+'/'+folder_name)
+        self.setup_tables(os.path.join(self.basis_dir, folder_name))
         return script_name
 
     def cleanup_landuse_folder(self, folder_name=None):
         """ 
         
         Removes all files in folder_name(or current directory) except *.table
-        and the most recent ``*.14``
+        and the most recent ``*.14``.
         
         :param string folder_name: path to folder to clean up relative to
             ``self.base_dir``
 
         """
-        if folder_name == None:
+        if folder_name is None:
             folder_name = ''
             print 'Cleaning current directory...'
         else:
             print 'Cleaning '+folder_name+'...'
-        file_list = glob.glob(folder_name+'/*')
-        fort13_files = glob.glob(folder_name+'/*.13')
-        table_files = glob.glob(folder_name+'/*.table')
+        file_list = glob.glob(os.path.join(folder_name, '*'))
+        fort13_files = glob.glob(os.path.join(folder_name, '*.13'))
+        table_files = glob.glob(os.path.join(folder_name, '*.table'))
         f14_files = f14.clean(self, folder_name)
         if f14_files:
             for x in f14_files:
@@ -481,11 +501,12 @@ class gridInfo(pickleable):
     def cleanup_landuse_folders(self):
         """ 
         Removes all files except ``*.table`` and the most recent ``*.14`` in all
-        landuse folders in the current directory
+        landuse folders in the current directory.
 
         """
         print 'Cleaning all landuse folders...'
-        landuse_folder_names = glob.glob(self.basis_dir+'/landuse_*')
+        landuse_folder_names = glob.glob(os.path.join(self.basis_dir,
+                                                      'landuse_*'))
         for x in landuse_folder_names:
             self.cleanup_landuse_folder(x)
 
@@ -498,17 +519,17 @@ def compare(basis_dir=None, default=0.012):
         folders
     :param float default: default Manning's *n*
     """
-    if basis_dir == None:
+    if basis_dir is None:
         basis_dir = os.getcwd()
-    tables = tm.read_tables(basis_dir+'/test')
+    tables = tm.read_tables(os.path.join(basis_dir, 'test'))
     domain = dom.domain(basis_dir)
     domain.read_spatial_grid()
-    fm.mkdir(basis_dir+'/figs')
-    old_files = glob.glob(basis_dir+'/figs/*.png')
+    fm.mkdir(os.path.join(basis_dir, 'figs'))
+    old_files = glob.glob(os.path.join(basis_dir, 'figs', '*.png'))
     for fid in old_files:
         os.remove(fid)
     domain.get_Triangulation(path=basis_dir)
-    original = f13.read_nodal_attr_dict(basis_dir+'/test')
+    original = f13.read_nodal_attr_dict(os.path.join(basis_dir, 'test'))
     original = tmm.dict_to_array(original, default, domain.node_num)
     weights = np.array(tables[0].land_classes.values())
     lim = (np.min(weights), np.max(weights))

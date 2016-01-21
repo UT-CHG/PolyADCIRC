@@ -1,11 +1,12 @@
-# Lindley Graham 3/27/2013 
+# Copyright (C) 2013 Lindley Graham
+
 """
 This module :mod:`~polyadcirc.pyADCIRC.fort13_management` handles the
-reading/writing of ``fort.13`` formatted files
+reading/writing of ``fort.13`` formatted files.
 """
 
-import numpy as np
 import os
+import numpy as np
 
 def write_manningsn(fid, node, value):
     """
@@ -30,7 +31,7 @@ def read_manningsn(fid):
     
     :type fid: :class:`file`
     :param fid: the file object to be read from we might want to re write this
-        as the fromstring method returns an array :rtype: :class:`np.ndarray`
+        as the fromstring method returns an array :rtype: :class:`numpy.ndarray`
     :return: Returns an array([node, value])
 
     """
@@ -49,15 +50,15 @@ def read_nodal_attr(data, path=None, file_name='fort.13', nums=None):
     :param file_name: the name of the ``fort.13`` formatted file
     :param list nums: list of nodes to read
 
-    :rtype: dict()
+    :rtype: dict
     :return: dictionary of Manning's *n* values
 
     """
     # Determine how many non-default nodes exist
     # Read in nodal values (Manning's n) from fort.13
-    if path == None:
+    if path is None:
         path = os.getcwd()
-    full_file_name = path+'/'+file_name
+    full_file_name = os.path.join(path, file_name)
 
     
     flag = 0
@@ -88,7 +89,7 @@ def read_nodal_attr(data, path=None, file_name='fort.13', nums=None):
             if attribute_name_present == 2:
                 for i in xrange(data.manningsn_num):
                     a = read_manningsn(f)
-                    if (nums == None) or (int(a[0]) in nums):
+                    if (nums is None) or (int(a[0]) in nums):
                         if data.node.has_key(int(a[0])):
                             data.node[int(a[0])].manningsn = a[1]
                         manningsn_values[int(a[0])] = a[1]
@@ -109,9 +110,9 @@ def read_default(data, path=None, file_name='fort.13'):
         containing the default value
 
     """
-    if path == None:
+    if path is None:
         path = os.getcwd()
-    full_file_name = path+'/'+file_name
+    full_file_name = os.path.join(path, file_name)
     
     flag = 0
     attribute_name_present = 0
@@ -140,9 +141,9 @@ def read_node_num(path=None, file_name='fort.13'):
     :return: number of nodes in the mesh 
 
     """
-    if path == None:
+    if path is None:
         path = os.getcwd()
-    full_file_name = path+'/'+file_name
+    full_file_name = os.path.join(path, file_name)
     
     with open(full_file_name, 'r') as f:
         f.readline()
@@ -156,18 +157,18 @@ def read_nodal_attr_dict(path=None, file_name='fort.13'):
     attributes).
 
     :type path: string or None
-    :param path: the directory containing the fort.13 to be read in
+    :param path: the directory containing the ``fort.13`` to be read in
     :type file_name: string
-    :param file_name: the name of the fort.13 formatted file
-    :rtype: dict()
+    :param file_name: the name of the ``fort.13`` formatted file
+    :rtype: dict
     :return: dictionary of Manning's *n* 
 
     """
     # Determine how many non-default nodes exist
     # Read in nodal values (Manning's n) from fort.13
-    if path == None:
+    if path is None:
         path = os.getcwd()
-    full_file_name = path+'/'+file_name
+    full_file_name = os.path.join(path, file_name)
     
     flag = 0
     attribute_name_present = 0
@@ -197,9 +198,9 @@ def read_nodal_attr_dict(path=None, file_name='fort.13'):
 
 def update_mann(data, path=None, default=None, file_name='fort.13'):
     """
-    Write out fort.13 to path with the attributes contained in Data.  
+    Write out ``fort.13`` to path with the attributes contained in Data.  
     
-    :type data: :class:`np.array` or :class:`dict`
+    :type data: :class:`numpy.ndarray` or :class:`dict`
     :param data: containing the nodal attribute information
     :type path: string or None
     :param path: the directory to which the fort.13 file will be written
@@ -209,11 +210,11 @@ def update_mann(data, path=None, default=None, file_name='fort.13'):
     :param file_name: the name of the ``fort.13`` formatted file
     
     """
-    if path == None:
+    if path is None:
         path = os.getcwd()
     
-    tmp_name = path+'/'+'temp.13'
-    file_name = path+'/'+file_name
+    tmp_name = os.path.join(path, 'temp.13')
+    file_name = os.path.join(path, file_name)
 
     # this currently uses the present fort.13 file as a template for formatting
     # purposes
@@ -249,11 +250,11 @@ def update_mann(data, path=None, default=None, file_name='fort.13'):
             if attribute_name_present == 2:
                 for i in xrange(org_non_default):
                     fid_read.readline()
-                if type(data) == np.ndarray or type(data) == np.array:
+                if isinstance(data, np.ndarray) or isinstance(data, np.array):
                     for k, v in enumerate(data):
                         write_manningsn(fid_write, k+1, v)
                 else:
-                    for k, v in data.iteritems():
+                    for k, v in sorted(data.iteritems()):
                         write_manningsn(fid_write, k, v)
                 flag = 1
         # write out remainder of fid_read to fid_write

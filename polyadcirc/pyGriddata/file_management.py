@@ -1,3 +1,5 @@
+# Copyright (C) 2013 Lindley Graham
+
 """
 This module handles the setting up of landuse classfication folders, bash
 scripts, and the cleaning of these folders after :program:`Griddata_v1.32.F90`
@@ -25,26 +27,26 @@ def mkdir(path):
     :param string path: path of directory to create
 
     """
-    if os.path.exists(path) == False:
+    if not os.path.exists(path):
         os.makedirs(path)
 
 def rename13(dirs=None, basis_dir=None):
     """
     Renames all ``*.13`` files in ``dirs`` to ``fort.13``
 
-    :param list() dirs: list of directory names
+    :param list dirs: list of directory names
 
     """
     files = []
-    if dirs == None and basis_dir == None:
-        files = glob.glob('landuse_*/*.13')
-    elif dirs == None and basis_dir:
-        files = glob.glob(basis_dir+'/landuse_*/*.13')
+    if dirs is None and basis_dir is None:
+        files = glob.glob(os.path.join('landuse_*', '*.13'))
+    elif dirs is None and basis_dir:
+        files = glob.glob(os.path.join(basis_dir, 'landuse_*', '*.13'))
     else:
         for d in dirs:
             files.append(glob.glob(os.path.join(basis_dir, d)+'/*.13')[0])
     for f in files:
-        os.rename(f, os.path.dirname(f)+'/fort.13')
+        os.rename(f, os.path.join(os.path.dirname(f), 'fort.13'))
 
 def remove(files):
     """
@@ -57,7 +59,7 @@ def remove(files):
     @author: pkjain
 
     """
-    if isinstance(files, str): #is files a string
+    if isinstance(files, str): #is files a stringing
         files = [files]
     for f in files:
         if os.path.isdir(f):

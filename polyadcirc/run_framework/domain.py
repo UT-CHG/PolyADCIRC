@@ -1,15 +1,17 @@
+# Copyright (C) 2013 Lindley Graham
+
 """
 See :class:`domain`
 """
+import subprocess, os
+import numpy as np
+from scipy.interpolate import griddata
 from polyadcirc.pyADCIRC.basic import pickleable 
 import polyadcirc.pyADCIRC.prep_management as prep
-import subprocess, os
 import polyadcirc.pyADCIRC.fort15_management as f15
 import polyadcirc.pyADCIRC.fort14_management as f14
 import polyadcirc.pyADCIRC.fort13_management as f13
 import polyadcirc.pyADCIRC.plotADCIRC as plot
-import numpy as np
-from scipy.interpolate import griddata
 
 class domain(pickleable):
     """
@@ -37,7 +39,7 @@ class domain(pickleable):
     time
         instance of :class:`~polyadcirc.pyADCIRC.basic.time` class
     make_domain_map
-        (boolean) whether or not a domain map has been created
+        (bool) whether or not a domain map has been created
 
     """
     def __init__(self, path, node_num=0, element_num=0, node=None,
@@ -50,11 +52,11 @@ class domain(pickleable):
         #: int, number of elements
         self.element_num = element_num
         if node or element:
-            #: boolean, whether or not a domain map has been created
+            #: bool, whether or not a domain map has been created
             self.make_domain_map = False
-            #: list(), list of nodes
+            #: list, list of nodes
             self.node = node
-            #: list(), list of elements where each element is a list of nodes
+            #: list, list of elements where each element is a list of nodes
             self.element = element
         else:
             self.make_domain_map = True
@@ -121,9 +123,10 @@ class domain(pickleable):
 
     def array_bathymetry(self):
         """
-        :rtype: :class:`np.array` of size(1, node_num)
+    
+        :rtype: :class:`numpy.ndarray` of size(1, node_num)
         :returns: array containing the bathymetry at all nodes in numerical
-        order
+            order
 
         """
         bathymetry = np.array([node.bathymetry for node in self.node.values()])
@@ -132,7 +135,8 @@ class domain(pickleable):
     
     def array_x(self):
         """
-        :rtype: :class:`np.array` of size(1, node_num)
+        
+        :rtype: :class:`numpy.ndarray` of size(1, node_num)
         :returns: array containing the x locations at all nodes in numerical
             order
 
@@ -141,7 +145,8 @@ class domain(pickleable):
     
     def array_y(self):
         """
-        :rtype: :class:`np.array` of size(1, node_num)
+        
+        :rtype: :class:`numpy.ndarray` of size(1, node_num)
         :returns: array containing the y locations at all nodes in numerical
             order
 
@@ -150,7 +155,8 @@ class domain(pickleable):
     
     def array_manningsn(self):
         """
-        :rtype: :class:`np.array` of size(1, node_num)
+        
+        :rtype: :class:`numpy.ndarray` of size(1, node_num)
         :returns: array of containing the Manning's *n* value at all nodes in
             numerical order
 
@@ -159,6 +165,7 @@ class domain(pickleable):
 
     def dict_bathymetry(self):
         """
+        
         :rtype: :class:`dict`
         :returns: ``key`` -- node number, ``value`` -- bathymetry
 
@@ -170,6 +177,7 @@ class domain(pickleable):
 
     def dict_manningsn(self):
         """
+        
         :rtype: :class:`dict`
         :returns: ``key`` -- node number, ``value`` -- manningsn
 
@@ -188,10 +196,11 @@ class domain(pickleable):
         :type path: string or None
         :param path: directory containing ``fort.13`` formatted file
         :param string file_name: ``fort.13`` formatted file name
+        
         :returns: See :meth:`~polyadcirc.pyADCIRC.fort13_management.read_nodal_attr`
 
         """
-        if path == None:
+        if path is None:
             path = self.path
         return f13.read_nodal_attr(self, path, file_name)
 
@@ -202,66 +211,76 @@ class domain(pickleable):
         :type path: string or None
         :param path: directory containing ``fort.13`` formatted file
         :param string file_name: ``fort.13`` formatted file name
+        
         :returns: See :meth:`~polyadcirc.pyADCIRCfort13_management.read_default`
 
         """
-        if path == None:
+        if path is None:
             path = self.path
         return f13.read_default(self, path, file_name)
 
-    def get_Triangulation(self, path=None, save=True, show=False):
+    def get_Triangulation(self, path=None, save=True, show=False, ext='.eps',
+                          ics=2):
         """
         :type path: None or string
         :param string path: directory containing ``figs/`` folder
-        :param boolean save: flag
-        :param boolean show: flag
+        :param bool save: flag
+        :param bool show: flag
+        
         :returns: See :meth:`~polyadcirc.pyADCIRC.plotADCIRC.get_Triangulation`
 
         """
-        return plot.get_Triangulation(self, path, save, show)
+        return plot.get_Triangulation(self, path, save, show, ext=ext, ics=ics)
 
-    def plot_bathymetry(self, path=None, save=True, show=False):
+    def plot_bathymetry(self, path=None, save=True, show=False, ext='.eps',
+                        ics=2):
         """
         :type path: None or string
         :param string path: directory containing ``figs/`` folder
-        :param boolean save: flag
-        :param boolean show: flag
+        :param bool save: flag
+        :param bool show: flag
+        
         :returns: See :meth:`~polyadcirc.pyADCIRC.plotADCIRC.bathymetry`
 
         """
-        return plot.bathymetry(self, path, save, show)
+        return plot.bathymetry(self, path, save, show, ext=ext, ics=ics)
 
     def plot_station_locations(self, path=None, bathymetry=False, 
-                               save=True, show=False):
+                               save=True, show=False, ext='.eps',
+                               ics=2):
         """
         :param string path: directory containing ``figs/`` folder
-        :type bathymetry: boolean
+        :type bathymetry: bool
         :param bathymetry: flag whether or not to plot bathymetry in the
             background 
-        :param boolean save: flag
-        :param boolean show: flag
+        :param bool save: flag
+        :param bool show: flag
+        
         :returns: See :meth:`~polyadcirc.pyADCIRC.plotADCIRC.station_locations`
 
         """
-        return plot.station_locations(self, path, bathymetry, save, show)
+        return plot.station_locations(self, path, bathymetry, save, show,
+                                      ext=ext, ics=ics)
 
     def adjust(self, x_lims=None, b_lims=None, path=None, plotb=False):
         """
         Adds a bathymetry between x-locations defined by ``x_lims`` with
         bathymetry linearly interpolated between ``b_lims``
 
-        :param list() x_lims: [x_min, x_max]
-        :param list() b_lims: [b_min, b_max]
+        :param list x_lims: [x_min, x_max]
+        :param list b_lims: [b_min, b_max]
         :type path: string or None
         :param path: directory containing the ``fort.14`` to be adjusted
 
         """
-        if path == None:
+        if path is None:
             path = self.path
-        if x_lims == None:
+        if x_lims is None:
             x_lims = [0, 0]
-            x_lims[0] = np.min(np.array([node.x for node in self.node.values()]))  
-            x_lims[1] = np.max(np.array([node.x for node in self.node.values()]))
+            x_lims[0] = np.min(np.array([node.x for node in \
+                    self.node.values()]))  
+            x_lims[1] = np.max(np.array([node.x for node in \
+                    self.node.values()]))
         for n in self.node.values():
             n.bathymetry += adjust_factor(n.x, x_lims, b_lims)
         if plotb:
@@ -271,13 +290,14 @@ class domain(pickleable):
                  save=False, show=False):
         """
 
-        :type path: string or None
+        Adds a land wall of default 2 m in area defined by ``box_limits``
+        
         :param path: directory containing the ``fort.14`` to be adjusted
-	:param box_limits: [xmin, xmax, ymin, ymax] 
+        :type path: string or None
+	:param list box_limits: [xmin, xmax, ymin, ymax] 
 
-        adds a land wall of default 2 m in area defined by box_limits
         """
-        if path == None:
+        if path is None:
             path = self.path
         for n in self.node.values():
             if box_limits[0] <= n.x <= box_limits[1]: 
@@ -307,10 +327,10 @@ class domain(pickleable):
     def run(self, num_procs, base_dir, input_dir=None, global_dir=None, 
             write_option=None, num_writers=None, LorS=None, R=False):
         """
+        
         Preprocess and run ADCIRC on this domain
 
-        .. seealso:: `Generic ADCIRC Command Line
-        Options<http://adcirc.org/home/documentation/generic-adcirc-command-line-options/>`_
+        .. seealso:: `Generic ADCIRC Command Line Options <http://adcirc.org/home/documentation/generic-adcirc-command-line-options/>`_
 
         :param int num_procs: number of processors for this ADCIRC run
         :param string base_dir: directory containing the padcirc executables
@@ -323,15 +343,16 @@ class domain(pickleable):
         :param string R: (optional) specify ``R`` flag
 
         """
-        if base_dir == None:
+        if base_dir is None:
             base_dir = self.path
-        if input_dir == None:
+        if input_dir is None:
             input_dir = self.path
-        if global_dir == None:
+        if global_dir is None:
             global_dir = self.path
-        if not os.path.exists(self.path+'/adcprep'):
-            os.symlink(base_dir+'/adcprep', self.path+'/adcprep')
-        prep.write_1(self.path, num_procs)
+        if not os.path.exists(os.path.join(self.path, 'adcprep')):
+            os.symlink(os.path.join(base_dir, 'adcprep'),
+                       os.path.join(self.path, 'adcprep')) 
+            prep.write_1(self.path, num_procs)
         prep.write_2(self.path, num_procs)
         subprocess.call('./adcprep < in.prep1 > prep_o.txt', shell=True, 
                         cwd=self.path) 
@@ -351,7 +372,7 @@ class domain(pickleable):
         """
         Write out fort.13 to path with the attributes contained in Data.  
 
-        :type data: :class:`np.array` or :class:`dict`
+        :type data: :class:`numpy.ndarray` or :class:`dict`
         :param data: containing the nodal attribute information
         :type path: string or None
         :param path: the directory to which the fort.13 file will be written
@@ -363,6 +384,21 @@ class domain(pickleable):
         """
         f13.update_mann(data, path, default, file_name)   
 
+    def find_neighbors(self):
+        """
+        Determine the neighbors of each of the nodes and store in
+        ``self.node[#].neighbors`` as a ``set()``.
+        """
+        for n in self.node.itervalues():
+            n.neighbors = set()
+        for e in self.element.itervalues():
+            self.node[e[0]].neighbors.add(e[1])
+            self.node[e[0]].neighbors.add(e[2])
+            self.node[e[1]].neighbors.add(e[0])
+            self.node[e[1]].neighbors.add(e[2])
+            self.node[e[2]].neighbors.add(e[1])
+            self.node[e[2]].neighbors.add(e[0])
+
 def adjust_factor(x, x_lims, b_lims=None):
     """
     :param float x: current x value
@@ -372,7 +408,7 @@ def adjust_factor(x, x_lims, b_lims=None):
     :returns: b = bathy adjustment
 
     """
-    if b_lims == None:
+    if b_lims is None:
         return 0
     if x < x_lims[0] or x > x_lims[1]:
         return 0

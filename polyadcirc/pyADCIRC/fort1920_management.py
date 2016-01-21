@@ -1,10 +1,12 @@
+# Copyright (C) 2013 Lindley Graham
+
 """
 This module is for the manipulation and creation of ``fort.19`` and
 ``fort.20`` files.
 """
 
-import numpy as np
 import os, math
+import numpy as np
 
 def write_fort19(etiminc, esbin, file_name=None):
     """
@@ -12,17 +14,17 @@ def write_fort19(etiminc, esbin, file_name=None):
 
     neta = total number of elevation specified boundary nodes
 
-    :type etiminc: :class:`numpy.array` of shape (neta,) 
+    :type etiminc: :class:`numpy.ndarray` of shape (neta,) 
     :param etimic: time increment (secs) between consecutive sets of
                     elevation specified bounadry condition values
-    :type esbin: :class:`numpy.array` of shape (k, neta)
+    :type esbin: :class:`numpy.ndarray` of shape (k, neta)
     :param esbin: elevation at specfied elevation nodes k
 
     .. seealso:: `ADCIRC <http://adcirc.org/home/documentation/users-manual-v50/input-file-descriptions/non-periodic-elevation-boundary-condition-file-fort-19/>`_ 
                 Non-periodic Elevation Boundary Condition File
     """
-    if file_name == None:
-        file_name = os.getcwd()+'/fort.19'
+    if file_name is None:
+        file_name = os.path.join(os.getcwd(), 'fort.19')
 
     esbin = esbin.ravel()
     
@@ -33,8 +35,10 @@ def write_fort19(etiminc, esbin, file_name=None):
             fid.write('{:17.15f}\n'.format(k))
 
 def sin_wave(t_start, t_finish, amplitude, nnodes, time, periods=.5, 
-         shift=0, timinc=None):
+             shift=0, timinc=None):
     """
+    Creates data for a sine wave for forcing over the simulation ``time``
+    evert ``timinc``.
     
     :param float t_start: starting time of sine shaped wave in days
     :param float t_finish: ending time of the sine shaped wave in days
@@ -46,8 +50,11 @@ def sin_wave(t_start, t_finish, amplitude, nnodes, time, periods=.5,
     :param float shift: number of periods to shift the wave  
     :param int timinc: time increment (secs) between consecutive sets of data
 
+    :rtype: tuple of (:class:`numpy.ndarray`, :class:`numpy.ndarray`, int)
+    :returns: (times, values at times, timinc)
+
     """
-    if timinc == None:
+    if timinc is None:
         timinc = time.dt * 450.0
     times = np.arange(time.statim*60*60*24.0, time.rnday*60*60*24.0+timinc,
                       float(timinc))
@@ -72,7 +79,9 @@ def sin_wave(t_start, t_finish, amplitude, nnodes, time, periods=.5,
 
 def step_wave(t_start, t_finish, amplitude, nnodes, time, timinc=None):
     """
-    
+    Creates data for a square wave for forcing over the simulation ``time``
+    evert ``timinc``.
+
     :param float t_start: starting time of sine shaped wave in days
     :param float t_finish: ending time of the step shaped wave in days
     :param float amplitude: amplitude of the step shaped wave
@@ -81,8 +90,11 @@ def step_wave(t_start, t_finish, amplitude, nnodes, time, timinc=None):
     :type time: :class:`~polyadcirc.pyADCIRC.basic.time`
     :param int timinc: time increment (secs) between consecutive sets of data
 
+    :rtype: tuple of (:class:`numpy.ndarray`, :class:`numpy.ndarray`, int)
+    :returns: (times, values at times, timinc)
+
     """
-    if timinc == None:
+    if timinc is None:
         timinc = time.dt * 450.0
     times = np.arange(time.statim*60*60*24.0, time.rnday*60*60*24.0+timinc,
                       float(timinc))
@@ -109,17 +121,17 @@ def write_fort20(ftiminc, qnin, file_name=None):
 
     nflbn = total number of normal flow specified boundary nodes
 
-    :type ftiminc: :class:`numpy.array` of shape (nflbn,) 
+    :type ftiminc: :class:`numpy.ndarray` of shape (nflbn,) 
     :param ftiminc: time increment (secs) between consecutive sets of
                     normal flow specified bounadry condition values
-    :type qnin: :class:`numpy.array` of shape (k, nflbn)
+    :type qnin: :class:`numpy.ndarray` of shape (k, nflbn)
     :param qnin: normal flow/unit width at specified nomarl flow node k
 
     .. seealso:: `ADCIRC <http://adcirc.org/home/documentation/users-manual-v50/input-file-descriptions/non-periodic-normal-flow-boundary-condition-file-fort-20/>`_ 
                 Non-periodic Normal Flow Boundary Condition File
     """
-    if file_name == None:
-        file_name = os.getcwd()+'/fort.20'
+    if file_name is None:
+        file_name = os.path.join(os.getcwd(), 'fort.20')
     qnin = qnin.ravel() 
     with open(file_name, 'w') as fid:
         fid.write(str(ftiminc)+"      ")

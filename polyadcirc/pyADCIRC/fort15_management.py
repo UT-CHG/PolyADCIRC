@@ -1,11 +1,14 @@
-# Lindley Graham 4/8/2013
+# Copyright (C) 2013 Lindley Graham
+
 """
-fort15_management handles the reading/writing of ``fort.15`` formatted files
+This module, :mod:`~polyadcirc.pyADCIRC.fort15_management`, handles the
+reading/writing of ``fort.15`` formatted files.
 """
 
-import numpy as np
 import os, re, math
+import numpy as np
 import polyadcirc.pyADCIRC.basic as basic
+import polyadcirc.util as util
 
 filetype = {'fort61':(True, 1), 'fort62':(True, 2), 'fort63':(False, 1),
             'tinun63':(False, 1), 'maxele63':(False, 1), 
@@ -13,6 +16,65 @@ filetype = {'fort61':(True, 1), 'fort62':(True, 2), 'fort63':(False, 1),
             'rising63':(False, 1), 'elemaxdry63':(False, 1),
             'fort64':(False, 2), 'fort71':(True, 1), 'fort72':(True, 2),
             'fort73':(False, 1), 'fort74':(False, 2)}
+
+def array_to_loc_list(station_array):
+    """
+    Convert a :class:`numpy.ndarray` into a list of
+    :class:`~polyadcirc.pyADCIRC.basic.location`.
+
+    :param station_array: an array of shape (n, 2) where n is the number of
+        station locations
+    :type station_array: :class:`numpy.ndarray`
+    
+    :rtype: list
+    :returns: list of :class:`~polyadcirc.pyADCIRC.basic.location`
+    
+    """
+
+    stations = []
+    for i in station_array:
+        stations.append(basic.location(i[0], i[1]))
+    return stations
+
+def loc_list_to_array(station_list):
+    """
+    Convert a list of station locations to an array of x and y values.
+
+    :param list station_list: list of
+        :class:`~polyadcirc.pyADCIRC.basic.location`
+    
+    :rtype: :class:`numpy.ndarray` of shape (n, 2)
+    :returns: array of station locations
+    
+    """
+    
+    xy = [[l.x, l.y] for l in station_list]
+    return np.array(xy)
+
+def fake_stations(domain, num_stat):
+    """
+    Given a domain and a number of stations creates a grid of stations with
+    ``num_stat`` stations in the x and y directions.
+
+    :param domain: physical domain used to define the minimum and maximum
+        extent of the grid of stations to be created
+    :type domain: :class:`~polyadcirc.run_framework.domain`
+    :param num_stat: number of stations in the x and y directions
+    :type num_stat: int or iterable of length 2
+
+    :rtype: list
+    :returns: list of :class:`~polyadcirc.pyADCIRC.basic.location`
+    
+    """
+
+    x = domain.array_x()
+    y = domain.array_y()
+    if isinstance(num_stat, int):
+        num_stat = [num_stat, num_stat]
+
+    xy = util.meshgrid_ndim((np.linspace(min(x), max(x), num_stat[0]),
+                             np.linspace(min(y), max(y), num_stat[1])))
+    return array_to_loc_list(xy)
 
 def read_recording_data(data, path=None):
     """
@@ -30,14 +92,15 @@ def read_recording_data(data, path=None):
         :class:`~polyadcirc.pyADCIRC.basic.time` 
     :type path: string or None
     :param path: directory containing ``fort.15`` file 
+    
     :return: reference to ``data.recording`` and ``data.stations``
     :rtype: :class:`~polyadcirc.pyADCIRC.basic.time`
 
     """
-    if path == None:
+    if path is None:
         path = os.getcwd()
 
-    file_name = path+'/fort.15'
+    file_name = os.path.join(path, 'fort.15')
         
     data.stations = {}
     data.recording = {}
@@ -48,6 +111,10 @@ def read_recording_data(data, path=None):
             if line.find('DT') >= 0:
                 line = line.partition('!')
                 dt = float(line[0].strip()) # pylint: disable=C0103
+            elif line.find('IHOT') >= 0:
+                line = line.partition('!')
+                ihot = int(line[0].strip())
+                data.ihot = ihot
             elif line.find('STATIM') >= 0:
                 line = line.partition('!')
                 statim = float(line[0].strip())
@@ -56,34 +123,35 @@ def read_recording_data(data, path=None):
                 rnday = float(line[0].strip())
             elif line.find('DRAMP') >= 0:
                 line = line.partition('!')
-                dramp = float(line[0].strip())
+                dramp = np.fromstring(line[0].strip(), sep=' ')
+                #float(line[0].strip())
                 data.time = basic.time(dt, statim, rnday, dramp) 
             elif line.find('H0') >= 0:
                 line = line.partition('!')[0]
                 line = np.fromstring(line, sep=' ')
-                data.h0 = line[0]
-            elif line.find('NOUTE') >= 0:
+                data.h0 = np.fromstring(line[0])[0]
+            elif line.find('UNIT  61') >= 0:
                 line = line.partition('!')
                 _read_record(fid, 'fort61', line, data)
-            elif line.find('NOUTV') >= 0:
+            elif line.find('UNIT  62') >= 0:
                 line = line.partition('!')
                 _read_record(fid, 'fort62', line, data)
             elif line.find('NOUTC') >= 0:
                 line = line.partition('!')
                 #_read_record(fid, 'fort91', line, dt, data)
-            elif line.find('NOUTM') >= 0:
+            elif line.find('UNIT  71/72') >= 0:
                 line = line.partition('!')
                 _read_record7(fid, 'fort71', 'fort72', line, data)
             elif line.find('NOUTGE') >= 0:
                 line = line.partition('!')
                 _read_record(fid, 'fort63', line, data)
-            elif line.find('NOUTGV') >= 0:
+            elif line.find('UNIT  64') >= 0:
                 line = line.partition('!')
                 _read_record(fid, 'fort64', line, data)
             elif line.find('NOUTGC') >= 0:
                 line = line.partition('!')
                 #_read_record(fid, 'fort93', line, dt, data)
-            elif line.find('NOUTGW') >= 0:
+            elif line.find('UNIT  73/74') >= 0:
                 line = line.partition('!')
                 _read_record7(fid, 'fort73', 'fort74', line, data)
             line = fid.readline()
@@ -97,9 +165,10 @@ def _read_record(fid, key, line, data):
     :param fid: :class:``file`` object
     :param string key: ADCIRC Output File Type sans ``.``
     :param line: array of parameters read from ``fort.15`` file
-    :type line: :class:``np.array``
+    :type line: :class:``numpy.ndarray``
     :param data: object to store mesh specific data
     :type data: :class:``~polyadcirc.run_framework.domain``
+    
     :rtype: string
     :returns: station type description
 
@@ -140,9 +209,10 @@ def _read_record7(fid, key1, key2, line, data):
     :param string key1: ADCIRC Output File Type sans ``.``
     :param string key2: ADCIRC Output File Type sans ``.``
     :param line: array of parameters read from ``fort.15`` file
-    :type line: :class:``np.array``
+    :type line: :class:``numpy.ndarray``
     :param data: object to store mesh specific data
     :type data: :class:``~polyadcirc.run_framework.domain``
+    
     :rtype: string
     :returns: station type description
 
@@ -189,17 +259,17 @@ def subdomain(fulldomain_path, subdomain_path):
     :param string subdomain_path: subdomain dir containing ``fort.15`` file
 
     """
-    class fdata:
+    class fdata(object):
         """ Storage class for station information """
         def __init__(self):
             self.stations = {}
             self.recording = {}
     
     data = fdata()
+    fullfile = os.path.join(fulldomain_path, 'fort.15')
+    subfile = os.path.join(subdomain_path, 'fort.15')
         
-    with open(fulldomain_path+'/fort.15', 
-              'r') as fid_read, open(subdomain_path+'/fort.15', 
-                                     'w') as fid_write:
+    with open(fullfile, 'r') as fid_read, open(subfile, 'w') as fid_write:
         line = fid_read.readline()
         while line != '':
             if line.find('DT') >= 0:
@@ -212,7 +282,7 @@ def subdomain(fulldomain_path, subdomain_path):
                 statim = float(line[0].strip())
             elif line.find('RNDAY') >= 0:
                 line = line.partition('!')
-                rnday = float(line[0].strip())*0.95
+                rnday = float(line[0].strip())*0.995
                 fid_write.write(' {:<6.3f} {:>30}{}'.format(rnday, '!',
                                                             line[-1])) 
             elif line.find('DRAMP') >= 0:
@@ -234,7 +304,7 @@ def subdomain(fulldomain_path, subdomain_path):
                 line = line.partition('!')
                 description = _read_record(fid_read, 'fort61', line, data)
                 _write_record(fid_write, 'fort61', description, data)
-            elif line.find('NOUTV') >= 0:
+            elif line.find('UNIT 62') >= 0:
                 fid_write.write(line)
                 line = line.partition('!')
                 description = _read_record(fid_read, 'fort62', line, data)
@@ -244,7 +314,7 @@ def subdomain(fulldomain_path, subdomain_path):
                 line = line.partition('!')
                 #description = _read_record(fid_read, 'fort91', line, dt, data)
                 #_write_record(fid_write, 'fort91', description, data)
-            elif line.find('NOUTM') >= 0:
+            elif line.find('UNIT 71/72') >= 0:
                 fid_write.write(line)
                 line = line.partition('!')
                 description = _read_record7(fid_read, 'fort71', 'fort72', line,
@@ -260,9 +330,10 @@ def trim_locations(flag, subdomain_path, locs):
 
     :param int flag: type of subdomain 0 - ellipse, 1 - circle
     :param string subdomain_path: subdomain dir containing ``fort.15`` file
-    :param list() locs: list of :class:`~polyadcirc.pyADCIRC.basic.location`
+    :param list locs: list of :class:`~polyadcirc.pyADCIRC.basic.location`
         objects
-    :rtype: list()
+    
+    :rtype: list
     :returns: list of locations inside the subdomain
 
     """
@@ -274,36 +345,39 @@ def trim_locations(flag, subdomain_path, locs):
 def trim_locations_circle(subdomain_path, locs):
     """
     Remove locations outside of the circular subdomain from locs
-
+    
     :param string subdomain_path: subdomain dir containing ``fort.15`` file
-    :param list() locs: list of :class:`~polyadcirc.pyADCIRC.basic.location`
+    :param list locs: list of :class:`~polyadcirc.pyADCIRC.basic.location`
         objects
-    :rtype: list()
+    
+    :rtype: list
     :returns: list of locations inside the subdomain
 
     """
-    with open(subdomain_path+"/shape.c14", "r") as fid:
+    with open(os.path.join(subdomain_path, "shape.c14"), "r") as fid:
         line = fid.readline().split()
         xb = float(line[0])
         yb = float(line[1])
         r = float(fid.readline())
+    sub_stations = []
     for loc in locs:
-        if (xb-loc.x)**2 + (yb-loc.y)**2 >= r**2:
-            locs.remove(loc)    
-    return locs
+        if ((xb-loc.x)**2 + (yb-loc.y)**2) <= (r-r/25)**2:
+            sub_stations.append(loc)    
+    return sub_stations
 
 def trim_locations_ellipse(subdomain_path, locs):
     """
     Remove locations outside of the elliptical subdomain from locs
 
     :param string subdomain_path: subdomain dir containing ``fort.15`` file
-    :param list() locs: list of :class:`~polyadcirc.pyADCIRC.basic.location`
+    :param list locs: list of :class:`~polyadcirc.pyADCIRC.basic.location`
         objects 
-    :rtype: list()
+    
+    :rtype: list
     :returns: list of locations inside the subdomain
 
     """
-    with open(subdomain_path+"/shape.e14", "r") as fid:
+    with open(os.path.join(subdomain_path, "shape.e14"), "r") as fid:
         point1 = fid.readline().split()
         p1 = [float(point1[0]), float(point1[1])]
         point2 = fid.readline().split()
@@ -327,6 +401,7 @@ def trim_locations_ellipse(subdomain_path, locs):
     xaxis = ((0.5*d)**2 + (0.5*w)**2)**(0.5) 
     yaxis = w/2
     
+    sub_stations = []
     for loc in locs:
         #transform Global Coordinates to local coordinates
         X = loc.x - c[0]
@@ -334,9 +409,9 @@ def trim_locations_ellipse(subdomain_path, locs):
         x = cos*X - sin*Y
         y = sin*X + cos*Y
 
-        if x**2/xaxis**2 + y**2/yaxis**2 >= 1:
-            locs.remove(loc)
-    return locs
+        if (x**2/xaxis**2 + y**2/yaxis**2) < 1:
+            sub_stations.append(loc)    
+    return sub_stations
 
 def _write_record(fid, key, description, data):
     """
@@ -347,7 +422,7 @@ def _write_record(fid, key, description, data):
     :param fid: :class:``file`` object
     :param string key: ADCIRC Output File Type sans ``.``
     :param line: array of parameters read from ``fort.15`` file
-    :type line: :class:``np.array``
+    :type line: :class:``numpy.ndarray``
     :param data: object to store mesh specific data
     :type data: :class:``~polyadcirc.run_framework.domain`` or similar object
 
@@ -365,11 +440,11 @@ def set_ihot(ihot, path=None):
         dtat from
 
     """
-    if path == None:
+    if path is None:
         path = os.getcwd()
 
-    tmp_name = path +"/temp.15"
-    file_name = path +"/fort.15"
+    tmp_name = os.path.join(path, "temp.15")
+    file_name = os.path.join(path, "fort.15")
 
     with open(file_name, 'r') as fid_read, open(tmp_name, 'w') as fid_write:
         line = fid_read.readline()
@@ -392,11 +467,11 @@ def set_write_hot(nhstar, nhsinc, path=None):
         file
 
     """
-    if path == None:
+    if path is None:
         path = os.getcwd()
 
-    tmp_name = path +"/temp.15"
-    file_name = path +"/fort.15"
+    tmp_name = os.path.join(path, "temp.15")
+    file_name = os.path.join(path, "fort.15")
 
     with open(file_name, 'r') as fid_read, open(tmp_name, 'w') as fid_write:
         line = fid_read.readline()

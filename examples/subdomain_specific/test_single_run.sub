@@ -1,0 +1,14 @@
+#!/bin/bash
+#$ -V
+#$ -pe 2way 12
+#$ -cwd
+#$ -N test_single 
+#$ -j n
+#$ -o $JOB_NAME.o.$JOB_ID
+#$ -e $JOB_NAME.e.$JOB_ID
+#$ -l h_rt=00:15:00
+#$ -q development
+#$ -M youremail@place.com 
+#$ -m be
+
+python setup_subdomain.py
