@@ -75,9 +75,9 @@ def combine_bv_array(weights, array):
     Combine basis vector arrays using ``weights`` as the Manning's n value for
     each basis vector array.
     
-    :type weights: :class:`numpy.array`
+    :type weights: :class:`numpy.ndarray`
     :param weights: array of size (num_of_basis_vec, 1)
-    :type array: :class:`numpy.array` of size (node_num, num_of_basis_vec)
+    :type array: :class:`numpy.ndarray` of size (node_num, num_of_basis_vec)
     :param array: array of basis vectors
     :returns: an array of size (node_num, 1) containing the manningsn value at
         all nodes in numerical order
@@ -92,9 +92,9 @@ def combine_basis_vectors(weights, vectors, default_value=None, node_num=None):
     basis vector. If a ``default_value`` is set then all nodes with out data
     are set to the ``default_value``.
     
-    :type weights: :class:`numpy.array`
+    :type weights: :class:`numpy.ndarray`
     :param weights: array of size (num_of_basis_vec, 1)
-    :type vectors: list of dicts OR :class:`numpy.array` of size (node_num,
+    :type vectors: list of dicts OR :class:`numpy.ndarray` of size (node_num,
         num_of_basis_vec) 
     :param vectors: basis vectors
     :returns: an array of size (node_num, 1) containing the manningsn value at
@@ -114,13 +114,13 @@ def combine_basis_vectors(weights, vectors, default_value=None, node_num=None):
         
 def add_dict(dict_list, weights):
     """
-    Adds a list of ``dict``s together.
+    Adds a list of ``dict`` together.
 
     :param dict_list: list of dicts
-    :param list() weights: list of weights
+    :param list weights: list of weights
+    
     :rtype: dict
-    :returns: a dict[k] = weights[0]*dict_list[0] + ... +
-        weights[-1]*dict_list[-1]
+    :returns: a ``dict[k] = weights[0]*dict_list[0] + ... + weights[-1]*dict_list[-1]``
     
     """
     return reduce(add_dict_pair, zip(dict_list, weights))
@@ -128,12 +128,13 @@ def add_dict(dict_list, weights):
 def add_dict_pair(dict1, dict2):
     """
 
-    Adds two ``dict``s together.
+    Adds two ``dict`` together.
 
     :param dict dict1: first dict
     :param dict dict2: second dict
+    
     :rtype: dict
-    :returns: a dict[k] = dict1[k] + dict2[k]
+    :returns: a ``dict[k] = dict1[k] + dict2[k]``
     
     """
     dict_sum = {}
@@ -149,13 +150,14 @@ def add_dict_pair(dict1, dict2):
 def dict_to_array(data, default_value, node_num):
     """
     Given a dictonary, default_value, and number of nodes converts a dictornary
-    to an array of size(node_num, 1) and fills in the missing entires with the
+    to an array of size (node_num, 1) and fills in the missing entires with the
     default_value.
 
     :param data: dict
     :param float default_value: default
     :param int node_num: total number of nodes in the mesh
-    :rtype: :class:`numpy.array`
+    
+    :rtype: :class:`numpy.ndarray`
     :returns: array version of the dict
 
     """
@@ -172,9 +174,9 @@ def get_default_nodes(domain, vectors=None):
     :param domain: a computational domain for a physical domain
     :type domain: :class:`~polyadcirc.run_framework.domain`
     :param vectors: basis vectors
-    :type vectors: dict()
+    :type vectors: dict
 
-    :rtype: list()
+    :rtype: list
     :returns: list of default nodes
 
     """
@@ -261,11 +263,11 @@ def create_shelf(domain, shelf_bathymetry, vectors):
     :type domain: :class:`~polyadcirc.run_framework.domain`
     :param shelf_bathymetry: the bathymetric limits of the continental shelf
         [min, max]
-    :type shelf_bathymetry: :class:`numpy.array`
+    :type shelf_bathymetry: :class:`numpy.ndarray`
     :param vectors: basis vectors
-    :type vectors: dict()
+    :type vectors: dict
 
-    :rtype: dict()
+    :rtype: dict
     :returns: basis vector that represents the continental shelf
 
     """
@@ -290,9 +292,9 @@ def create_from_fort13(domain, mann_dict, vectors):
     :param dict mann_dict: a dictionary created from a ``fort.13`` formatted
         file or a dictionary of Manning's n values
     :param vectors: basis vectors
-    :type vectors: dict()
+    :type vectors: dict
 
-    :rtype: dict()
+    :rtype: dict
     :returns: basis vector of values
     """
     new_mann_dict = dict()
@@ -311,7 +313,7 @@ def condense_bv_dict(mann_dict, TOL=None):
         file or a dictionary of Manning's n values
     :param double TOL: Tolerance close to zero, default is 1e-7
 
-    :rtype: dict()
+    :rtype: dict
     :returns: basis vector of values
     """
     if TOL == None:

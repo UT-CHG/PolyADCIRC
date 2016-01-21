@@ -18,8 +18,8 @@ def get_data_nts(kk, path, data, nts_data, file_names=["tinun.63"]):
     :param int kk: run number
     :param string path: ``RF_directory_*`` path
     :param data: :class:`~polyadcirc.run_framework.domain`
-    :param dict() nts_data: reference to dict() to store data to
-    :param list() file_names: list of :program:`ADCIRC` output files to
+    :param dict nts_data: reference to dict() to store data to
+    :param list file_names: list of :program:`ADCIRC` output files to
         retrieve data from
 
     """
@@ -34,7 +34,7 @@ def get_data_nts(kk, path, data, nts_data, file_names=["tinun.63"]):
     
 def get_nts_sr(path, data, file_name):
     """
-     Retrieves data from a nontimeseries formatted file in path and adds data
+    Retrieves data from a nontimeseries formatted file in path and adds data
     to ``nts_data``
 
     :param string path: ``RF_directory_*`` path
@@ -44,6 +44,7 @@ def get_nts_sr(path, data, file_name):
 
     :rtype: :class:`numpy.ndarray`
     :returns: array of dimensions (data.node_num,)
+
     """
 
     single_nodal_data = np.zeros((data.node_num,))        
@@ -65,9 +66,9 @@ def get_data_ts(kk, path, ts_data, time_obs, file_names=["fort.61"],
 
     :param int kk: run number
     :param string path: ``RF_directory_*`` path
-    :param dict() ts_data: reference to dict() to store data to
-    :param dict() time_obs: reference to dict() to store time data to
-    :param list() file_names: list of :program:`ADCIRC` output files to
+    :param dict ts_data: reference to dict() to store data to
+    :param dict time_obs: reference to dict() to store time data to
+    :param list file_names: list of :program:`ADCIRC` output files to
     :param int ihot: hotstart flag (0, 67, 68)
     :param int timesteps: number of timesteps to read
 
@@ -82,17 +83,19 @@ def get_data_ts(kk, path, ts_data, time_obs, file_names=["fort.61"],
 
 def get_ts_sr(path, file_name, get_time=False, timesteps=None, ihot=None):
     """
-     Retrieves data from a timeseries formatted file in path and adds data
+    Retrieves data from a timeseries formatted file in path and adds data
     to ``ts_data``
 
     :param string path: ``RF_directory_*`` path
     :param string file_name: :program:`ADCIRC` output file to retrieve data
         from
-    :param boolean: flag for whether or not to record times of recordings
+    :param bool: flag for whether or not to record times of recordings
     :param int timesteps: number of timesteps to read
     :param int ihot: hotstart flag (0, 67, 68)
+    
     :rtype: :class:`numpy.ndarray`
-    :returns: array of dimensions (data.node_num,)
+    :returns: array of dimensions (``data.node_num``,)
+    
     """
     # determine the number of lines in the file if HOTSTARTED
     if ihot > 0:

@@ -31,7 +31,7 @@ def read_manningsn(fid):
     
     :type fid: :class:`file`
     :param fid: the file object to be read from we might want to re write this
-        as the fromstring method returns an array :rtype: :class:`np.ndarray`
+        as the fromstring method returns an array :rtype: :class:`numpy.ndarray`
     :return: Returns an array([node, value])
 
     """
@@ -50,7 +50,7 @@ def read_nodal_attr(data, path=None, file_name='fort.13', nums=None):
     :param file_name: the name of the ``fort.13`` formatted file
     :param list nums: list of nodes to read
 
-    :rtype: dict()
+    :rtype: dict
     :return: dictionary of Manning's *n* values
 
     """
@@ -160,7 +160,7 @@ def read_nodal_attr_dict(path=None, file_name='fort.13'):
     :param path: the directory containing the ``fort.13`` to be read in
     :type file_name: string
     :param file_name: the name of the ``fort.13`` formatted file
-    :rtype: dict()
+    :rtype: dict
     :return: dictionary of Manning's *n* 
 
     """
@@ -200,7 +200,7 @@ def update_mann(data, path=None, default=None, file_name='fort.13'):
     """
     Write out ``fort.13`` to path with the attributes contained in Data.  
     
-    :type data: :class:`np.array` or :class:`dict`
+    :type data: :class:`numpy.ndarray` or :class:`dict`
     :param data: containing the nodal attribute information
     :type path: string or None
     :param path: the directory to which the fort.13 file will be written

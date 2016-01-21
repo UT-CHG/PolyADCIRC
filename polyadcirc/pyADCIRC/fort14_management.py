@@ -17,7 +17,7 @@ def clean(grid_object, folder_name=None):
 
     :param grid_object: :class:`~polyadcirc.pyGriddata.gridObject.gridInfo`
     :param string folder_name: folder to clean
-    :rtype: list()
+    :rtype: list
     :return: list of ``fort.14`` files in ``folder_name``
 
     """
@@ -64,7 +64,7 @@ def flag_go(grid, avg_scheme=2):
 def is_flagged(grid):
     """
     :param grid: :class:`gridInfo`
-    :rtype: boolean
+    :rtype: bool
     :returns: true if flagged_grid_file_name exists and false if it doesn't
         exist
 
@@ -82,7 +82,7 @@ def read_spatial_grid(data, path=None, make_domain_map=False):
     :param data: python object to save the ``fort.14`` data to
     :type path: string or None
     :param path: path to the``fort.14`` fortmatted file
-    :type make_domain_map: boolean
+    :type make_domain_map: bool
     :param make_domain_map: flag for whether or not to make a node to element
                             map
     :returns: reference to data

@@ -34,7 +34,7 @@ def rename13(dirs=None, basis_dir=None):
     """
     Renames all ``*.13`` files in ``dirs`` to ``fort.13``
 
-    :param list() dirs: list of directory names
+    :param list dirs: list of directory names
 
     """
     files = []
@@ -59,7 +59,7 @@ def remove(files):
     @author: pkjain
 
     """
-    if isinstance(files, str): #is files a string
+    if isinstance(files, string): #is files a stringing
         files = [files]
     for f in files:
         if os.path.isdir(f):

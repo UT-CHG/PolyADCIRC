@@ -36,7 +36,7 @@ class fulldomain(dom.domain):
                 self.script_dir = potential_file_list[0]
                 break
 
-        #: list() of :class:`~polyadcirc.run_framework.subdomain`
+        #: list of :class:`~polyadcirc.run_framework.subdomain`
         if subdomains == None:
             self.subdomains = list()
         else:
@@ -113,16 +113,16 @@ class fulldomain(dom.domain):
         Generate the ``fort.019`` files for the subdomains. This requires the
         presence of the output files from a fulldomain run, ``fort.06*``.
 
-        :param list() forcing_freq: number of timesteps at which infomration
+        :param list forcing_freq: number of timesteps at which infomration
             is written to a boudnary conditions file (``fort.019``)
-        :param list() dt: One timestep in seconds
-        :param list() nspoolgs: the number of timesteps at which information is
+        :param list dt: One timestep in seconds
+        :param list nspoolgs: the number of timesteps at which information is
             written to the new output files ``fort.06*``
-        :param list() h0: minimum water depth for a node to be wet
-        :param boolean L: flag whether or not :program:`PADCIRC` was run with
+        :param list h0: minimum water depth for a node to be wet
+        :param bool L: flag whether or not :program:`PADCIRC` was run with
             ``-L`` flag and if local files need to be post-processed into
             global files
-        :rtype: list()
+        :rtype: list
         :return: command lines for invoking genbcs.py
 
         """
@@ -154,7 +154,7 @@ class fulldomain(dom.domain):
         """
         Check to see if the ``fort.06*`` and ``PE*/fort.065`` files exist
 
-        :rtype: boolean
+        :rtype: bool
         :returns: False if the ``fort.06*`` files don't exist
 
         """
@@ -169,7 +169,7 @@ class fulldomain(dom.domain):
         """
         Check all the subdomains to make sure the ``fort.019`` file exists
 
-        :rtype: boolean
+        :rtype: bool
         :returns: False if ``fort.019`` is missing from at least one of the
             subdomains
 
@@ -198,13 +198,13 @@ class fulldomain(dom.domain):
 
         NOTE THIS DOES NOT CURRENTLY WORK FOR ANY NTS DATA EXCEPT FOR MAXELE
 
-        :param list() ts_names: names of ADCIRC timeseries
+        :param list ts_names: names of ADCIRC timeseries
             output files to be recorded from each run
-        :param list() nts_names: names of ADCIRC non timeseries
+        :param list nts_names: names of ADCIRC non timeseries
             output files to be recorded from each run
         :param string save_file: name of file to save comparision matricies to
         :param int timesteps: number of timesteps to read from file
-        :rtype: dict()
+        :rtype: dict
         :returns: full_dict
 
         """

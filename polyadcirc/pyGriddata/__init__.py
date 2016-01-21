@@ -16,7 +16,6 @@ This package contains the modules
     * :mod:`~polyadcirc.pyGriddata.table_to_mesh_map`
     * :mod:`~polyadcirc.pyGriddata.grid_management`
     * :mod:`~polyadcirc.pyGriddata.manufacture_gap`
-    * :mod:`~polyadcirc.pyGriddata.sbatch_management`
 
 :mod:`~polyadcirc.pyGriddata.grid_management` prepares ``*.table and
 *.13`` files needed for :mod:`~polyadcirc.pyGriddata.table_to_mesh_map` and
@@ -29,7 +28,7 @@ additional needed files:
       :program:`Griddata_parallel.out` 
     * ``.asc`` files
     * ``*.14 files``
-    * `fort.13`` file to use as a template for
+    * ``fort.13`` file to use as a template for
       :meth:`~polyadcirc.pyGriddata.prep_mesh.convert`
 
 :mod:`~polyadcirc.pyGriddata.table_to_mesh_map` given a ``**_manning.table``
@@ -42,4 +41,4 @@ additional needed files:
     
 """
 __all__ = ['file_management', 'table_management', 'table_to_mesh_map',
-           'grid_management', 'manufacture_gap', 'sbatch_management']
+           'grid_management', 'manufacture_gap']

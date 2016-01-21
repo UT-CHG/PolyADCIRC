@@ -30,9 +30,10 @@ def loadmat(save_file, base_dir, grid_dir, save_dir, basis_dir):
     :param string basis_dir: directory where ``landuse_*`` folders are located
     :param string base_dir: directory that contains ADCIRC executables, and
         machine specific ``in.prep#`` files 
+    
     :rtype: tuple of :class:`~polyadcirc.run_framework.random_wall.runSet`,
         :class:`~polyadcirc.run_framework.random_manningsn.domain` objects, and
-        two :class:`numpy.array`s
+        two :class:`numpy.ndarray`
     :returns: (main_run, domain, mann_pts, wall_pts)
 
     """
@@ -67,6 +68,7 @@ class runSet(rmn.runSet):
     num_of_parallel_runs
         size of batch of jobs to be submitted to queue
     script_name
+        name of the bash script
     nts_data
         non timeseries data
     ts_data 
@@ -89,6 +91,7 @@ class runSet(rmn.runSet):
                    nts_names=["maxele.63"], screenout=True, s_p_wall=
                    None, num_writers=None, TpN=None):
         """
+        
         Runs :program:`ADCIRC` for all of the configurations specified by
         ``wall_points`` and ``mann_points`` and returns a dictonary of arrays
         containing data from output files. Assumes that the number of
@@ -97,13 +100,18 @@ class runSet(rmn.runSet):
         :program:`ADCPREP` prepping the ``fort.14`` file on the exterior loop
         and the ``fort.13`` file on the interior loop.
 
-         Reads in a default Manning's *n* value from self.save_dir and stores
-         it in data.manningsn_default                                                                   
+        Reads in a default Manning's *n* value from ``self.save_dir`` and
+        stores it in ``data.manningsn_default`` 
+        
+        .. note:: Currently supports ADCIRC output files ``fort.6*``,
+           ``*.63``, ``fort.7*``, but NOT Hot Start Output
+           (``fort.67``, ``fort.68``)
+
         :param data: :class:`~polyadcirc.run_framework.domain`
-        :type wall_points: :class:`np.array` of size (5, ``num_of_walls``)
+        :type wall_points: :class:`numpy.ndarray` of size (5, ``num_of_walls``)
         :param wall_points: containts the box_limits, and wall_height for each
-            wall [ximin, xmax, ymin, ymax, wall_height]
-        :type mann_points: :class:`np.array` of size (``num_of_basis_vec``,
+            wall ``[xmin, xmax, ymin, ymax, wall_height]``
+        :type mann_points: :class:`numpy.ndarray` of size (``num_of_basis_vec``,
             ``num_of_random_fields``), ``num_of_random_fields`` MUST be a
             multiple of ``num_of_walls``. The ith wall will be associated with
             the ith set of i*(num_of_random_fields/num_of_walls) mann_points
@@ -114,21 +122,18 @@ class runSet(rmn.runSet):
         :param num_procs: number of processors per :program:`ADCIRC`
             simulation, 12 on lonestar, and 16 on stamped
         :param int procs_pnode: number of processors per node
-        :param list() ts_names: names of ADCIRC timeseries
+        :param list ts_names: names of ADCIRC timeseries
             output files to be recorded from each run
-        :param list() nts_names: names of ADCIRC non timeseries
+        :param list nts_names: names of ADCIRC non timeseries
             output files to be recorded from each run
-        :param boolean screenout: flag (True --  write ``ADCIRC`` output to
+        :param bool screenout: flag (True --  write ``ADCIRC`` output to
             screen, False -- write ``ADCIRC`` output to temp file
         :param int num_writers: number of MPI processes to dedicate soley to
-            the task of writing ascii files. This MUST be < num_procs
+            the task of writing ascii files. This MUST be less than num_procs.
         :param int TpN: number of tasks (cores to use) per node (wayness)
-        :rtype: (:class:`np.array`, :class:`np.ndarray`, :class:`np.ndarray`)
+        
+        :rtype: (:class:`numpy.ndarray`, :class:`numpy.ndarray`, :class:`numpy.ndarray`)
         :returns: (``time_obs``, ``ts_data``, ``nts_data``)
-
-        .. note:: Currently supports ADCIRC output files ``fort.6*``,
-                  ``*.63``, ``fort.7*``, but NOT Hot Start Output
-                  (``fort.67``, ``fort.68``)
 
         """
         if TpN is None:
@@ -258,16 +263,21 @@ class runSet(rmn.runSet):
         Runs :program:`ADCIRC` for all of the configurations specified by
         ``wall_points`` and ``mann_points`` and returns a dictonary of arrays
         containing data from output files. Runs batches of :program:`PADCIRC`
-        as a single for loop and preps both the ``fort.13`` and fort.14`` in
+        as a single for loop and preps both the ``fort.13`` and ``fort.14`` in
         the same step.
 
-         Reads in a default Manning's *n* value from self.save_dir and stores
-         it in data.manningsn_default                                                                   
+        Reads in a default Manning's *n* value from ``self.save_dir`` and
+        stores it in ``data.manningsn_default``
+
+        .. note:: Currently supports ADCIRC output files ``fort.6*``,
+           ``*.63``, ``fort.7*``, but NOT Hot Start Output
+           (``fort.67``, ``fort.68``)
+
         :param data: :class:`~polyadcirc.run_framework.domain`
-        :type wall_points: :class:`np.array` of size (5, ``num_of_walls``)
+        :type wall_points: :class:`numpy.ndarray` of size (5, ``num_of_walls``)
         :param wall_points: containts the box_limits, and wall_height for each
             wall [ximin, xmax, ymin, ymax, wall_height]
-        :type mann_points: :class:`np.array` of size (``num_of_basis_vec``,
+        :type mann_points: :class:`numpy.ndarray` of size (``num_of_basis_vec``,
             ``num_of_random_fields``), ``num_of_random_fields`` MUST be the
             same as ``num_of_walls``. The ith wall will be associated with
             the ith field specifed by mann_points
@@ -278,21 +288,18 @@ class runSet(rmn.runSet):
         :param num_procs: number of processors per :program:`ADCIRC`
             simulation, 12 on lonestar, and 16 on stamped
         :param int procs_pnode: number of processors per node
-        :param list() ts_names: names of ADCIRC timeseries
+        :param list ts_names: names of ADCIRC timeseries
             output files to be recorded from each run
-        :param list() nts_names: names of ADCIRC non timeseries
+        :param list nts_names: names of ADCIRC non timeseries
             output files to be recorded from each run
-        :param boolean screenout: flag (True --  write ``ADCIRC`` output to
+        :param bool screenout: flag (True --  write ``ADCIRC`` output to
             screen, False -- write ``ADCIRC`` output to temp file
         :param int num_writers: number of MPI processes to dedicate soley to
-            the task of writing ascii files. This MUST be < num_procs
+            the task of writing ascii files. This MUST be less than num_procs
         :param int TpN: number of tasks (cores to use) per node (wayness)
-        :rtype: (:class:`np.array`, :class:`np.ndarray`, :class:`np.ndarray`)
+        
+        :rtype: (:class:`numpy.ndarray`, :class:`numpy.ndarray`, :class:`numpy.ndarray`)
         :returns: (``time_obs``, ``ts_data``, ``nts_data``)
-
-        .. note:: Currently supports ADCIRC output files ``fort.6*``,
-                  ``*.63``, ``fort.7*``, but NOT Hot Start Output
-                  (``fort.67``, ``fort.68``)
 
         """
         if TpN is None:
@@ -436,9 +443,9 @@ class runSet(rmn.runSet):
         :param domain: :class:`~polyadcirc.run_framework.domain`
         :param wall_points: containts the box_limits, and wall_height for each
             wall [ximin, xmax, ymin, ymax, wall_height]
-        :type wall_points: :class:`np.array` of size (5, ``num_of_walls``)
-        :param boolean save: flag for whether or not to save plots
-        :param boolean show: flag for whether or not to show plots
+        :type wall_points: :class:`numpy.ndarray` of size (5, ``num_of_walls``)
+        :param bool save: flag for whether or not to save plots
+        :param bool show: flag for whether or not to show plots
 
         """
         plot_walls(self, domain, wall_points, save, show)
@@ -453,9 +460,9 @@ def plot_walls(run_set, domain, wall_points, save=True,
     :param domain: :class:`~polyadcirc.run_framework.domain`
     :param wall_points: containts the box_limits, and wall_height for each
         wall [ximin, xmax, ymin, ymax, wall_height]
-    :type wall_points: :class:`np.array` of size (5, ``num_of_walls``)
-    :param boolean save: flag for whether or not to save plots
-    :param boolean show: flag for whether or not to show plots
+    :type wall_points: :class:`numpy.ndarray` of size (5, ``num_of_walls``)
+    :param bool save: flag for whether or not to save plots
+    :param bool show: flag for whether or not to show plots
 
     """
     num_walls = wall_points.shape[1]

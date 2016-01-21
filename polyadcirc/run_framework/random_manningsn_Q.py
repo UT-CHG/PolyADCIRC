@@ -15,6 +15,7 @@ import polyadcirc.run_framework.random_manningsn as rmn
 
 def loadmat(save_file, base_dir, grid_dir, save_dir, basis_dir):
     """
+
     Loads data from ``save_file`` into a
     :class:`~polyadcirc.run_framework.random_manningsn.runSet` object.
     Reconstructs :class:`~polyadcirc.run_framework.random_manningsn.domain`.
@@ -28,10 +29,11 @@ def loadmat(save_file, base_dir, grid_dir, save_dir, basis_dir):
     :param string basis_dir: directory where ``landuse_*`` folders are located
     :param string base_dir: directory that contains ADCIRC executables, and
         machine specific ``in.prep#`` files 
+    
     :rtype: tuple of
         :class:`~polyadcirc.run_framework.random_manningsn_Q.runSet`,
         :class:`~polyadcirc.run_framework.random_manningsn.domain` objects, and
-        two :class:`numpy.array`s
+        two :class:`numpy.ndarray`
     :returns: (main_run, domain, mann_pts, Q)
 
     """
@@ -46,22 +48,22 @@ def loadmat(save_file, base_dir, grid_dir, save_dir, basis_dir):
 
 class runSet(rmn.runSet):
     """
+    
     This class controls the running of :program:`ADCIRC` within the processors
     allocated by the submission script
 
     grid_dir
         directory containing ``fort.14``, ``fort.15``, and ``fort.22``
     save_dir
-        directory where ``RF_directory_*`` are saved, and where fort.13 is
-        located 
+        directory where ``RF_directory_*`` are saved, and where ``fort.13`` is located 
     basis_dir 
         directory where ``landuse_*`` folders are located
     base_dir
-        directory that contains ADCIRC executables, and machine
-        specific ``in.prep#`` files
+        directory that contains ADCIRC executables, and machine specific ``in.prep#`` files
     num_of_parallel_runs
         size of batch of jobs to be submitted to queue
     script_name
+        bash script name
     nts_data
         non timeseries data
     ts_data 
@@ -84,7 +86,7 @@ class runSet(rmn.runSet):
         """
         Set up references for ``mdict``
 
-        :param dict() mdict: dictionary of run data
+        :param dict mdict: dictionary of run data
 
         """
         for k, v in self.nts_data.iteritems():
@@ -95,18 +97,24 @@ class runSet(rmn.runSet):
                       num_procs=12, procs_pnode=12, stations=None,
                       screenout=True, num_writers=None, TpN=None):
         """
+        
         Runs :program:`ADCIRC` for all of the configurations specified by
         ``mann_points`` and returns a dictonary of arrays containing data from
         output files. Runs batches of :program:`PADCIRC` as a single for loop
-        and preps both the ``fort.13`` and fort.14`` in the same step.
+        and preps both the ``fort.13`` and ``fort.14`` in the same step.
         
         Stores only the QoI at the stations defined in `stations``. In this
         case the QoI is the ``maxele63`` at the designated station. 
 
-        Reads in a default Manning's *n* value from self.save_dir and stores
-        it in data.manningsn_default                                                                   
+        Reads in a default Manning's *n* value from ``self.save_dir`` and
+        stores it in ``data.manningsn_default``
+
+        .. note:: Currently supports ADCIRC output files ``fort.6*``,
+           ``*.63``, ``fort.7*``, but NOT Hot Start Output
+           (``fort.67``, ``fort.68``)
+
         :param data: :class:`~polyadcirc.run_framework.domain`
-        :type mann_points: :class:`np.array` of size (``num_of_basis_vec``,
+        :type mann_points: :class:`numpy.ndarray` of size (``num_of_basis_vec``,
             ``num_of_random_fields``), ``num_of_random_fields``
         :param mann_points: containts the weights to be used for each run
         :type save_file: string
@@ -115,19 +123,17 @@ class runSet(rmn.runSet):
         :param num_procs: number of processors per :program:`ADCIRC`
             simulation, 12 on lonestar, and 16 on stamped
         :param int procs_pnode: number of processors per node
-        :param list() stations: list of stations to gather QoI from. If
+        :param list stations: list of stations to gather QoI from. If
             ``None`` uses the stations defined in ``data``
-        :param boolean screenout: flag (True --  write ``ADCIRC`` output to
+        :param bool screenout: flag (True --  write ``ADCIRC`` output to
             screen, False -- write ``ADCIRC`` output to temp file
         :param int num_writers: number of MPI processes to dedicate soley to
-            the task of writing ascii files. This MUST be < num_procs
+            the task of writing ascii files. This MUST be less than
+            ``num_procs``
         :param int TpN: number of tasks (cores to use) per node (wayness)
-        :rtype: (:class:`np.array`, :class:`np.ndarray`, :class:`np.ndarray`)
+    
+        :rtype: (:class:`numpy.ndarray`, :class:`numpy.ndarray`, :class:`numpy.ndarray`)
         :returns: (``time_obs``, ``ts_data``, ``nts_data``)
-
-        .. note:: Currently supports ADCIRC output files ``fort.6*``,
-                  ``*.63``, ``fort.7*``, but NOT Hot Start Output
-                  (``fort.67``, ``fort.68``)
 
         """
         if TpN is None:

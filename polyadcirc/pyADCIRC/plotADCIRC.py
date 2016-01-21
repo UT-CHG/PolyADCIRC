@@ -27,9 +27,9 @@ def get_Triangulation(domain, path=None, save=True, show=False, ics=1,
     :param domain: :class:`~polyadcirc.run_framework.domain`
     :type path: string or None
     :param path: directory to store plots
-    :type save: boolean
+    :type save: bool
     :param save: flag for whether or not to save plots
-    :type show: boolean
+    :type show: bool
     :param show: flag for whether or not to show plots
     :param int ics: coordinate system (1 cartisian, 2 polar)
     :param string ext: file extesion
@@ -66,13 +66,13 @@ def bathymetry(domain, path=None, save=True, show=False, mesh = False,
     :param domain: :class:`~polyadcirc.run_framework.domain`
     :type path: string or None
     :param path: directory to store plots
-    :type save: boolean
+    :type save: bool
     :param save: flag for whether or not to save plots
-    :type show: boolean
+    :type show: bool
     :param show: flag for whether or not to show plots
-    :type mesh: boolean
+    :type mesh: bool
     :param mesh: flag for whether or not to show mesh
-    :param boolean contour: use :meth:`~np.pyplot.tripcolor` or
+    :param bool contour: use :meth:`~np.pyplot.tripcolor` or
         :meth:`~np.pyplot.tricontour`
     :param int ics: coordinate system (1 cartisian, 2 polar)
     :param string ext: file extesion
@@ -109,11 +109,11 @@ def station_locations(domain, path=None, bathy = False, save=True,
     :param domain: :class:`~polyadcirc.run_framework.domain`
     :type path: string or None
     :param path: directory to store plots
-    :type bathy: boolean
+    :type bathy: bool
     :param bathy: flat for whether or not to show bathymetry
-    :type save: boolean
+    :type save: bool
     :param save: flag for whether or not to save plots
-    :type show: boolean
+    :type show: bool
     :param show: flag for whether or not to show plots
     :param int ics: coordinate system (1 cartisian, 2 polar)
     :param string ext: file extesion
@@ -151,14 +151,14 @@ def field(domain, z, title, clim = None,  path=None, save=True, show =
     Given a domain, plot the nodal value z
    
     :param domain: :class:`~polyadcirc.run_framework.domain`
-    :param z: :class:`np.array`
+    :param z: :class:`numpy.ndarray`
     :param string title: plot title
-    :param clim: :class:`np.clim`
+    :param clim: :class:`numpy.clim`
     :type path: string or None
     :param path: directory to store plots
-    :type save: boolean
+    :type save: bool
     :param save: flag for whether or not to save plots
-    :type show: boolean
+    :type show: bool
     :param show: flag for whether or not to show plots
     :param int ics:  polar coordinate option (1 = cart coords, 2 = polar
         coords)
@@ -189,9 +189,9 @@ def basis_functions(domain, bv_array, path=None, save=True, show=False,
     :param bv_array: array of basis vectors based on land classification
     :type path: string or None
     :param path: directory to store plots
-    :type save: boolean
+    :type save: bool
     :param save: flag for whether or not to save plots
-    :type show: boolean
+    :type show: bool
     :param show: flag for whether or not to show plots
     :param string ext: file extension
 
@@ -209,15 +209,15 @@ def random_fields(domain, points, bv_dict, path=None, save=True, show =
     :meth:`~polyadcirc.run_framework.random_manningsn.runSet.run_points`
    
     :param domain: :class:`~polyadcirc.run_framework.domain`
-    :type points: :class:`np.array`
+    :type points: :class:`numpy.ndarray`
     :param points: weights for points at which the random domain was sampled
     :type bv_dict: list of ``dict``
     :param bv_dict: list of basis vectors based on land classification
     :type path: string or None
     :param path: directory to store plots
-    :type save: boolean
+    :type save: bool
     :param save: flag for whether or not to save plots
-    :type show: boolean
+    :type show: bool
     :param show: flag for whether or not to show plots
     :param int ics:  polar coordinate option (1 = cart coords, 2 = polar
         coords)
@@ -243,15 +243,15 @@ def mean_field(domain, points, bv_dict, path=None, save=True, show =
     random_manningsn.runSet.run_points
    
     :param domain: :class:`~polyadcirc.run_framework.domain`
-    :type points: :class:`np.array`
+    :type points: :class:`numpy.ndarray`
     :param points: weights for points at which the random domain was sampled
     :type bv_dict: list of ``dict``
     :param bv_dict: list of basis vectors based on land classification    
     :type path: string or None
     :param path: directory to store plots
-    :type save: boolean
+    :type save: bool
     :param save: flag for whether or not to save plots
-    :type show: boolean
+    :type show: bool
     :param show: flag for whether or not to show plots
     :param int ics:  polar coordinate option (1 = cart coords, 2 = polar
         coords)
@@ -281,13 +281,13 @@ def station_data(ts_data, time_obs, keys=None, stations = None, path=None,
     :type time_obs: :class:`dict`
     :param time_obs: ``time_obs`` from
         :class:`~polyadcirc.run_framework.random_manningsn.runSet`
-    :param list() keys: list of types of ADCIRC output data to plot 
+    :param list keys: list of types of ADCIRC output data to plot 
     :param dict stations: dictonary of lists of stations to plot
     :type path: string or None
     :param path: directory to store plots
-    :type save: boolean
+    :type save: bool
     :param save: flag for whether or not to save plots
-    :type show: boolean
+    :type show: bool
     :param show: flag for whether or not to show plots
     :param string ext: file extension
     
@@ -373,12 +373,12 @@ def nts_line_data(nts_data, keys=None, path=None, save=True, show=False,
     :type nts_data: :class:`dict`
     :param nts_data: ``nts_data`` from
         :class:`~polyadcirc.run_framework.random_manningsn.runSet`
-    :param list() keys: list of types of ADCIRC output data to plot 
+    :param list keys: list of types of ADCIRC output data to plot 
     :type path: string or None
     :param path: directory to store plots
-    :type save: boolean
+    :type save: bool
     :param save: flag for whether or not to save plots
-    :type show: boolean
+    :type show: bool
     :param show: flag for whether or not to show plots
     :param string ext: file extension
     
@@ -430,13 +430,13 @@ def nts_pcolor(nts_data, domain, keys=None, points=None, path=None,
     :param nts_data: ``nts_data`` from
         :class:``~polyadcirc.run_framework.random_manningsn.runSet``
     :param domain: :class:`~polyadcirc.run_framework.domain`
-    :param list() keys: list of types of ADCIRC output data to plot 
-    :param list() points: list of runs to plot
+    :param list keys: list of types of ADCIRC output data to plot 
+    :param list points: list of runs to plot
     :type path: string or None
     :param path: directory to store plots
-    :type save: boolean
+    :type save: bool
     :param save: flag for whether or not to save plots
-    :type show: boolean
+    :type show: bool
     :param show: flag for whether or not to show plots
     :param int ics:  polar coordinate option (1 = cart coords, 2 = polar
     :param string ext: file extension
@@ -523,13 +523,13 @@ def ts_pcolor(ts_data, time_obs, domain, keys=None, points=None,
     :param time_obs: ``time_obs`` from
         :class:`~polyadcirc.run_framework.random_manningsn.runSet`
     :param domain: :class:`~polyadcirc.run_framework.domain`
-    :param list() keys: list of types of ADCIRC output data to plot 
-    :param list() points: list of runs or points to plot
+    :param list keys: list of types of ADCIRC output data to plot 
+    :param list points: list of runs or points to plot
     :type path: string or None
     :param path: directory to store plots
-    :type save: boolean
+    :type save: bool
     :param save: flag for whether or not to save plots
-    :type show: boolean
+    :type show: bool
     :param show: flag for whether or not to show plots
     :param int ics:  polar coordinate option (1 = cart coords, 2 = polar)
     :param string ext: file extension
@@ -624,13 +624,13 @@ def ts_quiver(ts_data, time_obs, domain, keys=None, points=None,
     :param time_obs: ``time_obs`` from
         :class:`~polyadcirc.run_framework.random_manningsn.runSet`
     :param domain: :class:`~polyadcirc.run_framework.domain`
-    :param list() keys: list of types of ADCIRC output data to plot 
-    :param list() points: list of runs or points to plot
+    :param list keys: list of types of ADCIRC output data to plot 
+    :param list points: list of runs or points to plot
     :type path: string or None
     :param path: directory to store plots
-    :type save: boolean
+    :type save: bool
     :param save: flag for whether or not to save plots
-    :type show: boolean
+    :type show: bool
     :param show: flag for whether or not to show plots
     :param int ics:  polar coordinate option (1 = cart coords, 2 = polar
     :param string ext: file extension
@@ -737,8 +737,8 @@ def save_show(full_name, save, show, ext):
     Save or show the current figure
 
     :param string full_name: path to save the figure
-    :param boolean save: flag for whether or not to save plots
-    :param boolean show: flag for whether or not to show plots
+    :param bool save: flag for whether or not to save plots
+    :param bool show: flag for whether or not to show plots
     :param string ext: file extension
 
     """
@@ -782,13 +782,13 @@ def nts_contour(nts_data, domain, keys=None, points=None, path=None,
     :param nts_data: ``nts_data`` from
         :class:`~polyadcirc.run_framework.random_manningsn.runSet`
     :param domain: :class:`~polyadcirc.run_framework.domain`
-    :param list() keys: list of types of ADCIRC output data to plot 
-    :param list() points: list of runs to plot
+    :param list keys: list of types of ADCIRC output data to plot 
+    :param list points: list of runs to plot
     :type path: string or None
     :param path: directory to store plots
-    :type save: boolean
+    :type save: bool
     :param save: flag for whether or not to save plots
-    :type show: boolean
+    :type show: bool
     :param show: flag for whether or not to show plots
     :param int ics:  polar coordinate option (1 = cart coords, 2 = polar
     :param string ext: file extension

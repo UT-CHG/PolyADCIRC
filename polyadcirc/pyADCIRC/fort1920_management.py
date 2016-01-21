@@ -14,10 +14,10 @@ def write_fort19(etiminc, esbin, file_name=None):
 
     neta = total number of elevation specified boundary nodes
 
-    :type etiminc: :class:`numpy.array` of shape (neta,) 
+    :type etiminc: :class:`numpy.ndarray` of shape (neta,) 
     :param etimic: time increment (secs) between consecutive sets of
                     elevation specified bounadry condition values
-    :type esbin: :class:`numpy.array` of shape (k, neta)
+    :type esbin: :class:`numpy.ndarray` of shape (k, neta)
     :param esbin: elevation at specfied elevation nodes k
 
     .. seealso:: `ADCIRC <http://adcirc.org/home/documentation/users-manual-v50/input-file-descriptions/non-periodic-elevation-boundary-condition-file-fort-19/>`_ 
@@ -121,10 +121,10 @@ def write_fort20(ftiminc, qnin, file_name=None):
 
     nflbn = total number of normal flow specified boundary nodes
 
-    :type ftiminc: :class:`numpy.array` of shape (nflbn,) 
+    :type ftiminc: :class:`numpy.ndarray` of shape (nflbn,) 
     :param ftiminc: time increment (secs) between consecutive sets of
                     normal flow specified bounadry condition values
-    :type qnin: :class:`numpy.array` of shape (k, nflbn)
+    :type qnin: :class:`numpy.ndarray` of shape (k, nflbn)
     :param qnin: normal flow/unit width at specified nomarl flow node k
 
     .. seealso:: `ADCIRC <http://adcirc.org/home/documentation/users-manual-v50/input-file-descriptions/non-periodic-normal-flow-boundary-condition-file-fort-20/>`_ 

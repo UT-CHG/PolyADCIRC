@@ -25,9 +25,9 @@ need to be cloned into your ``$WORK`` directory using the
     $ git clone --separate-git-dir=$HOME/v50_subdomain ices-workstation:/org/groups/chg/lgraham/v50_subdomain
 
 If you would like a copy of :program:`Subdomain ADCIRC` it is availiable at
-`Subdomain Modeling in ADCIRC<http://www4.ncsu.edu/~jwb/subdomain/>`_. They
+`Subdomain Modeling in ADCIRC <http://www4.ncsu.edu/~jwb/subdomain/>`_. They
 have a great graphical interface for the `ADCIRC Subdomain Modeling
-Tool<https://github.com/atdyer/SMT>`_.
+Tool <https://github.com/atdyer/SMT>`_.
 
 Modifying Subdomain ADCIRC
 ---------------------------
@@ -141,8 +141,8 @@ folders will need to be moved to the ``basis_dir`` directory specificed in your
 ``run_lonestar_test.py`` script.
 
 Running PolyADCIRC with Subdomains
--------------------------------
-Finally, update the directory paths in a copy of :ref:`run-lonestar-test`. This
+----------------------------------
+Finally, update the directory paths in a copy of ``run-lonestar-test``. This
 file may be run with no other changes as all the necessary files for
 :program:`Subdomain ADCIRC` are now located in the ``grid_dir``.
 

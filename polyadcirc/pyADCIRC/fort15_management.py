@@ -20,13 +20,15 @@ filetype = {'fort61':(True, 1), 'fort62':(True, 2), 'fort63':(False, 1),
 def array_to_loc_list(station_array):
     """
     Convert a :class:`numpy.ndarray` into a list of
-    :class:`~polyadcirc.pyADCIRC.basic.location`s.
+    :class:`~polyadcirc.pyADCIRC.basic.location`.
 
     :param station_array: an array of shape (n, 2) where n is the number of
         station locations
     :type station_array: :class:`numpy.ndarray`
-    :rtype: list()
-    :returns: list of :class:`~polyadcirc.pyADCIRC.basic.location`s
+    
+    :rtype: list
+    :returns: list of :class:`~polyadcirc.pyADCIRC.basic.location`
+    
     """
 
     stations = []
@@ -39,9 +41,11 @@ def loc_list_to_array(station_list):
     Convert a list of station locations to an array of x and y values.
 
     :param list station_list: list of
-        :class:`~polyadcirc.pyADCIRC.basic.location`s
+        :class:`~polyadcirc.pyADCIRC.basic.location`
+    
     :rtype: :class:`numpy.ndarray` of shape (n, 2)
     :returns: array of station locations
+    
     """
     
     xy = [[l.x, l.y] for l in station_list]
@@ -57,8 +61,10 @@ def fake_stations(domain, num_stat):
     :type domain: :class:`~polyadcirc.run_framework.domain`
     :param num_stat: number of stations in the x and y directions
     :type num_stat: int or iterable of length 2
+
     :rtype: list
-    :returns: list of :class:`~polyadcirc.pyADCIRC.basic.location`s
+    :returns: list of :class:`~polyadcirc.pyADCIRC.basic.location`
+    
     """
 
     x = domain.array_x()
@@ -86,6 +92,7 @@ def read_recording_data(data, path=None):
         :class:`~polyadcirc.pyADCIRC.basic.time` 
     :type path: string or None
     :param path: directory containing ``fort.15`` file 
+    
     :return: reference to ``data.recording`` and ``data.stations``
     :rtype: :class:`~polyadcirc.pyADCIRC.basic.time`
 
@@ -158,9 +165,10 @@ def _read_record(fid, key, line, data):
     :param fid: :class:``file`` object
     :param string key: ADCIRC Output File Type sans ``.``
     :param line: array of parameters read from ``fort.15`` file
-    :type line: :class:``np.array``
+    :type line: :class:``numpy.ndarray``
     :param data: object to store mesh specific data
     :type data: :class:``~polyadcirc.run_framework.domain``
+    
     :rtype: string
     :returns: station type description
 
@@ -201,9 +209,10 @@ def _read_record7(fid, key1, key2, line, data):
     :param string key1: ADCIRC Output File Type sans ``.``
     :param string key2: ADCIRC Output File Type sans ``.``
     :param line: array of parameters read from ``fort.15`` file
-    :type line: :class:``np.array``
+    :type line: :class:``numpy.ndarray``
     :param data: object to store mesh specific data
     :type data: :class:``~polyadcirc.run_framework.domain``
+    
     :rtype: string
     :returns: station type description
 
@@ -321,9 +330,10 @@ def trim_locations(flag, subdomain_path, locs):
 
     :param int flag: type of subdomain 0 - ellipse, 1 - circle
     :param string subdomain_path: subdomain dir containing ``fort.15`` file
-    :param list() locs: list of :class:`~polyadcirc.pyADCIRC.basic.location`
+    :param list locs: list of :class:`~polyadcirc.pyADCIRC.basic.location`
         objects
-    :rtype: list()
+    
+    :rtype: list
     :returns: list of locations inside the subdomain
 
     """
@@ -337,9 +347,10 @@ def trim_locations_circle(subdomain_path, locs):
     Remove locations outside of the circular subdomain from locs
     
     :param string subdomain_path: subdomain dir containing ``fort.15`` file
-    :param list() locs: list of :class:`~polyadcirc.pyADCIRC.basic.location`
+    :param list locs: list of :class:`~polyadcirc.pyADCIRC.basic.location`
         objects
-    :rtype: list()
+    
+    :rtype: list
     :returns: list of locations inside the subdomain
 
     """
@@ -359,9 +370,10 @@ def trim_locations_ellipse(subdomain_path, locs):
     Remove locations outside of the elliptical subdomain from locs
 
     :param string subdomain_path: subdomain dir containing ``fort.15`` file
-    :param list() locs: list of :class:`~polyadcirc.pyADCIRC.basic.location`
+    :param list locs: list of :class:`~polyadcirc.pyADCIRC.basic.location`
         objects 
-    :rtype: list()
+    
+    :rtype: list
     :returns: list of locations inside the subdomain
 
     """
@@ -410,7 +422,7 @@ def _write_record(fid, key, description, data):
     :param fid: :class:``file`` object
     :param string key: ADCIRC Output File Type sans ``.``
     :param line: array of parameters read from ``fort.15`` file
-    :type line: :class:``np.array``
+    :type line: :class:``numpy.ndarray``
     :param data: object to store mesh specific data
     :type data: :class:``~polyadcirc.run_framework.domain`` or similar object
 

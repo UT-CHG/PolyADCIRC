@@ -248,7 +248,7 @@ man_pages = [
 #  dir menu entry, description, category)
 texinfo_documents = [
   ('index', 'PolyADCIRC', u'PolyADCIRC Documentation',
-   u'Lindley Graham', 'PolyADCIRC', 'One line description of project.',
+   u'Lindley Graham', 'PolyADCIRC', 'Python batch ADCIRC interface.',
    'Miscellaneous'),
 ]
 

@@ -31,12 +31,13 @@ class random_manningsn(object):
         :type num_jobs: int
         :param num_jobs: number of jobs to run
         :param int procs_pnode: number of processors per node
-        :param boolean screenout: flag (True --  write ``ADCIRC`` output to
+        :param bool screenout: flag (True --  write ``ADCIRC`` output to
             screen, False -- write ``ADCIRC`` output to temp file)
         :param int num_writers: number of MPI processes to dedicate soley to
             the task of writing ascii files
         :param int TpN: number of tasks (processors to use) per node (wayness)
-        :rtype: string
+        
+        :rtype: string 
         :returns: name of bash script for running a batch of jobs within our
             processor allotment
 

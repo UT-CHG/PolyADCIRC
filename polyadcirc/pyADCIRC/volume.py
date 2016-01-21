@@ -81,7 +81,7 @@ def triangle(domain, element, z, norm_dir=1.0):
     :type element: array_like  
     :param z: z-coordinate relative to the geiod, z = eta OR z = -h 
     :param double norm_dir: 1.0 up, -1.0 down, direction of the normal vector 
-    :type z: :class:`np.array`
+    :type z: :class:`numpy.ndarray`
     :rtype: double
     :returns: dot(x, n*A)
 
@@ -109,7 +109,7 @@ def side(domain, element, side_num, elevation):
     :param element: list of nodes defining an element 
     :type element: array_like  
     :param elevation: eta, sea surface height (NOT WATER COLUMN HEIGHT)
-    :type z: :class:`np.array` 
+    :type z: :class:`numpy.ndarray` 
     :rtype: double
     :returns: dot(x, n*A)
 

@@ -59,6 +59,7 @@ def read_table(table_file_name, folder_name=None):
    
     :param string table_file_name: local file name of table
     :param string folder_name: folder to read the table from
+    
     :rtype: :class:`tableInfo`
     :returns: an object with all of the information in that table
     
@@ -77,10 +78,11 @@ def read_table(table_file_name, folder_name=None):
 
 def read_tables(folder_name=None):
     """ 
-    Read in all *.table files in folder_name and return a list of tableInfo
+    Read in all ``*.table`` files in folder_name and return a list of tableInfo
     objects
     
     :param string folder_name: folder to read the table(s) from
+
     :rtype: list of :class:`tableInfo`
     :returns: list of objects with all of the information in that table
 
@@ -100,7 +102,7 @@ def create_gap_list_from_folder(table, folder_name):
     objects from the files in folder.
 
     :param string folder_name: folder containing gap formatted files
-    :rtype: list()
+    :rtype: list
     :returns: list of :class:`~polyadcirc.pyGriddata.table_management.gapInfo`
         objects
     """
@@ -113,7 +115,7 @@ def create_gap_list(table, gap_files):
     objects from a list of files.
 
     :param list gap_files: file names of gap formatted files
-    :rtype: list()
+    :rtype: list
     :returns: list of :class:`~polyadcirc.pyGriddata.table_management.gapInfo`
         objects
     """
@@ -184,9 +186,10 @@ class gapInfo(pickleable):
     def local_str(self, basis_dir, folder_name=None):
         """ 
         
-        :param string basis_dir: the folder containing the *.asc files and the
+        :param string basis_dir: the folder containing the ``*.asc`` files and the
             directory folder_name
         :param string folder_name: name of folder to create ``*.in`` for
+    
         :rtype: string
         :returns: text that matches relevant lines of ``*.in`` file and uses
             basis_dir for ``*.asc`` files 
@@ -280,7 +283,7 @@ class tableInfo(pickleable):
 
     def get_landclasses(self):
         """ 
-        :rtype: list()
+        :rtype: list
         :returns: list of land_classes (integers)
 
         """

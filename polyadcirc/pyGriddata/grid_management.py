@@ -47,7 +47,7 @@ class gridInfo(pickleable):
             here to use as a template
         :param gap_data_list: a list() of
             :class:`~polyadcirc.pyGriddata.table_management.gapInfo` objects
-        :type gap_data_list: list()
+        :type gap_data_list: list
         :param int flag: flag to choose which averaging scheme to use ..see::
             :meth:`~polyadcirc.pyADCIRC.flag_fort14.flag_fort14`
         :param string file_name: the name of the ``fort.14`` formatted file in
@@ -68,7 +68,7 @@ class gridInfo(pickleable):
         self.__landclasses = [] 
         self.__unique_tables = {} 
         for gap in self.gap_data_files:
-            #: dict() of unique ``*.table`` files used
+            #: dict of unique ``*.table`` files used
             self.__unique_tables[gap.table.file_name] = gap.table
         for k, v in self.__unique_tables.iteritems():
             for x in v.get_landclasses():
@@ -148,7 +148,7 @@ class gridInfo(pickleable):
         :param list class_nums: List of integers indicating which classes to
             prep. This assumes all the ``*.asc.binary`` files are already in
             existence.
-        :param boolean condense: Flag whether or not to condense ``fort.13`` to
+        :param bool condense: Flag whether or not to condense ``fort.13`` to
             only non-zero values within a tolerance.
         :param double TOL: Tolerance below which to consider a Manning's n
             value to be zero if ``condense == True``
@@ -428,8 +428,8 @@ class gridInfo(pickleable):
         If create_all is True then sets up num_landuse folders.
         Else sets up num_landuse-1 folders.
 
-        :param boolean create_all: flag to not skip first folder
-        :rtype: list()
+        :param bool create_all: flag to not skip first folder
+        :rtype: list
         :returns: list of file names of bash scripts for each land class
 
         """

@@ -191,7 +191,7 @@ class subdomain(dom.domain):
         :param int nspoolgs: the number of timesteps at which information is
             written to the new output files ``fort.06*``
         :param float h0: minimum water depth for a node to be wet
-        :param boolean L: flag whether or not :program:`PADCIRC` was run with
+        :param bool L: flag whether or not :program:`PADCIRC` was run with
             ``-L`` flag and if local files need to be post-processed into
             global files
         :rtype: string
@@ -246,8 +246,8 @@ class subdomain(dom.domain):
         """
         Generate a subdomain shape file for an elliptical subdomain
         
-        :param list() x: x coordinates of the first and second focal points
-        :param list() y: y coordinates of the first and second focal points
+        :param list x: x coordinates of the first and second focal points
+        :param list y: y coordinates of the first and second focal points
         :param float w: width of ellipse
         :rtype: int
         :returns: flag for :meth:`py.gensub`
@@ -362,7 +362,7 @@ class subdomain(dom.domain):
         """
         Check to see if the ``fort.06*`` and ``PE*/fort.065`` files exist
 
-        :rtype: boolean
+        :rtype: bool
         :returns: False if the ``fort.06*`` files don't exist
         
         """
@@ -372,7 +372,7 @@ class subdomain(dom.domain):
         """
         Check to make sure the ``fort.019`` file exists
 
-        :rtype: boolean
+        :rtype: bool
         :returns: False the ``fort.019`` doesn't exist
 
         """
@@ -390,11 +390,11 @@ class subdomain(dom.domain):
 
         comparision_data = fulldomain_data - subdomain_data
         
-        :param list() ts_data: (ts_data_subdomain, ts_data_fulldomain)
-        :param list() nts_data: (nts_data_subdomain, nts_data_fulldomain)
-        :param list() ts_names: names of ADCIRC timeseries
+        :param list ts_data: (ts_data_subdomain, ts_data_fulldomain)
+        :param list nts_data: (nts_data_subdomain, nts_data_fulldomain)
+        :param list ts_names: names of ADCIRC timeseries
             output files to be recorded from each run
-        :param list() nts_names: names of ADCIRC non timeseries
+        :param list nts_names: names of ADCIRC non timeseries
             output files to be recorded from each run
         :param string save_file: name of file to save comparision matricies to
         :rtype: tuple
@@ -491,9 +491,9 @@ class subdomain(dom.domain):
 
         comparision_data = fulldomain_data - subdomain_data
 
-        :param list() ts_names: names of ADCIRC timeseries
+        :param list ts_names: names of ADCIRC timeseries
             output files to be recorded from each run
-        :param list() nts_names: names of ADCIRC non timeseries
+        :param list nts_names: names of ADCIRC non timeseries
             output files to be recorded from each run
         :param string save_file: name of file to save comparision matricies to
         :param int timesteps: number of timesteps to read from file
@@ -700,7 +700,7 @@ class subdomain(dom.domain):
         Read in the nodes on the boundary and store in ``self.bv_nodes`` as a
         list.
 
-        :rtype: list()
+        :rtype: list
         :returns: list of boundary nodes
         """
         self.bv_nodes = []
@@ -713,9 +713,9 @@ class subdomain(dom.domain):
         """
         Read in the subdomain to fulldomain element and node maps
         """
-        #: dict() where key = subdomain node #, value = fulldomain node #
+        #: dict where key = subdomain node #, value = fulldomain node #
         self.read_py_node()
-        #: dict() where key = subdomain element #, value = fulldomain element #
+        #: dict where key = subdomain element #, value = fulldomain element #
         self.read_py_ele()
         #: list of boundary nodes
         self.read_bv_fort13()
@@ -757,10 +757,10 @@ class subdomain(dom.domain):
         Replace the boundary nodal values with the boundary nodal values in the
         fulldomain.
 
-        :type mann_data: :class:`np.array` or :class:`dict`
+        :type mann_data: :class:`numpy.ndarray` or :class:`dict`
         :param mann_data: containing the nodal attribute information
         
-        :rtype: :class:`np.array` or :class:`dict`
+        :rtype: :class:`numpy.ndarray` or :class:`dict`
         :returns: dictionary or array of nodal values
 
         """
@@ -776,7 +776,7 @@ class subdomain(dom.domain):
         """
         Write out fort.13 to path with the attributes contained in Data.  
 
-        :type data: :class:`np.array` or :class:`dict`
+        :type data: :class:`numpy.ndarray` or :class:`dict`
         :param data: containing the nodal attribute information
         :type path: string or None
         :param path: the directory to which the fort.13 file will be written

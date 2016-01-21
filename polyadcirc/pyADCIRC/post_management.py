@@ -56,7 +56,7 @@ def write_sub(path, hotfiles=False):
     Write out a ``in.postsub`` file and save it to path
 
     :param string path: folder to save ``in.postsub`` to
-    :param boolean hotfiles: flag whether or not to post process hot start
+    :param bool hotfiles: flag whether or not to post process hot start
         files
 
     """
@@ -78,7 +78,7 @@ def write_n(path, n, hotfiles=False):
 
     :param string path: folder to save ``in.postn`` to
     :param int n: ADCPOST file type code
-    :param boolean hotfiles: flag whether or not to post process hot start
+    :param bool hotfiles: flag whether or not to post process hot start
         files
 
     """
@@ -99,7 +99,7 @@ def write_multi(path, nums, hotfiles=False):
 
     :param string path: folder to save ``in.postn`` to
     :param list nums: list of ADCPOST file type codes
-    :param boolean hotfiles: flag whether or not to post process hot start
+    :param bool hotfiles: flag whether or not to post process hot start
         files
 
     """
@@ -117,10 +117,10 @@ def write_multi(path, nums, hotfiles=False):
 
 def write_ALL(path, hotfiles=False):
     """
-    Write out a ``in.postALL` file and save it to path
+    Write out a ``in.postALL`` file and save it to path
 
     :param string path: folder to save ``in.postALL`` to
-    :param boolean hotfiles: flag whether or not to post process hot start
+    :param bool hotfiles: flag whether or not to post process hot start
         files
 
     """

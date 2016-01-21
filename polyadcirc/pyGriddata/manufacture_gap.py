@@ -18,7 +18,7 @@ def write_gapfile(gap_data, xllcorner, yllcorner, file_name='gap_data.asc',
     Writes out a GAP formatted ``*.asc`` file to ``file_name``.
 
     :param string file_name: full path to file_name
-    :type gap_data: :class:`np.array`
+    :type gap_data: :class:`numpy.ndarray`
     :param gap_data: nrows by ncols 2D array
     :param float xllcorner: x UTM coordinate of lower left corner (SW) in meters
     :param float yllcorner: y UTM coordinate of lower left corner (SW) in meters
@@ -90,7 +90,7 @@ def random_vertical(x_points, yl, yu, landclasses, cellsize=30,
     :type landclasses: 1D array-like or int
     :param landclasses: list of land classification numbers
     :param int cellsize: size of the cell in meters
-    :type p_sections: list() of size num_sections of 1D array-like or int   
+    :type p_sections: list of size num_sections of 1D array-like or int   
     :param p_sections: list of probabilities for each section associated with
         each land classification
     :param string path: folder to write out probability structure to as
@@ -136,7 +136,7 @@ def random_horizontal(y_points, xl, xr, landclasses, cellsize=30,
     :type landclasses: 1D array-like or int
     :param landclasses: list of land classification numbers
     :param int cellsize: size of the cell in meters
-    :type p_sections: list() of size num_sections of 1D array-like or int   
+    :type p_sections: list of size num_sections of 1D array-like or int   
     :param p_sections: list of probabilities for each section associated with
         each land classification
     :param string path: folder to write out probability structure to as
@@ -184,7 +184,7 @@ def random_patches(x_points, y_points, landclasses, cellsize=30,
     :type landclasses: 1D array-like or int
     :param landclasses: list of land classification numbers
     :param int cellsize: size of the cell in meters
-    :type p_sections: list() of size num_sections of 1D array-like or int   
+    :type p_sections: list of size num_sections of 1D array-like or int   
     :param p_sections: list of probabilities for each section associated with
         each land classification sections are numbered n = j + n_x_sections * i
         where i and j are the ith and jth x and y section respectively

@@ -90,7 +90,7 @@ def fix_dry_data(ts_data, data):
 
     :param ts_data: time series data
     :param data: :class:`~polyadcirc.run_framework.domain`
-    :rtype: dict()
+    :rtype: dict
     :returns: ts_data
 
     """
@@ -108,7 +108,8 @@ def fix_dry_nodes(ts_data, data):
 
     :param ts_data: time series data
     :param data: :class:`~polyadcirc.run_framework.domain`
-    :rtype: dict()
+    
+    :rtype: dict
     :returns: ts_data
 
     """
@@ -126,7 +127,8 @@ def fix_dry_nodes_nts(nts_data, data):
 
     :param nts_data: non time series data
     :param data: :class:`~polyadcirc.run_framework.domain`
-    :rtype: dict()
+    
+    :rtype: dict
     :returns: nts_data
 
     """
@@ -143,7 +145,8 @@ def convert_to_hours(time_obs):
     Converts ``time_obs`` from seconds to hours
 
     :param time_obs: observation times in seconds
-    :rtype: dict()
+    
+    :rtype: dict
     :returns: time_obs
 
     """
@@ -156,7 +159,8 @@ def convert_to_days(time_obs):
     Converts ``time_obs`` from seconds to days
 
     :param time_obs: observation times in seconds
-    :rtype: dict()
+    
+    :rtype: dict
     :returns: time_obs
 
     """
@@ -170,7 +174,8 @@ def convert_to_percent(nts_data, data):
 
     :param nts_data: non-time-series data
     :param data: :class:`~polyadcirc.run_framework.domain`
-    :rtype: dict()
+    
+    :rtype: dict
     :returns: nts_data
 
     """
@@ -184,7 +189,8 @@ def concatenate(run_data1, run_data2):
     :class:`~polyadcirc.run_framework.random_manningsn.runSet` (``other_run``)
     and points from both runs
 
-    To combine several ``run_data``s use::
+    To combine several ``run_data`` use::
+        
         run_list = [run1, run2, run3]
         points_list = [points1, points2, points3]
         run_data_list = zip(run_list, points_list)
@@ -192,10 +198,11 @@ def concatenate(run_data1, run_data2):
 
     :param run_data1: (runSet for run1, sample points for run1)
     :type tuple: (:class:`~polyadcirc.run_framework.random_manningsn.runSet`,
-        np.array)
+        :class:`numpy.ndarray`)
     :param run_data2: (runSet for run2, sample points for run2)
     :type tuple: (:class:`~polyadcirc.run_framework.random_manningsn.runSet`,
-        np.array)
+        :class:`numpy.ndarray`)
+    
     :returns: (run_data, points)
     :rtype: tuple
 
@@ -239,6 +246,7 @@ class runSet(pickleable):
     num_of_parallel_runs
         size of batch of jobs to be submitted to queue
     script_name
+        name of the bash script
     nts_data
         non timeseries data
     ts_data
@@ -252,19 +260,19 @@ class runSet(pickleable):
         """
         Initialization
         """
-        #: string, directory containing ``fort.14``, ``fort.15``, and
+        #: str, directory containing ``fort.14``, ``fort.15``, and
         #  ``fort.22*`` 
         self.grid_dir = grid_dir
         self.save_dir = save_dir
         """
-        string, directory where ``RF_directory_*`` are saved, and
+        str, directory where ``RF_directory_*`` are saved, and
         where ``fort.13`` is located
         """
         if os.path.exists(save_dir) == False:
             os.mkdir(save_dir)
             fort13_file = os.path.join(save_dir.rpartition('/')[0], 'fort.13')
             copy(fort13_file, save_dir)
-        #: string, directory where ``landuse_*`` folders are located
+        #: str, directory where ``landuse_*`` folders are located
         self.basis_dir = basis_dir
         if base_dir:
             self.base_dir = base_dir
@@ -277,16 +285,16 @@ class runSet(pickleable):
         self.prep_dir = basis_dir.rpartition('/')[0]
         #: int, size of batch of jobs to be submitted to queue
         self.num_of_parallel_runs = num_of_parallel_runs
-        #: dict() of :class:`np.ndarray`, timeseries data
+        #: dict of :class:`numpy.ndarray`, timeseries data
         self.ts_data = None
-        #: dict() of :class:`np.ndarray`, non-timeseries data
+        #: dict of :class:`numpy.ndarray`, non-timeseries data
         self.nts_data = None
-        #: list(), list of ``RF_directory_*/`` names
+        #: list, list of ``RF_directory_*/`` names
         self.rf_dirs = None
-        #: dict() of :class:`np.array`, time in (s) of observations
+        #: dict of :class:`numpy.ndarray`, time in (s) of observations
         self.time_obs = None
         if script_name:
-            #: string, name of the batch bash script
+            #: str, name of the batch bash script
             self.script_name = script_name
         else:
             self.script_name = "run_job_batch.sh"
@@ -298,7 +306,8 @@ class runSet(pickleable):
         
         :param int num_procs: number of processes per padcirc run
         :param bool prep: flag wether or not to run adcprep
-        :rtype: list()
+        
+        :rtype: list
         :returns: list of paths to ``RF_directory_*``
 
         """
@@ -387,10 +396,10 @@ class runSet(pickleable):
     def setup_rfdir(self, path, num_procs):
         """
         Creates the directory path and copies required files from
-        ``self.base_dir`` into path:type path: string
-
-        :param path: folder_name
-        :param num_procs: number of processors per :program:`ADCIRC` run
+        ``self.base_dir`` into 
+        
+        :param string path: folder_name
+        :param int num_procs: number of processors per :program:`ADCIRC` run
 
         """
         mkdir(path)
@@ -437,12 +446,13 @@ class runSet(pickleable):
         :type num_jobs: int
         :param num_jobs: number of jobs to run
         :param int procs_pnode: number of processors per node
-        :param boolean screenout: flag (True --  write ``ADCIRC`` output to
+        :param bool screenout: flag (True --  write ``ADCIRC`` output to
             screen, False -- write ``ADCIRC`` output to temp file)
         :param int num_writers: number of MPI processes to dedicate soley to
             the task of writing ascii files
         :param int TpN: number of tasks (cores to use) per node (wayness)
-        :rtype: string
+        
+        :rtype: string 
         :returns: name of bash script for running a batch of jobs within our
             processor allotment
 
@@ -470,12 +480,13 @@ class runSet(pickleable):
         :type num_jobs: int
         :param num_jobs: number of jobs to run
         :param int procs_pnode: number of processors per node
-        :param boolean screenout: flag (True --  write ``ADCIRC`` output to
+        :param bool screenout: flag (True --  write ``ADCIRC`` output to
             screen, False -- write ``ADCIRC`` output to temp file)
         :param int num_writers: number of MPI processes to dedicate soley to
             the task of writing ascii files
         :param int TpN: number of tasks (processors to use) per node (wayness)
-        :rtype: string
+        
+        :rtype: str
         :returns: name of bash script for running a batch of jobs within our
             processor allotment
 
@@ -523,12 +534,13 @@ class runSet(pickleable):
         :type num_jobs: int
         :param num_jobs: number of jobs to run
         :param int procs_pnode: number of processors per node
-        :param boolean screenout: flag (True --  write ``ADCIRC`` output to
+        :param bool screenout: flag (True --  write ``ADCIRC`` output to
             screen, False -- write ``ADCIRC`` output to temp file)
         :param int num_writers: number of MPI processes to dedicate soley to
             the task of writing ascii files
         :param int TpN: number of tasks (processors to use) per node (wayness)
-        :rtype: string
+        
+        :rtype: string 
         :returns: name of bash script for running a batch of jobs within our
             processor allotment
 
@@ -590,12 +602,13 @@ class runSet(pickleable):
         :type num_jobs: int
         :param num_jobs: number of jobs to run
         :param int procs_pnode: number of processors per node
-        :param boolean screenout: flag (True --  write ``ADCIRC`` output to
+        :param bool screenout: flag (True --  write ``ADCIRC`` output to
             screen, False -- write ``ADCIRC`` output to temp file)
         :param int num_writers: number of MPI processes to dedicate soley to
             the task of writing ascii files
         :param int TpN: number of tasks (cores to use) per node (wayness)
-        :rtype: string
+        
+        :rtype: string 
         :returns: name of bash script for running a batch of jobs within our
             processor allotment
 
@@ -627,9 +640,10 @@ class runSet(pickleable):
 
         :param int n: n for ``in.prepn`` input to ADCPREP
         :param int num_jobs: number of jobs to run
-        :param boolean screenout: flag (True --  write ``ADCPREP`` output to
+        :param bool screenout: flag (True --  write ``ADCPREP`` output to
             screen, False -- write ``ADCPREP`` output to ``prep_o.txt`` file)
-        :rtype: string
+        
+        :rtype: string 
         :returns: name of bash script for prepping a batch of jobs within our
             processor allotment
 
@@ -665,7 +679,7 @@ class runSet(pickleable):
         Save matrices to a ``*.mat`` file for use by ``MATLAB BET`` code and
         :meth:`~polyadcirc.run_framework.random_manningsn.loadmat`
 
-        :param dict() mdict: dictonary of run data
+        :param dict mdict: dictonary of run data
         :param string save_file: file name
 
         """
@@ -676,7 +690,7 @@ class runSet(pickleable):
         """
         Set up references for ``mdict``
 
-        :param dict() mdict: dictonary of run data
+        :param dict mdict: dictonary of run data
 
         """
 
@@ -703,9 +717,10 @@ class runSet(pickleable):
         :param points1: sample points for ``self``
         :type points1: np.array
         :param points1: sample points for ``other_run``
-        :type points1: np.array
-        :returns: (self, points)
+        :type points1: :class:`numpy.ndarray``
+        
         :rtype: tuple
+        :returns: (self, points)
 
         """
 
@@ -720,31 +735,34 @@ class runSet(pickleable):
         ``points`` and returns a dictonary of arrays containing data from
         output files
 
-         Reads in a default Manning's *n* value from self.save_dir and stores
-         it in data.manningsn_default
+        Reads in a default Manning's *n* value from ``self.save_dir`` and
+        stores it in ``data.manningsn_default``
+        
         :param data: :class:`~polyadcirc.run_framework.domain`
-        :type points: :class:`np.array` of size (``num_of_basis_vec``,
+        :type points: :class:`numpy.ndarray` of size (``num_of_basis_vec``,
             ``num_of_random_fields``)
         :param points: containts the weights to be used for each run
-        :type save_file: string
+        :type save_file: string 
         :param save_file: name of file to save ``station_data`` to
         :type num_procs: int or 12
         :param num_procs: number of processors per :program:`ADCIRC`
             simulation
         :param int procs_pnode: number of processors per node, 12 on lonestar,
             and 16 on stampede
-        :param list() ts_names: names of ADCIRC timeseries
+        :param list ts_names: names of ADCIRC timeseries
             output files to be recorded from each run
-        :param list() nts_names: names of ADCIRC non timeseries
+        :param list nts_names: names of ADCIRC non timeseries
             output files to be recorded from each run
-        :param boolean screenout: flag (True --  write ``ADCIRC`` output to
+        :param bool screenout: flag (True --  write ``ADCIRC`` output to
             screen, False -- write ``ADCIRC`` output to temp file
-        :param boolean cleanup_dirs: flag to delete all RF_dirs after run (True
+        :param bool cleanup_dirs: flag to delete all RF_dirs after run (True
             -- yes, False -- no)
         :param int num_writers: number of MPI processes to dedicate soley to
             the task of writing ascii files. This MUST be < num_procs
         :param int TpN: number of tasks (cores to use) per node (wayness)
-        :rtype: (:class:`np.array`, :class:`np.ndarray`, :class:`np.ndarray`)
+        
+        :rtype: (:class:`numpy.ndarray`, :class:`numpy.ndarray`,
+            :class:`numpy.ndarray`) 
         :returns: (``time_obs``, ``ts_data``, ``nts_data``)
 
         .. note:: Currently supports ADCIRC output files ``fort.6*``,
@@ -876,7 +894,7 @@ class runSet(pickleable):
     def plot_basis_functions(self, domain, bv_dict, save=True, show=False,
                              ext='.eps', ics=2): 
         """
-        See :meth:``~polsim.pyADCIRC.plotADCIRC.basis_functions`
+        See :meth:`~polsim.pyADCIRC.plotADCIRC.basis_functions`
 
         """
         plot.basis_functions(domain, bv_dict, self.save_dir, save, show,
