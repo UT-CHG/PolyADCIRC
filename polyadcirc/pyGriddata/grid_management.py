@@ -6,12 +6,12 @@ This module contains the class definition for
 """
 
 import os, stat, glob, sys, re, subprocess
+import numpy as np
 from polyadcirc.pyADCIRC.basic import pickleable
 import polyadcirc.pyADCIRC.convert_fort14_to_fort13 as c13
 import polyadcirc.pyADCIRC.fort14_management as f14
 import polyadcirc.pyADCIRC.fort13_management as f13
 import polyadcirc.pyADCIRC.plotADCIRC as plt
-import numpy as np
 import polyadcirc.pyGriddata.table_management as tm
 import polyadcirc.pyGriddata.table_to_mesh_map as tmm
 import polyadcirc.pyGriddata.file_management as fm
@@ -85,7 +85,7 @@ class gridInfo(pickleable):
             self.file_name = os.path.basename(flagged_file_name)
 
             # check to see if Griddata is here
-            if executable_dir == None:
+            if executable_dir is None:
                 executable_dir = sys.path
             else:
                 executable_dir = [executable_dir]
@@ -154,7 +154,7 @@ class gridInfo(pickleable):
             value to be zero if ``condense == True``
         
         """
-        if class_nums == None:
+        if class_nums is None:
             class_nums = range(len(self.__landclasses))
         if rank > class_nums:
             print "There are more MPI TASKS than land classes."
@@ -401,7 +401,7 @@ class gridInfo(pickleable):
         :returns: file name of bash script for this land class
 
         """
-        if folder_name == None:
+        if folder_name is None:
             folder_name = 'landuse_'+'{:=02d}'.format(class_num)
         print 'Setting up folder -- '+folder_name+'...'
         # create a folder for this land-use classification
@@ -478,7 +478,7 @@ class gridInfo(pickleable):
             ``self.base_dir``
 
         """
-        if folder_name == None:
+        if folder_name is None:
             folder_name = ''
             print 'Cleaning current directory...'
         else:
@@ -519,7 +519,7 @@ def compare(basis_dir=None, default=0.012):
         folders
     :param float default: default Manning's *n*
     """
-    if basis_dir == None:
+    if basis_dir is None:
         basis_dir = os.getcwd()
     tables = tm.read_tables(os.path.join(basis_dir, 'test'))
     domain = dom.domain(basis_dir)

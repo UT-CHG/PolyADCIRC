@@ -6,10 +6,10 @@ This module given a ``*.table`` (and ``*.table`` and ``*.13 files`` from
 values for that ``*.table``, or dict, or array of these values.
 """
 
-import polyadcirc.pyADCIRC.fort13_management as f13
-import numpy as np
 import glob, os
+import numpy as np
 from polyadcirc.pyADCIRC.basic import comm
+import polyadcirc.pyADCIRC.fort13_management as f13
 
 size = comm.Get_size()
 rank = comm.Get_rank()
@@ -61,7 +61,7 @@ def get_basis_vec_array(path=None, node_num=None):
     
     """
     bv_list_of_dict = get_basis_vectors(path)
-    if node_num == None:
+    if node_num is None:
         ex_folder = glob.glob(os.path.join(path, 'landuse_*'))[0]
         node_num = f13.read_node_num(ex_folder)
     bv_array = np.zeros((len(bv_list_of_dict), node_num))
@@ -104,7 +104,7 @@ def combine_basis_vectors(weights, vectors, default_value=None, node_num=None):
     if len(weights) != len(vectors):
         raise LenError('weights, vectors', 'dimensions do not match')
 
-    if type(vectors[0]) == np.array:
+    if isinstance(vectors[0], np.array):
         combine_bv_array(weights, vectors)
     elif default_value and node_num:
         return dict_to_array(add_dict(vectors, weights)[0], default_value,
@@ -316,7 +316,7 @@ def condense_bv_dict(mann_dict, TOL=None):
     :rtype: dict
     :returns: basis vector of values
     """
-    if TOL == None:
+    if TOL is None:
         TOL = 1e-7
     new_mann_dict = {}
     for k, v in mann_dict.iteritems():

@@ -5,8 +5,8 @@ This module :mod:`~polyadcirc.pyADCIRC.fort13_management` handles the
 reading/writing of ``fort.13`` formatted files.
 """
 
-import numpy as np
 import os
+import numpy as np
 
 def write_manningsn(fid, node, value):
     """
@@ -56,7 +56,7 @@ def read_nodal_attr(data, path=None, file_name='fort.13', nums=None):
     """
     # Determine how many non-default nodes exist
     # Read in nodal values (Manning's n) from fort.13
-    if path == None:
+    if path is None:
         path = os.getcwd()
     full_file_name = os.path.join(path, file_name)
 
@@ -89,7 +89,7 @@ def read_nodal_attr(data, path=None, file_name='fort.13', nums=None):
             if attribute_name_present == 2:
                 for i in xrange(data.manningsn_num):
                     a = read_manningsn(f)
-                    if (nums == None) or (int(a[0]) in nums):
+                    if (nums is None) or (int(a[0]) in nums):
                         if data.node.has_key(int(a[0])):
                             data.node[int(a[0])].manningsn = a[1]
                         manningsn_values[int(a[0])] = a[1]
@@ -110,7 +110,7 @@ def read_default(data, path=None, file_name='fort.13'):
         containing the default value
 
     """
-    if path == None:
+    if path is None:
         path = os.getcwd()
     full_file_name = os.path.join(path, file_name)
     
@@ -141,7 +141,7 @@ def read_node_num(path=None, file_name='fort.13'):
     :return: number of nodes in the mesh 
 
     """
-    if path == None:
+    if path is None:
         path = os.getcwd()
     full_file_name = os.path.join(path, file_name)
     
@@ -166,7 +166,7 @@ def read_nodal_attr_dict(path=None, file_name='fort.13'):
     """
     # Determine how many non-default nodes exist
     # Read in nodal values (Manning's n) from fort.13
-    if path == None:
+    if path is None:
         path = os.getcwd()
     full_file_name = os.path.join(path, file_name)
     
@@ -210,7 +210,7 @@ def update_mann(data, path=None, default=None, file_name='fort.13'):
     :param file_name: the name of the ``fort.13`` formatted file
     
     """
-    if path == None:
+    if path is None:
         path = os.getcwd()
     
     tmp_name = os.path.join(path, 'temp.13')
@@ -250,7 +250,7 @@ def update_mann(data, path=None, default=None, file_name='fort.13'):
             if attribute_name_present == 2:
                 for i in xrange(org_non_default):
                     fid_read.readline()
-                if type(data) == np.ndarray or type(data) == np.array:
+                if isinstance(data, np.ndarray) or isinstance(data, np.array):
                     for k, v in enumerate(data):
                         write_manningsn(fid_write, k+1, v)
                 else:

@@ -201,7 +201,7 @@ def convert_go(grid, folder_name=None, keep_flags=0):
             codes the data based on wheter or not is is a default value or not
 
     """
-    if folder_name == None:
+    if folder_name is None:
         folder_name = os.getcwd()
 
     fort_14_files = glob.glob(os.path.join(folder_name,\

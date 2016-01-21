@@ -7,13 +7,13 @@ This module contains a set of methods and a class for interacting with NCSU
 Subdomain Modeling Python code and associated files. The focus of this module
 is the :class:`fulldomain`.
 """
-import numpy as np
-import polyadcirc.run_framework.domain as dom
 import subprocess, glob, sys, os
+import numpy as np
+import scipy.io as sio
+import polyadcirc.run_framework.domain as dom
 import polyadcirc.pyADCIRC.post_management as post
 import polyadcirc.run_framework.random_manningsn as rmn
 import polyadcirc.pyADCIRC.output as output
-import scipy.io as sio
 
 class fulldomain(dom.domain):
     """
@@ -37,7 +37,7 @@ class fulldomain(dom.domain):
                 break
 
         #: list of :class:`~polyadcirc.run_framework.subdomain`
-        if subdomains == None:
+        if subdomains is None:
             self.subdomains = list()
         else:
             self.subdomains = subdomains
@@ -86,7 +86,7 @@ class fulldomain(dom.domain):
         :returns: command line for invoking genfull.py
 
         """
-        if subdomains == None:
+        if subdomains is None:
             subdomains = self.subdomains
         if len(subdomains) == 0:
             with open(os.path.join(self.path, 'genfull.in'), 'w') as fid:
@@ -135,13 +135,13 @@ class fulldomain(dom.domain):
                             cwd=self.path)
 
         if self.check_fulldomain():
-            if forcing_freq == None:
+            if forcing_freq is None:
                 forcing_freq = [1 for i in self.subdomains]
-            if dt == None:
+            if dt is None:
                 dt = [self.time.dt for i in self.subdomains]
-            if nspoolgs == None:
+            if nspoolgs is None:
                 nspoolgs = [1 for i in self.subdomains]
-            if h0 == None:
+            if h0 is None:
                 h0 = [None for s in self.subdomains]
             for f, d, ns, h, subdomain in zip(forcing_freq, dt, nspoolgs, h0,
                                               self.subdomains):
@@ -160,10 +160,7 @@ class fulldomain(dom.domain):
         """
         fort06 = glob.glob(os.path.join(self.path, 'fort.06*'))
         fort065 = glob.glob(os.path.join(self.path, 'PE*', 'fort.065'))
-        if len(fort06) > 0 and len(fort065) > 0:
-            return True
-        else:
-            return False
+        return (len(fort06) > 0 and len(fort065) > 0)
 
     def check_subdomains(self):
         """
@@ -209,7 +206,7 @@ class fulldomain(dom.domain):
 
         """
         
-        if save_file == None:
+        if save_file is None:
             save_file = os.path.join(self.path, 'full.mat')
         fulldict = dict()
 

@@ -5,15 +5,15 @@ This module contains functions to pull data from ADCIRC output files and the
 :class:`runSet` which controls the running of ADCIRC simulations within a set
 of processors allocated by the submission script
 """
-import numpy as np
 import glob, os, subprocess, shutil 
+import numpy as np
+import scipy.io as sio
 import polyadcirc.pyADCIRC.fort13_management as f13
 import polyadcirc.pyADCIRC.fort14_management as f14
 import polyadcirc.run_framework.random_manningsn as rmn
 import polyadcirc.pyGriddata.table_to_mesh_map as tmm
 import polyadcirc.pyADCIRC.plotADCIRC as plot
 import polyadcirc.pyADCIRC.output as output
-import scipy.io as sio
 
 def loadmat(save_file, base_dir, grid_dir, save_dir, basis_dir):
     """
@@ -132,7 +132,8 @@ class runSet(rmn.runSet):
             the task of writing ascii files. This MUST be less than num_procs.
         :param int TpN: number of tasks (cores to use) per node (wayness)
         
-        :rtype: (:class:`numpy.ndarray`, :class:`numpy.ndarray`, :class:`numpy.ndarray`)
+        :rtype: (:class:`numpy.ndarray`, :class:`numpy.ndarray`,
+            :class:`numpy.ndarray`) 
         :returns: (``time_obs``, ``ts_data``, ``nts_data``)
 
         """

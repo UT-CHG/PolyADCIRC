@@ -5,8 +5,8 @@ This module is for the manipulation and creation of ``fort.19`` and
 ``fort.20`` files.
 """
 
-import numpy as np
 import os, math
+import numpy as np
 
 def write_fort19(etiminc, esbin, file_name=None):
     """
@@ -23,7 +23,7 @@ def write_fort19(etiminc, esbin, file_name=None):
     .. seealso:: `ADCIRC <http://adcirc.org/home/documentation/users-manual-v50/input-file-descriptions/non-periodic-elevation-boundary-condition-file-fort-19/>`_ 
                 Non-periodic Elevation Boundary Condition File
     """
-    if file_name == None:
+    if file_name is None:
         file_name = os.path.join(os.getcwd(), 'fort.19')
 
     esbin = esbin.ravel()
@@ -54,7 +54,7 @@ def sin_wave(t_start, t_finish, amplitude, nnodes, time, periods=.5,
     :returns: (times, values at times, timinc)
 
     """
-    if timinc == None:
+    if timinc is None:
         timinc = time.dt * 450.0
     times = np.arange(time.statim*60*60*24.0, time.rnday*60*60*24.0+timinc,
                       float(timinc))
@@ -94,7 +94,7 @@ def step_wave(t_start, t_finish, amplitude, nnodes, time, timinc=None):
     :returns: (times, values at times, timinc)
 
     """
-    if timinc == None:
+    if timinc is None:
         timinc = time.dt * 450.0
     times = np.arange(time.statim*60*60*24.0, time.rnday*60*60*24.0+timinc,
                       float(timinc))
@@ -130,7 +130,7 @@ def write_fort20(ftiminc, qnin, file_name=None):
     .. seealso:: `ADCIRC <http://adcirc.org/home/documentation/users-manual-v50/input-file-descriptions/non-periodic-normal-flow-boundary-condition-file-fort-20/>`_ 
                 Non-periodic Normal Flow Boundary Condition File
     """
-    if file_name == None:
+    if file_name is None:
         file_name = os.path.join(os.getcwd(), 'fort.20')
     qnin = qnin.ravel() 
     with open(file_name, 'w') as fid:

@@ -5,8 +5,10 @@ This module contains functions to pull data from a ``fort.61`` and the
 :class:`runSet` which controls the running of ADCIRC simulations within a set
 of processors allocated by the submission script
 """
+import glob, os, stat, subprocess, shutil 
+from distutils.spawn import find_executable
+import scipy.io as sio
 import numpy as np
-import glob, os, stat, subprocess, shutil, math
 import polyadcirc.pyADCIRC.fort15_management as f15
 from polyadcirc.pyADCIRC.basic import pickleable
 import polyadcirc.pyGriddata.table_to_mesh_map as tmm
@@ -15,8 +17,6 @@ import polyadcirc.pyADCIRC.plotADCIRC as plot
 import polyadcirc.pyADCIRC.prep_management as prep
 import polyadcirc.pyADCIRC.output as output
 import polyadcirc.run_framework.domain as dom
-import scipy.io as sio
-from distutils.spawn import find_executable
 
 def loadmat(save_file, base_dir, grid_dir, save_dir, basis_dir):
     """
@@ -371,11 +371,11 @@ class runSet(pickleable):
                 if not os.path.exists(my_PE_dir):
                     mkdir(my_PE_dir)
                 # link files into the PE* directories
-                for input in link_inputs:
-                    if os.path.exists(os.path.join(my_PE_dir, input)):
-                        os.remove(os.path.join(my_PE_dir, input))
-                    os.symlink(os.path.join(PE_dir, input),
-                               os.path.join(my_PE_dir, input))
+                for l_input in link_inputs:
+                    if os.path.exists(os.path.join(my_PE_dir, l_input)):
+                        os.remove(os.path.join(my_PE_dir, l_input))
+                    os.symlink(os.path.join(PE_dir, l_input),
+                               os.path.join(my_PE_dir, l_input))
                 # copy fort.13 into the PE* directories
                 if os.path.exists(os.path.join(my_PE_dir, 'fort.13')):
                     os.remove(os.path.join(my_PE_dir, 'fort.13'))

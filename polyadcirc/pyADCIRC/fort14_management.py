@@ -5,8 +5,8 @@ This module, :mod:`~polyadcirc.pyADCIRC.fort14_management` handles the
 reading/writing of ``fort.14`` formatted files.
 """
 
-import numpy as np
 import glob, os
+import numpy as np
 import polyadcirc.pyADCIRC.flag_fort14 as flag_fort14
 import polyadcirc.pyADCIRC.basic as basic
 
@@ -21,7 +21,7 @@ def clean(grid_object, folder_name=None):
     :return: list of ``fort.14`` files in ``folder_name``
 
     """
-    if folder_name == None:
+    if folder_name is None:
         folder_name = ''
         print 'Removing extra *.14 files in current directory...'
     else:
@@ -69,10 +69,7 @@ def is_flagged(grid):
         exist
 
     """
-    if glob.glob(grid.file_name):
-        return True
-    else:
-        return False
+    return bool(glob.glob(grid.file_name))
 
 def read_spatial_grid(data, path=None, make_domain_map=False):
     """ 
@@ -88,7 +85,7 @@ def read_spatial_grid(data, path=None, make_domain_map=False):
     :returns: reference to data
 
     """
-    if path == None:
+    if path is None:
         path = os.getcwd()
 
     file_name = os.path.join(path, 'fort.14')
@@ -133,7 +130,7 @@ def read_spatial_grid_header(data, path=None):
     :returns: reference to data
 
     """
-    if path == None:
+    if path is None:
         path = os.getcwd()
 
     file_name = os.path.join(path, 'fort.14')
@@ -162,7 +159,7 @@ def update(data, bathymetry=None, path=None, file_name='fort.14'):
     :param string  file_name: file name
 
     """
-    if path == None:
+    if path is None:
         path = os.getcwd()
 
     file_name = os.path.join(path, file_name)
@@ -170,7 +167,7 @@ def update(data, bathymetry=None, path=None, file_name='fort.14'):
 
     # this currrently uses the present fort.14 as a template for formatting
     # purposes
-    if bathymetry == None:
+    if bathymetry is None:
         bathymetry = data.array_bathymetry()
     
     # pylint: disable=C0103

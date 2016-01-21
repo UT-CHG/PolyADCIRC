@@ -5,11 +5,8 @@
 A set of functions for plotting data from :class:`runSet`
 """
 # import necessary modules
-import numpy as np
 import os
-import polyadcirc.pyGriddata.file_management as fm
-import polyadcirc.pyADCIRC.fort15_management as f15
-import polyadcirc.pyGriddata.table_to_mesh_map as tmm
+import numpy as np
 # import plotting modules
 import matplotlib.pyplot as plt
 plt.rc('text', usetex=True)
@@ -17,6 +14,9 @@ plt.rc('font', family='serif')
 import matplotlib.tri as tri
 from matplotlib.collections import LineCollection
 from mpl_toolkits.axes_grid1 import make_axes_locatable
+import polyadcirc.pyGriddata.file_management as fm
+import polyadcirc.pyADCIRC.fort15_management as f15
+import polyadcirc.pyGriddata.table_to_mesh_map as tmm
 
 _stationmarkers = {'fort61':'bo', 'fort62':'go', 'fort71':'ro', 'fort72':'co',
                    'fort81':'yo', 'fort91':'ko'}
@@ -43,7 +43,7 @@ def get_Triangulation(domain, path=None, save=True, show=False, ics=1,
     triangles = np.array([e-1 for e in domain.element.itervalues()])
     triangulation = tri.Triangulation(x, y, triangles)
     plt.figure()
-    if path == None:
+    if path is None:
         path = os.getcwd()
     fig_folder = os.path.join(path, 'figs')
     if not os.path.exists(fig_folder):
@@ -82,7 +82,7 @@ def bathymetry(domain, path=None, save=True, show=False, mesh = False,
     vmax = np.max(z)
     vmin = np.min(z)
     clim = (vmin, vmax)
-    if path == None:
+    if path is None:
         path = os.getcwd()
     plt.figure()
     if mesh:
@@ -120,7 +120,7 @@ def station_locations(domain, path=None, bathy = False, save=True,
  
     """
     plt.figure()
-    if path == None:
+    if path is None:
         path = os.getcwd()
     if bathy:
         z = np.array([n.bathymetry for n in domain.node.itervalues()])
@@ -165,7 +165,7 @@ def field(domain, z, title, clim = None,  path=None, save=True, show =
     :param string ext: file extension
 
     """
-    if path == None:
+    if path is None:
         path = os.getcwd()
     plt.figure()
     plt.tripcolor(domain.triangulation, z, shading='gouraud',
@@ -292,12 +292,12 @@ def station_data(ts_data, time_obs, keys=None, stations = None, path=None,
     :param string ext: file extension
     
     """
-    if path == None:
+    if path is None:
         path = os.getcwd()
     
 
 
-    if keys == None:
+    if keys is None:
         keys = ts_data.keys()
     s_keys = list()
     for k in keys:
@@ -307,7 +307,7 @@ def station_data(ts_data, time_obs, keys=None, stations = None, path=None,
 
     for k in keys:
         fm.mkdir(os.path.join(path, 'figs', k))
-        if stations[k] == None:
+        if stations[k] is None:
             stations = xrange(ts_data[k].shape[0]) 
         for i in stations:
             fig = plt.figure()
@@ -383,10 +383,10 @@ def nts_line_data(nts_data, keys=None, path=None, save=True, show=False,
     :param string ext: file extension
     
     """
-    if path == None:
+    if path is None:
         path = os.getcwd()
 
-    if keys == None:
+    if keys is None:
         keys = nts_data.keys()
     s_keys = list()
     for k in keys:
@@ -442,10 +442,10 @@ def nts_pcolor(nts_data, domain, keys=None, points=None, path=None,
     :param string ext: file extension
 
     """
-    if path == None:
+    if path is None:
         path = os.getcwd()
 
-    if keys == None:
+    if keys is None:
         keys = nts_data.keys()
     s_keys = list()
     for k in keys:
@@ -455,7 +455,7 @@ def nts_pcolor(nts_data, domain, keys=None, points=None, path=None,
             s_keys.append(k)
     keys = s_keys
 
-    if points == None:
+    if points is None:
         points = (0, nts_data[keys[0]].shape[-1]-1)
 
     if not os.path.exists(os.path.join(path, 'figs', 'nts')):
@@ -535,10 +535,10 @@ def ts_pcolor(ts_data, time_obs, domain, keys=None, points=None,
     :param string ext: file extension
     
     """
-    if path == None:
+    if path is None:
         path = os.getcwd()
 
-    if keys == None:
+    if keys is None:
         keys = ts_data.keys()
     s_keys = list()
     for k in keys:
@@ -546,7 +546,7 @@ def ts_pcolor(ts_data, time_obs, domain, keys=None, points=None,
             s_keys.append(k)
     keys = s_keys
 
-    if points == None:
+    if points is None:
         points = (0, ts_data[keys[0]].shape[-1]-1)
 
     fm.mkdir(os.path.join(path, 'figs', 'ts'))
@@ -639,10 +639,10 @@ def ts_quiver(ts_data, time_obs, domain, keys=None, points=None,
         grid and is therefore more expenseive to do
 
     """
-    if path == None:
+    if path is None:
         path = os.getcwd()
 
-    if keys == None:
+    if keys is None:
         keys = ts_data.keys()
     s_keys = list()
     for k in keys:
@@ -650,7 +650,7 @@ def ts_quiver(ts_data, time_obs, domain, keys=None, points=None,
             s_keys.append(k)
     keys = s_keys
 
-    if points == None:
+    if points is None:
         points = (0, ts_data[keys[0]].shape[-1]-1)
     fig_folder = os.path.join(path, 'figs', 'ts_quiver')
     fm.mkdir(fig_folder)
@@ -723,7 +723,7 @@ def add_2d_axes_labels(fig = None , ics=1):
     :param int ics:  polar coordinate option (1 = cart coords, 2 = polar)
     
     """
-    if fig == None:
+    if fig is None:
         fig = plt.gcf()
     if ics == 1:
         plt.xlabel('x (m)')
@@ -794,10 +794,10 @@ def nts_contour(nts_data, domain, keys=None, points=None, path=None,
     :param string ext: file extension
     
     """
-    if path == None:
+    if path is None:
         path = os.getcwd()
 
-    if keys == None:
+    if keys is None:
         keys = nts_data.keys()
     s_keys = list()
     for k in keys:
@@ -805,7 +805,7 @@ def nts_contour(nts_data, domain, keys=None, points=None, path=None,
             s_keys.append(k)
     keys = s_keys
 
-    if points == None:
+    if points is None:
         points = (0, nts_data[keys[0]].shape[-1]-1)
 
     fig_folder = os.path.join(path, 'figs', 'nts_contour')

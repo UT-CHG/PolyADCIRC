@@ -5,8 +5,8 @@ This module, :mod:`~polyadcirc.pyADCIRC.fort15_management`, handles the
 reading/writing of ``fort.15`` formatted files.
 """
 
-import numpy as np
 import os, re, math
+import numpy as np
 import polyadcirc.pyADCIRC.basic as basic
 import polyadcirc.util as util
 
@@ -69,7 +69,7 @@ def fake_stations(domain, num_stat):
 
     x = domain.array_x()
     y = domain.array_y()
-    if type(num_stat) is int:
+    if isinstance(num_stat, int):
         num_stat = [num_stat, num_stat]
 
     xy = util.meshgrid_ndim((np.linspace(min(x), max(x), num_stat[0]),
@@ -97,7 +97,7 @@ def read_recording_data(data, path=None):
     :rtype: :class:`~polyadcirc.pyADCIRC.basic.time`
 
     """
-    if path == None:
+    if path is None:
         path = os.getcwd()
 
     file_name = os.path.join(path, 'fort.15')
@@ -440,7 +440,7 @@ def set_ihot(ihot, path=None):
         dtat from
 
     """
-    if path == None:
+    if path is None:
         path = os.getcwd()
 
     tmp_name = os.path.join(path, "temp.15")
@@ -467,7 +467,7 @@ def set_write_hot(nhstar, nhsinc, path=None):
         file
 
     """
-    if path == None:
+    if path is None:
         path = os.getcwd()
 
     tmp_name = os.path.join(path, "temp.15")

@@ -9,8 +9,8 @@ requires `Numpy version 1.7.0 <http://www.numpy.org>`_ or above.
 
 """
 
-import numpy as np
 import subprocess, math, os
+import numpy as np
 
 def write_gapfile(gap_data, xllcorner, yllcorner, file_name='gap_data.asc',
                   cellsize=30, NODATA_value=-9999):
@@ -60,6 +60,7 @@ def random(xl, xr, yl, yu, landclasses, cellsize=30, p=None, path=None):
     :param p: probabilities associated with each land classification
     :param string path: folder to write out probability structure to as
         p_struct.txt
+    
     :rtype: int or :class:`numpy.ndarray`
     :returns: See :class:`numpy.random.choice`
 
@@ -68,7 +69,7 @@ def random(xl, xr, yl, yu, landclasses, cellsize=30, p=None, path=None):
     ncol = int(math.ceil((xr-xl)/cellsize)) + 1
     # Determine number of rows
     nrow = int(math.ceil((yu-yl)/cellsize)) + 1
-    if path == None:
+    if path is None:
         path = os.getcwd()
     with open(os.path.join(path, 'p_struct.txt'), 'w') as fid:
         fid.write(str(p))
@@ -95,6 +96,7 @@ def random_vertical(x_points, yl, yu, landclasses, cellsize=30,
         each land classification
     :param string path: folder to write out probability structure to as
         p_struct.txt
+    
     :rtype: int or :class:`numpy.ndarray`
     :returns: See :class:`numpy.random.choice`
 
@@ -114,7 +116,7 @@ def random_vertical(x_points, yl, yu, landclasses, cellsize=30,
         ncol = r - l + 1
         gap_arrays.append(np.random.choice(landclasses, (nrow, ncol), True,
                                            prob))
-    if path == None:
+    if path is None:
         path = os.getcwd()
     with open(os.path.join(path, 'p_struct.txt'), 'w') as fid:
         fid.write(str(p_sections))
@@ -141,6 +143,7 @@ def random_horizontal(y_points, xl, xr, landclasses, cellsize=30,
         each land classification
     :param string path: folder to write out probability structure to as
         p_struct.txt
+    
     :rtype: int or :class:`numpy.ndarray`
     :returns: See :class:`numpy.random.choice`
 
@@ -160,7 +163,7 @@ def random_horizontal(y_points, xl, xr, landclasses, cellsize=30,
         nrow = u - l + 1
         gap_arrays.append(np.random.choice(landclasses, (nrow, ncol), True,
                                            prob))
-    if path == None:
+    if path is None:
         path = os.getcwd()
     with open(os.path.join(path, 'p_struct.txt'), 'w') as fid:
         fid.write(str(p_sections))
@@ -190,6 +193,7 @@ def random_patches(x_points, y_points, landclasses, cellsize=30,
         where i and j are the ith and jth x and y section respectively
     :param string path: folder to write out probability structure to as
         p_struct.txt
+    
     :rtype: int or :class:`numpy.ndarray`
     :returns: See :class:`numpy.random.choice`
 
@@ -221,13 +225,13 @@ def random_patches(x_points, y_points, landclasses, cellsize=30,
         for u, b in zip(yu, yl):
             nrow = u - b + 1
             print i, r, l, u, b, p_sections[i]
-            gap_arrays_v.append(np.random.choice(landclasses, (nrow, ncol), True,
-                                                 p_sections[i]))
+            gap_arrays_v.append(np.random.choice(landclasses, (nrow, ncol),
+                                                 True, p_sections[i]))
             i += 1
         gap_arrays_r.append(np.vstack(gap_arrays_v))
         gap_arrays_v = list()
 
-    if path == None:
+    if path is None:
         path = os.getcwd()
     with open(os.path.join(path, 'p_struct.txt'), 'w') as fid:
         fid.write(str(p_sections))

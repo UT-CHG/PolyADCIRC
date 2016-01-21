@@ -3,15 +3,15 @@
 """
 See :class:`domain`
 """
+import subprocess, os
+import numpy as np
+from scipy.interpolate import griddata
 from polyadcirc.pyADCIRC.basic import pickleable 
 import polyadcirc.pyADCIRC.prep_management as prep
-import subprocess, os
 import polyadcirc.pyADCIRC.fort15_management as f15
 import polyadcirc.pyADCIRC.fort14_management as f14
 import polyadcirc.pyADCIRC.fort13_management as f13
 import polyadcirc.pyADCIRC.plotADCIRC as plot
-import numpy as np
-from scipy.interpolate import griddata
 
 class domain(pickleable):
     """
@@ -200,7 +200,7 @@ class domain(pickleable):
         :returns: See :meth:`~polyadcirc.pyADCIRC.fort13_management.read_nodal_attr`
 
         """
-        if path == None:
+        if path is None:
             path = self.path
         return f13.read_nodal_attr(self, path, file_name)
 
@@ -215,7 +215,7 @@ class domain(pickleable):
         :returns: See :meth:`~polyadcirc.pyADCIRCfort13_management.read_default`
 
         """
-        if path == None:
+        if path is None:
             path = self.path
         return f13.read_default(self, path, file_name)
 
@@ -273,9 +273,9 @@ class domain(pickleable):
         :param path: directory containing the ``fort.14`` to be adjusted
 
         """
-        if path == None:
+        if path is None:
             path = self.path
-        if x_lims == None:
+        if x_lims is None:
             x_lims = [0, 0]
             x_lims[0] = np.min(np.array([node.x for node in \
                     self.node.values()]))  
@@ -297,7 +297,7 @@ class domain(pickleable):
 	:param list box_limits: [xmin, xmax, ymin, ymax] 
 
         """
-        if path == None:
+        if path is None:
             path = self.path
         for n in self.node.values():
             if box_limits[0] <= n.x <= box_limits[1]: 
@@ -343,11 +343,11 @@ class domain(pickleable):
         :param string R: (optional) specify ``R`` flag
 
         """
-        if base_dir == None:
+        if base_dir is None:
             base_dir = self.path
-        if input_dir == None:
+        if input_dir is None:
             input_dir = self.path
-        if global_dir == None:
+        if global_dir is None:
             global_dir = self.path
         if not os.path.exists(os.path.join(self.path, 'adcprep')):
             os.symlink(os.path.join(base_dir, 'adcprep'),
@@ -408,7 +408,7 @@ def adjust_factor(x, x_lims, b_lims=None):
     :returns: b = bathy adjustment
 
     """
-    if b_lims == None:
+    if b_lims is None:
         return 0
     if x < x_lims[0] or x > x_lims[1]:
         return 0

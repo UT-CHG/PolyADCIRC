@@ -8,6 +8,8 @@ is the :class:`subdomain`.
 
 import glob, os, sys, subprocess, re, math 
 import numpy as np
+import scipy.io as sio
+import py.gensub as gensub 
 import polyadcirc.run_framework.domain as dom
 import polyadcirc.pyADCIRC.fort15_management as f15
 import polyadcirc.pyADCIRC.fort13_management as f13
@@ -15,9 +17,7 @@ import polyadcirc.pyADCIRC.output as output
 import polyadcirc.run_framework.random_manningsn as rmn
 import polyadcirc.pyADCIRC.post_management as post
 import polyadcirc.pyGriddata.file_management as fm
-import scipy.io as sio
 from polyadcirc.pyADCIRC.basic import comm
-import py.gensub as gensub 
 
 def loadmat(save_file, base_dir, grid_dir, save_dir, basis_dir):
     """
@@ -157,7 +157,7 @@ class subdomain(dom.domain):
         Create symboolic links to ``fort.22*`` meterological files in this
         subdomain folder from the fulldomain folder.
         """
-        if fdir == None:
+        if fdir is None:
             fdir = self.fulldomain.path
         fort22_files = glob.glob(os.path.join(fdir, 'fort.22*'))
         for fid in fort22_files:
@@ -210,9 +210,9 @@ class subdomain(dom.domain):
         self.read_recording_data()
 
         if self.check_fulldomain():
-            if h0 == None:
+            if h0 is None:
                 h0 = self.h0
-            if dt == None:
+            if dt is None:
                 dt = self.fulldomain.time.dt
             command = "python "+self.script_dir+"/genbcs.py -p "
             command += self.fulldomain.path+'/ '+self.path+'/ '
@@ -341,7 +341,7 @@ class subdomain(dom.domain):
 
         """
         # Appropriately flag subdomain
-        if flag == None and self.flag == None:
+        if flag is None and self.flag is None:
             circle = glob.glob(os.path.join(self.path, 'shape.c14'))
             if len(circle) > 0:
                 self.flag = 1
@@ -402,18 +402,18 @@ class subdomain(dom.domain):
 
         """
         
-        if save_file == None:
+        if save_file is None:
             save_file = os.path.join(self.path, 'compare_s2f_runSet.mat')
 
         nts_keys = []
-        if nts_names == None:
+        if nts_names is None:
             nts_keys = nts_data[0].keys()
         else:
             for fid in nts_names:
                 nts_keys.append(fid.replace('.', ''))
 
         ts_keys = []
-        if ts_names == None:
+        if ts_names is None:
             ts_keys = ts_data[0].keys()
         else:
             for fid in ts_names:
@@ -502,7 +502,7 @@ class subdomain(dom.domain):
 
         """
         
-        if save_file == None:
+        if save_file is None:
             save_file = os.path.join(self.path, 'compare_s2f.mat')
 
         full_file = os.path.join(self.fulldomain.path, 'full.mat')
@@ -516,7 +516,7 @@ class subdomain(dom.domain):
         else:
             subdict = dict()
 
-        if fulldict == None:
+        if fulldict is None:
             if readmatfull:
                 fulldict = sio.loadmat(full_file)
                 savefull = False
@@ -764,7 +764,7 @@ class subdomain(dom.domain):
         :returns: dictionary or array of nodal values
 
         """
-        if type(mann_data) == 'dict':
+        if isinstance(mann_data, dict):
             for k, v in self.bv_fort13.iteritems():
                 mann_data[k] = v
         else:

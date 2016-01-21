@@ -5,14 +5,14 @@ This module contains functions to pull data from ADCIRC output files and the
 :class:`runSet` which controls the running of ADCIRC simulations within a set
 of processors allocated by the submission script
 """
-import numpy as np
 import glob, os, subprocess, shutil 
+import scipy.io as sio
+from scipy.interpolate import griddata
+import numpy as np
 import polyadcirc.pyADCIRC.fort14_management as f14
 import polyadcirc.run_framework.random_wall as rmw
 import polyadcirc.pyGriddata.table_to_mesh_map as tmm
 import polyadcirc.pyADCIRC.output as output
-import scipy.io as sio
-from scipy.interpolate import griddata
 import polyadcirc.run_framework.random_manningsn as rmn
 
 def loadmat(save_file, base_dir, grid_dir, save_dir, basis_dir):

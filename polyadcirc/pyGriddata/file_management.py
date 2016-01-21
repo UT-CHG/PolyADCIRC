@@ -27,7 +27,7 @@ def mkdir(path):
     :param string path: path of directory to create
 
     """
-    if os.path.exists(path) == False:
+    if not os.path.exists(path):
         os.makedirs(path)
 
 def rename13(dirs=None, basis_dir=None):
@@ -38,9 +38,9 @@ def rename13(dirs=None, basis_dir=None):
 
     """
     files = []
-    if dirs == None and basis_dir == None:
+    if dirs is None and basis_dir is None:
         files = glob.glob(os.path.join('landuse_*', '*.13'))
-    elif dirs == None and basis_dir:
+    elif dirs is None and basis_dir:
         files = glob.glob(os.path.join(basis_dir, 'landuse_*', '*.13'))
     else:
         for d in dirs:
@@ -59,7 +59,7 @@ def remove(files):
     @author: pkjain
 
     """
-    if isinstance(files, string): #is files a stringing
+    if isinstance(files, str): #is files a stringing
         files = [files]
     for f in files:
         if os.path.isdir(f):

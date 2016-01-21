@@ -5,12 +5,12 @@ This module contains functions to pull data from ADCIRC output files and the
 :class:`runSet` which controls the running of ADCIRC simulations within a set
 of processors allocated by the submission script
 """
-import numpy as np
 import glob, os, subprocess, shutil 
+import scipy.io as sio
+import numpy as np
+from scipy.interpolate import griddata
 import polyadcirc.pyGriddata.table_to_mesh_map as tmm
 import polyadcirc.pyADCIRC.output as output
-import scipy.io as sio
-from scipy.interpolate import griddata
 import polyadcirc.run_framework.random_manningsn as rmn
 
 def loadmat(save_file, base_dir, grid_dir, save_dir, basis_dir):
@@ -162,7 +162,7 @@ class runSet(rmn.runSet):
                                          self.num_of_parallel_runs))        
         
         # Pre-allocate arrays for QoI data
-        if stations == None:
+        if stations is None:
             stations = data.stations['fort61']
         xi = np.array([[s.x, s.y] for s in stations])
         points = np.column_stack((data.array_x(), data.array_y()))

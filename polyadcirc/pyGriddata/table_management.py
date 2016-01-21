@@ -4,11 +4,11 @@
 This modules controls the management and creation of ``*.table`` files
 """
 
-if __name__ == "__main__":
-    pass
-
 import glob, os, re
 from polyadcirc.pyADCIRC.basic import pickleable
+
+if __name__ == "__main__":
+    pass
 
 def create_table_single_value(class_num, landuse_table, manningsn_value,
                               folder_name=None):
@@ -43,7 +43,7 @@ def create_table(landuse_table, folder_name=None):
 
     """
     print 'Creating landuse_table file '+landuse_table.file_name+'...'
-    if folder_name == None:
+    if folder_name is None:
         folder_name = ''
     with open(os.path.join(folder_name, landuse_table.file_name), 'w') as f:
         next_str = ' {0:3}    ! '.format(landuse_table.get_num_landclasses())
@@ -65,7 +65,7 @@ def read_table(table_file_name, folder_name=None):
     
     """ 
     print 'Reading landuse_table file '+table_file_name+'...'
-    if folder_name == None:
+    if folder_name is None:
         folder_name = os.getcwd()
     landuse_classes = {}
     with open(os.path.join(folder_name, table_file_name), 'r') as f:
@@ -87,7 +87,7 @@ def read_tables(folder_name=None):
     :returns: list of objects with all of the information in that table
 
     """
-    if folder_name == None:
+    if folder_name is None:
         folder_name = os.getcwd()
     list_of_tables = []
     list_of_table_names = glob.glob(os.path.join(folder_name, '*.table'))
@@ -186,8 +186,8 @@ class gapInfo(pickleable):
     def local_str(self, basis_dir, folder_name=None):
         """ 
         
-        :param string basis_dir: the folder containing the ``*.asc`` files and the
-            directory folder_name
+        :param string basis_dir: the folder containing the ``*.asc`` files and
+            the directory folder_name
         :param string folder_name: name of folder to create ``*.in`` for
     
         :rtype: string
