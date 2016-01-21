@@ -1,199 +1,249 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>“All” about land use and land classifications &mdash; PolySim 0.1 documentation</title>
-    
-    <link rel="stylesheet" href="_static/default.css" type="text/css" />
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    './',
-        VERSION:     '0.1',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
-      };
-    </script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="PolySim 0.1 documentation" href="index.html" />
-    <link rel="next" title="Todo List" href="todo_list.html" />
-    <link rel="prev" title="Large Jobs" href="large_jobs.html" /> 
-  </head>
-  <body>
-    <div class="related">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             accesskey="I">index</a></li>
-        <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
-          <a href="todo_list.html" title="Todo List"
-             accesskey="N">next</a> |</li>
-        <li class="right" >
-          <a href="large_jobs.html" title="Large Jobs"
-             accesskey="P">previous</a> |</li>
-        <li><a href="index.html">PolySim 0.1 documentation</a> &raquo;</li> 
-      </ul>
-    </div>  
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>“All” about land use and land classifications &mdash; PolyADCIRC 0.3.0 documentation</title>
+  
 
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
-          <div class="body">
+  
+  
+
+  
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic|Roboto+Slab:400,700|Inconsolata:400,700&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="PolyADCIRC 0.3.0 documentation" href="index.html"/>
+        <link rel="next" title="Running with Subdomain ADCIRC" href="subdomain.html"/>
+        <link rel="prev" title="Large Jobs" href="large_jobs.html"/> 
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+          <a href="index.html" class="fa fa-home"> PolyADCIRC</a>
+        
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#package-layout">Package Layout</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#code-overview">Code Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#internal-dependencies">Internal dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#external-dependencies">External dependencies</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="running_on_lonestar.html">Running on Lonestar</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="running_on_lonestar.html#file-system-setup">File System Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="running_on_lonestar.html#python-scripts">Python Scripts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="running_on_lonestar.html#job-submission-script">Job Submission Script</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="submerged_wall.html">Limited Variable Bathymetry</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="submerged_wall.html#few-walls">few_walls</a></li>
+<li class="toctree-l2"><a class="reference internal" href="submerged_wall.html#load-few-walls">load_few_walls</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="large_jobs.html">Large Jobs</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="large_jobs.html#concatenation-2">concatenation_2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="large_jobs.html#concatenate-many">concatenate_many</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">All about mapping landuse data to the mesh</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#preparing-basis-vector-files-from-gap-nlcd-data">Preparing basis vector files from GAP/NLCD data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#comparing-the-python-vs-griddata-v1-32-f90-reconstructions">Comparing the Python vs. <strong class="program">Griddata_v1.32.F90</strong> Reconstructions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#manufacturing-gap-data">Manufacturing GAP data</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="subdomain.html">Running with Subdomain ADCIRC</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="subdomain.html#getting-the-subdomain-adcirc-code">Getting the Subdomain ADCIRC Code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="subdomain.html#modifying-subdomain-adcirc">Modifying Subdomain ADCIRC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="subdomain.html#setting-up-the-subdomain-grid-dir">Setting up the Subdomain <code class="docutils literal"><span class="pre">grid_dir</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="subdomain.html#setting-up-your-landuse-folders">Setting up your <code class="docutils literal"><span class="pre">landuse_##</span></code> folders</a></li>
+<li class="toctree-l2"><a class="reference internal" href="subdomain.html#running-polyadcirc-with-subdomains">Running PolyADCIRC with Subdomains</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="references.html">Some References and Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">polyadcirc</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="polyadcirc.html">polyadcirc package</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="todo_list.html">Todo List</a></li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">PolyADCIRC</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>&#8220;All&#8221; about land use and land classifications</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          <a href="_sources/landuse_stuff.txt" rel="nofollow"> View page source</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document">
             
   <div class="section" id="all-about-land-use-and-land-classifications">
 <h1>&#8220;All&#8221; about land use and land classifications<a class="headerlink" href="#all-about-land-use-and-land-classifications" title="Permalink to this headline">¶</a></h1>
-<p>This code creates the set of landuse basis folders, <tt class="docutils literal"><span class="pre">landuse_##</span></tt>, required by
-<tt class="xref py py-class docutils literal"><span class="pre">polyadcirc.random_manningsn.runSet</span></tt>.  All the below code is set up to be
-run on a workstation.</p>
+<p>This code creates the set of landuse basis folders, <code class="docutils literal"><span class="pre">landuse_##</span></code>, required by
+<code class="xref py py-class docutils literal"><span class="pre">polyadcirc.random_manningsn.runSet</span></code>.  All the below code is set up to be
+run on a workstation. Modifications would be
+needed to run it on Lonestar.</p>
 <div class="section" id="preparing-basis-vector-files-from-gap-nlcd-data">
 <h2>Preparing basis vector files from GAP/NLCD data<a class="headerlink" href="#preparing-basis-vector-files-from-gap-nlcd-data" title="Permalink to this headline">¶</a></h2>
-<p>The <tt class="docutils literal"><span class="pre">from_GAPDATA.py</span></tt> script in <tt class="docutils literal"><span class="pre">examples/pyGriddata</span></tt> prepares <tt class="docutils literal"><span class="pre">*.table</span></tt> and
-<tt class="docutils literal"><span class="pre">*.13</span></tt> files needed to map landuse classifications to the computationa mesh.</p>
+<p>The <code class="docutils literal"><span class="pre">prep_from_data.py</span></code> script in <code class="docutils literal"><span class="pre">examples</span></code> prepares <code class="docutils literal"><span class="pre">*.table</span></code> and
+<code class="docutils literal"><span class="pre">*.13</span></code> files needed for <code class="docutils literal"><span class="pre">T:**_manning.table--&gt;fort.13</span></code> and creates the n x
+m matrix of multiplier factors where n = # nodes, and m = # land classification
+values. It works ok, but could use some polishing.</p>
 <p>Import the necessary modules:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">polyadcirc.pyGriddata.table_management</span> <span class="kn">as</span> <span class="nn">tm</span>
-<span class="kn">import</span> <span class="nn">polyadcirc.pyGriddata.grid_management</span> <span class="kn">as</span> <span class="nn">gm</span>
+<span class="kn">import</span> <span class="nn">polyadcirc.pyGriddata.gridObject</span> <span class="kn">as</span> <span class="nn">go</span>
+<span class="kn">import</span> <span class="nn">polyadcirc.pyGriddata.prep_mesh</span> <span class="kn">as</span> <span class="nn">prep</span>
 </pre></div>
 </div>
-<p>Specify the folders containing mesh files:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">adcirc_dir</span> <span class="o">=</span> <span class="s">&#39;/h1/lgraham/workspace&#39;</span>
-<span class="n">grid_dir</span> <span class="o">=</span> <span class="n">adcirc_dir</span> <span class="o">+</span> <span class="s">&#39;/ADCIRC_landuse/Katrina_small/inputs&#39;</span>
+<p>Read in the <code class="docutils literal"><span class="pre">CCAP_Manning.table</span></code> file in the current working directory.:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">table</span> <span class="o">=</span> <span class="n">tm</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="s">&#39;CCAP_Manning.table&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Specify the folder in which to create the <tt class="docutils literal"><span class="pre">landuse_##</span></tt> folders containing the
-<tt class="docutils literal"><span class="pre">fort.13</span></tt> formatted files:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">basis_dir</span> <span class="o">=</span> <span class="n">adcirc_dir</span> <span class="o">+</span> <span class="s">&#39;/ADCIRC_landuse/Katrina_small/landuse_basis/gap/shelf_test&#39;</span>
-</pre></div>
-</div>
-<p>Read in the <tt class="docutils literal"><span class="pre">CCAP_Manning.table</span></tt> file in the current working directory.:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">table</span> <span class="o">=</span> <span class="n">tm</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="s">&#39;CCAP_Manning_20100922.table&#39;</span><span class="p">,</span>
-                      <span class="n">adcirc_dir</span><span class="o">+</span><span class="s">&#39;/landuse/tables&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>To read in multiple <tt class="docutils literal"><span class="pre">*.table</span></tt> files use:</p>
+<p>To read in multiple <code class="docutils literal"><span class="pre">*.table</span></code> files use:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">tables</span> <span class="o">=</span> <span class="n">tm</span><span class="o">.</span><span class="n">read_tables</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>Create a list of <a class="reference internal" href="polyadcirc.pyGriddata.html#polyadcirc.pyGriddata.table_management.gapInfo" title="polyadcirc.pyGriddata.table_management.gapInfo"><tt class="xref py py-class docutils literal"><span class="pre">gapInfo</span></tt></a>
-objects, one for each <tt class="docutils literal"><span class="pre">*.asc</span></tt> file:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">gap_files</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s">&#39;/h1/lgraham/workspace/landuse/data/CCAP_Data/Job*/*.asc&#39;</span><span class="p">)</span>
-<span class="n">gap_list</span> <span class="o">=</span> <span class="n">tm</span><span class="o">.</span><span class="n">create_gap_list</span><span class="p">(</span><span class="n">table</span><span class="p">,</span> <span class="n">gap_files</span><span class="p">)</span>
+<p>Create necessary <a class="reference internal" href="polyadcirc.pyGriddata.html#polyadcirc.pyGriddata.table_management.gapInfo" title="polyadcirc.pyGriddata.table_management.gapInfo"><code class="xref py py-class docutils literal"><span class="pre">gapInfo</span></code></a>
+objects, one for each <code class="docutils literal"><span class="pre">*.asc</span></code> file, requires <code class="docutils literal"><span class="pre">*.asc</span></code> files in current
+working directory:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">gap15</span> <span class="o">=</span> <span class="n">tm</span><span class="o">.</span><span class="n">gapInfo</span><span class="p">(</span><span class="s">&#39;15N.asc&#39;</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">15</span> <span class="p">)</span>
+<span class="n">gap16_1</span> <span class="o">=</span> <span class="n">tm</span><span class="o">.</span><span class="n">gapInfo</span><span class="p">(</span><span class="s">&#39;16N_part1.asc&#39;</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">16</span> <span class="p">)</span>
+<span class="n">gap16_2</span> <span class="o">=</span> <span class="n">tm</span><span class="o">.</span><span class="n">gapInfo</span><span class="p">(</span><span class="s">&#39;16N_part2.asc&#39;</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">16</span> <span class="p">)</span>
+<span class="n">gap17</span> <span class="o">=</span> <span class="n">tm</span><span class="o">.</span><span class="n">gapInfo</span><span class="p">(</span><span class="s">&#39;17N.asc&#39;</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">17</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Create a <tt class="xref py py-class docutils literal"><span class="pre">gridInfo</span></tt> object and store
-references to the <a class="reference internal" href="polyadcirc.pyGriddata.html#polyadcirc.pyGriddata.table_management.gapInfo" title="polyadcirc.pyGriddata.table_management.gapInfo"><tt class="xref py py-class docutils literal"><span class="pre">gapInfo</span></tt></a>
-objects:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">grid</span> <span class="o">=</span> <span class="n">gm</span><span class="o">.</span><span class="n">gridInfo</span><span class="p">(</span><span class="n">basis_dir</span><span class="p">,</span> <span class="n">grid_dir</span><span class="p">,</span> <span class="n">gap_list</span><span class="p">,</span>
+<p>Create a <code class="xref py py-class docutils literal"><span class="pre">gridInfo</span></code> object and store
+references to the <a class="reference internal" href="polyadcirc.pyGriddata.html#polyadcirc.pyGriddata.table_management.gapInfo" title="polyadcirc.pyGriddata.table_management.gapInfo"><code class="xref py py-class docutils literal"><span class="pre">gapInfo</span></code></a>
+objects. Currently this assumes that the <code class="docutils literal"><span class="pre">flagged_fort.14</span></code> (or <code class="docutils literal"><span class="pre">fort.14</span></code>)
+file is in the current working directory:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">gap_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">gap15</span><span class="p">,</span> <span class="n">gap16_1</span><span class="p">]</span>
+<span class="n">grid</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">gridInfo</span><span class="p">(</span><span class="s">&#39;flagged_fort.14&#39;</span><span class="p">,</span> <span class="n">gap_list</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Explictly set the <code class="docutils literal"><span class="pre">grid_dir</span></code> to the current working directory:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">grid_dir</span> <span class="o">=</span> <span class="s">&#39;.&#39;</span>
+<span class="n">grid</span> <span class="o">=</span> <span class="n">gm</span><span class="o">.</span><span class="n">gridInfo</span><span class="p">(</span><span class="n">basis_dir</span><span class="p">,</span> <span class="n">grid_dir</span><span class="p">,</span> <span class="n">gap_list</span><span class="p">,</span>
         <span class="n">executable_dir</span><span class="o">=</span><span class="s">&quot;directory_containing_Griddataexecutable&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Set up files to run <strong class="program">Griddata_v1.32.F90</strong> to create the landuse basis
-folders and run <strong class="program">Griddata_v1.32.F90</strong> to map the landuse classification
-data to the mesh:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">grid</span><span class="o">.</span><span class="n">prep_all</span><span class="p">()</span>
-</pre></div>
-</div>
-<p>Create a <tt class="docutils literal"><span class="pre">fort.13</span></tt> formatted file using the Manning&#8217;s n vales in
-<tt class="docutils literal"><span class="pre">CCAP_Manning_20100922.table</span></tt>:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">grid</span><span class="o">.</span><span class="n">prep_test</span><span class="p">()</span>
+folders. Appropriately flag the nodes of the <code class="docutils literal"><span class="pre">fort.14</span></code> file. Finally, run
+<strong class="program">Griddata_v1.32.F90</strong> to map the landuse classification data to the
+mesh:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">prep</span><span class="o">.</span><span class="n">prep_all</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span> <span class="n">path</span> <span class="o">=</span> <span class="n">grid_dir</span><span class="p">)</span>
+<span class="n">prep</span><span class="o">.</span><span class="n">prep_test</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span> <span class="n">path</span> <span class="o">=</span> <span class="n">grid_dir</span><span class="p">)</span>
+
+<span class="n">prep</span><span class="o">.</span><span class="n">prep_all</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span> <span class="n">path</span> <span class="o">=</span> <span class="n">grid_dir</span><span class="p">)</span>
+<span class="n">prep</span><span class="o">.</span><span class="n">prep_test</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span> <span class="n">path</span> <span class="o">=</span> <span class="n">grid_dir</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>This code also maps the landuse classifcation data to the mesh for a
 test case for verifcation purposes. The method
-<tt class="xref py py-meth docutils literal"><span class="pre">compare()</span></tt> generates a set of images in a
-<tt class="docutils literal"><span class="pre">figs/</span></tt> folder for visual verification:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">gm</span><span class="o">.</span><span class="n">compare</span><span class="p">(</span><span class="n">basis_dir</span><span class="p">)</span>
+<code class="xref py py-meth docutils literal"><span class="pre">compare()</span></code> generates a set of images in a
+<code class="docutils literal"><span class="pre">figs/</span></code> folder for visual verification:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">prep</span><span class="o">.</span><span class="n">compare</span><span class="p">(</span><span class="n">basis_dir</span> <span class="o">=</span> <span class="n">grid_dir</span><span class="p">)</span>
 </pre></div>
 </div>
-<p><tt class="docutils literal"><span class="pre">basis_dir</span></tt> is the folder where the <tt class="docutils literal"><span class="pre">test</span></tt> and <tt class="docutils literal"><span class="pre">landuse_*</span></tt> folders are
-located in addition to the <tt class="docutils literal"><span class="pre">fort.14</span></tt> file. A set of plots will be created in
-<tt class="docutils literal"><span class="pre">figs</span></tt>. The values in the <tt class="docutils literal"><span class="pre">difference.png</span></tt> figure should be very small.</p>
 </div>
-<div class="section" id="bathymetry-based-landuse-classifications">
-<h2>Bathymetry based landuse classifications<a class="headerlink" href="#bathymetry-based-landuse-classifications" title="Permalink to this headline">¶</a></h2>
-<p>You can also map Manning&#8217;s n values to the computational mesh according to
-bathymetry. The script <tt class="docutils literal"><span class="pre">examples/pyGriddata/add_shelf.py</span></tt> demonstrates how to
-create a land classification for nodes within a user-specified range of
-bathymetry that are not already included in a given set of land classification
-meshes.</p>
-<p>Import necessary modules:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">polyadcirc.run_framework.domain</span> <span class="kn">as</span> <span class="nn">dom</span>
-<span class="kn">import</span> <span class="nn">polyadcirc.pyGriddata.file_management</span> <span class="kn">as</span> <span class="nn">fm</span>
-<span class="kn">import</span> <span class="nn">polyadcirc.pyGriddata.table_to_mesh_map</span> <span class="kn">as</span> <span class="nn">tmm</span>
-<span class="kn">import</span> <span class="nn">polyadcirc.pyADCIRC.fort13_management</span> <span class="kn">as</span> <span class="nn">f13</span>
-<span class="kn">import</span> <span class="nn">glob</span>
+<div class="section" id="comparing-the-python-vs-griddata-v1-32-f90-reconstructions">
+<h2>Comparing the Python vs. <strong class="program">Griddata_v1.32.F90</strong> Reconstructions<a class="headerlink" href="#comparing-the-python-vs-griddata-v1-32-f90-reconstructions" title="Permalink to this headline">¶</a></h2>
+<p>To compare the Python vs. the &#8220;pure&#8221; <strong class="program">Griddata_v1.32.F90</strong>
+constructions, I usually move the <code class="docutils literal"><span class="pre">test</span></code> and <code class="docutils literal"><span class="pre">landuse_*/</span></code> folders out of
+the <code class="docutils literal"><span class="pre">bin/</span></code> directory into another folder. The <code class="docutils literal"><span class="pre">fort.14</span></code> file needs to also
+be copied to this folder. Within this folder I do the following:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">fm</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="s">&#39;figs&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">prep</span><span class="o">.</span><span class="n">compare</span><span class="p">(</span><span class="n">basis_dir</span> <span class="o">=</span> <span class="s">&#39;.&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<dl class="docutils">
-<dt>Specify the folder containing the <tt class="docutils literal"><span class="pre">fort.14</span></tt> file::</dt>
-<dd>adcirc_dir = &#8216;/h1/lgraham/workspace&#8217;
-grid_dir = adcirc_dir + &#8216;/ADCIRC_landuse/Katrina_small/inputs&#8217;</dd>
-</dl>
-<p>Specify the folder containing a <tt class="docutils literal"><span class="pre">fort.13</span></tt> file to use as a template:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">save_dir</span> <span class="o">=</span> <span class="n">adcirc_dir</span> <span class="o">+</span> <span class="s">&#39;/ADCIRC_landuse/Katrina_small/runs/output_test&#39;</span>
-</pre></div>
-</div>
-<p>Specify the folder containing a pre-existing set of land classification
-meshes:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">basis_dir</span> <span class="o">=</span> <span class="n">adcirc_dir</span> <span class="o">+</span><span class="s">&#39;/ADCIRC_landuse/Katrina_small/landuse_basis/gap/shelf_test&#39;</span>
-</pre></div>
-</div>
-<p>Load in the physical mesh with bathymetry information from a <tt class="docutils literal"><span class="pre">fort.14</span></tt> file:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">domain</span> <span class="o">=</span> <span class="n">dom</span><span class="o">.</span><span class="n">domain</span><span class="p">(</span><span class="n">grid_dir</span><span class="p">)</span>
-<span class="n">domain</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
-</pre></div>
-</div>
-<p>Load in the landuse classification meshes as a list of dictionaries:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">bv_dict</span> <span class="o">=</span> <span class="n">tmm</span><span class="o">.</span><span class="n">get_basis_vectors</span><span class="p">(</span><span class="n">basis_dir</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>Create a dictionary specifiying a landuse classification mesh for the nodes
-with bathymetry between 0 and 50:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">shelf_limits</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">50</span><span class="p">]</span>
-<span class="n">shelf_bv</span> <span class="o">=</span> <span class="n">tmm</span><span class="o">.</span><span class="n">create_shelf</span><span class="p">(</span><span class="n">domain</span><span class="p">,</span> <span class="n">shelf_limits</span><span class="p">,</span> <span class="n">bv_dict</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>Write this new landuse classification mesh out to an appropriately numbered
-<tt class="docutils literal"><span class="pre">landuse_##</span></tt> folder in the <tt class="docutils literal"><span class="pre">basis_dir</span></tt>:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="c"># get list of landuse folder names</span>
-<span class="n">folders</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">basis_dir</span><span class="o">+</span><span class="s">&#39;/landuse_*&#39;</span><span class="p">)</span>
-<span class="c"># create new folder</span>
-<span class="n">folder_name</span> <span class="o">=</span> <span class="n">basis_dir</span><span class="o">+</span><span class="s">&#39;/landuse_&#39;</span><span class="o">+</span><span class="s">&#39;{:=02d}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">folders</span><span class="p">))</span>
-<span class="n">fm</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">folder_name</span><span class="p">)</span>
-<span class="c"># copy a fort.13 file to that folder</span>
-<span class="n">fm</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">save_dir</span><span class="o">+</span><span class="s">&#39;/fort.13&#39;</span><span class="p">,</span> <span class="n">folder_name</span><span class="o">+</span><span class="s">&#39;/fort.13&#39;</span><span class="p">)</span>
-<span class="n">f13</span><span class="o">.</span><span class="n">update_mann</span><span class="p">(</span><span class="n">shelf_bv</span><span class="p">,</span> <span class="n">folder_name</span><span class="p">)</span>
-</pre></div>
-</div>
+<p><code class="docutils literal"><span class="pre">basis_dir</span></code> is the folder where the <code class="docutils literal"><span class="pre">test</span></code> and <code class="docutils literal"><span class="pre">landuse_*</span></code> folders are
+located in addition to the <code class="docutils literal"><span class="pre">fort.14</span></code> file. A set of plots will be created in
+<code class="docutils literal"><span class="pre">figs</span></code>. The values in the <code class="docutils literal"><span class="pre">difference.png</span></code> figure should be very small.</p>
 </div>
 <div class="section" id="manufacturing-gap-data">
 <h2>Manufacturing GAP data<a class="headerlink" href="#manufacturing-gap-data" title="Permalink to this headline">¶</a></h2>
 <p>This section deals mostly with how to use
-<a class="reference internal" href="polyadcirc.pyGriddata.html#module-polyadcirc.pyGriddata.manufacture_gap" title="polyadcirc.pyGriddata.manufacture_gap"><tt class="xref py py-mod docutils literal"><span class="pre">manufacture_gap</span></tt></a>. The relevant example scripts
-for this section located in <tt class="docutils literal"><span class="pre">examples/pyGriddata</span></tt> are</p>
+<a class="reference internal" href="polyadcirc.pyGriddata.html#module-polyadcirc.pyGriddata.manufacture_gap" title="polyadcirc.pyGriddata.manufacture_gap"><code class="xref py py-mod docutils literal"><span class="pre">manufacture_gap</span></code></a>. The relevant example scripts
+for this section located in <code class="docutils literal"><span class="pre">examples/</span></code> are</p>
 <blockquote>
 <div><ul class="simple">
-<li><tt class="xref py py-mod docutils literal"><span class="pre">manufactureGAP_patches.py</span></tt>, requires <tt class="docutils literal"><span class="pre">rand_Manning.table</span></tt> file</li>
-<li><tt class="xref py py-mod docutils literal"><span class="pre">manufactureGAP_vertical.py</span></tt>, requires <tt class="docutils literal"><span class="pre">rand_Manning.table</span></tt> file</li>
+<li><code class="xref py py-mod docutils literal"><span class="pre">manu_prep_comp.py</span></code>, requires <code class="docutils literal"><span class="pre">rand_Manning.table</span></code> file</li>
+<li><code class="xref py py-mod docutils literal"><span class="pre">bands.py</span></code>, requires <code class="docutils literal"><span class="pre">rand_Manning.table</span></code> file</li>
 </ul>
 </div></blockquote>
-<p>What follows is an explaination of the script <tt class="docutils literal"><span class="pre">manufactureGAP_patches.py</span></tt>, the script
-<tt class="docutils literal"><span class="pre">manufactureGAP_vertical.py</span></tt> is similar and simpler:</p>
+<p>What follows is an explaination of the script <code class="docutils literal"><span class="pre">bands.py</span></code>, the script
+<code class="docutils literal"><span class="pre">manu_prep_comp.py</span></code> similar and simpler:</p>
 <p>Import the necessary modules:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">polyadcirc.run_framework.domain</span> <span class="kn">as</span> <span class="nn">dom</span>
 <span class="kn">import</span> <span class="nn">polyadcirc.pyGriddata.manufacture_gap</span> <span class="kn">as</span> <span class="nn">manu</span>
+<span class="kn">import</span> <span class="nn">polyadcirc.pyGriddata.table_management</span> <span class="kn">as</span> <span class="nn">tm</span>
+<span class="kn">import</span> <span class="nn">polyadcirc.pyGriddata.gridObject</span> <span class="kn">as</span> <span class="nn">go</span>
+<span class="kn">import</span> <span class="nn">polyadcirc.pyGriddata.prep_mesh</span> <span class="kn">as</span> <span class="nn">prep</span>
 </pre></div>
 </div>
 <p>First determine the limits of the domain you wish to create your mesh for:</p>
@@ -210,8 +260,8 @@ for this section located in <tt class="docutils literal"><span class="pre">examp
 <span class="n">yl</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">y_values</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Divide up the domain into a collection of rectangles determined by <tt class="docutils literal"><span class="pre">x_points</span></tt>
-and <tt class="docutils literal"><span class="pre">y_points</span></tt>:</p>
+<p>Divide up the domain into a collection of rectangles determined by <code class="docutils literal"><span class="pre">x_points</span></code>
+and <code class="docutils literal"><span class="pre">y_points</span></code>:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">x_points</span> <span class="o">=</span> <span class="p">(</span><span class="n">xl</span><span class="p">,</span> <span class="mi">750</span><span class="p">,</span> <span class="mi">1500</span><span class="p">,</span> <span class="n">xr</span><span class="p">)</span>
 <span class="n">y_points</span> <span class="o">=</span> <span class="p">(</span><span class="n">yl</span><span class="p">,</span> <span class="o">-</span><span class="mi">1200</span><span class="p">,</span> <span class="o">-</span><span class="mi">750</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">500</span><span class="p">,</span> <span class="mi">1150</span><span class="p">,</span> <span class="mi">1300</span><span class="p">,</span> <span class="n">yu</span><span class="p">)</span>
 </pre></div>
@@ -242,20 +292,32 @@ each rectangle:</p>
 </pre></div>
 </div>
 <p>You can construct data by randomly selecting values from four classifications at a
-resolution of 30 m and write that out to a file <tt class="docutils literal"><span class="pre">band_sections.asc</span></tt>:</p>
+resolution of 30 m and write that out to a file <code class="docutils literal"><span class="pre">band_sections.asc</span></code>:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">rand_rect</span> <span class="o">=</span> <span class="n">manu</span><span class="o">.</span><span class="n">random_patches</span><span class="p">(</span><span class="n">x_points</span><span class="p">,</span> <span class="n">y_points</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span>
     <span class="n">p_sections</span> <span class="o">=</span> <span class="n">p</span><span class="p">)</span>
 <span class="n">manu</span><span class="o">.</span><span class="n">write_gapfile</span><span class="p">(</span><span class="n">rand_rect</span><span class="p">,</span> <span class="n">xl</span><span class="p">,</span> <span class="n">yl</span><span class="p">,</span> <span class="s">&#39;band_sections.asc&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>For other methods to create random GAP data see
-<a class="reference internal" href="polyadcirc.pyGriddata.html#module-polyadcirc.pyGriddata.manufacture_gap" title="polyadcirc.pyGriddata.manufacture_gap"><tt class="xref py py-mod docutils literal"><span class="pre">polyadcirc.pyGriddata.manufacture_gap</span></tt></a>.</p>
-<p>To create and verify the landuse basis <tt class="docutils literal"><span class="pre">fort.13</span></tt> files you should modify
-<tt class="docutils literal"><span class="pre">example/pyGriddata/from_GAPDATA.py</span></tt> appropriately.</p>
+<a class="reference internal" href="polyadcirc.pyGriddata.html#module-polyadcirc.pyGriddata.manufacture_gap" title="polyadcirc.pyGriddata.manufacture_gap"><code class="xref py py-mod docutils literal"><span class="pre">polyadcirc.pyGriddata.manufacture_gap</span></code></a>.</p>
+<p>Finally, create and verify the landuse basis <code class="docutils literal"><span class="pre">fort.13</span></code> files:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">table</span> <span class="o">=</span> <span class="n">tm</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="s">&#39;rand_Manning.table&#39;</span><span class="p">)</span>
+<span class="n">gap_sec</span> <span class="o">=</span> <span class="n">tm</span><span class="o">.</span><span class="n">gapInfo</span><span class="p">(</span><span class="s">&#39;band_sections.asc&#39;</span><span class="p">,</span> <span class="n">table</span><span class="p">)</span>
+<span class="n">gap_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">gap_sec</span><span class="p">]</span>
+<span class="n">grid</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">gridInfo</span><span class="p">(</span><span class="s">&#39;flagged_fort.14&#39;</span><span class="p">,</span> <span class="n">gap_list</span><span class="p">)</span>
+
+<span class="n">prep</span><span class="o">.</span><span class="n">prep_all</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span> <span class="n">path</span> <span class="o">=</span> <span class="n">grid_dir</span><span class="p">)</span>
+<span class="n">prep</span><span class="o">.</span><span class="n">prep_test</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span> <span class="n">path</span> <span class="o">=</span> <span class="n">grid_dir</span><span class="p">)</span>
+
+<span class="n">prep</span><span class="o">.</span><span class="n">prep_all</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span> <span class="n">path</span> <span class="o">=</span> <span class="n">grid_dir</span><span class="p">)</span>
+<span class="n">prep</span><span class="o">.</span><span class="n">prep_test</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span> <span class="n">path</span> <span class="o">=</span> <span class="n">grid_dir</span><span class="p">)</span>
+<span class="n">prep</span><span class="o">.</span><span class="n">compare</span><span class="p">(</span><span class="n">basis_dir</span> <span class="o">=</span> <span class="n">grid_dir</span><span class="p">)</span>
+</pre></div>
+</div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">Right now I&#8217;m averaging using the 1x scheme. If you want to use a
-higher averaging scheme you will need to choose <tt class="docutils literal"><span class="pre">xl,</span> <span class="pre">xr,</span> <span class="pre">yl,</span> <span class="pre">yu</span></tt> such
+higher averaging scheme you will need to choose <code class="docutils literal"><span class="pre">xl,</span> <span class="pre">xr,</span> <span class="pre">yl,</span> <span class="pre">yu</span></code> such
 that you define a rectangular domain <em>larger</em> than your mesh to compensate
 for the averaging scheme.</p>
 </div>
@@ -264,69 +326,70 @@ for the averaging scheme.</p>
 
 
           </div>
-        </div>
-      </div>
-      <div class="sphinxsidebar">
-        <div class="sphinxsidebarwrapper">
-  <h3><a href="index.html">Table Of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">&#8220;All&#8221; about land use and land classifications</a><ul>
-<li><a class="reference internal" href="#preparing-basis-vector-files-from-gap-nlcd-data">Preparing basis vector files from GAP/NLCD data</a></li>
-<li><a class="reference internal" href="#bathymetry-based-landuse-classifications">Bathymetry based landuse classifications</a></li>
-<li><a class="reference internal" href="#manufacturing-gap-data">Manufacturing GAP data</a></li>
-</ul>
-</li>
-</ul>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="subdomain.html" class="btn btn-neutral float-right" title="Running with Subdomain ADCIRC">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="large_jobs.html" class="btn btn-neutral" title="Large Jobs"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
 
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="large_jobs.html"
-                        title="previous chapter">Large Jobs</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="todo_list.html"
-                        title="next chapter">Todo List</a></p>
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="_sources/landuse_stuff.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
-<div id="searchbox" style="display: none">
-  <h3>Quick search</h3>
-    <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2013, Lindley Graham.
+      Last updated on Jan 21, 2016.
     </p>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+  </div>
+
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  
+</footer>
         </div>
       </div>
-      <div class="clearer"></div>
-    </div>
-    <div class="related">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             >index</a></li>
-        <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
-          <a href="todo_list.html" title="Todo List"
-             >next</a> |</li>
-        <li class="right" >
-          <a href="large_jobs.html" title="Large Jobs"
-             >previous</a> |</li>
-        <li><a href="index.html">PolySim 0.1 documentation</a> &raquo;</li> 
-      </ul>
-    </div>
-    <div class="footer">
-        &copy; Copyright 2013, Lindley Graham.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
-    </div>
-  </body>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.3.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
 </html>

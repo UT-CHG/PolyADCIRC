@@ -1,49 +1,150 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>polyadcirc package &mdash; PolySim 0.1 documentation</title>
-    
-    <link rel="stylesheet" href="_static/default.css" type="text/css" />
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    './',
-        VERSION:     '0.1',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
-      };
-    </script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="PolySim 0.1 documentation" href="index.html" /> 
-  </head>
-  <body>
-    <div class="related">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             accesskey="I">index</a></li>
-        <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li><a href="index.html">PolySim 0.1 documentation</a> &raquo;</li> 
-      </ul>
-    </div>  
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>polyadcirc package &mdash; PolyADCIRC 0.3.0 documentation</title>
+  
 
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
-          <div class="body">
+  
+  
+
+  
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic|Roboto+Slab:400,700|Inconsolata:400,700&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="PolyADCIRC 0.3.0 documentation" href="index.html"/>
+        <link rel="up" title="polyadcirc" href="modules.html"/>
+        <link rel="next" title="polyadcirc.pyADCIRC package" href="polyadcirc.pyADCIRC.html"/>
+        <link rel="prev" title="polyadcirc" href="modules.html"/> 
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+          <a href="index.html" class="fa fa-home"> PolyADCIRC</a>
+        
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#package-layout">Package Layout</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#code-overview">Code Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#internal-dependencies">Internal dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#external-dependencies">External dependencies</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="running_on_lonestar.html">Running on Lonestar</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="running_on_lonestar.html#file-system-setup">File System Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="running_on_lonestar.html#python-scripts">Python Scripts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="running_on_lonestar.html#job-submission-script">Job Submission Script</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="submerged_wall.html">Limited Variable Bathymetry</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="submerged_wall.html#few-walls">few_walls</a></li>
+<li class="toctree-l2"><a class="reference internal" href="submerged_wall.html#load-few-walls">load_few_walls</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="large_jobs.html">Large Jobs</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="large_jobs.html#concatenation-2">concatenation_2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="large_jobs.html#concatenate-many">concatenate_many</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="landuse_stuff.html">All about mapping landuse data to the mesh</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="landuse_stuff.html#preparing-basis-vector-files-from-gap-nlcd-data">Preparing basis vector files from GAP/NLCD data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="landuse_stuff.html#comparing-the-python-vs-griddata-v1-32-f90-reconstructions">Comparing the Python vs. <strong class="program">Griddata_v1.32.F90</strong> Reconstructions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="landuse_stuff.html#manufacturing-gap-data">Manufacturing GAP data</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="subdomain.html">Running with Subdomain ADCIRC</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="subdomain.html#getting-the-subdomain-adcirc-code">Getting the Subdomain ADCIRC Code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="subdomain.html#modifying-subdomain-adcirc">Modifying Subdomain ADCIRC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="subdomain.html#setting-up-the-subdomain-grid-dir">Setting up the Subdomain <code class="docutils literal"><span class="pre">grid_dir</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="subdomain.html#setting-up-your-landuse-folders">Setting up your <code class="docutils literal"><span class="pre">landuse_##</span></code> folders</a></li>
+<li class="toctree-l2"><a class="reference internal" href="subdomain.html#running-polyadcirc-with-subdomains">Running PolyADCIRC with Subdomains</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="references.html">Some References and Examples</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">polyadcirc</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="">polyadcirc package</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="todo_list.html">Todo List</a></li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">PolyADCIRC</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="modules.html">polyadcirc</a> &raquo;</li>
+      
+    <li>polyadcirc package</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          <a href="_sources/polyadcirc.txt" rel="nofollow"> View page source</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document">
             
   <div class="section" id="polyadcirc-package">
 <h1>polyadcirc package<a class="headerlink" href="#polyadcirc-package" title="Permalink to this headline">¶</a></h1>
@@ -62,6 +163,7 @@
 <li class="toctree-l2"><a class="reference internal" href="polyadcirc.pyADCIRC.html#module-polyadcirc.pyADCIRC.fort1920_management">polyadcirc.pyADCIRC.fort1920_management module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="polyadcirc.pyADCIRC.html#module-polyadcirc.pyADCIRC.output">polyadcirc.pyADCIRC.output module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="polyadcirc.pyADCIRC.html#module-polyadcirc.pyADCIRC.plotADCIRC">polyadcirc.pyADCIRC.plotADCIRC module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="polyadcirc.pyADCIRC.html#module-polyadcirc.pyADCIRC.post_management">polyadcirc.pyADCIRC.post_management module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="polyadcirc.pyADCIRC.html#module-polyadcirc.pyADCIRC.prep_management">polyadcirc.pyADCIRC.prep_management module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="polyadcirc.pyADCIRC.html#module-polyadcirc.pyADCIRC.volume">polyadcirc.pyADCIRC.volume module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="polyadcirc.pyADCIRC.html#module-polyadcirc.pyADCIRC">Module contents</a></li>
@@ -74,20 +176,53 @@
 <li class="toctree-l2"><a class="reference internal" href="polyadcirc.pyGriddata.html#module-polyadcirc.pyGriddata.manufacture_gap">polyadcirc.pyGriddata.manufacture_gap module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="polyadcirc.pyGriddata.html#module-polyadcirc.pyGriddata.table_management">polyadcirc.pyGriddata.table_management module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="polyadcirc.pyGriddata.html#module-polyadcirc.pyGriddata.table_to_mesh_map">polyadcirc.pyGriddata.table_to_mesh_map module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polyadcirc.pyGriddata.html#module-contents">Module contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="polyadcirc.pyGriddata.html#module-polyadcirc.pyGriddata">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="polyadcirc.run_framework.html">polyadcirc.run_framework package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="polyadcirc.run_framework.html#submodules">Submodules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="polyadcirc.run_framework.html#module-polyadcirc.run_framework.domain">polyadcirc.run_framework.domain module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="polyadcirc.run_framework.html#module-polyadcirc.run_framework.fulldomain">polyadcirc.run_framework.fulldomain module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="polyadcirc.run_framework.html#module-polyadcirc.run_framework.no_ibrun">polyadcirc.run_framework.no_ibrun module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="polyadcirc.run_framework.html#module-polyadcirc.run_framework.random_manningsn">polyadcirc.run_framework.random_manningsn module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="polyadcirc.run_framework.html#module-polyadcirc.run_framework.random_manningsn_Q">polyadcirc.run_framework.random_manningsn_Q module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="polyadcirc.run_framework.html#module-polyadcirc.run_framework.random_wall">polyadcirc.run_framework.random_wall module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="polyadcirc.run_framework.html#module-polyadcirc.run_framework.random_wall_Q">polyadcirc.run_framework.random_wall_Q module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polyadcirc.run_framework.html#module-contents">Module contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="polyadcirc.run_framework.html#module-polyadcirc.run_framework.subdomain">polyadcirc.run_framework.subdomain module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="polyadcirc.run_framework.html#module-polyadcirc.run_framework">Module contents</a></li>
 </ul>
 </li>
 </ul>
 </div>
+</div>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-polyadcirc.util">
+<span id="polyadcirc-util-module"></span><h2>polyadcirc.util module<a class="headerlink" href="#module-polyadcirc.util" title="Permalink to this headline">¶</a></h2>
+<p>The module contains general tools for PolyADCIRC.</p>
+<dl class="function">
+<dt id="polyadcirc.util.meshgrid_ndim">
+<code class="descclassname">polyadcirc.util.</code><code class="descname">meshgrid_ndim</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="headerlink" href="#polyadcirc.util.meshgrid_ndim" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return coordinate matrix from two or more coordinate vectors.
+Handles a maximum of 10 vectors.</p>
+<p>Make N-D coordinate arrays for vectorized evaluations of
+N-D scalar/vector fields over N-D grids, given
+one-dimensional coordinate arrays (x1, x2,..., xn).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>X</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#tuple" title="(in Python v2.7)"><em>tuple</em></a>) &#8211; A tuple containing the 1d coordinate arrays</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.10)"><code class="xref py py-class docutils literal"><span class="pre">ndarray</span></code></a> of shape (num_grid_points,n)</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">X_new</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 </div>
 <div class="section" id="module-polyadcirc">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-polyadcirc" title="Permalink to this headline">¶</a></h2>
@@ -102,11 +237,11 @@ modified for other shells. This code requires GNU Parallel to be installed in
 order to run properly.</p>
 <p>This package contaings three subpackages</p>
 <ul class="simple">
-<li><a class="reference internal" href="overview.html#module-polyadcirc.pyADCIRC" title="polyadcirc.pyADCIRC"><tt class="xref py py-mod docutils literal"><span class="pre">pyADCIRC</span></tt></a> a set of modules primarily for I/O with
+<li><a class="reference internal" href="polyadcirc.pyADCIRC.html#module-polyadcirc.pyADCIRC" title="polyadcirc.pyADCIRC"><code class="xref py py-mod docutils literal"><span class="pre">pyADCIRC</span></code></a> a set of modules primarily for I/O with
 <strong class="program">ADCIRC</strong> through text files</li>
-<li><a class="reference internal" href="overview.html#module-polyadcirc.run_framework" title="polyadcirc.run_framework"><tt class="xref py py-mod docutils literal"><span class="pre">run_framework</span></tt></a> a set of modules used to run batches of
+<li><a class="reference internal" href="polyadcirc.run_framework.html#module-polyadcirc.run_framework" title="polyadcirc.run_framework"><code class="xref py py-mod docutils literal"><span class="pre">run_framework</span></code></a> a set of modules used to run batches of
 <strong class="program">PADCIRC</strong> in parallel</li>
-<li><a class="reference internal" href="overview.html#module-polyadcirc.pyGriddata" title="polyadcirc.pyGriddata"><tt class="xref py py-mod docutils literal"><span class="pre">pyGriddata</span></tt></a> a set modules and some FORTRAN code used to
+<li><a class="reference internal" href="polyadcirc.pyGriddata.html#module-polyadcirc.pyGriddata" title="polyadcirc.pyGriddata"><code class="xref py py-mod docutils literal"><span class="pre">pyGriddata</span></code></a> a set modules and some FORTRAN code used to
 create sets of nodal data for use by <strong class="program">PADCIRC</strong></li>
 </ul>
 </div>
@@ -114,56 +249,70 @@ create sets of nodal data for use by <strong class="program">PADCIRC</strong></l
 
 
           </div>
-        </div>
-      </div>
-      <div class="sphinxsidebar">
-        <div class="sphinxsidebarwrapper">
-  <h3><a href="index.html">Table Of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">polyadcirc package</a><ul>
-<li><a class="reference internal" href="#subpackages">Subpackages</a></li>
-<li><a class="reference internal" href="#module-polyadcirc">Module contents</a></li>
-</ul>
-</li>
-</ul>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="polyadcirc.pyADCIRC.html" class="btn btn-neutral float-right" title="polyadcirc.pyADCIRC package">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="modules.html" class="btn btn-neutral" title="polyadcirc"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
 
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="_sources/polyadcirc.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
-<div id="searchbox" style="display: none">
-  <h3>Quick search</h3>
-    <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2013, Lindley Graham.
+      Last updated on Jan 21, 2016.
     </p>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+  </div>
+
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  
+</footer>
         </div>
       </div>
-      <div class="clearer"></div>
-    </div>
-    <div class="related">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             >index</a></li>
-        <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li><a href="index.html">PolySim 0.1 documentation</a> &raquo;</li> 
-      </ul>
-    </div>
-    <div class="footer">
-        &copy; Copyright 2013, Lindley Graham.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
-    </div>
-  </body>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.3.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
 </html>

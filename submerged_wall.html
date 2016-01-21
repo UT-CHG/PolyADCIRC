@@ -1,75 +1,164 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>Limited Variable Bathymetry &mdash; PolySim 0.1 documentation</title>
-    
-    <link rel="stylesheet" href="_static/default.css" type="text/css" />
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    './',
-        VERSION:     '0.1',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
-      };
-    </script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="PolySim 0.1 documentation" href="index.html" />
-    <link rel="next" title="Large Jobs" href="large_jobs.html" />
-    <link rel="prev" title="Running on TACC" href="running_on_TACC.html" /> 
-  </head>
-  <body>
-    <div class="related">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             accesskey="I">index</a></li>
-        <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
-          <a href="large_jobs.html" title="Large Jobs"
-             accesskey="N">next</a> |</li>
-        <li class="right" >
-          <a href="running_on_TACC.html" title="Running on TACC"
-             accesskey="P">previous</a> |</li>
-        <li><a href="index.html">PolySim 0.1 documentation</a> &raquo;</li> 
-      </ul>
-    </div>  
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Limited Variable Bathymetry &mdash; PolyADCIRC 0.3.0 documentation</title>
+  
 
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
-          <div class="body">
+  
+  
+
+  
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic|Roboto+Slab:400,700|Inconsolata:400,700&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="PolyADCIRC 0.3.0 documentation" href="index.html"/>
+        <link rel="next" title="Large Jobs" href="large_jobs.html"/>
+        <link rel="prev" title="Running on TACC" href="running_on_lonestar.html"/> 
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+          <a href="index.html" class="fa fa-home"> PolyADCIRC</a>
+        
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#package-layout">Package Layout</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#code-overview">Code Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#internal-dependencies">Internal dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#external-dependencies">External dependencies</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="running_on_lonestar.html">Running on Lonestar</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="running_on_lonestar.html#file-system-setup">File System Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="running_on_lonestar.html#python-scripts">Python Scripts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="running_on_lonestar.html#job-submission-script">Job Submission Script</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Limited Variable Bathymetry</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#few-walls">few_walls</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#load-few-walls">load_few_walls</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="large_jobs.html">Large Jobs</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="large_jobs.html#concatenation-2">concatenation_2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="large_jobs.html#concatenate-many">concatenate_many</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="landuse_stuff.html">All about mapping landuse data to the mesh</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="landuse_stuff.html#preparing-basis-vector-files-from-gap-nlcd-data">Preparing basis vector files from GAP/NLCD data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="landuse_stuff.html#comparing-the-python-vs-griddata-v1-32-f90-reconstructions">Comparing the Python vs. <strong class="program">Griddata_v1.32.F90</strong> Reconstructions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="landuse_stuff.html#manufacturing-gap-data">Manufacturing GAP data</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="subdomain.html">Running with Subdomain ADCIRC</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="subdomain.html#getting-the-subdomain-adcirc-code">Getting the Subdomain ADCIRC Code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="subdomain.html#modifying-subdomain-adcirc">Modifying Subdomain ADCIRC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="subdomain.html#setting-up-the-subdomain-grid-dir">Setting up the Subdomain <code class="docutils literal"><span class="pre">grid_dir</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="subdomain.html#setting-up-your-landuse-folders">Setting up your <code class="docutils literal"><span class="pre">landuse_##</span></code> folders</a></li>
+<li class="toctree-l2"><a class="reference internal" href="subdomain.html#running-polyadcirc-with-subdomains">Running PolyADCIRC with Subdomains</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="references.html">Some References and Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">polyadcirc</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="polyadcirc.html">polyadcirc package</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="todo_list.html">Todo List</a></li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">PolyADCIRC</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>Limited Variable Bathymetry</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          <a href="_sources/submerged_wall.txt" rel="nofollow"> View page source</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document">
             
   <div class="section" id="limited-variable-bathymetry">
 <h1>Limited Variable Bathymetry<a class="headerlink" href="#limited-variable-bathymetry" title="Permalink to this headline">¶</a></h1>
-<p>The <a class="reference internal" href="polyadcirc.run_framework.html#polyadcirc.run_framework.domain.domain" title="polyadcirc.run_framework.domain.domain"><tt class="xref py py-class docutils literal"><span class="pre">domain</span></tt></a> class has two built in methods that
+<p>The <a class="reference internal" href="polyadcirc.run_framework.html#polyadcirc.run_framework.domain.domain" title="polyadcirc.run_framework.domain.domain"><code class="xref py py-class docutils literal"><span class="pre">domain</span></code></a> class has two built in methods that
 give the user a limited ability to alter the bathymetry of the
-<a class="reference internal" href="polyadcirc.run_framework.html#polyadcirc.run_framework.domain.domain" title="polyadcirc.run_framework.domain.domain"><tt class="xref py py-class docutils literal"><span class="pre">domain</span></tt></a>. The class
+<a class="reference internal" href="polyadcirc.run_framework.html#polyadcirc.run_framework.domain.domain" title="polyadcirc.run_framework.domain.domain"><code class="xref py py-class docutils literal"><span class="pre">domain</span></code></a>. The class
 <cite>polyadcirc.run_framework.random_wall.runSet</cite> uses the
-<a class="reference internal" href="polyadcirc.pyADCIRC.html#polyadcirc.pyADCIRC.fort14_management.update" title="polyadcirc.pyADCIRC.fort14_management.update"><tt class="xref py py-meth docutils literal"><span class="pre">polyadcirc.pyADCIRC.fort14_management.update()</span></tt></a> method and
-<a class="reference internal" href="polyadcirc.run_framework.html#polyadcirc.run_framework.domain.domain.add_wall" title="polyadcirc.run_framework.domain.domain.add_wall"><tt class="xref py py-meth docutils literal"><span class="pre">polyadcirc.run_framework.domain.domain.add_wall()</span></tt></a> method to run
+<a class="reference internal" href="polyadcirc.pyADCIRC.html#polyadcirc.pyADCIRC.fort14_management.update" title="polyadcirc.pyADCIRC.fort14_management.update"><code class="xref py py-meth docutils literal"><span class="pre">polyadcirc.pyADCIRC.fort14_management.update()</span></code></a> method and
+<a class="reference internal" href="polyadcirc.run_framework.html#polyadcirc.run_framework.domain.domain.add_wall" title="polyadcirc.run_framework.domain.domain.add_wall"><code class="xref py py-meth docutils literal"><span class="pre">polyadcirc.run_framework.domain.domain.add_wall()</span></code></a> method to run
 <strong class="program">PADCIRC</strong> with variable Manning&#8217;s <em>n</em> fields and variable bathymetry.</p>
-<div class="section" id="random-wall">
-<h2>random_wall<a class="headerlink" href="#random-wall" title="Permalink to this headline">¶</a></h2>
-<p>This example is located at <tt class="docutils literal"><span class="pre">examples/run_framework/random_wall.py</span></tt>.  This
-script models a submerged mound by setting the bathymetry to a specified
-<tt class="docutils literal"><span class="pre">wall_height</span></tt> at nodes contained in a rectangle defined by <tt class="docutils literal"><span class="pre">y_min</span></tt>,
-<tt class="docutils literal"><span class="pre">y_max</span></tt>, <tt class="docutils literal"><span class="pre">x_min</span></tt>, and <tt class="docutils literal"><span class="pre">x_max</span></tt>. To recude model error the user may desire
+<div class="section" id="few-walls">
+<h2>few_walls<a class="headerlink" href="#few-walls" title="Permalink to this headline">¶</a></h2>
+<p>This script models a submerged mound by setting the bathymetry to a specified
+<code class="docutils literal"><span class="pre">wall_height</span></code> at nodes contained in a rectangle defined by <code class="docutils literal"><span class="pre">y_min</span></code>,
+<code class="docutils literal"><span class="pre">y_max</span></code>, <code class="docutils literal"><span class="pre">x_min</span></code>, and <code class="docutils literal"><span class="pre">x_max</span></code>. To recude model error the user may desire
 to refine the mesh in areas where the bathymetry will be altered.</p>
-<p>Allow running from the command line using <strong class="command">./random_wall.py</strong>:</p>
+<p>Allow running from the command line using <strong class="command">./few_walls.py</strong>:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="c">#! /usr/bin/env/python</span>
 </pre></div>
 </div>
@@ -83,47 +172,48 @@ to refine the mesh in areas where the bathymetry will be altered.</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">adcirc_dir</span> <span class="o">=</span> <span class="s">&#39;/work/01837/lcgraham/v50_subdomain/work&#39;</span>
 <span class="n">grid_dir</span> <span class="o">=</span> <span class="n">adcirc_dir</span> <span class="o">+</span> <span class="s">&#39;/ADCIRC_landuse/Inlet/inputs/poly_walls&#39;</span>
 <span class="n">save_dir</span> <span class="o">=</span> <span class="n">adcirc_dir</span> <span class="o">+</span> <span class="s">&#39;/ADCIRC_landuse/Inlet/runs/few_walls&#39;</span>
-<span class="n">basis_dir</span> <span class="o">=</span> <span class="n">adcirc_dir</span> <span class="o">+</span> <span class="s">&#39;/ADCIRC_landuse/Inlet/landuse_basis/gap/beach_walls_2lands&#39;</span>
+<span class="n">basis_dir</span> <span class="o">=</span> <span class="n">adcirc_dir</span>
+<span class="o">+</span><span class="s">&#39;/ADCIRC_landuse/Inlet/landuse_basis/gap/beach_walls_2lands&#39;</span>
 </pre></div>
 </div>
 <dl class="docutils">
-<dt><tt class="docutils literal"><span class="pre">grid_dir</span></tt></dt>
-<dd>directory where the <tt class="docutils literal"><span class="pre">fort.15</span></tt>, <tt class="docutils literal"><span class="pre">fort.14</span></tt>, and <tt class="docutils literal"><span class="pre">fort.22</span></tt> files are
+<dt><code class="docutils literal"><span class="pre">grid_dir</span></code></dt>
+<dd>directory where the <code class="docutils literal"><span class="pre">fort.15</span></code>, <code class="docutils literal"><span class="pre">fort.14</span></code>, and <code class="docutils literal"><span class="pre">fort.22</span></code> files are
 stored</dd>
-<dt><tt class="docutils literal"><span class="pre">save_dir</span></tt></dt>
-<dd>directory where the <tt class="docutils literal"><span class="pre">RF_directory_*/</span></tt> are created and job specific data
+<dt><code class="docutils literal"><span class="pre">save_dir</span></code></dt>
+<dd>directory where the <code class="docutils literal"><span class="pre">RF_directory_*/</span></code> are created and job specific data
 is saved</dd>
-<dt><tt class="docutils literal"><span class="pre">basis_dir</span></tt></dt>
-<dd>directory containing the <tt class="docutils literal"><span class="pre">landuse_##</span></tt> folders which each contain a
-<tt class="docutils literal"><span class="pre">fort.13</span></tt> file specific to the landuse classification</dd>
-<dt><tt class="docutils literal"><span class="pre">adcirc_dir</span></tt></dt>
+<dt><code class="docutils literal"><span class="pre">basis_dir</span></code></dt>
+<dd>directory containing the <code class="docutils literal"><span class="pre">landuse_##</span></code> folders which each contain a
+<code class="docutils literal"><span class="pre">fort.13</span></code> file specific to the landuse classification</dd>
+<dt><code class="docutils literal"><span class="pre">adcirc_dir</span></code></dt>
 <dd>directory containing compiled <strong class="program">ADCIRC</strong> executables</dd>
 </dl>
-<p>Set run specific names of <tt class="docutils literal"><span class="pre">script</span></tt> and <tt class="docutils literal"><span class="pre">save_file</span></tt>:</p>
+<p>Set run specific names of <code class="docutils literal"><span class="pre">script</span></code> and <code class="docutils literal"><span class="pre">save_file</span></code>:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">script</span> <span class="o">=</span> <span class="s">&quot;runWALLrun.sh&quot;</span>
 <span class="n">save_file</span> <span class="o">=</span> <span class="s">&#39;py_save_file&#39;</span>
 </pre></div>
 </div>
-<p>Setting diffrerent <tt class="docutils literal"><span class="pre">script</span></tt> names allows for simulatenous runs of
-<strong class="program">PolyADCIRC</strong> with differing <tt class="docutils literal"><span class="pre">grid_dir</span></tt>, <tt class="docutils literal"><span class="pre">save_dir</span></tt>, and
-<tt class="docutils literal"><span class="pre">basis_dir</span></tt>.</p>
+<p>Setting diffrerent <code class="docutils literal"><span class="pre">script</span></code> names allows for simulatenous runs of
+<strong class="program">PolyADCIRC</strong> with differing <code class="docutils literal"><span class="pre">grid_dir</span></code>, <code class="docutils literal"><span class="pre">save_dir</span></code>, and
+<code class="docutils literal"><span class="pre">basis_dir</span></code>.</p>
 <p>Designate which <strong class="program">ADCIRC</strong> specific output files to collect data from:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">timeseries_files</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;fort.63&quot;</span><span class="p">]</span>
 <span class="n">nontimeseries_files</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;tinun.63&quot;</span><span class="p">,</span> <span class="s">&quot;maxvel.63&quot;</span><span class="p">,</span> <span class="s">&quot;maxele.63&quot;</span><span class="p">,</span> <span class="s">&quot;timemax63&quot;</span><span class="p">]</span>
 </pre></div>
 </div>
-<p>The non-timeseries output <tt class="docutils literal"><span class="pre">timemax63</span></tt> is not an <strong class="program">ADCIRC</strong> output
-file. The data from the <tt class="docutils literal"><span class="pre">fort.63</span></tt> file used to determine time of maximum
+<p>The non-timeseries output <code class="docutils literal"><span class="pre">timemax63</span></code> is not an <strong class="program">ADCIRC</strong> output
+file. The data from the <code class="docutils literal"><span class="pre">fort.63</span></code> file used to determine time of maximum
 elevation in a post-processing step within the
-<a class="reference internal" href="polyadcirc.run_framework.html#polyadcirc.run_framework.random_wall.runSet.run_points" title="polyadcirc.run_framework.random_wall.runSet.run_points"><tt class="xref py py-meth docutils literal"><span class="pre">run_points()</span></tt></a> method.</p>
-<p>Set <tt class="docutils literal"><span class="pre">nprocs</span></tt> to be number of processors per <strong class="program">PADCIRC</strong> run. Set
-<tt class="docutils literal"><span class="pre">ppnode</span></tt> to be <tt class="docutils literal"><span class="pre">TpN</span></tt> (tasks per node) or the number of processors per node. On Lonestar,
-12 is the number of processors per node. Set <tt class="docutils literal"><span class="pre">NoN</span></tt> to be number of nodes requested
-by the <tt class="docutils literal"><span class="pre">submission_script.sub</span></tt>. See <tt class="docutils literal"><span class="pre">-pe</span> <span class="pre">``</span> <span class="pre">line</span> <span class="pre">in</span> <span class="pre">submission_script</span>
-<span class="pre">``&lt;TpN&gt;way&lt;NoN</span> <span class="pre">x</span> <span class="pre">12&gt;</span></tt>.:</p>
+<a class="reference internal" href="polyadcirc.run_framework.html#polyadcirc.run_framework.random_wall.runSet.run_points" title="polyadcirc.run_framework.random_wall.runSet.run_points"><code class="xref py py-meth docutils literal"><span class="pre">run_points()</span></code></a> method.</p>
+<p>Set <code class="docutils literal"><span class="pre">nprocs</span></code> to be number of processors per <strong class="program">PADCIRC</strong> run. Set
+<code class="docutils literal"><span class="pre">ppnode</span></code> to be <code class="docutils literal"><span class="pre">TpN</span></code> (tasks per node) or the number of processors per node. On Lonestar,
+12 is the number of processors per node. Set <code class="docutils literal"><span class="pre">NoN</span></code> to be number of nodes requested
+by the <code class="docutils literal"><span class="pre">submission_script.sub</span></code>. See <code class="docutils literal"><span class="pre">-pe</span> <span class="pre">``</span> <span class="pre">line</span> <span class="pre">in</span> <span class="pre">submission_script</span>
+<span class="pre">``&lt;TpN&gt;way&lt;NoN</span> <span class="pre">x</span> <span class="pre">12&gt;</span></code>.:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">nprocs</span> <span class="o">=</span> <span class="mi">2</span>
 <span class="n">ppnode</span> <span class="o">=</span> <span class="mi">12</span>
-<span class="n">NoN</span> <span class="o">=</span> <span class="mi">44</span>
+<span class="n">NoN</span> <span class="o">=</span> <span class="mi">2</span>
 <span class="n">num_of_parallel_runs</span> <span class="o">=</span> <span class="p">(</span><span class="n">ppnode</span><span class="o">*</span><span class="n">NoN</span><span class="p">)</span><span class="o">/</span><span class="n">nprocs</span> <span class="c"># procs_pnode * NoN / nproc</span>
 </pre></div>
 </div>
@@ -133,7 +223,7 @@ by the <tt class="docutils literal"><span class="pre">submission_script.sub</spa
 <span class="n">main_run</span><span class="o">.</span><span class="n">initialize_random_field_directories</span><span class="p">(</span><span class="n">num_procs</span> <span class="o">=</span> <span class="n">nprocs</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Store <tt class="docutils literal"><span class="pre">fort.14</span></tt> and <tt class="docutils literal"><span class="pre">fort.15</span></tt> data in <a class="reference internal" href="polyadcirc.run_framework.html#module-polyadcirc.run_framework.domain" title="polyadcirc.run_framework.domain"><tt class="xref py py-class docutils literal"><span class="pre">domain</span></tt></a>:</p>
+<p>Store <code class="docutils literal"><span class="pre">fort.14</span></code> and <code class="docutils literal"><span class="pre">fort.15</span></code> data in <a class="reference internal" href="polyadcirc.run_framework.html#module-polyadcirc.run_framework.domain" title="polyadcirc.run_framework.domain"><code class="xref py py-class docutils literal"><span class="pre">domain</span></code></a>:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">domain</span> <span class="o">=</span> <span class="n">dom</span><span class="o">.</span><span class="n">domain</span><span class="p">(</span><span class="n">grid_dir</span><span class="p">)</span>
 <span class="n">domain</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
 </pre></div>
@@ -162,16 +252,14 @@ by the <tt class="docutils literal"><span class="pre">submission_script.sub</spa
 <span class="n">wall_points</span> <span class="o">=</span> <span class="n">wall_points</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>Tile <tt class="docutils literal"><span class="pre">mann_pts</span></tt> so that the number of columns is <tt class="docutils literal"><span class="pre">mann_pts.shape[1]</span> <span class="pre">*</span>
-<span class="pre">num_walls</span></tt>:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">mann_pts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">mann_pts</span><span class="p">,</span> <span class="n">num_walls</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>This samples Manning&#8217;s <em>n</em> points on the same regular grid for each
-point in <tt class="docutils literal"><span class="pre">wall_points</span></tt>. However, this need not be the case.</p>
+<p>Tile <code class="docutils literal"><span class="pre">mann_pts</span></code> so that the number of columns is <code class="docutils literal"><span class="pre">mann_pts.shape[1]</span> <span class="pre">*</span>
+<span class="pre">num_walls</span></code>. This samples Manning&#8217;s <em>n</em> points on the same regular grid for each
+point in <code class="docutils literal"><span class="pre">wall_points</span></code>. However, this need not be the case. See
+<code class="docutils literal"><span class="pre">examples/walls_rand_man.py</span></code> for an example with varying numbers of random
+Manning&#8217;s <em>n</em> samples per wall sample.</p>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
-<p class="last"><a class="reference internal" href="polyadcirc.run_framework.html#polyadcirc.run_framework.random_wall.runSet.run_points" title="polyadcirc.run_framework.random_wall.runSet.run_points"><tt class="xref py py-meth docutils literal"><span class="pre">run_points()</span></tt></a>.</p>
+<p class="last"><a class="reference internal" href="polyadcirc.run_framework.html#polyadcirc.run_framework.random_wall.runSet.run_points" title="polyadcirc.run_framework.random_wall.runSet.run_points"><code class="xref py py-meth docutils literal"><span class="pre">run_points()</span></code></a>.</p>
 </div>
 <p>Run samples:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">main_run</span><span class="o">.</span><span class="n">run_points</span><span class="p">(</span><span class="n">domain</span><span class="p">,</span> <span class="n">wall_points</span><span class="p">,</span> <span class="n">mann_pts</span><span class="p">,</span> <span class="n">save_file</span><span class="p">,</span>
@@ -181,14 +269,14 @@ point in <tt class="docutils literal"><span class="pre">wall_points</span></tt>.
 </div>
 <div class="section" id="job-submission-script">
 <h3>Job Submission Script<a class="headerlink" href="#job-submission-script" title="Permalink to this headline">¶</a></h3>
-<p>An example submission script is included in <tt class="docutils literal"><span class="pre">examples/random_wall.sub</span></tt>.
+<p>An example submission script is included in <code class="docutils literal"><span class="pre">examples/submission_script.sub</span></code>.
 You should copy any scripts you wish to modify and run into a separate folder
-in your <tt class="docutils literal"><span class="pre">$WORK</span></tt> directory. In these examples I am working from
-<tt class="docutils literal"><span class="pre">$WORK/landuse_bin</span></tt>.  You will need to modify the lines that designate the
-<tt class="docutils literal"><span class="pre">adcirc_dir</span></tt>, <tt class="docutils literal"><span class="pre">grid_dir</span></tt>, <tt class="docutils literal"><span class="pre">save_dir</span></tt>, and <tt class="docutils literal"><span class="pre">basis_dir</span></tt> to match your
+in your <code class="docutils literal"><span class="pre">$WORK</span></code> directory. In these examples I am working from
+<code class="docutils literal"><span class="pre">$WORK/landuse_bin</span></code>.  You will need to modify the lines that designate the
+<code class="docutils literal"><span class="pre">adcirc_dir</span></code>, <code class="docutils literal"><span class="pre">grid_dir</span></code>, <code class="docutils literal"><span class="pre">save_dir</span></code>, and <code class="docutils literal"><span class="pre">basis_dir</span></code> to match your
 directory structure.</p>
-<p>To run <em class="xref std std-ref">run-lonestar-test</em> you need to modify <tt class="docutils literal"><span class="pre">submission_script.sub</span></tt>
-so that the line <tt class="docutils literal"><span class="pre">#$</span> <span class="pre">-M</span> <span class="pre">youremail&#64;someplace.com</span></tt> has your e-mail. Then you
+<p>To run <span class="xref std std-ref">run-lonestar-test</span> you need to modify <code class="docutils literal"><span class="pre">submission_script.sub</span></code>
+so that the line <code class="docutils literal"><span class="pre">#$</span> <span class="pre">-M</span> <span class="pre">youremail&#64;someplace.com</span></code> has your e-mail. Then you
 can submit it to the queue using:</p>
 <div class="highlight-python"><div class="highlight"><pre>$ qsub submission_script.sub
 </pre></div>
@@ -198,7 +286,7 @@ can submit it to the queue using:</p>
 </pre></div>
 </div>
 <p>Currently the output is saved to a <strong class="program">python</strong> formatted binary file called
-<tt class="docutils literal"><span class="pre">py_save_file.mat</span></tt> in <tt class="docutils literal"><span class="pre">save_dir</span></tt>.</p>
+<code class="docutils literal"><span class="pre">py_save_file.mat</span></code> in <code class="docutils literal"><span class="pre">save_dir</span></code>.</p>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
 <p>Lonestar User Guide <a class="reference external" href="http://www.tacc.utexas.edu/user-services/user-guides/lonestar-user-guide#running">Running Applications</a></p>
@@ -208,9 +296,9 @@ can submit it to the queue using:</p>
 </div>
 </div>
 </div>
-<div class="section" id="load-random-wall">
-<h2>load_random_wall<a class="headerlink" href="#load-random-wall" title="Permalink to this headline">¶</a></h2>
-<p>This script is <tt class="docutils literal"><span class="pre">examples/run_framework/load_random_wall.py</span></tt>.</p>
+<div class="section" id="load-few-walls">
+<h2>load_few_walls<a class="headerlink" href="#load-few-walls" title="Permalink to this headline">¶</a></h2>
+<p>This script is very similar to <code class="docutils literal"><span class="pre">examples/load_test.py</span></code>.</p>
 <p>Import necessary modules:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">polyadcirc.run_framework.random_wall</span> <span class="kn">as</span> <span class="nn">rmw</span>
 <span class="kn">import</span> <span class="nn">polyadcirc.pyADCIRC.plotADCIRC</span> <span class="kn">as</span> <span class="nn">pa</span>
@@ -231,7 +319,7 @@ can submit it to the queue using:</p>
 </pre></div>
 </div>
 <p>Now the data is availiable for plotting methods in
-<a class="reference internal" href="polyadcirc.pyADCIRC.html#module-polyadcirc.pyADCIRC.plotADCIRC" title="polyadcirc.pyADCIRC.plotADCIRC"><tt class="xref py py-mod docutils literal"><span class="pre">plotADCIRC</span></tt></a>.</p>
+<a class="reference internal" href="polyadcirc.pyADCIRC.html#module-polyadcirc.pyADCIRC.plotADCIRC" title="polyadcirc.pyADCIRC.plotADCIRC"><code class="xref py py-mod docutils literal"><span class="pre">plotADCIRC</span></code></a>.</p>
 <p>Determine the total number of samples modeled:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">pt_nos</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="n">points</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
 </pre></div>
@@ -245,71 +333,70 @@ can submit it to the queue using:</p>
 
 
           </div>
-        </div>
-      </div>
-      <div class="sphinxsidebar">
-        <div class="sphinxsidebarwrapper">
-  <h3><a href="index.html">Table Of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">Limited Variable Bathymetry</a><ul>
-<li><a class="reference internal" href="#random-wall">random_wall</a><ul>
-<li><a class="reference internal" href="#job-submission-script">Job Submission Script</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#load-random-wall">load_random_wall</a></li>
-</ul>
-</li>
-</ul>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="large_jobs.html" class="btn btn-neutral float-right" title="Large Jobs">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="running_on_lonestar.html" class="btn btn-neutral" title="Running on TACC"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
 
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="running_on_TACC.html"
-                        title="previous chapter">Running on TACC</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="large_jobs.html"
-                        title="next chapter">Large Jobs</a></p>
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="_sources/submerged_wall.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
-<div id="searchbox" style="display: none">
-  <h3>Quick search</h3>
-    <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2013, Lindley Graham.
+      Last updated on Jan 21, 2016.
     </p>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+  </div>
+
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  
+</footer>
         </div>
       </div>
-      <div class="clearer"></div>
-    </div>
-    <div class="related">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             >index</a></li>
-        <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
-          <a href="large_jobs.html" title="Large Jobs"
-             >next</a> |</li>
-        <li class="right" >
-          <a href="running_on_TACC.html" title="Running on TACC"
-             >previous</a> |</li>
-        <li><a href="index.html">PolySim 0.1 documentation</a> &raquo;</li> 
-      </ul>
-    </div>
-    <div class="footer">
-        &copy; Copyright 2013, Lindley Graham.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
-    </div>
-  </body>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.3.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
 </html>

@@ -4,150 +4,110 @@
 
 This code creates the set of landuse basis folders, ``landuse_##``, required by
 :class:`polyadcirc.random_manningsn.runSet`.  All the below code is set up to be
-run on a workstation.
+run on a workstation. Modifications would be
+needed to run it on Lonestar.
 
 Preparing basis vector files from GAP/NLCD data
 -----------------------------------------------
 
-The ``from_GAPDATA.py`` script in ``examples/pyGriddata`` prepares ``*.table`` and
-``*.13`` files needed to map landuse classifications to the computationa mesh.
+The ``prep_from_data.py`` script in ``examples`` prepares ``*.table`` and
+``*.13`` files needed for ``T:**_manning.table-->fort.13`` and creates the n x
+m matrix of multiplier factors where n = # nodes, and m = # land classification
+values. It works ok, but could use some polishing.
 
 Import the necessary modules::
 
-    
-    import polyadcirc.pyGriddata.table_management as tm
-    import polyadcirc.pyGriddata.grid_management as gm
-
-Specify the folders containing mesh files::
-    
-    adcirc_dir = '/h1/lgraham/workspace'
-    grid_dir = adcirc_dir + '/ADCIRC_landuse/Katrina_small/inputs'
-
-Specify the folder in which to create the ``landuse_##`` folders containing the
-``fort.13`` formatted files::
-
-    basis_dir = adcirc_dir + '/ADCIRC_landuse/Katrina_small/landuse_basis/gap/shelf_test'
-
+   import polyadcirc.pyGriddata.table_management as tm
+   import polyadcirc.pyGriddata.gridObject as go
+   import polyadcirc.pyGriddata.prep_mesh as prep
 
 Read in the ``CCAP_Manning.table`` file in the current working directory.::
 
-    table = tm.read_table('CCAP_Manning_20100922.table',
-                          adcirc_dir+'/landuse/tables') 
+    table = tm.read_table('CCAP_Manning.table')
 
 To read in multiple ``*.table`` files use::
 
     tables = tm.read_tables()
 
-Create a list of :class:`~polyadcirc.pyGriddata.table_management.gapInfo`
-objects, one for each ``*.asc`` file::
+Create necessary :class:`~polyadcirc.pyGriddata.table_management.gapInfo`
+objects, one for each ``*.asc`` file, requires ``*.asc`` files in current
+working directory::
 
-    gap_files = glob.glob('/h1/lgraham/workspace/landuse/data/CCAP_Data/Job*/*.asc')
-    gap_list = tm.create_gap_list(table, gap_files) 
+    gap15 = tm.gapInfo('15N.asc', table, 2, 15 )
+    gap16_1 = tm.gapInfo('16N_part1.asc', table, 2, 16 )
+    gap16_2 = tm.gapInfo('16N_part2.asc', table, 2, 16 )
+    gap17 = tm.gapInfo('17N.asc', table, 2, 17)
 
 Create a :class:`~polyadcirc.pyGriddata.gridObject.gridInfo` object and store
 references to the :class:`~polyadcirc.pyGriddata.table_management.gapInfo`
-objects::
+objects. Currently this assumes that the ``flagged_fort.14`` (or ``fort.14``)
+file is in the current working directory::
 
+    gap_list = [gap15, gap16_1]
+    grid = go.gridInfo('flagged_fort.14', gap_list)
+
+Explictly set the ``grid_dir`` to the current working directory::
+
+    grid_dir = '.'
     grid = gm.gridInfo(basis_dir, grid_dir, gap_list,
             executable_dir="directory_containing_Griddataexecutable")
     
-Set up files to run :program:`Griddata_v1.32.F90` to create the landuse basis
-folders and run :program:`Griddata_v1.32.F90` to map the landuse classification
-data to the mesh::
     
-    grid.prep_all()
+Set up files to run :program:`Griddata_v1.32.F90` to create the landuse basis
+folders. Appropriately flag the nodes of the ``fort.14`` file. Finally, run
+:program:`Griddata_v1.32.F90` to map the landuse classification data to the
+mesh::
 
-Create a ``fort.13`` formatted file using the Manning's n vales in
-``CCAP_Manning_20100922.table``::
+    prep.prep_all(grid, path = grid_dir)
+    prep.prep_test(grid, path = grid_dir)
 
-    grid.prep_test()
+    prep.prep_all(grid, path = grid_dir)
+    prep.prep_test(grid, path = grid_dir)
 
 This code also maps the landuse classifcation data to the mesh for a
 test case for verifcation purposes. The method
 :meth:`~polyadcirc.pyGriddata.prep_mesh.compare` generates a set of images in a
 ``figs/`` folder for visual verification::
 
-    gm.compare(basis_dir)
+    prep.compare(basis_dir = grid_dir)
+
+Comparing the Python vs. :program:`Griddata_v1.32.F90` Reconstructions
+----------------------------------------------------------------------
+
+To compare the Python vs. the "pure" :program:`Griddata_v1.32.F90`
+constructions, I usually move the ``test`` and ``landuse_*/`` folders out of
+the ``bin/`` directory into another folder. The ``fort.14`` file needs to also
+be copied to this folder. Within this folder I do the following::
+
+    >>> fm.mkdir('figs')
+    >>> prep.compare(basis_dir = '.')
+
 
 ``basis_dir`` is the folder where the ``test`` and ``landuse_*`` folders are
 located in addition to the ``fort.14`` file. A set of plots will be created in
 ``figs``. The values in the ``difference.png`` figure should be very small.
 
 
-Bathymetry based landuse classifications
-----------------------------------------
-
-You can also map Manning's n values to the computational mesh according to
-bathymetry. The script ``examples/pyGriddata/add_shelf.py`` demonstrates how to
-create a land classification for nodes within a user-specified range of
-bathymetry that are not already included in a given set of land classification
-meshes.
-
-Import necessary modules::
-
-    import polyadcirc.run_framework.domain as dom
-    import polyadcirc.pyGriddata.file_management as fm
-    import polyadcirc.pyGriddata.table_to_mesh_map as tmm
-    import polyadcirc.pyADCIRC.fort13_management as f13
-    import glob
-
-Specify the folder containing the ``fort.14`` file::
-    adcirc_dir = '/h1/lgraham/workspace'
-    grid_dir = adcirc_dir + '/ADCIRC_landuse/Katrina_small/inputs'
-
-Specify the folder containing a ``fort.13`` file to use as a template::
-
-    save_dir = adcirc_dir + '/ADCIRC_landuse/Katrina_small/runs/output_test'
-
-Specify the folder containing a pre-existing set of land classification
-meshes::
-
-    basis_dir = adcirc_dir +'/ADCIRC_landuse/Katrina_small/landuse_basis/gap/shelf_test'
-
-Load in the physical mesh with bathymetry information from a ``fort.14`` file::
-
-    domain = dom.domain(grid_dir)
-    domain.update()
-
-Load in the landuse classification meshes as a list of dictionaries::
-
-    bv_dict = tmm.get_basis_vectors(basis_dir)
-
-Create a dictionary specifiying a landuse classification mesh for the nodes
-with bathymetry between 0 and 50::
-
-    shelf_limits = [0, 50]
-    shelf_bv = tmm.create_shelf(domain, shelf_limits, bv_dict)
-
-Write this new landuse classification mesh out to an appropriately numbered
-``landuse_##`` folder in the ``basis_dir``::
-
-    # get list of landuse folder names
-    folders = glob.glob(basis_dir+'/landuse_*')
-    # create new folder
-    folder_name = basis_dir+'/landuse_'+'{:=02d}'.format(len(folders))
-    fm.mkdir(folder_name)
-    # copy a fort.13 file to that folder
-    fm.copy(save_dir+'/fort.13', folder_name+'/fort.13')
-    f13.update_mann(shelf_bv, folder_name)
-
 Manufacturing GAP data
 ----------------------
 
 This section deals mostly with how to use
 :mod:`~polyadcirc.pyGriddata.manufacture_gap`. The relevant example scripts
-for this section located in ``examples/pyGriddata`` are
+for this section located in ``examples/`` are
     
-    * :mod:`manufactureGAP_patches.py`, requires ``rand_Manning.table`` file
-    * :mod:`manufactureGAP_vertical.py`, requires ``rand_Manning.table`` file
+    * :mod:`manu_prep_comp.py`, requires ``rand_Manning.table`` file
+    * :mod:`bands.py`, requires ``rand_Manning.table`` file
 
-What follows is an explaination of the script ``manufactureGAP_patches.py``, the script
-``manufactureGAP_vertical.py`` is similar and simpler:
+What follows is an explaination of the script ``bands.py``, the script
+``manu_prep_comp.py`` similar and simpler:
 
 Import the necessary modules::
 
     import polyadcirc.run_framework.domain as dom
     import polyadcirc.pyGriddata.manufacture_gap as manu
+    import polyadcirc.pyGriddata.table_management as tm
+    import polyadcirc.pyGriddata.gridObject as go
+    import polyadcirc.pyGriddata.prep_mesh as prep
 
 First determine the limits of the domain you wish to create your mesh for::
 
@@ -204,8 +164,19 @@ resolution of 30 m and write that out to a file ``band_sections.asc``::
 For other methods to create random GAP data see
 :mod:`polyadcirc.pyGriddata.manufacture_gap`.
 
-To create and verify the landuse basis ``fort.13`` files you should modify
-``example/pyGriddata/from_GAPDATA.py`` appropriately.
+Finally, create and verify the landuse basis ``fort.13`` files::
+
+    table = tm.read_table('rand_Manning.table')
+    gap_sec = tm.gapInfo('band_sections.asc', table)
+    gap_list = [gap_sec]
+    grid = go.gridInfo('flagged_fort.14', gap_list)
+
+    prep.prep_all(grid, path = grid_dir)
+    prep.prep_test(grid, path = grid_dir)
+
+    prep.prep_all(grid, path = grid_dir)
+    prep.prep_test(grid, path = grid_dir)
+    prep.compare(basis_dir = grid_dir)
 
 .. note:: Right now I'm averaging using the 1x scheme. If you want to use a
     higher averaging scheme you will need to choose ``xl, xr, yl, yu`` such
